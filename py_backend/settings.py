@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-v8!q%w9s+^x70(w(p21#s62tjse6qi75oigk=oke+&6qfuhngx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,14 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
 ]
 
 INSTALLED_APPS += [
     'agriseed.apps.AgriseedConfig',
-    'corecode.apps.CorecodeConfig',
+    # 'corecode.apps.CorecodeConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # CORS 미들웨어를 최상단에 추가
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True  # 개발용
 ROOT_URLCONF = 'py_backend.urls'
 
 TEMPLATES = [

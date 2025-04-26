@@ -4,59 +4,81 @@ from .models import Device, Activity, ControlHistory, ControlRole, Issue, Resolv
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class ControlHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ControlHistory
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class ControlRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ControlRole
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class ResolvedIssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResolvedIssue
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
-        fields = '__all__'
-
-class FacilitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Facility
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class ZoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Zone
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class SensorDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorData
-        fields = '__all__'
-
-class ControlSettingsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ControlSettings
-        fields = '__all__'
+        exclude = ('is_deleted',)
 
 class FacilityHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = FacilityHistory
-        fields = '__all__'
+        exclude = ('is_deleted',)
+
+class ControlSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlSettings
+        exclude = ('is_deleted',)
+
+class FacilitySerializer(serializers.ModelSerializer):
+    control_settings = ControlSettingsSerializer(many=True)
+    zones = ZoneSerializer(many=True, read_only=True)
+    class Meta:
+        model = Facility
+        exclude = ('is_deleted',)
+
+    def create(self, validated_data):
+        control_settings_data = validated_data.pop('control_settings', [])
+        facility = Facility.objects.create(**validated_data)
+        for cs_data in control_settings_data:
+            ControlSettings.objects.create(facility=facility, **cs_data)
+        return facility
+
+    def update(self, instance, validated_data):
+        control_settings_data = validated_data.pop('control_settings', [])
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        # 기존 ControlSettings 삭제 및 재생성 (간단 구현)
+        instance.control_settings.all().delete()
+        for cs_data in control_settings_data:
+            ControlSettings.objects.create(facility=instance, **cs_data)
+        return instance
+
+

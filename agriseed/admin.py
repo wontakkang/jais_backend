@@ -1,4 +1,4 @@
-from py_backend.corecode import admin
+from django.contrib import admin
 from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory
 
 admin.site.register(Device)
