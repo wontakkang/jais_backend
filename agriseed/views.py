@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory
-from .serializers import DeviceSerializer, ActivitySerializer, ControlHistorySerializer, ControlRoleSerializer, IssueSerializer, ResolvedIssueSerializer, ScheduleSerializer, FacilitySerializer, ZoneSerializer, SensorDataSerializer, ControlSettingsSerializer, FacilityHistorySerializer
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide
+from .serializers import DeviceSerializer, ActivitySerializer, ControlHistorySerializer, ControlRoleSerializer, IssueSerializer, ResolvedIssueSerializer, ScheduleSerializer, FacilitySerializer, ZoneSerializer, SensorDataSerializer, ControlSettingsSerializer, FacilityHistorySerializer, CropSerializer, VarietySerializer, VarietyImageSerializer, VarietyGuideSerializer
 
 class DeviceViewSet(viewsets.ModelViewSet):
     queryset = Device.objects.all()
@@ -49,3 +49,19 @@ class ControlSettingsViewSet(viewsets.ModelViewSet):
 class FacilityHistoryViewSet(viewsets.ModelViewSet):
     queryset = FacilityHistory.objects.all()
     serializer_class = FacilityHistorySerializer
+
+class CropViewSet(viewsets.ModelViewSet):
+    queryset = Crop.objects.all()
+    serializer_class = CropSerializer
+
+class VarietyViewSet(viewsets.ModelViewSet):
+    queryset = Variety.objects.all()
+    serializer_class = VarietySerializer
+
+class VarietyImageViewSet(viewsets.ModelViewSet):
+    queryset = VarietyImage.objects.all()
+    serializer_class = VarietyImageSerializer
+
+class VarietyGuideViewSet(viewsets.ModelViewSet):
+    queryset = VarietyGuide.objects.all()
+    serializer_class = VarietyGuideSerializer

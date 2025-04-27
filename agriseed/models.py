@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.postgres.fields import FloatRangeField
+from django.contrib.postgres.fields import RangeField
+from django.db.models import JSONField
 
 class Device(models.Model):
     name = models.CharField(max_length=100)
@@ -13,7 +14,7 @@ class Device(models.Model):
     status = models.CharField(max_length=50)
     type = models.CharField(max_length=50)
     info_link = models.URLField()
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class Activity(models.Model):
     time = models.DateTimeField()
@@ -23,7 +24,7 @@ class Activity(models.Model):
     location = models.CharField(max_length=100)
     icon = models.CharField(max_length=100)
     icon_class = models.CharField(max_length=100)
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class ControlHistory(models.Model):
     time = models.DateTimeField()
@@ -31,7 +32,7 @@ class ControlHistory(models.Model):
     action = models.CharField(max_length=200)
     trigger = models.CharField(max_length=200)
     status = models.CharField(max_length=50)
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class ControlRole(models.Model):
     title = models.CharField(max_length=200)
@@ -41,7 +42,7 @@ class ControlRole(models.Model):
     actions = models.JSONField()
     last_executed = models.DateTimeField()
     active = models.BooleanField()
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class Issue(models.Model):
     type = models.CharField(max_length=50)
@@ -50,13 +51,13 @@ class Issue(models.Model):
     details = models.JSONField()
     button_label = models.CharField(max_length=100)
     icon = models.CharField(max_length=100)
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class ResolvedIssue(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=200)
     action = models.CharField(max_length=200)
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class Schedule(models.Model):
     icon = models.CharField(max_length=100)
@@ -64,7 +65,7 @@ class Schedule(models.Model):
     schedule = models.CharField(max_length=200)
     description = models.TextField()
     enabled = models.BooleanField()
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class Facility(models.Model):
     name = models.CharField(max_length=100, default="Unknown Facility", help_text="시설 이름")
@@ -73,7 +74,7 @@ class Facility(models.Model):
     area = models.FloatField(default=100.0, help_text="시설 면적 (기본값: 100 제곱미터)")
     zone_count = models.IntegerField(default=1, help_text="구역 수 (기본값: 1)")
     manager = models.CharField(max_length=100, default="Unknown Manager", help_text="시설 관리자")
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None
@@ -111,16 +112,16 @@ class Variety(models.Model):
     registered_at = models.DateField(null=True, blank=True, help_text="등록일")
     seed_amount = models.CharField(max_length=50, null=True, blank=True, help_text="씨앗 보유량")
     difficulty = models.CharField(max_length=50, null=True, blank=True, help_text="재배 난이도")
-    temperature = FloatRangeField(null=True, blank=True, help_text="적정 온도 범위")
-    humidity = FloatRangeField(null=True, blank=True, help_text="적정 습도 범위")
-    sunlight = FloatRangeField(null=True, blank=True, help_text="일조량 범위")
-    soil = models.CharField(max_length=100, null=True, blank=True, help_text="토양 조건")
+    temperature = JSONField(null=True, blank=True, help_text="적정 온도 범위")
+    humidity = JSONField(null=True, blank=True, help_text="적정 습도 범위")
+    sunlight = JSONField(null=True, blank=True, help_text="일조량 범위")
+    soil = JSONField(null=True, blank=True, help_text="토양 조건")
     sowing_period = models.CharField(max_length=100, null=True, blank=True, help_text="파종기 범위")
     harvest_period = models.CharField(max_length=100, null=True, blank=True, help_text="수확기 범위")
-    growth_duration = FloatRangeField(null=True, blank=True, help_text="생육 기간 범위")
-    expected_yield = FloatRangeField(null=True, blank=True, help_text="예상 수확량 범위")
-    fruit_size = FloatRangeField(null=True, blank=True, help_text="과실 크기 범위")
-    sugar_content = FloatRangeField(null=True, blank=True, help_text="당도 범위")
+    growth_duration = JSONField(null=True, blank=True, help_text="생육 기간 범위")
+    expected_yield = JSONField(null=True, blank=True, help_text="예상 수확량 범위")
+    fruit_size = JSONField(null=True, blank=True, help_text="과실 크기 범위")
+    sugar_content = JSONField(null=True, blank=True, help_text="당도 범위")
     disease_resistance = models.CharField(max_length=100, null=True, blank=True, help_text="병해충 저항성")
     note = models.CharField(max_length=200, null=True, blank=True, help_text="특이사항")
     guide = models.TextField(null=True, blank=True, help_text="재배 가이드")
@@ -163,7 +164,7 @@ class Zone(models.Model):
         ("작업중", "작업중"),
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="활성화", null=True, blank=True, help_text="구역 상태 (활성화, 비활성화, 작업중)")
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class SensorData(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='sensor_data', help_text="소속된 구역")
@@ -172,7 +173,7 @@ class SensorData(models.Model):
     light = models.FloatField(default=350.0, help_text="조도 (기본값: 350 lux)")
     soil_moisture = models.FloatField(default=42.0, help_text="토양 수분 (기본값: 42%)")
     timestamp = models.DateTimeField(auto_now_add=True, help_text="데이터 생성 시간")
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class ControlSettings(models.Model):
     facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='control_settings', help_text="소속된 시설", default="0", null=True, blank=True)
@@ -190,7 +191,7 @@ class ControlSettings(models.Model):
     abnormal_humidity_alert = models.BooleanField(default=True, help_text="이상습도 알림 (기본값: 켜짐)")
     water_alert = models.BooleanField(default=True, help_text="급수알림 (기본값: 켜짐)")
     fault_alert = models.BooleanField(default=True, help_text="고장알림 (기본값: 켜짐)")
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class FacilityHistory(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='history', help_text="소속된 구역")
@@ -198,4 +199,4 @@ class FacilityHistory(models.Model):
     humidity = models.JSONField(default=list, help_text="습도 기록")
     light = models.JSONField(default=list, help_text="조도 기록")
     soil_moisture = models.JSONField(default=list, help_text="토양 수분 기록")
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")

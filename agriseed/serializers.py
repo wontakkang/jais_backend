@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,3 +82,28 @@ class FacilitySerializer(serializers.ModelSerializer):
         return instance
 
 
+class VarietyImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VarietyImage
+        fields = '__all__'
+
+class VarietyGuideSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VarietyGuide
+        fields = '__all__'
+
+
+
+class VarietySerializer(serializers.ModelSerializer):
+    images = VarietyImageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Variety
+        fields = '__all__'
+
+class CropSerializer(serializers.ModelSerializer):
+    varieties = VarietySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Crop
+        fields = '__all__'
