@@ -165,6 +165,10 @@ class Zone(models.Model):
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="활성화", null=True, blank=True, help_text="구역 상태 (활성화, 비활성화, 작업중)")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+    watering_amount_per_time = models.FloatField(default=0.0, help_text="1회 급수량 (L)")
+    daily_watering_count = models.IntegerField(default=1, help_text="일일 급수 횟수")
+    watering_interval = models.CharField(max_length=50, default="매일", help_text="공급 주기 (예: 매일, 격일 등)")
+    watering_amount = models.FloatField(default=0.0, help_text="공급량 (mL)")
 
 class SensorData(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='sensor_data', help_text="소속된 구역")
