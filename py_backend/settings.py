@@ -51,17 +51,13 @@ REST_FRAMEWORK = {
 # ASGI 설정
 ASGI_APPLICATION = 'py_backend.asgi.application'
 
-# Channels 레이어 설정 (Redis 사용 시)
+# Optional: Channel layers configuration (e.g., Redis)
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # 개발용 InMemory 레이어
-        # Redis를 사용할 경우:
-        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        # 'CONFIG': {
-        #     "hosts": [('127.0.0.1', 6379)],
-        # },
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
     },
 }
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

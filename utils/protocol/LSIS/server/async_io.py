@@ -1,0 +1,1028 @@
+"""Implementation of a Threaded LSIS_ Server."""
+# pylint: disable=missing-type-doc
+import asyncio
+import ssl
+import time
+import traceback
+from typing import Union
+
+from utils.datastore import RegistersServerContext
+from utils.protocol.LSIS.constants import Defaults
+from utils.protocol.LSIS.exceptions import NoSuchSlaveException, NotImplementedException
+from utils.protocol.LSIS.factory import ServerDecoder
+from utils.protocol.LSIS.logger import Log
+from utils.protocol.LSIS.transaction import LSIS_SocketFramer
+
+try:
+    import serial
+except ImportError:
+    pass
+
+
+def sslctx_provider(
+    sslctx=None, certfile=None, keyfile=None, password=None, reqclicert=False
+):
+    """Provide the SSLContext for LSIS_TlsServer.
+
+    If the user defined SSLContext is not passed in, sslctx_provider will
+    produce a default one.
+
+    :param sslctx: The user defined SSLContext to use for TLS (default None and
+                   auto create)
+    :param certfile: The cert file path for TLS (used if sslctx is None)
+    :param keyfile: The key file path for TLS (used if sslctx is None)
+    :param password: The password for for decrypting the private key file
+    :param reqclicert: Force the sever request client's certificate
+    """
+    if sslctx is None:
+        # According to MODBUS/TCP Security Protocol Specification, it is
+        # TLSv2 at least
+        sslctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        sslctx.verify_mode = ssl.CERT_NONE
+        sslctx.check_hostname = False
+        sslctx.options |= ssl.OP_NO_TLSv1_1
+        sslctx.options |= ssl.OP_NO_TLSv1
+        sslctx.options |= ssl.OP_NO_SSLv3
+        sslctx.options |= ssl.OP_NO_SSLv2
+        sslctx.load_cert_chain(certfile=certfile, keyfile=keyfile, password=password)
+
+    if reqclicert:
+        sslctx.verify_mode = ssl.CERT_REQUIRED
+
+    return sslctx
+
+
+# --------------------------------------------------------------------------- #
+# Protocol Handlers
+# --------------------------------------------------------------------------- #
+
+
+class LSIS_BaseRequestHandler(asyncio.BaseProtocol):
+    """Implements modbus slave wire protocol.
+
+    This uses the asyncio.Protocol to implement the client handler.
+
+    When a connection is established, the asyncio.Protocol.connection_made
+    callback is called. This callback will setup the connection and
+    create and schedule an asyncio.Task and assign it to running_task.
+
+    running_task will be canceled upon connection_lost event.
+    """
+
+    def __init__(self, owner):
+        """Initialize."""
+        self.server = owner
+        self.running = False
+        self.receive_queue = asyncio.Queue()
+        self.handler_task = None  # coroutine to be run on asyncio loop
+        self._sent = b""  # for handle_local_echo
+
+    def _log_exception(self):
+        """Show log exception."""
+        if isinstance(self, LSIS_ConnectedRequestHandler):
+            Log.debug(
+                "Handler for stream [{}] has been canceled", self.client_address[:2]
+            )
+        elif isinstance(self, LSIS_SingleRequestHandler):
+            Log.debug("Handler for serial port has been cancelled")
+        else:
+            if hasattr(self, "protocol"):
+                sock_name = (
+                    self.protocol._sock.getsockname()  # pylint: disable=protected-access
+                )
+            else:
+                sock_name = "No socket"
+            Log.debug("Handler for UDP socket [{}] has been canceled", sock_name[1])
+
+    def connection_made(self, transport):
+        """Call for socket establish
+
+        For streamed protocols (TCP) this will also correspond to an
+        entire conversation; however for datagram protocols (UDP) this
+        corresponds to the socket being opened
+        """
+        try:
+            if (
+                hasattr(transport, "get_extra_info")
+                and transport.get_extra_info("sockname") is not None
+            ):
+                sockname = transport.get_extra_info("sockname")[:2]
+                Log.debug("Socket [{}] opened", sockname)
+            elif hasattr(transport, "serial"):
+                Log.debug("Serial connection opened on port: {}", transport.serial.port)
+            else:
+                Log.warning("Unable to get information about transport {}", transport)
+            self.transport = transport  # pylint: disable=attribute-defined-outside-init
+            self.running = True
+            self.framer = self.server.framer(  # pylint: disable=attribute-defined-outside-init
+                self.server.decoder, client=None, address=self.transport._sock,
+            )
+
+            # schedule the connection handler on the event loop
+            self.handler_task = asyncio.create_task(self.handle())
+        except Exception as exc:  # pragma: no cover pylint: disable=broad-except
+            Log.error(
+                "Datastore unable to fulfill request: {}; {}",
+                exc,
+                traceback.format_exc(),
+            )
+
+    def connection_lost(self, call_exc):
+        """Call for socket tear down.
+
+        For streamed protocols any break in the network connection will
+        be reported here; for datagram protocols, only a teardown of the
+        socket itself will result in this call.
+        """
+        try:
+            if self.handler_task:
+                self.handler_task.cancel()
+            if call_exc is None:
+                self._log_exception()
+            elif hasattr(self, "client_address"):  # TCP connection
+                Log.debug(
+                    "Client Disconnection {} due to {}", self.client_address, call_exc
+                )
+
+            self.running = False
+        except Exception as exc:  # pylint: disable=broad-except
+            Log.error(
+                "Datastore unable to fulfill request: {}; {}",
+                exc,
+                traceback.format_exc(),
+            )
+
+    async def handle(self):  # pylint: disable=too-complex
+        """Return Asyncio coroutine which represents a single conversation.
+
+        between the modbus slave and master
+
+        Once the client connection is established, the data chunks will be
+        fed to this coroutine via the asyncio.Queue object which is fed by
+        the LSIS_BaseRequestHandler class's callback Future.
+
+        This callback future gets data from either
+        asyncio.DatagramProtocol.datagram_received or
+        from asyncio.BaseProtocol.data_received.
+
+        This function will execute without blocking in the while-loop and
+        yield to the asyncio event loop when the frame is exhausted.
+        As a result, multiple clients can be interleaved without any
+        interference between them.
+
+        For LSIS_ConnectedRequestHandler, each connection will be given an
+        instance of the handle() coroutine and this instance will be put in the
+        active_connections dict. Calling server_close will individually cancel
+        each running handle() task.
+
+        For LSIS_DisconnectedRequestHandler, a single handle() coroutine will
+        be started and maintained. Calling server_close will cancel that task.
+        """
+        reset_frame = False
+        while self.running:
+            try:
+                units = self.server.context.slaves()
+                # this is an asyncio.Queue await, it will never fail
+                data = await self._recv_()
+                if isinstance(data, tuple):
+                    # addr is populated when talking over UDP
+                    data, *addr = data
+                else:
+                    addr = (None,)  # empty tuple
+
+                if not isinstance(units, (list, tuple)):
+                    units = [units]
+                # if broadcast is enabled make sure to
+                # process requests to address 0
+                if self.server.broadcast_enable:  # pragma: no cover
+                    if 0 not in units:
+                        units.append(0)
+
+                Log.debug("Handling data: {}", data, ":hex")
+
+                single = self.server.context.single
+                self.framer.processIncomingPacket(
+                    data=data,
+                    callback=lambda x: self.execute(x, *addr),
+                    unit=units,
+                    single=single,
+                )
+
+            except asyncio.CancelledError:
+                # catch and ignore cancellation errors
+                if self.running:
+                    self._log_exception()
+                    self.running = False
+            except Exception as exc:  # pylint: disable=broad-except
+                # force TCP socket termination as processIncomingPacket
+                # should handle application layer errors
+                # for UDP sockets, simply reset the frame
+                if isinstance(self, LSIS_ConnectedRequestHandler):
+                    client_addr = self.client_address[:2]
+                    Log.error(
+                        'Unknown exception "{}" on stream {} forcing disconnect',
+                        exc,
+                        client_addr,
+                    )
+                    self.transport.close()
+                else:
+                    Log.error("Unknown error occurred {}", exc)
+                    reset_frame = True  # graceful recovery
+            finally:
+                if reset_frame:
+                    self.framer.resetFrame()
+                    reset_frame = False
+
+    def execute(self, request, *addr):
+        """Call with the resulting message.
+
+        :param request: The decoded request message
+        :param addr: the address
+        """
+        if self.server.request_tracer:
+            self.server.request_tracer(request, *addr)
+
+        broadcast = False
+        try:
+            if self.server.context.single:
+                context = self.server.context["0"]
+            response = request.execute(request, context)
+        except Exception as exc:  # pylint: disable=broad-except
+            Log.error(
+                "Datastore unable to fulfill request: {}; {}",
+                exc,
+                traceback.format_exc(),
+            )
+        # no response when broadcasting
+        if not broadcast:
+            response.companyID = request.companyID
+            response.Sorce_Of_Frame = response.Sorce_Of_Frame
+            response.data_Cnt[1] = request.dataCount
+            response.dataType[1] = request.dataType
+            skip_encoding = False
+            if self.server.response_manipulator:
+                response, skip_encoding = self.server.response_manipulator(response)
+            Log.debug("Async io Response[{}]", response.__name__())
+            self.send(response, *addr, skip_encoding=skip_encoding)
+
+    def send(self, message, *addr, **kwargs):
+        """Send message."""
+
+        def __send(msg, *addr):
+            Log.debug("SEND: {}", msg, ":hex")
+            if addr == (None,):
+                self._send_(msg)
+            else:
+                self._send_(msg, *addr)
+
+        if kwargs.get("skip_encoding", False):
+            __send(message, *addr)
+        elif message.should_respond:
+            # self.server.control.Counter.BusMessage += 1
+            pdu = self.framer.buildPacket(message)
+            __send(pdu, *addr)
+        else:
+            Log.debug("Skipping sending response!!")
+
+    # ----------------------------------------------------------------------- #
+    # Derived class implementations
+    # ----------------------------------------------------------------------- #
+
+    def _send_(self, data):  # pragma: no cover
+        """Send a request (string) to the network.
+
+        :param data: The unencoded modbus response
+        :raises NotImplementedException:
+        """
+        raise NotImplementedException("Method not implemented by derived class")
+
+    async def _recv_(self):  # pragma: no cover
+        """Receive data from the network.
+
+        :raises NotImplementedException:
+        """
+        raise NotImplementedException("Method not implemented by derived class")
+
+
+class LSIS_ConnectedRequestHandler(LSIS_BaseRequestHandler, asyncio.Protocol):
+    """Implements the modbus server protocol
+
+    This uses asyncio.Protocol to implement
+    the client handler for a connected protocol (TCP).
+    """
+
+    def connection_made(self, transport):
+        """Call when a connection is made."""
+        super().connection_made(transport)
+
+        self.client_address = transport.get_extra_info(  # pylint: disable=attribute-defined-outside-init
+            "peername"
+        )
+        self.server.active_connections[self.client_address] = self
+        txt = f"TCP client connection established [{self.client_address[:2]}]"
+        Log.debug(txt)
+
+    def connection_lost(self, call_exc):
+        """Call when the connection is lost or closed."""
+        super().connection_lost(call_exc)
+        client_addr = self.client_address[:2]
+        Log.debug("TCP client disconnected [{}]", client_addr)
+        if self.client_address in self.server.active_connections:
+            self.server.active_connections.pop(self.client_address)
+
+    def data_received(self, data):
+        """Call when some data is received.
+
+        data is a non-empty bytes object containing the incoming data.
+        """
+        self.receive_queue.put_nowait(data)
+
+    async def _recv_(self):
+        try:
+            result = await self.receive_queue.get()
+        except RuntimeError:
+            Log.error("Event loop is closed")
+            result = None
+        return result
+
+    def _send_(self, data):
+        """Send tcp."""
+        self.transport.write(data)
+
+    def close(self):
+        """Close socket."""
+        self.transport.abort()
+
+
+class LSIS_DisconnectedRequestHandler(
+    LSIS_BaseRequestHandler, asyncio.DatagramProtocol
+):
+    """Implements the modbus server protocol
+
+    This uses the socketserver.BaseRequestHandler to implement
+    the client handler for a disconnected protocol (UDP). The
+    only difference is that we have to specify who to send the
+    resulting packet data to.
+    """
+
+    def __init__(self, owner):
+        """Initialize."""
+        super().__init__(owner)
+        _future = asyncio.get_running_loop().create_future()
+        self.server.on_connection_terminated = _future
+
+    def connection_lost(self, call_exc):
+        """Handle connection lost."""
+        super().connection_lost(call_exc)
+        self.server.on_connection_terminated.set_result(True)
+
+    def datagram_received(self, data, addr):
+        """Call when a datagram is received.
+
+        data is a bytes object containing the incoming data. addr
+        is the address of the peer sending the data; the exact
+        format depends on the transport.
+        """
+        self.receive_queue.put_nowait((data, addr))
+
+    def error_received(self, exc):  # pragma: no cover
+        """Call when a previous send/receive raises an OSError.
+
+        exc is the OSError instance.
+
+        This method is called in rare conditions,
+        when the transport (e.g. UDP) detects that a datagram could
+        not be delivered to its recipient. In many conditions
+        though, undeliverable datagrams will be silently dropped.
+        """
+        Log.error("datagram connection error [{}]", exc)
+
+    async def _recv_(self):
+        return await self.receive_queue.get()
+
+    def _send_(self, data, addr=None):
+        self.transport.sendto(data, addr=addr)
+
+
+class LSIS_SingleRequestHandler(LSIS_BaseRequestHandler, asyncio.Protocol):
+    """Implement the modbus server protocol.
+
+    This uses asyncio.Protocol to implement
+    the client handler for a serial connection.
+    """
+
+    def connection_made(self, transport):
+        """Handle connect made."""
+        self.server.active_connection = self
+        super().connection_made(transport)
+        Log.debug("Serial connection established")
+
+    def connection_lost(self, call_exc):
+        """Handle connection lost."""
+        super().connection_lost(call_exc)
+        Log.debug("Serial connection lost")
+        if hasattr(self.server, "on_connection_lost"):
+            self.server.on_connection_lost()
+
+    def data_received(self, data):
+        """Receive data."""
+        if (
+            hasattr(self.server, "handle_local_echo")
+            and self.server.handle_local_echo is True
+            and self._sent
+        ):
+            if self._sent in data:
+                data, self._sent = data.replace(self._sent, b"", 1), b""
+            elif self._sent.startswith(data):
+                self._sent, data = self._sent.replace(data, b"", 1), b""
+            else:
+                self._sent = b""
+            if not data:
+                return
+        self.receive_queue.put_nowait(data)
+
+    async def _recv_(self):
+        return await self.receive_queue.get()
+
+    def _send_(self, data):
+        if self.transport is not None:
+            self.transport.write(data)
+            if (
+                hasattr(self.server, "handle_local_echo")
+                and self.server.handle_local_echo is True
+            ):
+                self._sent = data
+
+
+# --------------------------------------------------------------------------- #
+# Server Implementations
+# --------------------------------------------------------------------------- #
+
+
+class LSIS_UnixServer:
+    """A modbus threaded Unix socket server.
+
+    We inherit and overload the socket server so that we
+    can control the client threads as well as have a single
+    server context instance.
+    """
+
+    def __init__(
+        self, context, path, framer=None, identity=None, handler=None, **kwargs,
+    ):
+        """Initialize the socket server.
+
+        If the identify structure is not passed in, the LSIS_ControlBlock
+        uses its own default structure.
+
+        :param context: The RegistersServerContext datastore
+        :param path: unix socket path
+        :param framer: The framer strategy to use
+        :param identity: An optional identify structure
+        :param handler: A handler for each client session; default is
+                        LSIS_ConnectedRequestHandler. The handler class
+                        receives connection create/teardown events
+        :param allow_reuse_address: Whether the server will allow the
+                        reuse of an address.
+        :param ignore_missing_slaves: True to not send errors on a request
+                        to a missing slave
+        :param broadcast_enable: True to treat unit_id 0 as broadcast address,
+                        False to treat 0 as any other unit_id
+        :param response_manipulator: Callback method for manipulating the
+                                        response
+        """
+        self.active_connections = {}
+        self.loop = kwargs.get("loop") or asyncio.get_event_loop()
+        self.decoder = ServerDecoder()
+        self.framer = framer or LSIS_SocketFramer
+        self.context = context or RegistersServerContext()
+        self.control = LSIS_ControlBlock()
+        self.path = path
+        self.handler = handler or LSIS_ConnectedRequestHandler
+        self.handler.server = self
+        self.ignore_missing_slaves = kwargs.get(
+            "ignore_missing_slaves", Defaults.IgnoreMissingSlaves
+        )
+        self.broadcast_enable = kwargs.get("broadcast_enable", Defaults.BroadcastEnable)
+        self.response_manipulator = kwargs.get("response_manipulator", None)
+        if isinstance(identity, LSIS_DeviceIdentification):
+            self.control.Identity.update(identity)
+
+        # asyncio future that will be done once server has started
+        self.serving = self.loop.create_future()
+        # constructors cannot be declared async, so we have to
+        # defer the initialization of the server
+        self.server = None
+        self.request_tracer = None
+        self.factory_parms = {}
+
+    async def serve_forever(self):
+        """Start endless loop."""
+        if self.server is None:
+            try:
+                self.server = await self.loop.create_unix_server(
+                    lambda: self.handler(self), self.path,
+                )
+                self.serving.set_result(True)
+                await self.server.serve_forever()
+            except asyncio.exceptions.CancelledError:
+                raise
+            except Exception as exc:  # pylint: disable=broad-except
+                Log.error("Server unexpected exception {}", exc)
+        else:
+            raise RuntimeError(
+                "Can't call serve_forever on an already running server object"
+            )
+        Log.info("Server graceful shutdown.")
+
+    async def shutdown(self):
+        """Shutdown server."""
+        await self.server_close()
+
+    async def server_close(self):
+        """Close server."""
+        for k_item, v_item in self.active_connections.items():
+            Log.warning("aborting active session {}", k_item)
+            v_item.handler_task.cancel()
+        self.active_connections = {}
+        if self.server is not None:
+            self.server.close()
+            await self.server.wait_closed()
+            self.server = None
+
+
+class LSIS_TcpServer:
+    """A modbus threaded tcp socket server.
+
+    We inherit and overload the socket server so that we
+    can control the client threads as well as have a single
+    server context instance.
+    """
+
+    def __init__(
+        self,
+        context,
+        framer=None,
+        identity=None,
+        address=None,
+        handler=None,
+        allow_reuse_address=False,
+        defer_start=False,
+        backlog=20,
+        **kwargs,
+    ):
+        """Initialize the socket server.
+
+        If the identify structure is not passed in, the LSIS_ControlBlock
+        uses its own empty structure.
+
+        :param context: The RegistersServerContext datastore
+        :param framer: The framer strategy to use
+        :param identity: An optional identify structure
+        :param address: An optional (interface, port) to bind to.
+        :param handler: A handler for each client session; default is
+                        LSIS_ConnectedRequestHandler. The handler class
+                        receives connection create/teardown events
+        :param allow_reuse_address: Whether the server will allow the
+                        reuse of an address.
+        :param backlog:  is the maximum number of queued connections
+                    passed to listen(). Defaults to 20, increase if many
+                    connections are being made and broken to your LSIS_ slave
+        :param ignore_missing_slaves: True to not send errors on a request
+                        to a missing slave
+        :param broadcast_enable: True to treat unit_id 0 as broadcast address,
+                        False to treat 0 as any other unit_id
+        :param response_manipulator: Callback method for manipulating the
+                                        response
+        """
+        self.active_connections = {}
+        self.loop = kwargs.get("loop") or asyncio.get_event_loop()
+        self.allow_reuse_address = allow_reuse_address
+        self.decoder = ServerDecoder()
+        self.framer = framer or LSIS_SocketFramer
+        self.context = context or RegistersServerContext()
+        self.control = None
+        self.address = address or ("", Defaults.TcpPort)
+        self.handler = handler or LSIS_ConnectedRequestHandler
+        self.handler.server = self
+        self.ignore_missing_slaves = kwargs.get(
+            "ignore_missing_slaves", Defaults.IgnoreMissingSlaves
+        )
+        self.broadcast_enable = kwargs.get("broadcast_enable", Defaults.BroadcastEnable)
+        self.response_manipulator = kwargs.get("response_manipulator", None)
+        self.request_tracer = kwargs.get("request_tracer", None)
+
+        # asyncio future that will be done once server has started
+        self.serving = self.loop.create_future()
+        # constructors cannot be declared async, so we have to
+        # defer the initialization of the server
+        self.server = None
+        self.factory_parms = {
+            "reuse_address": allow_reuse_address,
+            "backlog": backlog,
+            "start_serving": not defer_start,
+        }
+
+    async def serve_forever(self):
+        """Start endless loop."""
+        if self.server is None:
+            self.server = await self.loop.create_server(
+                lambda: self.handler(self), *self.address, **self.factory_parms,
+            )
+            self.serving.set_result(True)
+            try:
+                await self.server.serve_forever()
+            except asyncio.exceptions.CancelledError:
+                raise
+            except Exception as exc:  # pylint: disable=broad-except
+                Log.error("Server unexpected exception {}", exc)
+        else:
+            raise RuntimeError(
+                "Can't call serve_forever on an already running server object"
+            )
+        Log.info("Server graceful shutdown.")
+
+    async def shutdown(self):
+        """Shutdown server."""
+        await self.server_close()
+
+    async def server_close(self):
+        """Close server."""
+        active_connecions = self.active_connections.copy()
+        for k_item, v_item in active_connecions.items():
+            Log.warning("aborting active session {}", k_item)
+            v_item.transport.close()
+            await asyncio.sleep(0.1)
+            v_item.handler_task.cancel()
+            await v_item.handler_task
+        self.active_connections = {}
+        if self.server is not None:
+            self.server.close()
+            await self.server.wait_closed()
+            self.server = None
+
+
+class LSIS_TlsServer(LSIS_TcpServer):
+    """A modbus threaded tls socket server.
+
+    We inherit and overload the socket server so that we
+    can control the client threads as well as have a single
+    server context instance.
+    """
+
+    def __init__(  # pylint: disable=too-many-arguments
+        self,
+        context,
+        framer=None,
+        identity=None,
+        address=None,
+        sslctx=None,
+        certfile=None,
+        keyfile=None,
+        password=None,
+        reqclicert=False,
+        handler=None,
+        allow_reuse_address=False,
+        defer_start=False,
+        backlog=20,
+        **kwargs,
+    ):
+        """Overloaded initializer for the socket server.
+
+        If the identify structure is not passed in, the LSIS_ControlBlock
+        uses its own empty structure.
+
+        :param context: The RegistersServerContext datastore
+        :param framer: The framer strategy to use
+        :param identity: An optional identify structure
+        :param address: An optional (interface, port) to bind to.
+        :param sslctx: The SSLContext to use for TLS (default None and auto
+                       create)
+        :param certfile: The cert file path for TLS (used if sslctx is None)
+        :param keyfile: The key file path for TLS (used if sslctx is None)
+        :param password: The password for for decrypting the private key file
+        :param reqclicert: Force the sever request client's certificate
+        :param handler: A handler for each client session; default is
+                        LSIS_ConnectedRequestHandler. The handler class
+                        receives connection create/teardown events
+        :param allow_reuse_address: Whether the server will allow the reuse of an
+                        address.
+        :param backlog:  is the maximum number of queued connections
+                    passed to listen(). Defaults to 20, increase if many
+                    connections are being made and broken to your LSIS_ slave
+        :param ignore_missing_slaves: True to not send errors on a request
+                        to a missing slave
+        :param broadcast_enable: True to treat unit_id 0 as broadcast address,
+                        False to treat 0 as any other unit_id
+        :param response_manipulator: Callback method for
+                        manipulating the response
+        """
+        super().__init__(
+            context,
+            framer=framer,
+            identity=identity,
+            address=address,
+            handler=handler,
+            allow_reuse_address=allow_reuse_address,
+            defer_start=defer_start,
+            backlog=backlog,
+            **kwargs,
+        )
+        self.sslctx = sslctx_provider(sslctx, certfile, keyfile, password, reqclicert)
+        self.factory_parms["ssl"] = self.sslctx
+
+
+class LSIS_UdpServer:
+    """A modbus threaded udp socket server.
+
+    We inherit and overload the socket server so that we
+    can control the client threads as well as have a single
+    server context instance.
+    """
+
+    def __init__(
+        self,
+        context,
+        framer=None,
+        identity=None,
+        address=None,
+        handler=None,
+        defer_start=False,
+        backlog=20,
+        **kwargs,
+    ):
+        """Overloaded initializer for the socket server.
+
+        If the identify structure is not passed in, the LSIS_ControlBlock
+        uses its own empty structure.
+
+        :param context: The RegistersServerContext datastore
+        :param framer: The framer strategy to use
+        :param identity: An optional identify structure
+        :param address: An optional (interface, port) to bind to.
+        :param handler: A handler for each client session; default is
+                            LSIS_DisonnectedRequestHandler
+        :param ignore_missing_slaves: True to not send errors on a request
+                            to a missing slave
+        :param broadcast_enable: True to treat unit_id 0 as broadcast address,
+                            False to treat 0 as any other unit_id
+        :param response_manipulator: Callback method for
+                            manipulating the response
+        """
+        # TO BE REMOVED:
+        self.defer_start = defer_start
+        self.backlog = backlog
+        # ----------------
+        self.loop = asyncio.get_running_loop()
+        self.decoder = ServerDecoder()
+        self.framer = framer or LSIS_SocketFramer
+        self.context = context or RegistersServerContext()
+        self.control = LSIS_ControlBlock()
+        self.address = address or ("", Defaults.TcpPort)
+        self.handler = handler or LSIS_DisconnectedRequestHandler
+        self.ignore_missing_slaves = kwargs.get(
+            "ignore_missing_slaves", Defaults.IgnoreMissingSlaves
+        )
+        self.broadcast_enable = kwargs.get("broadcast_enable", Defaults.BroadcastEnable)
+        self.response_manipulator = kwargs.get("response_manipulator", None)
+
+        if isinstance(identity, LSIS_DeviceIdentification):
+            self.control.Identity.update(identity)
+
+        self.protocol = None
+        self.endpoint = None
+        self.on_connection_terminated = None
+        # asyncio future that will be done once server has started
+        self.serving = self.loop.create_future()
+        self.factory_parms = {
+            "local_addr": self.address,
+            "allow_broadcast": True,
+        }
+        self.request_tracer = None
+
+    async def serve_forever(self):
+        """Start endless loop."""
+        if self.protocol is None:
+            try:
+                self.protocol, self.endpoint = await self.loop.create_datagram_endpoint(
+                    lambda: self.handler(self), **self.factory_parms,
+                )
+            except asyncio.exceptions.CancelledError:
+                raise
+            except Exception as exc:
+                Log.error("Server unexpected exception {}", exc)
+                raise RuntimeError(exc) from exc
+            self.serving.set_result(True)
+        else:
+            raise RuntimeError(
+                "Can't call serve_forever on an already running server object"
+            )
+
+    async def shutdown(self):
+        """Shutdown server."""
+        await self.server_close()
+
+    async def server_close(self):
+        """Close server."""
+        if self.endpoint:
+            self.endpoint.running = False
+        if self.endpoint is not None and self.endpoint.handler_task is not None:
+            self.endpoint.handler_task.cancel()
+        if self.protocol is not None:
+            self.protocol.close()
+            self.protocol = None
+
+
+# --------------------------------------------------------------------------- #
+# Creation Factories
+# --------------------------------------------------------------------------- #
+
+
+class _serverList:
+    """Maintains information about the active server.
+
+    :meta private:
+    """
+
+    active_server: Union[LSIS_TcpServer] = None
+
+    def __init__(self, server):
+        """Register new server."""
+        self.server = server
+        self.loop = asyncio.get_event_loop()
+
+    @classmethod
+    async def run(cls, server, custom_functions):
+        """Help starting/stopping server."""
+        for func in custom_functions:
+            server.decoder.register(func)
+        cls.active_server = _serverList(server)
+        try:
+            await server.serve_forever()
+        except asyncio.CancelledError:
+            pass
+
+    @classmethod
+    async def async_stop(cls):
+        """Wait for server stop."""
+        if not cls.active_server:
+            raise RuntimeError("ServerAsyncStop called without server task active.")
+        await cls.active_server.server.shutdown()
+        await asyncio.sleep(1)
+        cls.active_server = None
+
+    @classmethod
+    def stop(cls):
+        """Wait for server stop."""
+        if not cls.active_server:
+            raise RuntimeError("ServerStop called without server task active.")
+        if not cls.active_server:
+            raise RuntimeError("ServerStop called with loop stopped.")
+        asyncio.run_coroutine_threadsafe(cls.async_stop(), cls.active_server.loop)
+        time.sleep(10)
+
+
+async def StartAsyncUnixServer(  # pylint: disable=invalid-name,dangerous-default-value
+    context=None, identity=None, path=None, custom_functions=[], **kwargs,
+):
+    """Start and run a tcp modbus server.
+
+    :param context: The RegistersServerContext datastore
+    :param identity: An optional identify structure
+    :param path: An optional path to bind to.
+    :param custom_functions: An optional list of custom function classes
+        supported by server instance.
+    :param kwargs: The rest
+    """
+    server = LSIS_UnixServer(
+        context, path, kwargs.pop("framer", LSIS_SocketFramer), identity, **kwargs
+    )
+    await _serverList.run(server, custom_functions)
+
+
+async def StartAsyncTcpServer(  # pylint: disable=invalid-name,dangerous-default-value
+    context=None, identity=None, address=None, custom_functions=[], **kwargs,
+):
+    """Start and run a tcp modbus server.
+
+    :param context: The RegistersServerContext datastore
+    :param identity: An optional identify structure
+    :param address: An optional (interface, port) to bind to.
+    :param custom_functions: An optional list of custom function classes
+        supported by server instance.
+    :param kwargs: The rest
+    """
+    server = LSIS_TcpServer(
+        context, kwargs.pop("framer", LSIS_SocketFramer), identity, address, **kwargs
+    )
+    await _serverList.run(server, custom_functions)
+
+
+async def StartAsyncTlsServer(  # pylint: disable=invalid-name,dangerous-default-value
+    context=None,
+    identity=None,
+    address=None,
+    sslctx=None,
+    certfile=None,
+    keyfile=None,
+    password=None,
+    reqclicert=False,
+    allow_reuse_address=False,
+    custom_functions=[],
+    **kwargs,
+):
+    """Start and run a tls modbus server.
+
+    :param context: The RegistersServerContext datastore
+    :param identity: An optional identify structure
+    :param address: An optional (interface, port) to bind to.
+    :param sslctx: The SSLContext to use for TLS (default None and auto create)
+    :param certfile: The cert file path for TLS (used if sslctx is None)
+    :param keyfile: The key file path for TLS (used if sslctx is None)
+    :param password: The password for for decrypting the private key file
+    :param reqclicert: Force the sever request client's certificate
+    :param allow_reuse_address: Whether the server will allow the reuse of an
+                                address.
+    :param custom_functions: An optional list of custom function classes
+        supported by server instance.
+    :param kwargs: The rest
+    """
+    server = LSIS_TlsServer(
+        context,
+        kwargs.pop("framer", LSIS_TlsFramer),
+        identity,
+        address,
+        sslctx,
+        certfile,
+        keyfile,
+        password,
+        reqclicert,
+        allow_reuse_address=allow_reuse_address,
+        **kwargs,
+    )
+    await _serverList.run(server, custom_functions)
+
+
+async def StartAsyncUdpServer(  # pylint: disable=invalid-name,dangerous-default-value
+    context=None, identity=None, address=None, custom_functions=[], **kwargs,
+):
+    """Start and run a udp modbus server.
+
+    :param context: The RegistersServerContext datastore
+    :param identity: An optional identify structure
+    :param address: An optional (interface, port) to bind to.
+    :param custom_functions: An optional list of custom function classes
+        supported by server instance.
+    :param kwargs:
+    """
+    server = LSIS_UdpServer(
+        context, kwargs.pop("framer", LSIS_SocketFramer), identity, address, **kwargs
+    )
+    await _serverList.run(server, custom_functions)
+
+
+async def StartAsyncSerialServer(  # pylint: disable=invalid-name,dangerous-default-value
+    context=None, identity=None, custom_functions=[], **kwargs,
+):  # pragma: no cover
+    """Start and run a serial modbus server.
+
+    :param context: The RegistersServerContext datastore
+    :param identity: An optional identify structure
+    :param custom_functions: An optional list of custom function classes
+        supported by server instance.
+    :param kwargs: The rest
+    """
+    server = LSIS_SerialServer(
+        context, kwargs.pop("framer", LSIS_AsciiFramer), identity=identity, **kwargs
+    )
+    await _serverList.run(server, custom_functions)
+
+
+def StartSerialServer(**kwargs):  # pylint: disable=invalid-name
+    """Start and run a serial modbus server."""
+    return asyncio.run(StartAsyncSerialServer(**kwargs))
+
+
+def StartTcpServer(**kwargs):  # pylint: disable=invalid-name
+    """Start and run a serial modbus server."""
+    return asyncio.run(StartAsyncTcpServer(**kwargs))
+
+
+def StartTlsServer(**kwargs):  # pylint: disable=invalid-name
+    """Start and run a serial modbus server."""
+    return asyncio.run(StartAsyncTlsServer(**kwargs))
+
+
+def StartUdpServer(**kwargs):  # pylint: disable=invalid-name
+    """Start and run a serial modbus server."""
+    return asyncio.run(StartAsyncUdpServer(**kwargs))
+
+
+async def ServerAsyncStop():  # pylint: disable=invalid-name
+    """Terminate server."""
+    await _serverList.async_stop()
+
+
+def ServerStop():  # pylint: disable=invalid-name
+    """Terminate server."""
+    _serverList.stop()
