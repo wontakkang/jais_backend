@@ -45,7 +45,23 @@ INSTALLED_APPS += [
     'agriseed.apps.AgriseedConfig',
     # 'corecode.apps.CorecodeConfig',
 ]
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'agriseed.exceptions.custom_exception_handler',
+}
+# ASGI 설정
+ASGI_APPLICATION = 'py_backend.asgi.application'
 
+# Channels 레이어 설정 (Redis 사용 시)
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # 개발용 InMemory 레이어
+        # Redis를 사용할 경우:
+        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        # 'CONFIG': {
+        #     "hosts": [('127.0.0.1', 6379)],
+        # },
+    },
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -128,3 +144,29 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'agriseed': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}

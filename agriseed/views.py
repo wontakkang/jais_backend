@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide
-from .serializers import DeviceSerializer, ActivitySerializer, ControlHistorySerializer, ControlRoleSerializer, IssueSerializer, ResolvedIssueSerializer, ScheduleSerializer, FacilitySerializer, ZoneSerializer, SensorDataSerializer, ControlSettingsSerializer, FacilityHistorySerializer, CropSerializer, VarietySerializer, VarietyImageSerializer, VarietyGuideSerializer
+from .models import *
+from .serializers import *
 
 class DeviceViewSet(viewsets.ModelViewSet):
     queryset = Device.objects.all()
