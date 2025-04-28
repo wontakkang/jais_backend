@@ -6,15 +6,15 @@ import socket
 from dataclasses import dataclass
 from typing import Any, Tuple, Type
 
-from utils.protocol.LSIS.client.mixin import LSIS_ClientMixin
-from utils.protocol.LSIS.constants import Defaults
-from utils.protocol.LSIS.exceptions import ConnectionException, NotImplementedException
-from utils.protocol.LSIS.factory import ClientDecoder
-from utils.protocol.LSIS.framer import LSIS_Framer
-from utils.protocol.LSIS.logger import Log
-from utils.protocol.LSIS.pdu import LSIS_XGT_Request, LSIS_XGT_Response
-from utils.protocol.LSIS.transaction import DictTransactionManager
-from utils.protocol.LSIS.utilities import LSIS_TransactionState
+from .mixin import LSIS_ClientMixin
+from ..constants import Defaults
+from ..exceptions import ConnectionException, NotImplementedException
+from ..factory import ClientDecoder
+from ..framer import LSIS_Framer
+from ..logger import Log
+from ..pdu import LSIS_XGT_Request, LSIS_XGT_Response
+from ..transaction import DictTransactionManager
+from ..utilities import LSIS_TransactionState
 
 
 class LSIS_BaseClient(LSIS_ClientMixin):

@@ -5,7 +5,7 @@ import logging, sys
 from binascii import b2a_hex
 from typing import Union
 from logging import NullHandler as __null
-from app.utils.protocol.LSIS.utilities import hexlify_packets
+from .utilities import hexlify_packets
 
 # ---------------------------------------------------------------------------#
 #  Block unhandled logging

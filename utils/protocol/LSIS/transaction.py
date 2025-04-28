@@ -6,18 +6,18 @@ import time
 from functools import partial
 from threading import RLock
 
-from utils.protocol.LSIS.exceptions import (
+from .exceptions import (
     NoSuchSlaveException, NotImplementedException
 )
-from utils.protocol.LSIS.framer.socket_framer import LSIS_SocketFramer
+from .framer.socket_framer import LSIS_SocketFramer
 
 # from protocol.LSIS.framer.tls_framer import LSIS_TlsFramer
 # from protocol.LSIS.framer.ascii_framer import LSIS_AsciiFramer
 # from protocol.LSIS.framer.binary_framer import LSIS_BinaryFramer
 # from protocol.LSIS.framer.rtu_framer import LSIS_RtuFramer
-from utils.protocol.LSIS.logger import Log
-from utils.protocol.LSIS.utilities import LSIS_TransactionState, hexlify_packets
-from utils.protocol.LSIS.constants import LSIS_XGT_constants
+from .logger import Log
+from .utilities import LSIS_TransactionState, hexlify_packets
+from .constants import LSIS_XGT_constants
 
 
 # --------------------------------------------------------------------------- #

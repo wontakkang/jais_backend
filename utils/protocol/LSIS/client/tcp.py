@@ -5,13 +5,13 @@ import socket
 import time
 from typing import Any, Tuple, Type
 
-from app.utils.protocol.LSIS.client.base import LSIS_BaseClient
-from app.utils.protocol.LSIS.constants import Defaults
-from app.utils.protocol.LSIS.exceptions import ConnectionException
-from app.utils.protocol.LSIS.framer import LSIS_Framer
-from app.utils.protocol.LSIS.framer.socket_framer import LSIS_SocketFramer
-from app.utils.protocol.LSIS.logger import Log
-from app.utils.protocol.LSIS.utilities import LSIS_TransactionState
+from ..client.base import LSIS_BaseClient
+from ..constants import Defaults
+from ..exceptions import ConnectionException
+from ..framer import LSIS_Framer
+from ..framer.socket_framer import LSIS_SocketFramer
+from ..logger import Log
+from ..utilities import LSIS_TransactionState
 
 
 class LSIS_TcpClient(LSIS_BaseClient):

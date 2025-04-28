@@ -1,11 +1,11 @@
-from app.utils.protocol.LSIS.continuous_read_byte import Continuous_Read_Request
-from app.utils.protocol.LSIS.exceptions import LSIS_IOException, InvalidMessageReceivedException
-from app.utils.protocol.LSIS.framer import LSIS_Framer
-from app.utils.protocol.LSIS.logger import Log
-from app.utils.protocol.LSIS.pdu import LSIS_XGT_Request
+from ..continuous_read_byte import Continuous_Read_Request
+from ..exceptions import LSIS_IOException, InvalidMessageReceivedException
+from . import LSIS_Framer
+from ..logger import Log
+from ..pdu import LSIS_XGT_Request
 import struct
-from app.utils.protocol.LSIS.constants import LSIS_XGT_constants
-from app.utils.protocol.LSIS.utilities import interpretation
+from ..constants import LSIS_XGT_constants
+from ..utilities import interpretation
 
 
 class LSIS_SocketFramer(LSIS_Framer):
@@ -14,10 +14,10 @@ class LSIS_SocketFramer(LSIS_Framer):
     def __init__(self, decoder, client=None, address=None):
         super().__init__(decoder, client)
         try:
-            self.address = address.getsockname()
+            if client is not None:
+                self.address = client.getsockname()
         except AttributeError as err:
             self.address = address
-            Log.error(f'LSIS_SocketFramer : {address} {err}')
         self._buffer = b""
         self._header = {
             "company_id": 0,

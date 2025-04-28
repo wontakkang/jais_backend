@@ -26,6 +26,7 @@ urlpatterns = [
 urlpatterns += [
     path('agriseed/', include('agriseed.urls')),
     path('corecode/', include('corecode.urls')),
+    path('LSISsocket/', include('LSISsocket.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

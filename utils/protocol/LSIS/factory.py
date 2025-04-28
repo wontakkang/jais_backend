@@ -1,19 +1,19 @@
 import struct
 
-from app.utils.protocol.LSIS.exceptions import LSIS_Exception
-from app.utils.protocol.LSIS.logger import Log
-from app.utils.protocol.LSIS.continuous_read_byte import (
+from .exceptions import LSIS_Exception
+from .logger import Log
+from .continuous_read_byte import (
     Continuous_Read_Request,
     Continuous_Read_Response,
 )
-from app.utils.protocol.LSIS.constants import LSIS_XGT_constants
+from .constants import LSIS_XGT_constants
 
-from app.utils.protocol.LSIS.continuous_write_byte import (
+from .continuous_write_byte import (
     Continuous_Write_Request,
     Continuous_Write_Response,
 )
 
-from app.utils.protocol.LSIS.single_write_byte import (
+from .single_write_byte import (
     Single_Write_Request,
     Single_Write_Response,
 )

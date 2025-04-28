@@ -3,13 +3,13 @@ import struct
 from enum import Enum
 from typing import Any, List, Tuple, Union
 
-import app.utils.protocol.LSIS.continuous_read_byte as pdu_con_read
-import app.utils.protocol.LSIS.continuous_write_byte as pdu_con_write
-import app.utils.protocol.LSIS.single_write_byte as pdu_sin_write
-from app.utils.protocol.LSIS.constants import INTERNAL_ERROR
-from app.utils.protocol.LSIS.exceptions import LSIS_Exception
-from app.utils.protocol.LSIS.pdu import LSIS_XGT_Request, LSIS_XGT_Response
-from app.utils.protocol.LSIS.logger import Log
+from .. import continuous_read_byte as pdu_con_read
+from .. import continuous_write_byte as pdu_con_write
+from .. import single_write_byte as pdu_sin_write
+from ..constants import INTERNAL_ERROR
+from ..exceptions import LSIS_Exception
+from ..pdu import LSIS_XGT_Request, LSIS_XGT_Response
+from ..logger import Log
 
 
 class LSIS_ClientMixin:  # pylint: disable=too-many-public-methods

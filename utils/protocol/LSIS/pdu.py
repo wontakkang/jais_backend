@@ -1,6 +1,6 @@
-from app.utils.protocol.LSIS.constants import LSIS_XGT_constants
+from .constants import LSIS_XGT_constants
 import struct
-from app.utils.protocol.LSIS.logger import Log
+from .logger import Log
 
 
 class LSIS_XGT_PDU:

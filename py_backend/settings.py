@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += [
     'agriseed.apps.AgriseedConfig',
+    'LSISsocket.apps.LSISsocketConfig',
     # 'corecode.apps.CorecodeConfig',
 ]
 REST_FRAMEWORK = {
@@ -50,13 +51,6 @@ REST_FRAMEWORK = {
 }
 # ASGI 설정
 ASGI_APPLICATION = 'py_backend.asgi.application'
-
-# Optional: Channel layers configuration (e.g., Redis)
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -127,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -151,12 +145,12 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'DEBUG',
+        'level': 'WARNING',  # DEBUG → WARNING
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'WARNING',  # DEBUG → WARNING
             'propagate': True,
         },
         'agriseed': {

@@ -1,7 +1,7 @@
 import binascii, ast, socket
 import struct
-from app.utils.protocol.LSIS.constants import LSIS_XGT_constants
-from app.utils.protocol.LSIS.pdu import LSIS_XGT_Request, LSIS_XGT_Response
+from .constants import LSIS_XGT_constants
+from .pdu import LSIS_XGT_Request, LSIS_XGT_Response
 
 
 class Continuous_Write_RequestBase(LSIS_XGT_Request):
