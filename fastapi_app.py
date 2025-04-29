@@ -15,10 +15,14 @@ django.setup()
 from LSISsocket.models import SocketClientConfig, SocketClientLog
 from py_backend.settings import TIME_ZONE
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from .utils.protocol.LSIS import LSIS_TcpClient
 from .utils import setup_logger, log_exceptions
+from pathlib import Path
+from LSISsocket.fastapi_route import router as lsis_router
+
 app = FastAPI()
 
 sched_logger = setup_logger(name="sched_logger", log_file="./log/sched_queries.log")
@@ -62,6 +66,11 @@ async def shutdown_event():
 @app.get("/")
 def read_root():
     return {"message": "FastAPI + Django ORM 연동 성공"}
+
+# 정적 파일 경로를 절대 경로로 지정
+static_dir = Path(__file__).resolve().parent / "static"
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+app.include_router(lsis_router, prefix="/LSISsocket")
 
 # 이제 Django ORM 모델을 자유롭게 import해서 사용할 수 있습니다.
 # 예시: from agriseed.models import YourModel

@@ -45,7 +45,6 @@ class LSIS_XGT_PDU:
         self.header = [""]
         self.header[0] += self.companyID_unpack[0]
 
-
 class LSIS_XGT_Request(LSIS_XGT_PDU):
     def __init__(self, **kwargs):
         super(LSIS_XGT_Request, self).__init__(**kwargs)

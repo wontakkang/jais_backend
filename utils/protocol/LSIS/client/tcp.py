@@ -242,3 +242,53 @@ class LSIS_TcpClient(LSIS_BaseClient):
             f"<{self.__class__.__name__} at {hex(id(self))} socket={self.socket}, "
             f"ipaddr={self.params.host}, port={self.params.port}, timeout={self.params.timeout}>"
         )
+
+    def send_first_communication(self):
+        """Send the first communication packet."""
+        first_packet = bytes.fromhex(
+            "4c 47 49 53 2d 47 4c 4f 46 41 00 00 00 22 00 00 0c 00 00 f3 0a 00 c0 a8 00 c6 00 00 00 00 ff 00"
+        )
+        self.send(first_packet)
+
+    def send_reset(self):
+        """Send the reset packet and return response."""
+        reset_packet = bytes.fromhex(
+            "4c 47 49 53 2d 47 4c 4f 46 41 00 00 00 22 00 00 08 00 00 ef 0e 00 04 00 41 53 39 34"
+        )
+        while True:
+            self.send(reset_packet)
+            ready = select.select([self.socket], [], [], self.params.timeout)
+            if ready[0]:
+                resp = self.socket.recv(1024)
+                if resp:
+                    return resp
+            time.sleep(1)
+
+    def send_stop(self):
+        """Send the stop packet and return response."""
+        stop_packet = bytes.fromhex(
+            "4c 47 49 53 2d 47 4c 4f 46 41 00 00 00 22 00 00 08 00 00 ef 0e 00 04 00 4d 53 41 30"
+        )
+        while True:
+            self.send(stop_packet)
+            ready = select.select([self.socket], [], [], self.params.timeout)
+            if ready[0]:
+                resp = self.socket.recv(1024)
+                if resp:
+                    return resp
+            time.sleep(1)
+
+    def send_start(self):
+        """Send the start packet and return response."""
+        start_packet = bytes.fromhex(
+            "4c 47 49 53 2d 47 4c 4f 46 41 00 00 00 22 00 00 08 00 00 ef 0e 00 04 00 4d 52 39 46"
+        )
+        while True:
+            self.send(start_packet)
+            ready = select.select([self.socket], [], [], self.params.timeout)
+            if ready[0]:
+                resp = self.socket.recv(1024)
+                if resp:
+                    return resp
+            time.sleep(1)
+

@@ -6,6 +6,7 @@ class Defaults:
     companyID_unpack = ["10s", b"LSIS-XGT\x00\x00"]
     InvokeID = ["H", 0]
     Request_Sorce_Of_Frame = ["B", 0x33]  # Sorce_of_Frame: 클라이언트 -> 서버 33 서버에서 클라이언트 11
+    System_Sorce_Of_Frame = ["B", 0x22]  # Sorce_of_Frame: 클라이언트 -> 서버 33 서버에서 클라이언트 11
     response_Sorce_Of_Frame = [
         "B",
         0x11,
@@ -14,11 +15,14 @@ class Defaults:
     PLC_Info = ["H", 0x00]  # PLC_Info: 클라이언트 -> 서버는 무시(0x00)
     PLC_Info = ["H", 0x00]  # PLC_Info: 클라이언트 -> 서버는 무시(0x00)
     FEnet_Position = ["B", 0]
+    SystemCommandRequest = ["H", 0xef]
     ContinuousReadRequest = ["H", 0x54]
     ContinuousReadRecv = ["H", 0x55]
     ContinuousWriteRequest = ["H", 0x58]
     ContinuousWriteRecv = ["H", 0x59]
     ContinuousDataType = ["H", 0x14]
+    ContinuousDataType = ["H", 0x14]
+    SystemCommandDataType = ["H", 0x0e00]
     SingleDataType = {
         'bit':["H", 0x00],
         'byte':["H", 0x01],
