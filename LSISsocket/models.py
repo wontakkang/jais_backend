@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 from django.db import models
 from django.db.models import JSONField
 from django.utils import timezone
@@ -27,34 +28,49 @@ class SocketClientConfig(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        # ✅ 중복된 force_insert로 인해 충돌 방지
+        if kwargs.get('force_insert') and self.pk is not None:
+            kwargs.pop('force_insert')
         log_data = None
-        if self.pk:
-            orig = SocketClientConfig.objects.get(pk=self.pk)
-            if self.detailedStatus['ERROR CODE'] == 0:
-                if orig.detailedStatus != self.detailedStatus:
+        try:
+            if self.created_at is None:
+                super().save(*args, **kwargs)  # 부모 클래스의 save 호출
+            elif self.comm_at is None:
+                if self.detailedStatus is not None:
                     self.comm_at = timezone.now()
                     log_data = {
                         "detailedStatus": self.detailedStatus,
+                        "message": "First communication"
                     }
+                if log_data:
+                    self.logs.create(**log_data)
+                super().save(*args, **kwargs)
+            elif self.created_at is not None:
+                orig = SocketClientConfig.objects.get(pk=self.pk)
+                if self.detailedStatus['ERROR CODE'] == 0:
+                    if orig.detailedStatus != self.detailedStatus:
+                        self.comm_at = timezone.now()
+                        log_data = {
+                            "detailedStatus": self.detailedStatus,
+                        }
+                else:
+                    if orig.detailedStatus != self.detailedStatus:
+                        self.comm_at = timezone.now()
+                        log_data = {
+                            "detailedStatus": self.detailedStatus,
+                            "message": self.detailedStatus['message'],
+                            "error_code": self.detailedStatus['ERROR CODE'],
+                        }
+                if log_data:
+                    self.logs.create(**log_data)
+                super().save(*args, **kwargs)
             else:
-                if orig.detailedStatus != self.detailedStatus:
-                    self.comm_at = timezone.now()
-                    log_data = {
-                        "detailedStatus": self.detailedStatus,
-                        "message": self.detailedStatus['message'],
-                        "error_code": self.detailedStatus['ERROR CODE'],
-                    }
-        else:
-            if self.detailedStatus is not None:
-                self.comm_at = timezone.now()
-                log_data = {
-                    "detailedStatus": self.detailedStatus,
-                    "message": "First communication"
-                }
-        super().save(*args, **kwargs)
-        if log_data:
-            self.logs.create(**log_data)
-        super().save(*args, **kwargs)
+                raise IntegrityError("게이트웨이 저장 실패")
+            super().save(*args, **kwargs)
+        except IntegrityError as e:
+            if 'UNIQUE constraint failed' in str(e):
+                raise IntegrityError("이미 동일한 이름의 게이트웨이노드가 존재합니다.")
+            raise e
 
     def delete(self, using=None, keep_parents=False):
         self.is_deleted = True
