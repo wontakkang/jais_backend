@@ -15,6 +15,6 @@ urlpatterns = [
     *router.urls,
     # LSIS 명령 API
     path('cpu/init-reset/', LSISInitResetView.as_view(), name='lsis-init-reset'),
-    path('cpu/stop/', LSISStopView.as_view(), name='lsis-stop'),
-    path('cpu/run/', LSISRunView.as_view(), name='lsis-run'),
+    path('cpu/stop/', LSISStopView.as_view(), name='lsis-cpu-stop'),
+    path('cpu/run/', LSISRunView.as_view(), name='lsis-cpu-run'),
 ]
