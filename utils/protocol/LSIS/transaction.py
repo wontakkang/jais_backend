@@ -7,7 +7,7 @@ from functools import partial
 from threading import RLock
 
 from .exceptions import (
-    NoSuchSlaveException, NotImplementedException
+    InvalidMessageReceivedException, LSIS_IOException, NoSuchSlaveException, NotImplementedException
 )
 from .framer.socket_framer import LSIS_SocketFramer
 

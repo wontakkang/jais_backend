@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# ASGI 설정
+ASGI_APPLICATION = 'py_backend.asgi.application'
 
 # Application definition
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'django_filters',
 ]
 
 INSTALLED_APPS += [
@@ -48,11 +51,13 @@ INSTALLED_APPS += [
 ]
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'agriseed.exceptions.custom_exception_handler',
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ]
 }
-# ASGI 설정
-ASGI_APPLICATION = 'py_backend.asgi.application'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,8 +66,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -133,6 +136,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGGING = {
