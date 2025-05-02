@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 class SocketClientStatusSerializer(serializers.ModelSerializer):
-    config = serializers.PrimaryKeyRelatedField(read_only=True)
+    config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
     class Meta:
         model = SocketClientStatus
         fields = '__all__'
@@ -37,7 +37,7 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
     
         
 class SocketClientLogSerializer(serializers.ModelSerializer):
-    config = serializers.StringRelatedField()  # 또는 PrimaryKeyRelatedField 등 필요에 따라 변경
+    config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
     class Meta:
         model = SocketClientLog
         exclude = ('is_deleted',)

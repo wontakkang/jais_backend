@@ -1,3 +1,4 @@
+import time
 from rest_framework import viewsets, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,30 +13,53 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+# -------------------
+# 이 ViewSet들은 소켓 클라이언트, 센서/제어 노드, 어댑터 등 설비 통신 및 상태 관리의 CRUD API를 제공합니다.
+# 주요 기능:
+#   - 각 모델별 생성/조회/수정/삭제
+#   - 소켓 클라이언트 상태 필터링/정렬 지원
+#   - 설비 통신 명령(초기화, 정지, 실행) API 별도 제공 (APIView 기반)
+#   - Django REST framework의 ModelViewSet 기반 자동 API
+#
+# 사용 예시:
+#   GET /socket-client-configs/ (설정 목록 조회)
+#   POST /socket-client-commands/ (명령 생성)
+#   POST /lsisinitreset/ {"host": "1.2.3.4", "port": 1234} (초기화 명령)
+#   POST /lsisstop/ {"host": "1.2.3.4", "port": 1234} (정지 명령)
+#   POST /lsisrun/ {"host": "1.2.3.4", "port": 1234} (실행 명령)
+# -------------------
+
+# SocketClientConfigViewSet: 소켓 클라이언트 설정 모델의 CRUD API를 제공합니다.
 class SocketClientConfigViewSet(viewsets.ModelViewSet):
     queryset = SocketClientConfig.objects.all()
     serializer_class = SocketClientConfigSerializer
 
+# SocketClientLogViewSet: 소켓 클라이언트 로그 모델의 CRUD API를 제공합니다.
 class SocketClientLogViewSet(viewsets.ModelViewSet):
     queryset = SocketClientLog.objects.all()
     serializer_class = SocketClientLogSerializer
 
+# SocketClientCommandViewSet: 소켓 클라이언트 명령 모델의 CRUD API를 제공합니다.
 class SocketClientCommandViewSet(viewsets.ModelViewSet):
     queryset = SocketClientCommand.objects.all()
     serializer_class = SocketClientCommandSerializer
 
+# SensorNodeConfigViewSet: 센서 노드 설정 모델의 CRUD API를 제공합니다.
 class SensorNodeConfigViewSet(viewsets.ModelViewSet):
     queryset = SensorNodeConfig.objects.all()
     serializer_class = SensorNodeConfigSerializer
 
+# ControlNodeConfigViewSet: 제어 노드 설정 모델의 CRUD API를 제공합니다.
 class ControlNodeConfigViewSet(viewsets.ModelViewSet):
     queryset = ControlNodeConfig.objects.all()
     serializer_class = ControlNodeConfigSerializer
 
+# AdapterViewSet: 어댑터(Adapter) 모델의 CRUD API를 제공합니다.
 class AdapterViewSet(viewsets.ModelViewSet):
     queryset = Adapter.objects.all()
     serializer_class = AdapterSerializer
 
+# SocketClientStatusViewSet: 소켓 클라이언트 상태 모델의 CRUD API를 제공합니다.
 class SocketClientStatusViewSet(viewsets.ModelViewSet):
     queryset = SocketClientStatus.objects.all()
     serializer_class = SocketClientStatusSerializer
