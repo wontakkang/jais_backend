@@ -15,8 +15,6 @@ class SocketClientConfig(models.Model):
     cron = models.JSONField(help_text="cron 설정값", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    detailedStatus = models.JSONField(null=True, blank=True)
-    comm_at = models.DateTimeField(null=True, blank=True)
     is_used = models.BooleanField(default=True, help_text="사용 여부")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
     zone_style = models.JSONField(null=True, blank=True, help_text="존 스타일 정보")
@@ -27,51 +25,6 @@ class SocketClientConfig(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        # ✅ 중복된 force_insert로 인해 충돌 방지
-        if kwargs.get('force_insert') and self.pk is not None:
-            kwargs.pop('force_insert')
-        log_data = None
-        try:
-            if self.created_at is None:
-                super().save(*args, **kwargs)  # 부모 클래스의 save 호출
-            elif self.comm_at is None:
-                if self.detailedStatus is not None:
-                    self.comm_at = timezone.now()
-                    log_data = {
-                        "detailedStatus": self.detailedStatus,
-                        "message": "First communication"
-                    }
-                if log_data:
-                    self.logs.create(**log_data)
-                super().save(*args, **kwargs)
-            elif self.created_at is not None:
-                orig = SocketClientConfig.objects.get(pk=self.pk)
-                if self.detailedStatus['ERROR CODE'] == 0:
-                    if orig.detailedStatus != self.detailedStatus:
-                        self.comm_at = timezone.now()
-                        log_data = {
-                            "detailedStatus": self.detailedStatus,
-                        }
-                else:
-                    if orig.detailedStatus != self.detailedStatus:
-                        self.comm_at = timezone.now()
-                        log_data = {
-                            "detailedStatus": self.detailedStatus,
-                            "message": self.detailedStatus['message'],
-                            "error_code": self.detailedStatus['ERROR CODE'],
-                        }
-                if log_data:
-                    self.logs.create(**log_data)
-                super().save(*args, **kwargs)
-            else:
-                raise IntegrityError("게이트웨이 저장 실패")
-            super().save(*args, **kwargs)
-        except IntegrityError as e:
-            if 'UNIQUE constraint failed' in str(e):
-                raise IntegrityError("이미 동일한 이름의 게이트웨이노드가 존재합니다.")
-            raise e
-
     def delete(self, using=None, keep_parents=False):
         self.is_deleted = True
         self.save()
@@ -79,10 +32,20 @@ class SocketClientConfig(models.Model):
     def restore(self):
         self.is_deleted = False
         self.save()
-
+        
 class ActiveLogManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)
+
+class SocketClientStatus(models.Model):
+    config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='status_logs')
+    updated_at = models.DateTimeField(auto_now=True)
+    detailedStatus = models.JSONField(null=True, blank=True)
+    error_code = models.IntegerField(default=0)
+    message = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.system_status} (code: {self.error_code}) @ {self.comm_at}"
 
 class SocketClientLog(models.Model):
     config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='logs')
