@@ -4,17 +4,39 @@ from .models import Project, ProjectVersion, MemoryGroup, Variable
 class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
     group = serializers.PrimaryKeyRelatedField(read_only=True)
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        allow_empty=True,
+        required=False,
+        default=list
+    )
 
     class Meta:
         model = Variable
         fields = [
-            'id', 'group', 'name', 'device', 'address', 'data_type', 'unit', 'scale', 'offset', 'device_address'
+            'id', 'group', 'name', 'device', 'address', 'data_type', 'unit', 'scale', 'offset', 'device_address', 'attributes'
         ]
 
     def get_device_address(self, obj):
         unit_map = {'bit': 'X', 'byte': 'B', 'word': 'W', 'dword': 'D'}
         unit_symbol = unit_map.get(obj.unit, '')
         return f"%{obj.device}{unit_symbol}{int(obj.address)}"
+
+    def create(self, validated_data):
+        attributes = validated_data.pop('attributes', [])
+        instance = Variable.objects.create(**validated_data)
+        instance.attributes = attributes
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        attributes = validated_data.pop('attributes', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if attributes is not None:
+            instance.attributes = attributes
+        instance.save()
+        return instance
 
 class MemoryGroupSerializer(serializers.ModelSerializer):
     variables = VariableSerializer(many=True, read_only=False)

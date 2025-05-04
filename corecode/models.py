@@ -81,6 +81,7 @@ class Variable(models.Model):
     ])
     scale = models.FloatField(default=1)
     offset = models.PositiveIntegerField(default=0)
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
 
     def __str__(self):
         return f"{self.name} ({self.device}{self.address})"
