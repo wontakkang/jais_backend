@@ -31,47 +31,19 @@ class ProjectVersion(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='versions')
     version = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     note = models.TextField(blank=True)
 
     class Meta:
         unique_together = ('project', 'version')
-        ordering = ['-created_at']
+        ordering = ['-updated_at']
 
     def __str__(self):
         return f"{self.project.name} - v{self.version}"
 
     def restore_version(self):
-        """
-        현재 프로젝트의 MemoryGroup/Variable을 모두 삭제하고,
-        이 버전(ProjectVersion)의 MemoryGroup/Variable을 복제하여 현재로 복원합니다.
-        (실제 서비스 상황에 맞게 트랜잭션 처리, 예외 처리 등 보완 필요)
-        """
-        from django.db import transaction
-        with transaction.atomic():
-            project = self.project
-            # 1. 기존 모든 버전의 MemoryGroup/Variable 삭제
-            for v in project.versions.all():
-                v.groups.all().delete()
-            # 2. 이 버전(self)의 MemoryGroup/Variable을 복제
-            for group in self.groups.all():
-                new_group = MemoryGroup.objects.create(
-                    project_version=self,
-                    group_id=group.group_id,
-                    start_device=group.start_device,
-                    start_address=group.start_address,
-                    size_byte=group.size_byte,
-                )
-                for var in group.variable_set.all():
-                    Variable.objects.create(
-                        group=new_group,
-                        name=var.name,
-                        device=var.device,
-                        address=var.address,
-                        data_type=var.data_type,
-                        unit=var.unit,
-                        scale=var.scale,
-                        offset=var.offset,
-                    )
+        self.save()  # 이 줄이 있으면 updated_at이 현재 시각으로 갱신됨
+        
 
 class MemoryGroup(models.Model):
     """

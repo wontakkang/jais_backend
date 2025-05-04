@@ -39,7 +39,7 @@ class ProjectVersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectVersion
         fields = [
-            'id', 'project', 'version', 'created_at', 'note', 'groups'
+            'id', 'project', 'version', 'created_at', 'updated_at', 'note', 'groups'
         ]
 
     def create(self, validated_data):

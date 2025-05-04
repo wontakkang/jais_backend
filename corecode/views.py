@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.db import transaction
 from .models import Project, ProjectVersion, MemoryGroup, Variable
 from .serializers import ProjectSerializer, ProjectVersionSerializer, MemoryGroupSerializer, VariableSerializer
+from rest_framework.views import APIView
 
 # ProjectViewSet
 # -------------------
@@ -35,6 +36,29 @@ from .serializers import ProjectSerializer, ProjectVersionSerializer, MemoryGrou
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+    def perform_create(self, serializer):
+        project = serializer.save()
+        version = self.request.data.get("versions")
+        if version:
+            # ProjectVersion 생성 (groups는 직접 할당 X)
+            pv = ProjectVersion.objects.create(
+                project=project,
+                note=version['note'],
+                version=version['version']
+            )
+            # groups와 variables를 별도로 생성
+            for group_data in version.get('groups', []):
+                variables_data = group_data.pop('variables', [])
+                group_data.pop('project_version', None)  # 중복 방지
+                group_data.pop('id', None)  # id 필드 제거
+                group = MemoryGroup.objects.create(project_version=pv, **group_data)
+                for var_data in variables_data:
+                    var_data.pop('group', None)  # 중복 방지
+                    var_data.pop('id', None)     # id도 제거
+                    var_data.pop('device_address', None)  # 존재하지 않는 필드 제거
+                    Variable.objects.create(group=group, **var_data)
+        return project
 
 class ProjectVersionViewSet(viewsets.ModelViewSet):
     """
@@ -69,3 +93,18 @@ class VariableViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['group__id']
     ordering_fields = ['id']
+
+class ProjectVersionRestoreView(APIView):
+    def post(self, request, project_id, version):
+        try:
+            project = Project.objects.get(id=project_id)
+            pv = ProjectVersion.objects.get(project=project, version=version)
+            pv.restore_version()
+            pv.save()  # updated_at 갱신
+            return Response({'detail': '복구 완료'}, status=status.HTTP_200_OK)
+        except Project.DoesNotExist:
+            return Response({'detail': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
+        except ProjectVersion.DoesNotExist:
+            return Response({'detail': 'ProjectVersion not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
