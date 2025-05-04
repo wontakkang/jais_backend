@@ -10,6 +10,14 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new:
+            # 프로젝트 생성 시 version=0.0인 ProjectVersion 자동 생성
+            if not self.versions.filter(version='0.0').exists():
+                ProjectVersion.objects.create(project=self, version='0.0', note='프로젝트 최초 생성')
+
     def __str__(self):
         return self.name
 
@@ -72,7 +80,7 @@ class MemoryGroup(models.Model):
     """
     project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='groups')
     group_id = models.PositiveIntegerField()
-    vergroup_name = models.CharField(max_length=50, null=True, blank=True)
+    name = models.CharField(max_length=50, null=True, blank=True)
     start_device = models.CharField(max_length=2, choices=[('D', 'D'), ('M', 'M'), ('R', 'R')])
     start_address = models.PositiveIntegerField()
     size_byte = models.PositiveIntegerField()

@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 from django.db import transaction
 from .models import Project, ProjectVersion, MemoryGroup, Variable
 from .serializers import ProjectSerializer, ProjectVersionSerializer, MemoryGroupSerializer, VariableSerializer
@@ -35,35 +36,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
-    @action(detail=True, methods=['post'])
-    def backup(self, request, pk=None):
-        """
-        ProjectVersionViewSet을 통해 버전 생성만 트리거 (실제 데이터 복사는 ProjectVersionViewSet에서 담당)
-        """
-        project = self.get_object()
-        comment = request.data.get('note', '')
-        version_str = request.data.get('version')
-        if not version_str:
-            from datetime import datetime
-            version_str = datetime.now().strftime('%Y%m%d%H%M%S')
-        # ProjectVersion 생성만 위임
-        pv = ProjectVersion.objects.create(project=project, version=version_str, note=comment)
-        return Response({'status': 'backup created', 'version': version_str, 'note': comment}, status=status.HTTP_201_CREATED)
-
-    @action(detail=True, methods=['post'], url_path='restore/(?P<version_id>[^/.]+)')
-    def restore(self, request, pk=None, version_id=None):
-        """
-        ProjectVersionViewSet을 통해 복구 트리거 (실제 데이터 복원은 ProjectVersionViewSet에서 담당)
-        """
-        project = self.get_object()
-        try:
-            pv = ProjectVersion.objects.get(pk=version_id, project=project)
-        except ProjectVersion.DoesNotExist:
-            return Response({'error': 'Version not found'}, status=404)
-        # 복구 트리거만 전달
-        pv.restore_version()  # ProjectVersion 모델에 복구 메서드 구현 필요
-        return Response({'status': 'restored', 'version': pv.version})
-
 class ProjectVersionViewSet(viewsets.ModelViewSet):
     """
     프로젝트 버전(ProjectVersion) 모델의 CRUD 및 복구/스냅샷 관리 API
@@ -72,49 +44,9 @@ class ProjectVersionViewSet(viewsets.ModelViewSet):
     """
     queryset = ProjectVersion.objects.all()
     serializer_class = ProjectVersionSerializer
-
-    def perform_create(self, serializer):
-        """
-        버전 생성 시 해당 프로젝트의 MemoryGroup/Variable 전체 복사
-        """
-        pv = serializer.save()
-        project = pv.project
-        for group in project.memorygroup_set.all():
-            new_group = MemoryGroup.objects.create(
-                project_version=pv,
-                group_id=group.group_id,
-                start_device=group.start_device,
-                start_address=group.start_address,
-                size_byte=group.size_byte,
-            )
-            for var in group.variables.all():
-                Variable.objects.create(
-                    group=new_group,
-                    name=var.name,
-                    device=var.device,
-                    address=var.address,
-                    data_type=var.data_type,
-                    unit=var.unit,
-                    scale=var.scale,
-                    offset=var.offset,
-                )
-
-    @action(detail=True, methods=['post'])
-    def restore(self, request, pk=None):
-        """
-        해당 버전의 MemoryGroup/Variable을 현재로 복원
-        """
-        pv = self.get_object()
-        pv.restore_version()  # ProjectVersion 모델에 복구 메서드 구현 필요
-        return Response({'status': 'restored', 'version': pv.version})
-
-# ProjectVersion 모델에 복구 메서드 추가 필요
-# 예시:
-# class ProjectVersion(models.Model):
-#     ...existing code...
-#     def restore_version(self):
-#         # 현재 프로젝트의 MemoryGroup/Variable 삭제 후, 이 버전의 데이터로 복원
-#         ...
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['project__id']
+    ordering_fields = ['id', 'updated_at']
 
 class MemoryGroupViewSet(viewsets.ModelViewSet):
     """
@@ -123,6 +55,9 @@ class MemoryGroupViewSet(viewsets.ModelViewSet):
     """
     queryset = MemoryGroup.objects.all()
     serializer_class = MemoryGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['project_version__id']
+    ordering_fields = ['id']
 
 class VariableViewSet(viewsets.ModelViewSet):
     """
@@ -131,3 +66,6 @@ class VariableViewSet(viewsets.ModelViewSet):
     """
     queryset = Variable.objects.all()
     serializer_class = VariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__id']
+    ordering_fields = ['id']
