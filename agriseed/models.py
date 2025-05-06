@@ -75,6 +75,7 @@ class Facility(models.Model):
     zone_count = models.IntegerField(default=1, help_text="구역 수 (기본값: 1)")
     manager = models.CharField(max_length=100, default="Unknown Manager", help_text="시설 관리자")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+    LSIS = JSONField(null=True, blank=True, help_text="토양 조건")
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None

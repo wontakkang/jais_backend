@@ -1,6 +1,6 @@
 from rest_framework import routers
 from .views import *
-from django.urls import include, path
+from django.urls import path
 from .views import LSISInitResetView, LSISStopView, LSISRunView
 
 router = routers.DefaultRouter()
