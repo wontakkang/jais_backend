@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db import transaction
-from .models import Project, ProjectVersion, MemoryGroup, Variable
+from .models import Project, ProjectVersion, MemoryGroup, Variable, User
 from .serializers import ProjectSerializer, ProjectVersionSerializer, MemoryGroupSerializer, VariableSerializer
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 # ProjectViewSet
 # -------------------
@@ -108,3 +109,25 @@ class ProjectVersionRestoreView(APIView):
             return Response({'detail': 'ProjectVersion not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserPreferencesView(APIView):
+    def get(self, request, username):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        try:
+            user = User.objects.get(username=username)
+            return Response(user.preferences, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class UserMeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            # 필요시 추가 필드
+        })

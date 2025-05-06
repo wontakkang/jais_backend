@@ -32,19 +32,17 @@ from asgiref.sync import sync_to_async
 
 sched_logger = setup_logger(name="sched_logger", log_file="./log/sched_queries.log")
 scheduler = None
-sockets = []
 @log_exceptions(sched_logger)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Starting FastAPI lifespan...")
-    global scheduler, sockets
+    global scheduler
     sched_logger.info("Scheduler started.")
     scheduler = BackgroundScheduler(timezone=ZoneInfo(TIME_ZONE))
     scheduler.add_executor(ThreadPoolExecutor(max_workers=os.cpu_count()), "default")
     scheduler.add_executor(ProcessPoolExecutor(max_workers=4), "processpool")
     clients = await sync_to_async(list)(SocketClientConfig.objects.filter(is_used=True).all())
     for client in clients:
-        sock = LSIS_TcpClient(host=client.host, port=client.port)
         scheduler.add_job(
             tcp_client_servive,
             list(client.cron.keys())[0],
@@ -54,19 +52,13 @@ async def lifespan(app: FastAPI):
             misfire_grace_time=15,
             coalesce=False,
             executor='default',
-            args=(sock, client,),
+            args=(client,),
         )
-        sockets.append(sock)
         time.sleep(0.111)
     scheduler.start()
     try:
         yield
     finally:
-        for sock in sockets:
-            try:
-                sock.close()
-            except Exception as e:
-                sched_logger.error(f"Error closing socket: {e}")
         sched_logger.info("Closing sockets...")
         scheduler.shutdown(wait=False)
         sched_logger.info("Scheduler shut down.")
