@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, ProjectVersion, MemoryGroup, Variable
+from .models import Project, ProjectVersion, MemoryGroup, Variable, UserPreference
 
 class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
@@ -87,3 +87,9 @@ class ProjectSerializer(serializers.ModelSerializer):
         if self.instance is None and Project.objects.filter(name=value).exists():
             raise serializers.ValidationError("같은 이름의 프로젝트가 이미 존재합니다.")
         return value
+
+class UserPreferenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPreference
+        fields = ['id', 'user', 'preferences']
+        read_only_fields = ['id', 'user']

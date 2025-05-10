@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
-    preferences = models.JSONField(default=dict, blank=True, help_text="개인화 설정(예: 테마, 알림 등)")
     groups = models.ManyToManyField(
         'auth.Group',
         related_name='corecode_user_set',
@@ -18,7 +17,12 @@ class User(AbstractUser):
         verbose_name='user permissions',
     )
 
-from django.db import models
+class UserPreference(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='preference')
+    preferences = models.JSONField(default=dict, blank=True, help_text="개인화 설정(예: 테마, 알림 등)")
+
+    def __str__(self):
+        return f"{self.user.username}의 환경설정"
 
 class Project(models.Model):
     """
