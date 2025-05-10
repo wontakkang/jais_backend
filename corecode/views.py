@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db import transaction
-from .models import Project, ProjectVersion, MemoryGroup, Variable, User
-from .serializers import ProjectSerializer, ProjectVersionSerializer, MemoryGroupSerializer, VariableSerializer
+from .models import Project, ProjectVersion, MemoryGroup, Variable, User, UserPreference
+from .serializers import ProjectSerializer, ProjectVersionSerializer, MemoryGroupSerializer, VariableSerializer, UserPreferenceSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -111,12 +111,51 @@ class ProjectVersionRestoreView(APIView):
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserPreferencesView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, username):
+        if request.user.username != username:
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
         from django.contrib.auth import get_user_model
         User = get_user_model()
         try:
             user = User.objects.get(username=username)
-            return Response(user.preferences, status=status.HTTP_200_OK)
+            # UserPreference가 없으면 생성
+            pref, _ = UserPreference.objects.get_or_create(user=user)
+            serializer = UserPreferenceSerializer(pref)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, username):
+        if request.user.username != username:
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        try:
+            user = User.objects.get(username=username)
+            pref, _ = UserPreference.objects.get_or_create(user=user)
+            serializer = UserPreferenceSerializer(pref, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, username):
+        if request.user.username != username:
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        try:
+            user = User.objects.get(username=username)
+            pref, _ = UserPreference.objects.get_or_create(user=user)
+            serializer = UserPreferenceSerializer(pref, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
