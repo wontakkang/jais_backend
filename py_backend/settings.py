@@ -166,22 +166,22 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'WARNING',  # DEBUG → WARNING
+        'level': 'DEBUG',  # DEBUG → WARNING
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'WARNING',  # DEBUG → WARNING
+            'level': 'DEBUG',  # DEBUG → WARNING
             'propagate': True,
         },
         'agriseed': {
             'handlers': ['console'],
-            'level': 'WARNING',
+            'level': 'DEBUG',
             'propagate': False,
         },
         'corecode': {
             'handlers': ['console'],
-            'level': 'WARNING',
+            'level': 'DEBUG',
             'propagate': False,
         },
     },

@@ -24,8 +24,6 @@ class UserPreference(models.Model):
     def __str__(self):
         return f"{self.user.username}의 환경설정"
 
-from django.db import models
-
 class Project(models.Model):
     """
     프로젝트의 메타 정보(이름, 설명 등)를 관리하는 모델
