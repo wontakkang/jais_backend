@@ -4,11 +4,8 @@ from django.db.models import JSONField
 
 class Device(models.Model):
     name = models.CharField(max_length=100)
-    device_id = models.CharField(max_length=50, unique=True)
+    device_id = models.CharField(max_length=20, unique=True)
     icon = models.CharField(max_length=100)
-    battery = models.IntegerField()
-    firmware = models.CharField(max_length=50)
-    last_data = models.CharField(max_length=50)
     location = models.CharField(max_length=100)
     installed_at = models.DateField()
     status = models.CharField(max_length=50)

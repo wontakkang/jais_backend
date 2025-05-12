@@ -5,10 +5,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db import transaction
-from .models import Project, ProjectVersion, MemoryGroup, Variable, User, UserPreference
-from .serializers import ProjectSerializer, ProjectVersionSerializer, MemoryGroupSerializer, VariableSerializer, UserPreferenceSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from .models import *
+from .serializers import *
 
 # ProjectViewSet
 # -------------------
@@ -170,3 +171,33 @@ class UserMeView(APIView):
             "email": user.email,
             # 필요시 추가 필드
         })
+
+class DeviceViewSet(viewsets.ModelViewSet):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['manufacturer', 'user_manuals']
+    ordering_fields = ['id', 'name', 'created_at']
+
+class DeviceCompanyViewSet(viewsets.ModelViewSet):
+    queryset = DeviceCompany.objects.all()
+    serializer_class = DeviceCompanySerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['name']
+    ordering_fields = ['id', 'name']
+
+class UserManualViewSet(viewsets.ModelViewSet):
+    queryset = UserManual.objects.all()
+    serializer_class = UserManualSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['title']
+    ordering_fields = ['id', 'title', 'uploaded_at']
+
+class DataNameViewSet(viewsets.ModelViewSet):
+    queryset = DataName.objects.all()
+    serializer_class = DataNameSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        data = {str(obj.id): {"id": obj.id, "name": obj.name, "unit": obj.unit, "dtype": obj.dtype, "unit": obj.unit, "attributes":obj.attributes} for obj in queryset}
+        return Response(data)

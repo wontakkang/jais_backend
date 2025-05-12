@@ -7,6 +7,10 @@ router.register(r'projects', ProjectViewSet)
 router.register(r'project-versions', ProjectVersionViewSet)
 router.register(r'memory-groups', MemoryGroupViewSet)
 router.register(r'variables', VariableViewSet)
+router.register(r'devices', DeviceViewSet)
+router.register(r'companies', DeviceCompanyViewSet)
+router.register(r'user-manuals', UserManualViewSet)
+router.register(r'data-names', DataNameViewSet)
 
 urlpatterns = router.urls
 

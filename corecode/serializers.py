@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, ProjectVersion, MemoryGroup, Variable, UserPreference
+from .models import Project, ProjectVersion, MemoryGroup, Variable, UserPreference, Device, DeviceCompany, UserManual, DataName
 
 class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
@@ -80,7 +80,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = [
-            'id', 'name', 'description', 'created_at', 'updated_at', 'versions'
+            'id', 'name' ,'device', 'description', 'created_at', 'updated_at', 'versions'
         ]
 
     def validate_name(self, value):
@@ -93,3 +93,46 @@ class UserPreferenceSerializer(serializers.ModelSerializer):
         model = UserPreference
         fields = ['id', 'user', 'preferences']
         read_only_fields = ['id', 'user']
+
+class DeviceCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeviceCompany
+        fields = '__all__'
+
+class UserManualSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserManual
+        fields = '__all__'
+
+class DeviceSerializer(serializers.ModelSerializer):
+    manufacturer = DeviceCompanySerializer(read_only=True)
+    manufacturer_id = serializers.PrimaryKeyRelatedField(queryset=DeviceCompany.objects.all(), source='manufacturer', write_only=True)
+    user_manuals = UserManualSerializer(many=True, read_only=True)
+    user_manual_ids = serializers.PrimaryKeyRelatedField(queryset=UserManual.objects.all(), source='user_manuals', many=True, write_only=True)
+
+    class Meta:
+        model = Device
+        fields = '__all__'
+        # fields를 명시적으로 나열하려면 아래처럼 작성
+        # fields = [ ...기존 필드..., 'manufacturer', 'manufacturer_id', 'user_manuals', 'user_manual_ids', ... ]
+
+    def create(self, validated_data):
+        user_manuals = validated_data.pop('user_manuals', [])
+        instance = Device.objects.create(**validated_data)
+        if user_manuals:
+            instance.user_manuals.set(user_manuals)
+        return instance
+
+    def update(self, instance, validated_data):
+        user_manuals = validated_data.pop('user_manuals', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if user_manuals is not None:
+            instance.user_manuals.set(user_manuals)
+        return instance
+
+class DataNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DataName
+        fields = '__all__'
