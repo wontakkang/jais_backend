@@ -43,6 +43,7 @@ class SocketClientStatus(models.Model):
     detailedStatus = models.JSONField(null=True, blank=True)
     error_code = models.IntegerField(default=0)
     message = models.TextField(null=True, blank=True)
+    values= models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.system_status} (code: {self.error_code}) @ {self.comm_at}"

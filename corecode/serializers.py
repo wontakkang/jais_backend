@@ -37,16 +37,20 @@ class VariableSerializer(serializers.ModelSerializer):
             instance.attributes = attributes
         instance.save()
         return instance
-
+    
 class MemoryGroupSerializer(serializers.ModelSerializer):
     variables = VariableSerializer(many=True, read_only=False)
     project_version = serializers.PrimaryKeyRelatedField(read_only=True)
+    project_id = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = MemoryGroup
         fields = [
-            'id', 'name', 'project_version', 'group_id', 'start_device', 'start_address', 'size_byte', 'variables'
+            'id', 'name', 'project_version', 'project_id', 'group_id', 'start_device', 'start_address', 'size_byte', 'variables'
         ]
+
+    def get_project_id(self, obj):
+        return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
 
     def create(self, validated_data):
         variables_data = validated_data.pop('variables', [])

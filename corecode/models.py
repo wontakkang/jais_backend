@@ -164,6 +164,7 @@ class Device(models.Model):
     device_name_english = models.CharField(max_length=200, null=True, blank=True, help_text="Standardized device name (English)")
     device_type = models.CharField(max_length=50, choices=DEVICE_TYPE_CHOICES)
     icon = models.ImageField(upload_to='device_icons/', null=True, blank=True)
+    alert_icon = models.ImageField(upload_to='device_icons/alert/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     manufacturer = models.ForeignKey('DeviceCompany', on_delete=models.CASCADE, null=True, blank=True, related_name='devices')

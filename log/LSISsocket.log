@@ -1,468 +1,557 @@
-[2025-05-06 15:23:54] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:23:59] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:04] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:09] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:14] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:22] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:27] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:35] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:40] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:45] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:50] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:24:55] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:00] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:05] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:10] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:15] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:20] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:25] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:30] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:35] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:25:40] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'is_connected'
-[2025-05-06 15:31:56] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+[2025-05-13 18:42:18] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:43:33] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:45:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:45:30] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:55:45] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:59:15] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:00:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:01:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:02:59] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:02:59] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:00] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:21] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:25] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:30] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:42] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:47] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:03:52] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:03:57] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:02] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:08] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:04:12] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:13] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:04:18] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:18] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:06:09] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:06:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:06:52] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:07:14] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:08:11] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:08:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:08:45] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:11:19] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:11:19] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:11:19] [ERROR] tcp_client_servive : type object 'Continuous_Read_Response' has no attribute 'value'
+[2025-05-13 19:11:27] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:14:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:14:27] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:16:04] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:44] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:44] [ERROR] tcp_client_servive : no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:44] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
 📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: tcp_client_servive() missing 1 required positional argument: 'client'
+📍 오류 메시지: no such column: LSISsocket_socketclientstatus.values
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 41, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
     return func(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^
-TypeError: tcp_client_servive() missing 1 required positional argument: 'client'
-[2025-05-06 15:32:04] [ERROR] tcp_client_servive : name 'sock' is not defined
-[2025-05-06 15:32:09] [ERROR] tcp_client_servive : name 'sock' is not defined
-[2025-05-06 15:32:14] [ERROR] tcp_client_servive : name 'sock' is not defined
-[2025-05-06 15:32:19] [ERROR] tcp_client_servive : name 'sock' is not defined
-[2025-05-06 15:32:24] [ERROR] tcp_client_servive : name 'sock' is not defined
-[2025-05-06 15:32:29] [ERROR] tcp_client_servive : name 'sock' is not defined
-[2025-05-06 15:32:40] [ERROR] tcp_client_servive : 'bool' object has no attribute 'is_socket_open'
-[2025-05-06 15:32:45] [ERROR] tcp_client_servive : 'bool' object has no attribute 'is_socket_open'
-[2025-05-06 15:32:52] [ERROR] tcp_client_servive : name 'sock' is not defined
-[2025-05-06 15:35:28] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:35:33] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:35:38] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:35:43] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:35:48] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:35:53] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:35:58] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:36:03] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:36:15] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:36:20] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:37:17] [ERROR] tcp_client_servive : 'LSIS_TcpClient' object has no attribute 'host'
-[2025-05-06 15:39:45] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:39:45] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 64, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:49] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:49] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:49] [ERROR] tcp_client_servive : no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:49] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
 📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
+📍 오류 메시지: no such column: LSISsocket_socketclientstatus.values
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 41, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
     return func(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 65, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:39:50] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:39:50] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 64, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:54] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:54] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:54] [ERROR] tcp_client_servive : no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:54] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
 📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
+📍 오류 메시지: no such column: LSISsocket_socketclientstatus.values
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 41, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
     return func(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 65, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:39:55] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:39:55] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 64, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:59] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:18:09] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:18:20] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:19:57] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:20:12] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:20:30] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:27:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:30:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:30:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:34:15] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:41] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:41] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:56:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:46] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:46] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:56:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:51] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:51] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:56:58] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:58] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:58] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:07] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:07] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:16] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:16] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:21] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:21] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:26] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:26] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:34] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:57] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:58:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:58:50] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:59:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:59:18] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:59:43] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:00:13] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:03:52] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
 📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
 Traceback (most recent call last):
   File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
     return func(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 65, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:40:00] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:00] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:03:57] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
 📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
 Traceback (most recent call last):
   File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
     return func(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 65, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:40:10] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:10] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:04:02] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
 📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
 Traceback (most recent call last):
   File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
     return func(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:40:15] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:15] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:04:07] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
 📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
 Traceback (most recent call last):
   File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
     return func(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:40:20] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:20] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:04:12] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
 📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
 Traceback (most recent call last):
   File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
     return func(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:40:33] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:33] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:40:38] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:38] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if sock:
-       ^^^^
-UnboundLocalError: cannot access local variable 'sock' where it is not associated with a value
-[2025-05-06 15:40:45] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:45] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connected_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connected_sock:
-       ^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connected_sock' where it is not associated with a value
-[2025-05-06 15:40:50] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:50] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connected_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connected_sock:
-       ^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connected_sock' where it is not associated with a value
-[2025-05-06 15:40:55] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:40:55] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connected_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connected_sock:
-       ^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connected_sock' where it is not associated with a value
-[2025-05-06 15:41:00] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:00] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connected_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connected_sock:
-       ^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connected_sock' where it is not associated with a value
-[2025-05-06 15:41:07] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:07] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connect_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connect_sock:
-       ^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connect_sock' where it is not associated with a value
-[2025-05-06 15:41:12] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:12] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connect_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connect_sock:
-       ^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connect_sock' where it is not associated with a value
-[2025-05-06 15:41:17] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:17] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connect_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connect_sock:
-       ^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connect_sock' where it is not associated with a value
-[2025-05-06 15:41:22] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:22] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connect_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connect_sock:
-       ^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connect_sock' where it is not associated with a value
-[2025-05-06 15:41:27] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:27] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
-📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
-📍 오류 메시지: cannot access local variable 'connect_sock' where it is not associated with a value
-Traceback (most recent call last):
-  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 66, in tcp_client_servive
-    if connect_sock:
-       ^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'connect_sock' where it is not associated with a value
-[2025-05-06 15:41:38] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:43] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:48] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:41:53] [ERROR] tcp_client_servive : cannot access local variable 'is_existed' where it is not associated with a value
-[2025-05-06 15:47:50] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 15:47:55] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 15:55:20] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'retry_count'
-[2025-05-06 15:55:31] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'retry_interval'
-[2025-05-06 15:55:36] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'retry_interval'
-[2025-05-06 15:55:45] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'timeout'
-[2025-05-06 15:55:50] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'timeout'
-[2025-05-06 15:55:55] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'timeout'
-[2025-05-06 15:56:00] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'timeout'
-[2025-05-06 15:56:05] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'timeout'
-[2025-05-06 15:56:10] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'timeout'
-[2025-05-06 15:56:15] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'timeout'
-[2025-05-06 15:56:20] [ERROR] tcp_client_servive : LSIS_TcpClient.connect() got an unexpected keyword argument 'timeout'
-[2025-05-06 15:59:20] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 15:59:25] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 15:59:30] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 15:59:35] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 15:59:40] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 15:59:45] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 15:59:50] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:00:17] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:00:44] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:00:44] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:00:49] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:00:49] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:17] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:17] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:22] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:22] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:27] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:27] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:32] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:32] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:37] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:37] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:42] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:42] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:47] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:47] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:52] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:52] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:01:57] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:01:57] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:02] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:02] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:07] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:07] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:12] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:12] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:17] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:17] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:22] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:22] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:27] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:27] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:32] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:32] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:37] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:37] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:42] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:42] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:47] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:47] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:52] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:52] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:02:57] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:02:57] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:03:24] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:03:24] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:03:51] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:03:51] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:03:56] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:03:56] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:04:01] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:04:01] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:04:06] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:04:06] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:04:11] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:04:11] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:04:16] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:04:16] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:04:21] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:04:21] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:04:26] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:04:26] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:04:53] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:04:53] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:04:58] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:04:58] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:05:03] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:05:03] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:05:08] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:05:08] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:05:13] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:05:13] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:05:18] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:05:18] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:05:23] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:05:23] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:05:28] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:05:28] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:05:58] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:05:58] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:06:29] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:06:29] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:06:34] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:06:34] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:06:39] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:06:39] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:06:44] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:06:44] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:06:49] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:06:49] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:06:54] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:06:54] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:07:05] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:05] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:07:10] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:10] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:07:15] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:15] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:07:20] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:20] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:07:25] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:25] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:07:30] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:30] [INFO] Socket closed for 192.168.0.198:2004
-[2025-05-06 16:07:40] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:45] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:50] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:07:55] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:08:00] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
-[2025-05-06 16:08:11] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:08:16] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:08:21] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:08:26] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:08:31] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:08:56] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:09:01] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:09:19] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:09:24] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:09:29] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:09:57] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:03] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:07] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:13] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:17] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:22] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:27] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:32] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:37] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:10:42] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2002
-[2025-05-06 16:16:39] [INFO] try to connect LSIS client 192.168.0.198:2004
-[2025-05-06 16:16:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 16:17:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 16:18:03] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 16:18:30] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:11:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:13:32] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:14:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:17:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:19:06] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:19:24] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:19:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:20:25] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:26:14] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 17:36:18] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:21:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:22:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:23:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:24:19] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:24:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:25:33] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:25:50] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:26:03] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:26:15] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:26:27] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:26:34] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:31:38] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:31:52] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:36:56] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:37:04] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:39:17] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:52:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:54:32] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:55:14] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:55:20] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:55:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 18:59:27] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:01:58] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:04:13] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:04:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:04:37] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:05:13] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:05:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:06:02] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:07:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:07:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
-[2025-05-06 19:08:58] [INFO] try to connect LSIS client => 192.168.0.198:2004
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:04:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:26] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:26] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:04:31] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:31] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:31] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:04:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:36] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:36] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:04:45] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:45] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:45] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:04:50] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:50] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:50] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:05:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:24:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:28:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:29:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:34:10] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:42:10] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:42:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:43:17] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:43:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:45:10] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:45:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:46:52] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:47:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:48:59] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:49:39] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:50:54] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:53:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:54:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:54:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:57:13] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:57:37] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:58:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:59:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 21:01:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 21:01:36] [INFO] try to connect LSIS client => 192.168.0.198:2004

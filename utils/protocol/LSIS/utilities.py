@@ -122,6 +122,25 @@ def pack_bitstring(bits):
 
 
 class LSIS_MappingTool:
+    """
+    LSIS Mapping Tool.
+    This class is used to map LSIS data types to Python data types.
+    It also provides methods to read and write data to and from the PLC.
+    It is used to convert data types and handle scaling.
+    The class is initialized with the following parameters:
+    
+    version 무버전시와 버전시의 데이터 타입을 구분하기 위해 version을 인자로 받습니다.
+    type : 데이터 타입 (bit, uint8, int8, uint16, int16, uint32, int32, float)
+    address : PLC 주소 (예: %MB80000)
+    scale : 스케일링 값 (예: 0.1)
+    min : 최소값 (예: 0)
+    max : 최대값 (예: 100)
+    version : 버전 (예: 1.0.0)
+    
+    version >= 1.0.0일 경우, 데이터 타입을 int, uint, dint, udint, float, bool을 type로 변경합니다.
+    
+    """
+    version = "1.0.0"
     DATA_FORMAT = {
         'bit': '?',
         'uint8': 'B',
@@ -147,16 +166,29 @@ class LSIS_MappingTool:
         'int32': 'I',
         'float': 'I',
     }
-    def __init__(self, *args):
-        self.type = args[0]
-        self.args = args
-        self.format = self.DATA_FORMAT[args[0]]
-        self.address = args[1][:2] + 'B'
-        self.address_size = self.ADDRESS_FORMAT[args[1][:3]]
-        self.position = self.determine_base(args[1][3:])
-        self.scale = args[2]
-        self.min = int(args[3])
-        self.max = int(args[4])
+    def __init__(self, *args, version=None):
+        if version is None:
+            self.type = args[0]
+            self.args = args
+            self.format = self.DATA_FORMAT[args[0]]
+            self.address = args[1][:2] + 'B'
+            self.address_size = self.ADDRESS_FORMAT[args[1][:3]]
+            self.position = self.determine_base(args[1][3:])
+            self.scale = args[2]
+            self.min = int(args[3])
+            self.max = int(args[4])
+        elif version >= self.version:
+            self.type = args[0]
+            self.args = args
+            self.format = self.DATA_FORMAT[args[0]]
+            self.address = args[1][:2] + 'B'
+            self.address_size = self.ADDRESS_FORMAT[args[1][:3]]
+            self.position = self.determine_base(args[1][3:])
+            self.scale = args[2]
+            self.min = int(args[3])
+            self.max = int(args[4])
+            
+            
 
     def read_scale(self, value):
         if 'int' in self.type:

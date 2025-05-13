@@ -4,6 +4,7 @@ from utils.logger import log_exceptions
 from utils.protocol.LSIS.client.tcp import LSIS_TcpClient
 from asgiref.sync import sync_to_async
 from utils import setup_logger
+from utils.protocol.LSIS.utilities import LSIS_MappingTool
 
 logger = setup_logger('LSISsocket', './log/LSISsocket.log')
 
@@ -29,6 +30,25 @@ def tcp_client_servive(client):
             sockets.append(connect_sock)
         for block in client.blocks:
             response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{block['address']}", block['count'])
+            # response.values
+            for block in client.blocks:
+                print(f"address :{block.get('memory')} {block.get('address')} {block.get('count')}")
+                for group in block.get('groups'):
+                    print(group.get('start_address'), group.get('size_byte'))
+                    for var in group.get('variables'):
+                        print(f"var :{var}")
+                        memoryIndex = group.get('start_address') + var.get('address')
+                        print(f"value : {response.values[memoryIndex]}")
+                        
+                        #data_type이 int8, int16, int32, uint8, uint16, uint32으로 수정
+                        
+                        # LSIS_MappingTool
+            # identifier, address, scale, _min, _max, status_able, log_able, write_able, alert_able, cat_name, name = value
+            # # 채널의 식별자와 매핑된 식별자 비교
+            # if ch_params['identifier'] == 'memory':
+            #     lmt = LSIS_MappingTool(*value)
+            # response = connect_sock.read_bytes(block['memory'], block['address'], block['count'])
+                        
             if hasattr(response, 'detailedStatus'):
                 detailed_status = response.detailedStatus
             else:
@@ -44,7 +64,8 @@ def tcp_client_servive(client):
                 ).update(
                     detailedStatus=detailed_status,
                     error_code=detailed_status.get("ERROR CODE", 0),
-                    message=detailed_status.get("message", "")
+                    message=detailed_status.get("message", ""),
+                    values=response.values
                 )
     except Exception as e:
         for sock in sockets:
@@ -67,5 +88,6 @@ def tcp_client_servive(client):
             ).update(
                 detailedStatus=detailed_status,
                 error_code=detailed_status.get("ERROR CODE", 0),
-                message=detailed_status.get("message", "")
+                message=detailed_status.get("message", ""),
+                values=response.values
             )
