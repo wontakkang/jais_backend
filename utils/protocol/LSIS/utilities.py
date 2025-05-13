@@ -5,6 +5,7 @@ data computing checksums, and decode checksums.
 """
 # pylint: disable=missing-type-doc
 import struct
+import sys
 
 
 class LSIS_TransactionState:  # pylint: disable=too-few-public-methods
@@ -122,6 +123,271 @@ def pack_bitstring(bits):
 
 
 class LSIS_MappingTool:
+    DATA_FORMAT = {
+        'bit': '?',
+        'uint8': 'B',
+        'int8': 'b',
+        'uint16': 'H',
+        'int16': 'h',
+        'uint32': 'I',
+        'int32': 'i',
+        'float': 'f',
+    }
+    ADDRESS_FORMAT = {
+        '%MB': 1,
+        '%MW': 2,
+        '%MD': 4,
+    }
+    WRITE_SIZE = {
+        'bit': 'B',
+        'uint8': 'B',
+        'int8': 'B',
+        'uint16': 'H',
+        'int16': 'H',
+        'uint32': 'I',
+        'int32': 'I',
+        'float': 'I',
+    }
+    UNIT_SIZE = {
+        'bit': '',
+        'byte': '8',
+        'word': '16',
+        'dword': '32',
+        'lword': '64',
+    }
+    def __init__(self, **kwargs):
+        self.kwargs = kwargs
+        self.type = kwargs.get('data_type')
+        self.unit = kwargs.get('unit')
+        self.size = self.UNIT_SIZE[self.unit]
+        self.format = self.DATA_FORMAT[f'{self.type}{self.size}']
+        self.position = self.determine_base(args[1][3:])
+        self.address = kwargs.get('device', 'M') + 'B'
+        self.scale = kwargs.get('scalse', 1)
+        if self.type is "float":
+            self.min = kwargs.get('min', sys.float_info.min)
+            self.max = kwargs.get('max', sys.float_info.max)
+        if self.type is "int":
+            self.min = kwargs.get('min', sys.int_info.min_int)
+            self.max = kwargs.get('max', sys.int_info.max_int)
+        if self.type is "bool":
+            self.min = kwargs.get('min', 0)
+            self.max = kwargs.get('max', 1)
+            
+            
+
+    def read_scale(self, value):
+        if 'int' in self.type:
+            return float(value)*float(self.scale)
+        elif 'float' in self.type:
+            return value*float(self.scale)
+
+    def write_scale(self, value):
+        if 'int' in self.type:
+            return int(float(value)/float(self.scale))
+        elif 'float' in self.type:
+            return value/float(self.scale)
+
+    def minmax(self, value):
+        if type(value).__name__ == 'int' or type(value).__name__ == 'float':
+            if self.max == self.min == 0:
+                return value
+            elif self.max < self.min:
+                return value
+            elif value > self.max:
+                if 'int' in self.type:
+                    return self.max
+                elif 'float' in self.type:
+                    return float(self.max)
+            elif value < self.min:
+                if 'int' in self.type:
+                    return self.min
+                elif 'float' in self.type:
+                    return float(self.min)
+            else:
+                return value
+
+    {"address": "%MB80000", "count": 1, "format": "B", "values": 1}
+    def repack_write(self, value):
+        if len(self.position) > 1:
+            writeFormat = {
+                "address" : f"{self.address[:-1]}X{self.position[0]*8+self.position[1]}",
+                "count" : 1,
+                "format" : self.WRITE_SIZE[self.type],
+                "values" : int(value),
+            }
+            return writeFormat
+        elif len(self.position) == 1:
+            writeFormat = {
+                "address": self.args[1],
+                "count": 1,
+                "format": self.WRITE_SIZE[self.type],
+                "values": self.write_scale(value),
+            }
+            return writeFormat
+        else:
+            return f"유효한 값이 아닙니다."
+
+    def repack(self, data):
+        if len(self.position) > 1:
+            #bit 변환
+            repack_data = data[self.position[0]:self.position[0]+2]
+            result = self.unpack_bitslist(repack_data)[self.position[1]]
+            return bool(result)
+        elif len(self.position) == 1:
+            #byte 이상 사이즈 변환
+            repack_data = data[self.position[0]: self.position[0] + self.address_size]
+            result = self.repack_byte(format=self.format, data=repack_data)
+            result = self.read_scale(result)
+            result = self.minmax(result)
+            return result
+        else:
+            return f"유효한 주소가 아닙니다."
+
+    def unpack_bitslist(self, data=list):
+        """Create bit array out of a string.
+
+        :param string: The modbus data packet to decode
+
+        example::
+
+            bytes  = "bytes to decode"
+            result = unpack_bitstring(bytes)
+        """
+        bits = []
+        for byte in data:
+            for i in range(8):
+                bits.append((byte >> i) & 1)
+        return bits
+
+    def repack_byte(self, format=None, data=list):
+        before_size = len(data)
+        after_size = struct.calcsize(format)
+        return struct.unpack(format, struct.pack(''.join('B' * before_size), *data))[0]
+
+    def parse_number(self, value):
+        # 문자열에서 소수점 위치 찾기
+        if '.' in value:
+            integer_part, fractional_part = value.split('.')
+            # 정수부(byte 자리수로 변경)와 소수부 출력
+            try:
+                int(fractional_part)
+                return [int(integer_part)*self.address_size, int(fractional_part)]
+            except:
+                return [int(integer_part)*self.address_size, int(fractional_part, 16)]
+        else:
+            # 소수점이 없으면 정수부(byte 자리수로 변경)만 출력
+            return [int(value)*self.address_size]
+    def determine_base(self, value):
+        # 16진수 표현의 문자 집합 정의
+        hex_chars = set('0123456789ABCDEFabcdef.')
+
+        # 숫자인지 확인하고, 실수인지 판별
+        try:
+            # 값이 16진수 문자로만 구성되어 있는지 확인
+            if all(c in hex_chars for c in value):
+                return self.parse_number(value)
+            else:
+                # 10진수 변환 시도 (소수점 포함 가능)
+                float(value)
+                # 실수로 간주하여 분리
+                return self.parse_number(value)
+        except ValueError:
+            print(f"{value}는 유효한 숫자가 아닙니다.")
+
+
+    def __str__(self):
+        return f"format : {self.format} address : {self.position}"
+
+def interpretation(header, instruction):
+    message = {}
+    text_PLC_info = bin(header["PLC_Info"])[2:].zfill(16)
+    CPU_TYPE = int(text_PLC_info[-5:], 16)
+    COMPOSITION = int(text_PLC_info[-6])
+    CPU_STATUS = int(text_PLC_info[-7])
+    SYSTEM_STATUS = int(text_PLC_info[-12:-8], 16)
+    if CPU_TYPE == 0x01:
+        message["CPU TYPE"] = "XGK/I/R-CPUH"
+    elif CPU_TYPE == 0x02:
+        message["CPU TYPE"] = "XGK/I-CPUS"
+    elif CPU_TYPE == 0x03:
+        message["CPU TYPE"] = "XGK-CPUA"
+    elif CPU_TYPE == 0x04:
+        message["CPU TYPE"] = "XGK/I-CPUE"
+    elif CPU_TYPE == 0x05:
+        message["CPU TYPE"] = "XGK/I-CPUU"
+    elif CPU_TYPE == 0x11:
+        message["CPU TYPE"] = "XGK-CPUHN"
+    elif CPU_TYPE == 0x11:
+        message["CPU TYPE"] = "XGK-CPUSN"
+    elif CPU_TYPE == 0x11:
+        message["CPU TYPE"] = "XGI-CPUUN"
+    if COMPOSITION == 1:
+        message["COMPOSITION"] = "이중화"
+    else:
+        message["COMPOSITION"] = "단중화"
+    if CPU_STATUS == 1:
+        message["CPU STATUS"] = "CPU 동작 에러"
+    else:
+        message["CPU STATUS"] = "CPU 동작 정상"
+    if SYSTEM_STATUS == 0x01:
+        message["SYSTEM STATUS"] = "RUN"
+    elif SYSTEM_STATUS == 0x02:
+        message["SYSTEM STATUS"] = "STOP"
+    elif SYSTEM_STATUS == 0x04:
+        message["SYSTEM STATUS"] = "ERROR"
+    elif SYSTEM_STATUS == 0x08:
+        message["SYSTEM STATUS"] = "DEBUG"
+    else:
+        message["SYSTEM STATUS"] = "Exception"
+
+    text_CPU_info = hex(header["CPU_Info"])
+    if text_CPU_info == '0xa0':
+        message["CPU Info"] = "XGK"
+    elif text_CPU_info == '0xb0':
+        message["CPU Info"] = "XGB(MK)"
+    elif text_CPU_info == '0xa4':
+        message["CPU Info"] = "XGI"
+    elif text_CPU_info == '0xb4':
+        message["CPU Info"] = "XGB(IEC)"
+    elif text_CPU_info == '0xa8':
+        message["CPU Info"] = "XGR"
+    else:
+        message["CPU Info"] = "Exception"
+    message["ERROR CODE"] = instruction["error_Status"]
+    return message
+
+def unpack_bitstring(string):
+    """Create bit array out of a string.
+
+    :param string: The modbus data packet to decode
+
+    example::
+
+        bytes  = "bytes to decode"
+        result = unpack_bitstring(bytes)
+    """
+    byte_count = len(string)
+    bits = []
+    for byte in range(byte_count):
+        value = int(int(string[byte]))
+        for _ in range(8):
+            bits.append((value & 1) == 1)
+            value >>= 1
+    return bits
+
+
+def make_byte_string(byte_string):
+    """Return byte string from a given string, python3 specific fix.
+
+    :param byte_string:
+    :return:
+    """
+    if isinstance(byte_string, str):
+        byte_string = byte_string.encode()
+    return byte_string
+
+class LSIS_MappingTool2:
     """
     LSIS Mapping Tool.
     This class is used to map LSIS data types to Python data types.
