@@ -46,7 +46,7 @@ class SocketClientStatus(models.Model):
     values= models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.system_status} (code: {self.error_code}) @ {self.comm_at}"
+        return f"{self.system_status} (code: {self.error_code}) @ {self.updated_at}"
 
 class SocketClientLog(models.Model):
     config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='logs')

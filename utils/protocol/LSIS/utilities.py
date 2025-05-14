@@ -123,6 +123,13 @@ def pack_bitstring(bits):
 
 
 class LSIS_MappingTool:
+    """
+    LSIS Mapping Tool.
+    This class is used to map LSIS data types to Python data types.
+    It also provides methods to read and write data to and from the PLC.
+    It is used to convert data types and handle scaling.
+    The class is initialized with the following parameters:
+    """
     DATA_FORMAT = {
         'bit': '?',
         'uint8': 'B',
@@ -157,20 +164,22 @@ class LSIS_MappingTool:
     }
     def __init__(self, **kwargs):
         self.kwargs = kwargs
+        self.address_size = self.ADDRESS_FORMAT.get(kwargs['device_address'][:3], 1)
         self.type = kwargs.get('data_type')
         self.unit = kwargs.get('unit')
         self.size = self.UNIT_SIZE[self.unit]
         self.format = self.DATA_FORMAT[f'{self.type}{self.size}']
-        self.position = self.determine_base(args[1][3:])
+        self.position = self.determine_base(kwargs.get('device_address', '%MX0.0')[3:])
         self.address = kwargs.get('device', 'M') + 'B'
-        self.scale = kwargs.get('scalse', 1)
-        if self.type is "float":
+        self.scale = kwargs.get('scale', 1)
+        
+        if self.type == "float":
             self.min = kwargs.get('min', sys.float_info.min)
             self.max = kwargs.get('max', sys.float_info.max)
-        if self.type is "int":
-            self.min = kwargs.get('min', sys.int_info.min_int)
-            self.max = kwargs.get('max', sys.int_info.max_int)
-        if self.type is "bool":
+        if self.type == "int":
+            self.min = kwargs.get('min', -sys.maxsize - 1)
+            self.max = kwargs.get('max', sys.maxsize)
+        if self.type == "bool":
             self.min = kwargs.get('min', 0)
             self.max = kwargs.get('max', 1)
             
@@ -178,6 +187,7 @@ class LSIS_MappingTool:
 
     def read_scale(self, value):
         if 'int' in self.type:
+            
             return float(value)*float(self.scale)
         elif 'float' in self.type:
             return value*float(self.scale)

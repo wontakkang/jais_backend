@@ -1,0 +1,557 @@
+[2025-05-13 18:42:18] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:43:33] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:45:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:45:30] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:55:45] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 18:59:15] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:00:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:01:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:02:59] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:02:59] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:00] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:21] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:25] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:30] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:42] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:03:47] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:03:52] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:03:57] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:02] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:08] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:04:12] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:13] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:04:18] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:04:18] [ERROR] tcp_client_servive : LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-05-13 19:06:09] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:06:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:06:52] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:07:14] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:08:11] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:08:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:08:45] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:11:19] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:11:19] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:11:19] [ERROR] tcp_client_servive : type object 'Continuous_Read_Response' has no attribute 'value'
+[2025-05-13 19:11:27] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:14:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:14:27] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:16:04] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:44] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:44] [ERROR] tcp_client_servive : no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:44] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
+📍 오류 메시지: no such column: LSISsocket_socketclientstatus.values
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 41, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 64, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:49] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:49] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:49] [ERROR] tcp_client_servive : no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:49] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
+📍 오류 메시지: no such column: LSISsocket_socketclientstatus.values
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 41, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 64, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:54] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:54] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:17:54] [ERROR] tcp_client_servive : no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:54] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
+📍 오류 메시지: no such column: LSISsocket_socketclientstatus.values
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 41, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: LSISsocket_socketclientstatus.values
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 64, in tcp_client_servive
+    object = SocketClientStatus.objects.get_or_create(config_id=client.id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 946, in get_or_create
+    return self.get(**kwargs), False
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 1935, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1622, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: LSISsocket_socketclientstatus.values
+[2025-05-13 19:17:59] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:18:09] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:18:20] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:19:57] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:20:12] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:20:30] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:27:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:30:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:30:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:34:15] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:41] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:41] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:56:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:46] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:46] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:56:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:51] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:51] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:56:58] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:58] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:56:58] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:07] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:07] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:16] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:16] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:21] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:21] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:26] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:26] [ERROR] tcp_client_servive : 'dict' object has no attribute 'address'
+[2025-05-13 19:57:34] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:57:57] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:58:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:58:50] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:59:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:59:18] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 19:59:43] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:00:13] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:03:52] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:03:57] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:04:02] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:04:07] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:04:12] [ERROR] 🚨 [ERROR] tcp_client_servive()에서 예외 발생 🚨
+📌 파일: D:\project\projects\jais\py_backend\utils\logger.py, 라인: 67
+📍 오류 메시지: 'SocketClientConfig' object has no attribute 'keys'
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 67, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project/projects/jais/py_backend\LSISsocket\service.py", line 14, in tcp_client_servive
+    client = dict_to_object(client)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\utilities.py", line 19, in dict_to_object
+    ObjectClass = namedtuple("ObjectClass", data_dict.keys())
+                                            ^^^^^^^^^^^^^^
+AttributeError: 'SocketClientConfig' object has no attribute 'keys'
+[2025-05-13 20:04:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:26] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:26] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:04:31] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:31] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:31] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:04:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:36] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:36] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:04:45] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:45] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:45] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:04:50] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:50] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:04:50] [ERROR] tcp_client_servive : 'list' object has no attribute 'keys'
+[2025-05-13 20:05:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:24:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:28:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:29:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:34:10] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:42:10] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:42:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:43:17] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:43:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:45:10] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:45:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:46:52] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:47:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:48:59] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:49:39] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:50:54] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:53:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:54:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:54:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:57:13] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:57:37] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:58:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 20:59:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 21:01:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-13 21:01:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
