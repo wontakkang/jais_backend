@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from utils.calculation import __all__ as calculation_methods
 
 class User(AbstractUser):
     groups = models.ManyToManyField(
@@ -102,16 +103,25 @@ class UserManual(models.Model):
 #데이터 명칭, 단위
 class DataName(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    ctype = models.CharField(max_length=20, blank=True)
     dtype = models.CharField(max_length=10, blank=True)
-    unit = models.CharField(max_length=10, blank=True)
+    unit = models.CharField(max_length=20, blank=True)
     DATA_TYPE_CHOICES = [
         ('status', 'Status'),
         ('upper', 'Upper'),
         ('lower', 'Lower'),
         ('reference', 'Reference'),
         ('difference', 'Difference'),
+        ('calculation', 'Calculation'),
     ]
     attributes = models.CharField(max_length=20, choices=DATA_TYPE_CHOICES, null=True, blank=True)
+    use_method = models.CharField(
+        max_length=40,
+        null=True,
+        blank=True,
+        choices=[(method, method) for method in calculation_methods]
+    )
+    
     def __str__(self):
         return self.name
 

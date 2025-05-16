@@ -48,7 +48,7 @@ async def lifespan(app: FastAPI):
             list(client.cron.keys())[0],
             **list(client.cron.values())[0],
             replace_existing=True,
-            max_instances=1,
+            max_instances=5,
             misfire_grace_time=15,
             coalesce=False,
             executor='default',
