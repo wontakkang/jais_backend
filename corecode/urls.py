@@ -11,6 +11,8 @@ router.register(r'devices', DeviceViewSet)
 router.register(r'companies', DeviceCompanyViewSet)
 router.register(r'user-manuals', UserManualViewSet)
 router.register(r'data-names', DataNameViewSet)
+router.register(r'control-values', ControlValueViewSet)
+router.register(r'control-value-histories', ControlValueHistoryViewSet)
 
 urlpatterns = router.urls
 

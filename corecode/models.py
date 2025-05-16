@@ -113,6 +113,7 @@ class DataName(models.Model):
         ('reference', 'Reference'),
         ('difference', 'Difference'),
         ('calculation', 'Calculation'),
+        ('command', 'Command'),
     ]
     attributes = models.CharField(max_length=20, choices=DATA_TYPE_CHOICES, null=True, blank=True)
     use_method = models.CharField(
@@ -188,4 +189,35 @@ class Device(models.Model):
 
     def __str__(self):
         return self.name
+
+class ControlValue(models.Model):
+    control_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='control_values', verbose_name="제어 사용자")
+    status = models.CharField(max_length=30, verbose_name="명령상태")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
+    command_name = models.CharField(max_length=100, verbose_name="명령이름")
+    target = models.CharField(max_length=100, verbose_name="타겟")
+    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
+    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
+    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
+
+    def __str__(self):
+        return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
+
+class ControlValueHistory(models.Model):
+    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, related_name='histories', verbose_name="제어값")
+    status = models.CharField(max_length=30, verbose_name="명령상태")
+    command_name = models.CharField(max_length=100, verbose_name="명령이름")
+    target = models.CharField(max_length=100, verbose_name="타겟")
+    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
+    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
+    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
+
+    def __str__(self):
+        return f"{self.command_name}({self.target}) - {self.status}"
 

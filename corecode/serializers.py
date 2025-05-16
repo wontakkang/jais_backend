@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, ProjectVersion, MemoryGroup, Variable, UserPreference, Device, DeviceCompany, UserManual, DataName
+from .models import *
 
 class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
@@ -139,4 +139,16 @@ class DeviceSerializer(serializers.ModelSerializer):
 class DataNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = DataName
+        fields = '__all__'
+
+class ControlValueSerializer(serializers.ModelSerializer):
+    control_user = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = ControlValue
+        fields = '__all__'
+
+class ControlValueHistorySerializer(serializers.ModelSerializer):
+    control_value = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = ControlValueHistory
         fields = '__all__'

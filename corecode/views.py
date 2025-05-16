@@ -199,5 +199,19 @@ class DataNameViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        data = {str(obj.id): {"id": obj.id, "name": obj.name, "unit": obj.unit, "dtype": obj.dtype, "unit": obj.unit, "attributes":obj.attributes} for obj in queryset}
+        data = {str(obj.id): {"id": obj.id, "name": obj.name, "unit": obj.unit, "ctype": obj.ctype, "dtype": obj.dtype, "unit": obj.unit, "attributes":obj.attributes, "use_method":obj.use_method} for obj in queryset}
         return Response(data)
+
+class ControlValueViewSet(viewsets.ModelViewSet):
+    queryset = ControlValue.objects.all()
+    serializer_class = ControlValueSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_user']
+    ordering_fields = ['id', 'created_at', 'updated_at', 'control_at']
+
+class ControlValueHistoryViewSet(viewsets.ModelViewSet):
+    queryset = ControlValueHistory.objects.all()
+    serializer_class = ControlValueHistorySerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_value']
+    ordering_fields = ['id', 'created_at', 'control_at']
