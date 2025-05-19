@@ -56,6 +56,8 @@ async def lifespan(app: FastAPI):
         )
         time.sleep(0.111)
     scheduler.start()
+    print("Scheduler started.")
+    sched_logger.info("Scheduler started.")
     try:
         yield
     finally:

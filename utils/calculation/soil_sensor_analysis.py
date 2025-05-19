@@ -94,26 +94,26 @@ def stress_time_risk_action(ratio):
 # ▶ 예시 입력 데이터
 # -------------------------
 
-data = {
-    "vwc": 0.25,            # 함수율 (m³/m³)
-    "ec_bulk": 0.8,         # 벌크 전기전도도 (mS/cm)
-    "psi_kpa": -120,        # 수분장력 (kPa)
-    "psi_kpa_history": [-80, -110, -140, -130, -70, -160, -200]  # 과거 7회 측정
-}
+# data = {
+#     "vwc": 0.25,            # 함수율 (m³/m³)
+#     "ec_bulk": 0.8,         # 벌크 전기전도도 (mS/cm)
+#     "psi_kpa": -120,        # 수분장력 (kPa)
+#     "psi_kpa_history": [-80, -110, -140, -130, -70, -160, -200]  # 과거 7회 측정
+# }
 
 # -------------------------
 # ▶ 계산 및 결과 출력
 # -------------------------
 
 # 계산
-ecp = calculate_ECp(data["ec_bulk"], data["vwc"])
-awc = calculate_AWC(data["vwc"])
-swsi = calculate_SWSI(data["psi_kpa"])
-stress_ratio = calculate_stress_time_ratio(data["psi_kpa_history"])
+# ecp = calculate_ECp(data["ec_bulk"], data["vwc"])
+# awc = calculate_AWC(data["vwc"])
+# swsi = calculate_SWSI(data["psi_kpa"])
+# stress_ratio = calculate_stress_time_ratio(data["psi_kpa_history"])
 
-# 결과 출력
-print("📈 분석 결과 및 작물 관리 조치")
-print(f"🌱 공극수 EC (ECp): {ecp:.2f} mS/cm → {ecp_risk_action(ecp)}")
-print(f"💧 가용 수분량 (AWC): {awc:.2f} m³/m³ → {awc_risk_action(awc)}")
-print(f"📉 수분 스트레스 지수 (SWSI): {swsi:.2f} → {swsi_risk_action(swsi)}")
-print(f"⏱️ 스트레스 지속 비율: {stress_ratio:.1f}% → {stress_time_risk_action(stress_ratio)}")
+# # 결과 출력
+# print("📈 분석 결과 및 작물 관리 조치")
+# print(f"🌱 공극수 EC (ECp): {ecp:.2f} mS/cm → {ecp_risk_action(ecp)}")
+# print(f"💧 가용 수분량 (AWC): {awc:.2f} m³/m³ → {awc_risk_action(awc)}")
+# print(f"📉 수분 스트레스 지수 (SWSI): {swsi:.2f} → {swsi_risk_action(swsi)}")
+# print(f"⏱️ 스트레스 지속 비율: {stress_ratio:.1f}% → {stress_time_risk_action(stress_ratio)}")
