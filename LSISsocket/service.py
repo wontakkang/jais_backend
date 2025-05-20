@@ -40,8 +40,8 @@ def tcp_client_servive(client):
             for group in block.get('groups'):
                 for var in group.get('variables'):
                     lsmt = LSIS_MappingTool(**var)
-                    start_address = group.get('start_address')
-                    end_address = group.get('start_address')+group.get('size_byte')
+                    start_address = group.get('start_address')*2
+                    end_address = group.get('start_address')*2+group.get('size_byte')
                     data = lsmt.repack(response.values[start_address:end_address])
                     block_value.update({
                         f"{group['name']}:{group['project_id']}:{block['parentId']}:{block['blockId']}:{group['group_id']}:{var['name']}": 

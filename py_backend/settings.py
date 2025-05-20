@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +28,9 @@ SECRET_KEY = 'django-insecure-v8!q%w9s+^x70(w(p21#s62tjse6qi75oigk=oke+&6qfuhngx
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+EXCLUDE_AUTH_IP = os.environ.get('EXCLUDE_AUTH_IP', '192.168.0.63')
 
 # ASGI 설정
 ASGI_APPLICATION = 'py_backend.asgi.application'
@@ -57,6 +62,7 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'utils.custom_permission.CustomIPAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
@@ -74,6 +80,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    'py_backend.middleware.ExcludeJWTForLocalhostMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -186,3 +193,4 @@ LOGGING = {
         },
     },
 }
+

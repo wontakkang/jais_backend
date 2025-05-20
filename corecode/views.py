@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from .models import *
 from .serializers import *
+from utils.custom_permission import LocalhostBypassPermission
 
 # ProjectViewSet
 # -------------------
@@ -161,7 +162,7 @@ class UserPreferencesView(APIView):
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class UserMeView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [LocalhostBypassPermission]
 
     def get(self, request):
         user = request.user
