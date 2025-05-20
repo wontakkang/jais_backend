@@ -48,7 +48,7 @@ async def lifespan(app: FastAPI):
             list(client.cron.keys())[0],
             **list(client.cron.values())[0],
             replace_existing=True,
-            max_instances=1,
+            max_instances=5,
             misfire_grace_time=15,
             coalesce=False,
             executor='default',
@@ -56,6 +56,8 @@ async def lifespan(app: FastAPI):
         )
         time.sleep(0.111)
     scheduler.start()
+    print("Scheduler started.")
+    sched_logger.info("Scheduler started.")
     try:
         yield
     finally:
