@@ -1,0 +1,340 @@
+[2025-05-20 08:30:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 08:34:48] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 08:55:31] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 08:59:06] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 08:59:12] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:00:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:00:46] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:00:46] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:00:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:00:51] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:00:51] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:00:56] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:00:56] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:00:56] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:01] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:01] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:06] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:06] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:06] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:11] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:11] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:11] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:16] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:16] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:21] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:21] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:26] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:26] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:31] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:31] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:31] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:36] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:36] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:41] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:41] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:46] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:46] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:51] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:51] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:01:56] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:56] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:01:56] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:02:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:01] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:01] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:02:06] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:06] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:06] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:02:11] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:11] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:11] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:02:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:16] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:16] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:02:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:21] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:21] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:02:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:26] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:02:26] [ERROR] tcp_client_servive : cannot access local variable 'start_address' where it is not associated with a value
+[2025-05-20 09:02:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:03:15] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:05:22] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:06:38] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:06:53] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:06:53] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:06:53] [ERROR] tcp_client_servive : 'dict' object has no attribute 'blockId'
+[2025-05-20 09:06:58] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:06:58] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:06:58] [ERROR] tcp_client_servive : 'dict' object has no attribute 'blockId'
+[2025-05-20 09:07:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:09:30] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:15:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:53:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:53:55] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:53:55] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:00] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:00] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:00] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:05] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:05] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:05] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:10] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:10] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:10] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:15] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:15] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:15] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:20] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:20] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:20] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:25] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:25] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:25] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:30] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:30] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:30] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:35] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:35] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:54:35] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:54:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:55:17] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:55:17] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:55:17] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:55:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:57:15] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:57:15] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:57:15] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:57:20] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:57:20] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 09:57:20] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 09:57:27] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:00:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:00:47] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:03:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:03:56] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:04:27] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:04:45] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:04:58] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:05:32] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:05:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:18] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:18] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:18] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:07:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:23] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:23] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:07:28] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:28] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:28] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:07:33] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:33] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:33] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:07:43] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:43] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:43] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:07:48] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:48] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:48] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:07:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:55] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:07:55] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:03] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:03] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:03] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:08] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:08] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:08] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:16] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:16] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:21] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:21] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:26] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:26] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:31] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:31] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:31] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:36] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:36] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:36] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:41] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:41] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:41] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:46] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:46] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:51] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:51] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:08:56] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:56] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:08:56] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:01] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:01] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:01] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:06] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:06] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:06] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:11] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:11] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:11] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:16] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:16] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:16] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:21] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:21] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:29] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:29] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:34] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:34] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:34] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:45] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:45] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:45] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:50] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:50] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:50] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:09:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:55] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:09:55] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:10:18] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:18] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:18] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:10:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:23] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:23] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:10:28] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:28] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:28] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:10:33] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:33] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:33] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:10:38] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:38] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:38] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:10:43] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:43] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:43] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:10:48] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:48] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:10:48] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:11:14] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:11:15] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:11:15] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:11:19] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:11:19] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:11:19] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:11:37] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:11:37] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:11:37] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:11:42] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:11:42] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:11:42] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:14:39] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:39] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:39] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:14:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:44] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:44] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:14:49] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:49] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:49] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:14:54] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:54] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:54] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:14:59] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:59] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:14:59] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:04] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:04] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:04] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:09] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:09] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:09] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:14] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:14] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:14] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:19] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:19] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:19] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:24] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:24] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:24] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:29] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:29] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:34] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:34] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:34] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:39] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:39] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:39] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:44] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:44] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:44] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:49] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:49] [ERROR] cancel to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:15:49] [ERROR] tcp_client_servive : 'NoneType' object has no attribute 'get'
+[2025-05-20 10:15:58] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:16:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:19:57] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:20:20] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:20:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:21:59] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:22:18] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:22:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:23:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:37:11] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:37:22] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:37:28] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:37:34] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:38:05] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:38:23] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:39:09] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:44:06] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:44:13] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:44:19] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:44:42] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:44:55] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:45:06] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:48:00] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:48:10] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:49:29] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:49:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:50:12] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:50:38] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:50:51] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:51:07] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:51:21] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:51:35] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:51:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:52:40] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:52:46] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:53:08] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:53:24] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:55:00] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:55:20] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:55:32] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:56:17] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:56:25] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 10:58:59] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 17:56:26] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 17:56:47] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 17:57:22] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 17:57:37] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 17:57:43] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-05-20 17:57:50] [INFO] try to connect LSIS client => 192.168.0.198:2004
