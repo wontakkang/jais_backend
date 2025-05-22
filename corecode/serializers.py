@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from utils.calculation import all_dict
 
 class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
@@ -137,6 +138,12 @@ class DeviceSerializer(serializers.ModelSerializer):
         return instance
 
 class DataNameSerializer(serializers.ModelSerializer):
+    use_method = serializers.ChoiceField(
+        choices=[(k, k) for k in all_dict.keys()],
+        required=False,
+        allow_blank=True,
+        allow_null=True
+    )
     class Meta:
         model = DataName
         fields = '__all__'

@@ -1,14 +1,22 @@
-from .dew_point import *
-from .soil_sensor_analysis import *
+from . import dew_point
+from . import soil_sensor_analysis
 
-# 동적으로 __all__ 확장
 all_list = []
-if hasattr(dew_point, "__all__"):
-    all_list.extend(dew_point.__all__)
-if hasattr(soil_sensor_analysis, "__all__"):
-    all_list.extend(soil_sensor_analysis.__all__)
+all_dict = {}
+
+# dew_point.calculation_methods 활용
+if hasattr(dew_point, "calculation_methods"):
+    all_list.extend(dew_point.calculation_methods.keys())
+    all_dict.update(dew_point.calculation_methods)
+
+# soil_sensor_analysis도 동일하게 처리
+if hasattr(soil_sensor_analysis, "calculation_methods"):
+    all_list.extend(soil_sensor_analysis.calculation_methods.keys())
+    all_dict.update(soil_sensor_analysis.calculation_methods)
+
 __all__ = all_list
 
+# all_dict: {함수명: 함수객체} 형태로 제공
 
 # 편차 제어, 임계값 제어, pid제어, 조건부 제어, 시간대별 제어, 타이머 제어(1시간에 5분 가동)
 # ON_OFF Time Control, 

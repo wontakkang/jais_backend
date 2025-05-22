@@ -200,7 +200,14 @@ class DataNameViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        data = {str(obj.id): {"id": obj.id, "name": obj.name, "unit": obj.unit, "ctype": obj.ctype, "dtype": obj.dtype, "unit": obj.unit, "attributes":obj.attributes, "use_method":obj.use_method} for obj in queryset}
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def dict(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        data = {str(obj['id']): obj for obj in serializer.data}
         return Response(data)
 
 class ControlValueViewSet(viewsets.ModelViewSet):

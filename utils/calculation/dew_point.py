@@ -102,3 +102,8 @@ print(result_환기)
 표면 온도 ≤ (환기 후 이슬점 온도) → 환기 후 결로 위험 예측
 
 """
+
+calculation_methods = {
+    "dew_point": dew_point,
+    "condensation_risk": condensation_risk,
+}

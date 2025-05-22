@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from utils.calculation import __all__ as calculation_methods
-
+from utils.calculation import all_dict
 class User(AbstractUser):
     groups = models.ManyToManyField(
         'auth.Group',
@@ -122,10 +122,50 @@ class DataName(models.Model):
         blank=True,
         choices=[(method, method) for method in calculation_methods]
     )
+    method_description = models.CharField(max_length=200, null=True, blank=True)
+    method_args_desc = models.JSONField(default=dict, null=True, blank=True, help_text="계산 메서드 인자 설명")
+    method_result = models.JSONField(default=dict, null=True, blank=True, help_text="계산 메서드 인자 설명")
     
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        # use_method가 지정되어 있으면 함수 설명, 인자, 인자설명 자동 저장
+        if self.use_method:
+            import inspect
+            import re
+            from utils.calculation import all_dict
+            func = all_dict.get(self.use_method)
+            if func:
+                # docstring에서 :param ...: 부분 제거
+                doc = inspect.getdoc(func)
+                return_desc = None
+                if doc:
+                    # return 설명 추출
+                    return_match = re.search(r"\n:return: ([^\n]+)", doc)
+                    if return_match:
+                        return_desc = return_match.group(1).strip()
+                    doc = re.sub(r"\n:param [^:]+:.*?(?=\n|$)", "", doc)
+                    doc = re.sub(r"\n:return:.*?(?=\n|$)", "", doc)
+                    doc = doc.strip()
+                self.method_description = doc
+                # 인자 설명 파싱 (key-value JSON 형태)
+                param_desc = {}
+                if inspect.getdoc(func):
+                    matches = re.findall(r":param (\w+): ([^\n]+)", inspect.getdoc(func))
+                    for name, desc in matches:
+                        param_desc[name] = desc
+                self.method_args_desc = param_desc  # key-value JSON 저장
+                self.method_result = return_desc
+            else:
+                self.method_description = None
+                self.method_args_desc = {}
+                self.method_result = None
+        else:
+            self.method_description = None
+            self.method_args_desc = {}
+            self.method_result = None
+        super().save(*args, **kwargs)
 
 class Variable(models.Model):
     """

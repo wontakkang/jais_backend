@@ -26,21 +26,44 @@
 # -------------------------
 
 def calculate_ECp(EC_bulk, vwc, x=1.6):
-    """공극수 전기전도도 ECp 계산 (mS/cm)"""
+    """
+    공극수 전기전도도 ECp 계산 (mS/cm)
+    :param EC_bulk: 벌크 전기전도도 (mS/cm)
+    :param vwc: 함수율 (m³/m³)
+    :param x: 보정 계수[Option] (1.3~2.0, 센서에 따라 조정)
+    :return: 공극수 전기전도도 (mS/cm)
+    """
     return EC_bulk / (vwc ** x) if vwc > 0 else 0
 
 def calculate_AWC(vwc, wilting_point=0.10):
-    """가용 수분량 계산 (m³/m³ 기준). 일반적으로 wilting_point는 10%"""
+    """
+    가용 수분량 계산 (m³/m³ 기준). 일반적으로 wilting_point는 10%
+    :param vwc: 함수율 (m³/m³)
+    :param wilting_point: 시들기 시작하는 함수율[Option] (m³/m³)
+    :return: 가용 수분량 (m³/m³)
+    """
     return max(0, vwc - wilting_point)
 
 def calculate_SWSI(psi_kpa, field_capacity=-33, wilting_point=-1500):
-    """수분 스트레스 지수 (0=양호 ~ 1=시듦)"""
+    """
+    수분 스트레스 지수 (0=양호 ~ 1=시듦)
+    :param psi_kpa: 수분장력 (kPa)
+    :param field_capacity: 필드 용적 (kPa) [Option] (기본값: -33 kPa)
+    :param wilting_point: 시들기 시작하는 수분장력 (kPa) [Option] (기본값: -1500 kPa)
+    :return: 수분 스트레스 지수 (0~1)
+    """
     if psi_kpa > field_capacity:
         return (psi_kpa - field_capacity) / (wilting_point - field_capacity)
     return 0
 
 def calculate_stress_time_ratio(psi_kpa_list, threshold_kpa=100):
-    """누적 수분 스트레스 시간 비율 계산 (%)"""
+    """
+    누적 수분 스트레스 시간 비율 계산 (%)
+    :param  psi_kpa_list: 수분장력(kPa) 리스트
+    :param threshold_kpa: 스트레스 기준 kPa (기본값: 100 kPa)
+    :return: 스트레스 비율 (%)
+    """
+    
     if not psi_kpa_list:
         return 0
     stress_count = sum(1 for psi in psi_kpa_list if psi > threshold_kpa)
@@ -89,6 +112,14 @@ def stress_time_risk_action(ratio):
         return "🔶 경고: 생육 저하 가능성, 관수 주기 재조정 필요"
     else:
         return "🔴 고위험: 지속 스트레스 상태, 전략적 관수 필요"
+
+
+calculation_methods = {
+    "calculate_ECp": calculate_ECp,
+    "calculate_AWC": calculate_AWC,
+    "calculate_SWSI": calculate_SWSI,
+    "calculate_stress_time_ratio": calculate_stress_time_ratio,
+}
 
 # -------------------------
 # ▶ 예시 입력 데이터

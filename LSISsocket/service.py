@@ -79,6 +79,7 @@ def tcp_client_servive(client):
                     updated_at=now
                 )
     except Exception as e:
+        now = timezone.now()
         for sock in sockets:
             if sock.params.host == client.host and sock.params.port == client.port:
                 if not is_existed:
@@ -93,13 +94,3 @@ def tcp_client_servive(client):
             "message": str(e),
         }
         object = SocketClientStatus.objects.get_or_create(config_id=client.id)
-        if object:
-            SocketClientStatus.objects.filter(
-                config_id=client.id
-            ).update(
-                detailedStatus=detailed_status,
-                error_code=detailed_status.get("ERROR CODE", 0),
-                message=detailed_status.get("message", ""),
-                values=socketValue,
-                updated_at=now
-            )
