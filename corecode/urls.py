@@ -13,6 +13,8 @@ router.register(r'user-manuals', UserManualViewSet)
 router.register(r'data-names', DataNameViewSet)
 router.register(r'control-values', ControlValueViewSet)
 router.register(r'control-value-histories', ControlValueHistoryViewSet)
+router.register(r'calc-variables', CalcVariableViewSet)
+router.register(r'calc-groups', CalcGroupViewSet)
 
 urlpatterns = router.urls
 

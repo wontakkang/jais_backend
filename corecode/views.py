@@ -11,7 +11,6 @@ from rest_framework.renderers import JSONRenderer
 from .models import *
 from .serializers import *
 from utils.custom_permission import LocalhostBypassPermission
-
 # ProjectViewSet
 # -------------------
 # 이 ViewSet은 프로젝트의 CRUD, 버전 백업(코멘트와 함께 저장), 특정 버전으로의 복구(롤백) 기능을 제공합니다.
@@ -223,3 +222,11 @@ class ControlValueHistoryViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_value']
     ordering_fields = ['id', 'created_at', 'control_at']
+
+class CalcVariableViewSet(viewsets.ModelViewSet):
+    queryset = CalcVariable.objects.all()
+    serializer_class = CalcVariableSerializer
+
+class CalcGroupViewSet(viewsets.ModelViewSet):
+    queryset = CalcGroup.objects.all()
+    serializer_class = CalcGroupSerializer

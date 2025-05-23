@@ -25,80 +25,6 @@ class UserPreference(models.Model):
     def __str__(self):
         return f"{self.user.username}의 환경설정"
 
-class Project(models.Model):
-    """
-    프로젝트의 메타 정보(이름, 설명 등)를 관리하는 모델
-    여러 개의 ProjectVersion(버전)과 1:N 관계
-    """
-    name = models.CharField(max_length=100, unique=True)
-    description = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    device = models.ForeignKey('Device', on_delete=models.CASCADE, null=True, blank=True, related_name='projects')
-    
-    def save(self, *args, **kwargs):
-        is_new = self.pk is None
-        super().save(*args, **kwargs)
-        if is_new:
-            # 프로젝트 생성 시 version=0.0인 ProjectVersion 자동 생성
-            if not self.versions.filter(version='0.0').exists():
-                ProjectVersion.objects.create(project=self, version='0.0', note='프로젝트 최초 생성')
-
-    def __str__(self):
-        return self.name
-
-class ProjectVersion(models.Model):
-    """
-    프로젝트의 특정 시점(스냅샷, 버전)을 관리하는 모델
-    각 버전은 여러 MemoryGroup(메모리 그룹)과 1:N 관계
-    복구(restore_version) 메서드로 해당 버전의 상태로 프로젝트를 복원할 수 있음
-    """
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='versions')
-    version = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    note = models.TextField(blank=True)
-
-    class Meta:
-        unique_together = ('project', 'version')
-        ordering = ['-updated_at']
-
-    def __str__(self):
-        return f"{self.project.name} - v{self.version}"
-
-    def restore_version(self):
-        self.save()  # 이 줄이 있으면 updated_at이 현재 시각으로 갱신됨
-
-class MemoryGroup(models.Model):
-    """
-    프로젝트 버전(ProjectVersion)에 속한 메모리 그룹을 관리하는 모델
-    각 그룹은 여러 Variable(변수)과 1:N 관계
-    """
-    project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='groups')
-    group_id = models.PositiveIntegerField()
-    name = models.CharField(max_length=50, null=True, blank=True)
-    start_device = models.CharField(max_length=2, choices=[('D', 'D'), ('M', 'M'), ('R', 'R')])
-    start_address = models.PositiveIntegerField()
-    size_byte = models.PositiveIntegerField()
-
-    class Meta:
-        unique_together = ('project_version', 'group_id')
-        ordering = ['group_id']
-
-    def __str__(self):
-        return f"Group {self.group_id} ({self.start_device}{self.start_address})"
-
-
-class UserManual(models.Model):
-    """
-    사용자 취급 메뉴얼 정보를 관리하는 모델
-    """
-    title = models.CharField(max_length=200, help_text="메뉴얼 제목")
-    file = models.FileField(upload_to='user_manuals/', help_text="사용자 취급 메뉴얼 파일")
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
 
 #데이터 명칭, 단위
 class DataName(models.Model):
@@ -166,29 +92,19 @@ class DataName(models.Model):
             self.method_args_desc = {}
             self.method_result = None
         super().save(*args, **kwargs)
+    
 
-class Variable(models.Model):
+class UserManual(models.Model):
     """
-    메모리 그룹(MemoryGroup)에 속한 개별 변수 정보를 관리하는 모델
+    사용자 취급 메뉴얼 정보를 관리하는 모델
     """
-    group = models.ForeignKey(MemoryGroup, on_delete=models.CASCADE, related_name='variables')
-    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='data_names')
-    device = models.CharField(max_length=2)
-    address = models.FloatField()
-    data_type = models.CharField(max_length=10, choices=[
-        ('bool', 'bool'), ('sint', 'sint'), ('usint', 'usint'), ('int', 'int'),
-        ('uint', 'uint'), ('dint', 'dint'), ('udint', 'udint'), ('float', 'float'),
-    ])
-    unit = models.CharField(max_length=10, choices=[
-        ('bit', 'bit'), ('byte', 'byte'), ('word', 'word'), ('dword', 'dword'),
-    ])
-    scale = models.FloatField(default=1)
-    offset = models.PositiveIntegerField(default=0)
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+    title = models.CharField(max_length=200, help_text="메뉴얼 제목")
+    file = models.FileField(upload_to='user_manuals/', help_text="사용자 취급 메뉴얼 파일")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} ({self.device}{self.address})"
-
+        return self.title
+    
 class DeviceCompany(models.Model):
     """
     장비 제조사 정보를 관리하는 모델
@@ -260,4 +176,127 @@ class ControlValueHistory(models.Model):
 
     def __str__(self):
         return f"{self.command_name}({self.target}) - {self.status}"
+        
+class Project(models.Model):
+    """
+    프로젝트의 메타 정보(이름, 설명 등)를 관리하는 모델
+    여러 개의 ProjectVersion(버전)과 1:N 관계
+    """
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    device = models.ForeignKey('Device', on_delete=models.CASCADE, null=True, blank=True, related_name='projects')
+    
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new:
+            # 프로젝트 생성 시 version=0.0인 ProjectVersion 자동 생성
+            if not self.versions.filter(version='0.0').exists():
+                ProjectVersion.objects.create(project=self, version='0.0', note='프로젝트 최초 생성')
 
+    def __str__(self):
+        return self.name
+
+class ProjectVersion(models.Model):
+    """
+    프로젝트의 특정 시점(스냅샷, 버전)을 관리하는 모델
+    각 버전은 여러 MemoryGroup(메모리 그룹)과 1:N 관계
+    복구(restore_version) 메서드로 해당 버전의 상태로 프로젝트를 복원할 수 있음
+    """
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='versions')
+    version = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    note = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = ('project', 'version')
+        ordering = ['-updated_at']
+
+    def __str__(self):
+        return f"{self.project.name} - v{self.version}"
+
+    def restore_version(self):
+        self.save()  # 이 줄이 있으면 updated_at이 현재 시각으로 갱신됨
+
+class MemoryGroup(models.Model):
+    """
+    프로젝트 버전(ProjectVersion)에 속한 메모리 그룹을 관리하는 모델
+    각 그룹은 여러 Variable(변수)과 1:N 관계
+    """
+    project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='groups')
+    group_id = models.PositiveIntegerField()
+    name = models.CharField(max_length=50, null=True, blank=True)
+    start_device = models.CharField(max_length=2, choices=[('D', 'D'), ('M', 'M'), ('R', 'R')])
+    start_address = models.PositiveIntegerField()
+    size_byte = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ('project_version', 'group_id')
+        ordering = ['group_id']
+
+    def __str__(self):
+        return f"Group {self.group_id} ({self.start_device}{self.start_address})"
+
+
+class Variable(models.Model):
+    """
+    메모리 그룹(MemoryGroup)에 속한 개별 변수 정보를 관리하는 모델
+    """
+    group = models.ForeignKey(MemoryGroup, on_delete=models.CASCADE, related_name='variables')
+    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='data_names')
+    device = models.CharField(max_length=2)
+    address = models.FloatField()
+    data_type = models.CharField(max_length=10, choices=[
+        ('bool', 'bool'), ('sint', 'sint'), ('usint', 'usint'), ('int', 'int'),
+        ('uint', 'uint'), ('dint', 'dint'), ('udint', 'udint'), ('float', 'float'),
+    ])
+    unit = models.CharField(max_length=10, choices=[
+        ('bit', 'bit'), ('byte', 'byte'), ('word', 'word'), ('dword', 'dword'),
+    ])
+    scale = models.FloatField(default=1)
+    offset = models.PositiveIntegerField(default=0)
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name} ({self.device}{self.address})"
+
+
+class CalcGroup(models.Model):
+    """
+    프로젝트 버전(ProjectVersion)에 속한 계산 그룹을 관리하는 모델
+    """
+    project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='calc_groups')
+    group_id = models.PositiveIntegerField()
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('project_version', 'group_id')
+        ordering = ['group_id']
+
+    def __str__(self):
+        return f"CalcGroup {self.group_id} ({self.name})"
+
+
+class CalcVariable(models.Model):
+    """
+    계산식에 사용되는 변수 정보를 관리하는 모델
+    """
+    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='variables')
+    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='calc_variables')
+    unit = models.CharField(max_length=20, blank=True)
+    use_method = models.CharField(
+        max_length=40,
+        null=True,
+        blank=True,
+        choices=[(method, method) for method in calculation_methods]
+    )
+    description = models.TextField(blank=True, null=True)
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    return_from = models.CharField(max_length=100, blank=True, help_text="이 변수가 어떤 함수의 return 값인지 함수명 저장")
+
+    def __str__(self):
+        return f"{self.name}"

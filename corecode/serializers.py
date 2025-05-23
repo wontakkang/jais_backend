@@ -2,6 +2,17 @@ from rest_framework import serializers
 from .models import *
 from utils.calculation import all_dict
 
+
+class CalcVariableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CalcVariable
+        fields = '__all__'
+
+class CalcGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CalcGroup
+        fields = '__all__'
+        
 class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
     group = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -62,11 +73,12 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
 
 class ProjectVersionSerializer(serializers.ModelSerializer):
     groups = MemoryGroupSerializer(many=True, read_only=False)
+    calc_groups = CalcGroupSerializer(many=True, read_only=True)
 
     class Meta:
         model = ProjectVersion
         fields = [
-            'id', 'project', 'version', 'created_at', 'updated_at', 'note', 'groups'
+            'id', 'project', 'version', 'created_at', 'updated_at', 'note', 'groups', 'calc_groups'
         ]
 
     def create(self, validated_data):
