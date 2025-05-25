@@ -1,11 +1,12 @@
 import math
 
-def dew_point(temp_c, rh_percent):
+def dew_point(temp_c: float, rh_percent: float) -> float:
     """
     이슬점 온도를 섭씨로 계산합니다.
-    :param temp_c: 섭씨 온도
-    :param rh_percent: 상대 습도 (퍼센트)
-    :return: 섭씨로 된 이슬점 온도
+    :param temp_c: 섭씨 온도 (float 또는 int)
+    :param rh_percent: 상대 습도 (퍼센트, float 또는 int)
+    :return: 섭씨로 된 이슬점 온도 (float)
+    :rtype: float
     """
     a = 17.62
     b = 243.12
@@ -13,13 +14,14 @@ def dew_point(temp_c, rh_percent):
     td = (b * gamma) / (a - gamma)
     return td
 
-def condensation_risk(surface_temp_c, air_temp_c, rh_percent):
+def condensation_risk(surface_temp_c: float, air_temp_c: float, rh_percent: float) -> dict:
     """
     표면 온도, 공기 온도, 상대 습도를 기반으로 결로 위험도를 계산합니다.
-    :param surface_temp_c: 표면 온도 (°C)
-    :param air_temp_c: 공기 온도 (°C)
-    :param rh_percent: 상대 습도 (%)
+    :param surface_temp_c: 표면 온도 (°C, float 또는 int)
+    :param air_temp_c: 공기 온도 (°C, float 또는 int)
+    :param rh_percent: 상대 습도 (%, float 또는 int)
     :return: 이슬점 온도, 온도 차 (ΔT), 위험 등급, 위험 레벨을 포함하는 딕셔너리
+    :rtype: dict
     """
     td = dew_point(air_temp_c, rh_percent)
     delta_t = surface_temp_c - td

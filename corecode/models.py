@@ -51,46 +51,77 @@ class DataName(models.Model):
     method_description = models.CharField(max_length=200, null=True, blank=True)
     method_args_desc = models.JSONField(default=dict, null=True, blank=True, help_text="계산 메서드 인자 설명")
     method_result = models.JSONField(default=dict, null=True, blank=True, help_text="계산 메서드 인자 설명")
+    method_args_type = models.JSONField(default=dict, null=True, blank=True, help_text="계산 메서드 인자 타입")
+    method_result_type = models.CharField(max_length=100, null=True, blank=True, help_text="계산 메서드 반환 타입")
     
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
-        # use_method가 지정되어 있으면 함수 설명, 인자, 인자설명 자동 저장
+        # use_method가 지정되어 있으면 함수 설명, 인자, 인자설명, 반환 형식 자동 저장
         if self.use_method:
             import inspect
             import re
             from utils.calculation import all_dict
             func = all_dict.get(self.use_method)
             if func:
-                # docstring에서 :param ...: 부분 제거
                 doc = inspect.getdoc(func)
                 return_desc = None
+                return_type = None
                 if doc:
                     # return 설명 추출
                     return_match = re.search(r"\n:return: ([^\n]+)", doc)
                     if return_match:
                         return_desc = return_match.group(1).strip()
+                    # 반환 타입 추출 (예: :rtype: float)
+                    rtype_match = re.search(r"\n:rtype: ([^\n]+)", doc)
+                    if rtype_match:
+                        return_type = rtype_match.group(1).strip()
                     doc = re.sub(r"\n:param [^:]+:.*?(?=\n|$)", "", doc)
                     doc = re.sub(r"\n:return:.*?(?=\n|$)", "", doc)
+                    doc = re.sub(r"\n:rtype:.*?(?=\n|$)", "", doc)
                     doc = doc.strip()
                 self.method_description = doc
-                # 인자 설명 파싱 (key-value JSON 형태)
                 param_desc = {}
+                param_type = {}
                 if inspect.getdoc(func):
                     matches = re.findall(r":param (\w+): ([^\n]+)", inspect.getdoc(func))
                     for name, desc in matches:
                         param_desc[name] = desc
+                    # 타입 힌트 추출
+                    sig = inspect.signature(func)
+                    for name, param in sig.parameters.items():
+                        if param.annotation != inspect.Parameter.empty:
+                            ann = param.annotation
+                            # float, int는 number로 통일, list/str 등은 그대로
+                            if hasattr(ann, '__name__'):
+                                if ann.__name__ in ('float', 'int'):
+                                    param_type[name] = 'number'
+                                else:
+                                    param_type[name] = ann.__name__
+                            else:
+                                ann_str = str(ann)
+                                if ann_str in ("<class 'float'>", "<class 'int'>"):
+                                    param_type[name] = 'number'
+                                else:
+                                    param_type[name] = ann_str
                 self.method_args_desc = param_desc  # key-value JSON 저장
+                self.method_args_type = param_type  # key-type JSON 저장 (필드 필요)
                 self.method_result = return_desc
+                # 반환 타입은 예외 없이 원본 그대로 저장
+                self.method_result_type = return_type
             else:
                 self.method_description = None
                 self.method_args_desc = {}
+                self.method_args_type = {}
                 self.method_result = None
+                self.method_result_type = None
         else:
             self.method_description = None
             self.method_args_desc = {}
+            self.method_args_type = {}
             self.method_result = None
+            self.method_result_type = None
         super().save(*args, **kwargs)
     
 

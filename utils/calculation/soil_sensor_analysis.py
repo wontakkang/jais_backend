@@ -25,43 +25,47 @@
 # ▶ 계산 함수 정의
 # -------------------------
 
-def calculate_ECp(EC_bulk, vwc, x=1.6):
+def calculate_ECp(EC_bulk: float, vwc: float, x: float = 1.6) -> float:
     """
     공극수 전기전도도 ECp 계산 (mS/cm)
-    :param EC_bulk: 벌크 전기전도도 (mS/cm)
-    :param vwc: 함수율 (m³/m³)
-    :param x: 보정 계수[Option] (1.3~2.0, 센서에 따라 조정)
-    :return: 공극수 전기전도도 (mS/cm)
+    :param EC_bulk: 벌크 전기전도도 (mS/cm, float 또는 int)
+    :param vwc: 함수율 (m³/m³, float 또는 int)
+    :param x: 보정 계수[Option] (1.3~2.0, float, 센서에 따라 조정)
+    :return: 공극수 전기전도도 (mS/cm, float)
+    :rtype: float
     """
     return EC_bulk / (vwc ** x) if vwc > 0 else 0
 
-def calculate_AWC(vwc, wilting_point=0.10):
+def calculate_AWC(vwc: float, wilting_point: float = 0.10) -> float:
     """
     가용 수분량 계산 (m³/m³ 기준). 일반적으로 wilting_point는 10%
-    :param vwc: 함수율 (m³/m³)
-    :param wilting_point: 시들기 시작하는 함수율[Option] (m³/m³)
-    :return: 가용 수분량 (m³/m³)
+    :param vwc: 함수율 (m³/m³, float 또는 int)
+    :param wilting_point: 시들기 시작하는 함수율[Option] (m³/m³, float 또는 int)
+    :return: 가용 수분량 (m³/m³, float)
+    :rtype: float
     """
     return max(0, vwc - wilting_point)
 
-def calculate_SWSI(psi_kpa, field_capacity=-33, wilting_point=-1500):
+def calculate_SWSI(psi_kpa: float, field_capacity: float = -33, wilting_point: float = -1500) -> float:
     """
     수분 스트레스 지수 (0=양호 ~ 1=시듦)
-    :param psi_kpa: 수분장력 (kPa)
-    :param field_capacity: 필드 용적 (kPa) [Option] (기본값: -33 kPa)
-    :param wilting_point: 시들기 시작하는 수분장력 (kPa) [Option] (기본값: -1500 kPa)
-    :return: 수분 스트레스 지수 (0~1)
+    :param psi_kpa: 수분장력 (kPa, float 또는 int)
+    :param field_capacity: 필드 용적 (kPa) [Option] (기본값: -33 kPa, float 또는 int)
+    :param wilting_point: 시들기 시작하는 수분장력 (kPa) [Option] (기본값: -1500 kPa, float 또는 int)
+    :return: 수분 스트레스 지수 (0~1, float)
+    :rtype: float
     """
     if psi_kpa > field_capacity:
         return (psi_kpa - field_capacity) / (wilting_point - field_capacity)
     return 0
 
-def calculate_stress_time_ratio(psi_kpa_list, threshold_kpa=100):
+def calculate_stress_time_ratio(psi_kpa_list: list, threshold_kpa: float = 100) -> float:
     """
     누적 수분 스트레스 시간 비율 계산 (%)
-    :param  psi_kpa_list: 수분장력(kPa) 리스트
-    :param threshold_kpa: 스트레스 기준 kPa (기본값: 100 kPa)
-    :return: 스트레스 비율 (%)
+    :param psi_kpa_list: 수분장력(kPa) 리스트 (list of float or int)
+    :param threshold_kpa: 스트레스 기준 kPa (기본값: 100 kPa, float 또는 int)
+    :return: 스트레스 비율 (%), float
+    :rtype: float
     """
     
     if not psi_kpa_list:
