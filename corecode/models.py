@@ -318,16 +318,15 @@ class CalcVariable(models.Model):
     """
     group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='variables')
     name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='calc_variables')
-    unit = models.CharField(max_length=20, blank=True)
+    data_type = models.CharField(max_length=20, blank=True)
     use_method = models.CharField(
         max_length=40,
         null=True,
         blank=True,
         choices=[(method, method) for method in calculation_methods]
     )
-    description = models.TextField(blank=True, null=True)
     args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    return_from = models.CharField(max_length=100, blank=True, help_text="이 변수가 어떤 함수의 return 값인지 함수명 저장")
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
 
     def __str__(self):
         return f"{self.name}"

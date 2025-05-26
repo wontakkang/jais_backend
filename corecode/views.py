@@ -74,28 +74,6 @@ class ProjectVersionViewSet(viewsets.ModelViewSet):
     filterset_fields = ['project__id']
     ordering_fields = ['id', 'updated_at']
 
-class MemoryGroupViewSet(viewsets.ModelViewSet):
-    """
-    메모리 그룹(MemoryGroup) 모델의 CRUD API를 제공합니다.
-    각 MemoryGroup 인스턴스는 project_version 필드를 통해 ProjectVersion(프로젝트 버전)과 연결되어 있습니다.
-    """
-    queryset = MemoryGroup.objects.all()
-    serializer_class = MemoryGroupSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['project_version__id']
-    ordering_fields = ['id']
-
-class VariableViewSet(viewsets.ModelViewSet):
-    """
-    변수(Variable) 모델의 CRUD API를 제공합니다.
-    각 Variable 인스턴스는 group 필드를 통해 MemoryGroup과 연결되어 있습니다.
-    """
-    queryset = Variable.objects.all()
-    serializer_class = VariableSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['group__id']
-    ordering_fields = ['id']
-
 class ProjectVersionRestoreView(APIView):
     def post(self, request, project_id, version):
         try:
@@ -223,10 +201,38 @@ class ControlValueHistoryViewSet(viewsets.ModelViewSet):
     filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_value']
     ordering_fields = ['id', 'created_at', 'control_at']
 
+class VariableViewSet(viewsets.ModelViewSet):
+    """
+    변수(Variable) 모델의 CRUD API를 제공합니다.
+    각 Variable 인스턴스는 group 필드를 통해 MemoryGroup과 연결되어 있습니다.
+    """
+    queryset = Variable.objects.all()
+    serializer_class = VariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__id']
+    ordering_fields = ['id']
+    
+class MemoryGroupViewSet(viewsets.ModelViewSet):
+    """
+    메모리 그룹(MemoryGroup) 모델의 CRUD API를 제공합니다.
+    각 MemoryGroup 인스턴스는 project_version 필드를 통해 ProjectVersion(프로젝트 버전)과 연결되어 있습니다.
+    """
+    queryset = MemoryGroup.objects.all()
+    serializer_class = MemoryGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['project_version__id']
+    ordering_fields = ['id']
+    
 class CalcVariableViewSet(viewsets.ModelViewSet):
     queryset = CalcVariable.objects.all()
     serializer_class = CalcVariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__id']
+    ordering_fields = ['id']
 
 class CalcGroupViewSet(viewsets.ModelViewSet):
     queryset = CalcGroup.objects.all()
     serializer_class = CalcGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['project_version__id']
+    ordering_fields = ['id']

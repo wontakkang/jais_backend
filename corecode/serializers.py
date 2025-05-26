@@ -4,14 +4,56 @@ from utils.calculation import all_dict
 
 
 class CalcVariableSerializer(serializers.ModelSerializer):
+    group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False)
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        allow_empty=True,
+        required=False,
+        default=list
+    )
+
     class Meta:
         model = CalcVariable
-        fields = '__all__'
+        fields = [
+            'id', 'group', 'name', 'data_type', 'use_method', 'args', 'attributes'
+        ]
+
+    def create(self, validated_data):
+        attributes = validated_data.pop('attributes', [])
+        instance = CalcVariable.objects.create(**validated_data)
+        instance.attributes = attributes
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        attributes = validated_data.pop('attributes', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if attributes is not None:
+            instance.attributes = attributes
+        instance.save()
+        return instance
 
 class CalcGroupSerializer(serializers.ModelSerializer):
+    variables = CalcVariableSerializer(many=True, read_only=False, required=False)
+    project_version = serializers.PrimaryKeyRelatedField(read_only=True)
+    project_id = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = CalcGroup
-        fields = '__all__'
+        fields = [
+            'id', 'name', 'project_version', 'project_id', 'group_id', 'variables'
+        ]
+
+    def get_project_id(self, obj):
+        return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
+
+    def create(self, validated_data):
+        variables_data = validated_data.pop('variables', [])
+        group = CalcGroup.objects.create(**validated_data)
+        for var_data in variables_data:
+            CalcVariable.objects.create(group=group, **var_data)
+        return group
         
 class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
