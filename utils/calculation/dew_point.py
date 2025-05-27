@@ -2,7 +2,7 @@ import math
 
 def dew_point(temp_c: float, rh_percent: float) -> float:
     """
-    이슬점 온도를 섭씨로 계산합니다.
+    이슬점 온도를 Magnus 공식을 이용하여 섭씨로 계산합니다.
     :param temp_c: 섭씨 온도 (float 또는 int)
     :param rh_percent: 상대 습도 (퍼센트, float 또는 int)
     :return: 섭씨로 된 이슬점 온도 (float)
