@@ -247,6 +247,8 @@ class LSIS_MappingTool:
         elif len(self.position) == 1:
             #byte 이상 사이즈 변환
             repack_data = data[self.position[0]: self.position[0] + self.address_size]
+            if len(repack_data) == 0:
+                return f"유효한 주소가 아닙니다."
             result = self.repack_byte(format=self.format, data=repack_data)
             result = self.read_scale(result)
             result = self.minmax(result)
@@ -271,7 +273,26 @@ class LSIS_MappingTool:
         return bits
 
     def repack_byte(self, format=None, data=list):
+        """
+        주어진 데이터 리스트를 지정된 포맷(format)으로 재포장하여 언패킹한 값을 반환합니다.
+
+        Args:
+            format (str): struct 모듈에서 사용하는 포맷 문자열입니다. 예: '>H', '<I' 등.
+            data (list): 바이트 값(정수)들의 리스트입니다.
+
+        Returns:
+            언패킹된 값. 포맷에 따라 정수, 튜플 등 다양한 타입이 될 수 있습니다.
+
+        예시:
+            repack_byte('>H', [0x12, 0x34])  # 0x1234를 반환
+
+        주의:
+            - data의 길이와 format이 일치해야 합니다.
+            - struct 모듈을 사용하므로, 포맷 문자열에 대한 이해가 필요합니다.
+        """
         before_size = len(data)
+        if before_size == 0:
+            raise ValueError("repack_byte: data length is 0")
         after_size = struct.calcsize(format)
         return struct.unpack(format, struct.pack(''.join('B' * before_size), *data))[0]
 

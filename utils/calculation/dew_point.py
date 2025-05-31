@@ -8,6 +8,8 @@ def dew_point(temp_c: float, rh_percent: float) -> float:
     :return: 섭씨로 된 이슬점 온도 (float)
     :rtype: float
     """
+    if rh_percent <= 0 or rh_percent > 100:
+        rh_percent = 0.1  # 상대 습도가 0 이하이거나 100을 초과하면 0.1로 설정
     a = 17.62
     b = 243.12
     gamma = (a * temp_c) / (b + temp_c) + math.log(rh_percent / 100.0)
