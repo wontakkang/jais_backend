@@ -3,6 +3,58 @@ from .models import *
 from utils.calculation import all_dict
 
 
+class ControlLogicSerializer(serializers.ModelSerializer):
+    group = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), required=False)
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        allow_empty=True,
+        required=False,
+        default=list
+    )
+
+    class Meta:
+        model = ControlLogic
+        fields = [
+            'id', 'group', 'name', 'data_type', 'use_method', 'args', 'attributes'
+        ]
+
+    def create(self, validated_data):
+        attributes = validated_data.pop('attributes', [])
+        instance = ControlLogic.objects.create(**validated_data)
+        instance.attributes = attributes
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        attributes = validated_data.pop('attributes', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if attributes is not None:
+            instance.attributes = attributes
+        instance.save()
+        return instance
+
+class ControlGroupSerializer(serializers.ModelSerializer):
+    logics = ControlLogicSerializer(many=True, read_only=False, required=False)
+    project_version = serializers.PrimaryKeyRelatedField(read_only=True)
+    project_id = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = ControlGroup
+        fields = [
+            'id', 'name', 'project_version', 'project_id', 'group_id', 'description', 'logics'
+        ]
+
+    def get_project_id(self, obj):
+        return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
+
+    def create(self, validated_data):
+        logics_data = validated_data.pop('logics', [])
+        group = ControlGroup.objects.create(**validated_data)
+        for logic_data in logics_data:
+            ControlLogic.objects.create(group=group, **logic_data)
+        return group
+
 class CalcVariableSerializer(serializers.ModelSerializer):
     group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False)
     attributes = serializers.ListField(
@@ -116,11 +168,12 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
 class ProjectVersionSerializer(serializers.ModelSerializer):
     groups = MemoryGroupSerializer(many=True, read_only=False)
     calc_groups = CalcGroupSerializer(many=True, read_only=True)
+    control_groups = ControlGroupSerializer(many=True, read_only=True) # 추가
 
     class Meta:
         model = ProjectVersion
         fields = [
-            'id', 'project', 'version', 'created_at', 'updated_at', 'note', 'groups', 'calc_groups'
+            'id', 'project', 'version', 'created_at', 'updated_at', 'note', 'groups', 'calc_groups', 'control_groups' # control_groups 추가
         ]
 
     def create(self, validated_data):

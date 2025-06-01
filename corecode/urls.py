@@ -15,6 +15,8 @@ router.register(r'control-values', ControlValueViewSet)
 router.register(r'control-value-histories', ControlValueHistoryViewSet)
 router.register(r'calc-variables', CalcVariableViewSet)
 router.register(r'calc-groups', CalcGroupViewSet)
+router.register(r'control-logics', ControlLogicViewSet)
+router.register(r'control-groups', ControlGroupViewSet)
 
 urlpatterns = router.urls
 

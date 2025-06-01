@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from utils.calculation import __all__ as calculation_methods
 from utils.calculation import all_dict
+from utils.control import __all__ as control_methods
+from utils.control import all_dict as control_methods_dict
 class User(AbstractUser):
     groups = models.ManyToManyField(
         'auth.Group',
@@ -46,7 +48,7 @@ class DataName(models.Model):
         max_length=40,
         null=True,
         blank=True,
-        choices=[(method, method) for method in calculation_methods]
+        choices=[(method, method) for method in calculation_methods + control_methods]
     )
     method_description = models.CharField(max_length=200, null=True, blank=True)
     method_args_desc = models.JSONField(default=dict, null=True, blank=True, help_text="계산 메서드 인자 설명")
@@ -62,8 +64,10 @@ class DataName(models.Model):
         if self.use_method:
             import inspect
             import re
-            from utils.calculation import all_dict
-            func = all_dict.get(self.use_method)
+            from utils.calculation import all_dict as calculation_all_dict
+            from utils.control import all_dict as control_all_dict
+            
+            func = calculation_all_dict.get(self.use_method) or control_all_dict.get(self.use_method)
             if func:
                 doc = inspect.getdoc(func)
                 return_desc = None
@@ -324,6 +328,43 @@ class CalcVariable(models.Model):
         null=True,
         blank=True,
         choices=[(method, method) for method in calculation_methods]
+    )
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class ControlGroup(models.Model):
+    """
+    프로젝트 버전(ProjectVersion)에 속한 제어 그룹을 관리하는 모델
+    """
+    project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='control_groups')
+    group_id = models.PositiveIntegerField()
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('project_version', 'group_id')
+        ordering = ['group_id']
+
+    def __str__(self):
+        return f"ControlGroup {self.group_id} ({self.name})"
+
+
+class ControlLogic(models.Model):
+    """
+    제어 로직에 사용되는 변수 정보를 관리하는 모델
+    """
+    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='logics')
+    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='control_logics')
+    data_type = models.CharField(max_length=20, blank=True)
+    use_method = models.CharField(
+        max_length=40,
+        null=True,
+        blank=True,
+        choices=[(method, method) for method in control_methods]
     )
     args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")

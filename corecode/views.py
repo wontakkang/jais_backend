@@ -236,3 +236,17 @@ class CalcGroupViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['project_version__id']
     ordering_fields = ['id']
+
+class ControlLogicViewSet(viewsets.ModelViewSet):
+    queryset = ControlLogic.objects.all()
+    serializer_class = ControlLogicSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__id']
+    ordering_fields = ['id']
+
+class ControlGroupViewSet(viewsets.ModelViewSet):
+    queryset = ControlGroup.objects.all()
+    serializer_class = ControlGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['project_version__id']
+    ordering_fields = ['id']
