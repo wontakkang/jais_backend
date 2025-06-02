@@ -241,7 +241,14 @@ class ControlLogicViewSet(viewsets.ModelViewSet):
     queryset = ControlLogic.objects.all()
     serializer_class = ControlLogicSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['group__id']
+    filterset_fields = ['use_method'] # group__id 제거, 모델 필드에 맞게 수정
+    ordering_fields = ['id']
+
+class ControlVariableViewSet(viewsets.ModelViewSet):
+    queryset = ControlVariable.objects.all()
+    serializer_class = ControlVariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__id', 'name__id', 'applied_logic__id']
     ordering_fields = ['id']
 
 class ControlGroupViewSet(viewsets.ModelViewSet):

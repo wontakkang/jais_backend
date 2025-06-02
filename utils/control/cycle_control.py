@@ -12,7 +12,6 @@ def set_cycle_control(
     한 사이클은 cycle_time_minutes로 구성됩니다.
     사이클 시작 후 on_time_minutes 동안 ON 상태입니다.
     그 후 off_time_minutes 동안 OFF 상태입니다.
-    그 이후 사이클이 끝날 때까지 (즉, cycle_time_minutes - on_time_minutes - off_time_minutes 동안) OFF 상태입니다.
 
     :param cycle_time_minutes: 전체 사이클 주기 (분), 0보다 커야 함.
     :param on_time_minutes: 사이클 내 켜짐 시간 (분), 0 이상.

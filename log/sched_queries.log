@@ -1,316 +1,202 @@
-[2025-06-01 13:11:31] [INFO] Scheduler started.
-[2025-06-01 13:11:31] [INFO] Scheduler started.
-[2025-06-01 13:38:30] [INFO] Closing sockets...
-[2025-06-01 13:38:30] [INFO] Scheduler shut down.
-[2025-06-01 13:38:31] [INFO] Scheduler started.
-[2025-06-01 13:38:31] [INFO] Scheduler started.
-[2025-06-01 13:38:44] [INFO] Closing sockets...
-[2025-06-01 13:38:44] [INFO] Scheduler shut down.
-[2025-06-01 13:38:45] [INFO] Scheduler started.
-[2025-06-01 13:38:45] [INFO] Scheduler started.
-[2025-06-01 13:39:07] [INFO] Closing sockets...
-[2025-06-01 13:39:07] [INFO] Scheduler shut down.
-[2025-06-01 13:39:07] [INFO] Scheduler started.
-[2025-06-01 13:39:07] [INFO] Scheduler started.
-[2025-06-01 13:39:09] [INFO] Closing sockets...
-[2025-06-01 13:39:09] [INFO] Scheduler shut down.
-[2025-06-01 13:39:09] [INFO] Scheduler started.
-[2025-06-01 13:39:10] [INFO] Scheduler started.
-[2025-06-01 13:39:10] [INFO] Closing sockets...
-[2025-06-01 13:39:10] [INFO] Scheduler shut down.
-[2025-06-01 13:39:11] [INFO] Scheduler started.
-[2025-06-01 13:39:11] [INFO] Scheduler started.
-[2025-06-01 13:39:11] [INFO] Closing sockets...
-[2025-06-01 13:39:11] [INFO] Scheduler shut down.
-[2025-06-01 13:39:12] [INFO] Scheduler started.
-[2025-06-01 13:39:12] [INFO] Scheduler started.
-[2025-06-01 13:39:12] [INFO] Closing sockets...
-[2025-06-01 13:39:12] [INFO] Scheduler shut down.
-[2025-06-01 13:39:13] [INFO] Scheduler started.
-[2025-06-01 13:39:13] [INFO] Scheduler started.
-[2025-06-01 13:39:15] [INFO] Closing sockets...
-[2025-06-01 13:39:15] [INFO] Scheduler shut down.
-[2025-06-01 13:39:15] [INFO] Scheduler started.
-[2025-06-01 13:39:15] [INFO] Scheduler started.
-[2025-06-01 13:39:17] [INFO] Closing sockets...
-[2025-06-01 13:39:17] [INFO] Scheduler shut down.
-[2025-06-01 13:39:18] [INFO] Scheduler started.
-[2025-06-01 13:39:18] [INFO] Scheduler started.
-[2025-06-01 13:39:18] [INFO] Closing sockets...
-[2025-06-01 13:39:18] [INFO] Scheduler shut down.
-[2025-06-01 13:39:19] [INFO] Scheduler started.
-[2025-06-01 13:39:19] [INFO] Scheduler started.
-[2025-06-01 13:42:40] [INFO] Closing sockets...
-[2025-06-01 13:42:40] [INFO] Scheduler shut down.
-[2025-06-01 13:42:40] [INFO] Scheduler started.
-[2025-06-01 13:42:41] [INFO] Scheduler started.
-[2025-06-01 13:42:52] [INFO] Closing sockets...
-[2025-06-01 13:42:52] [INFO] Scheduler shut down.
-[2025-06-01 13:42:53] [INFO] Scheduler started.
-[2025-06-01 13:42:53] [INFO] Scheduler started.
-[2025-06-01 13:43:02] [INFO] Closing sockets...
-[2025-06-01 13:43:02] [INFO] Scheduler shut down.
-[2025-06-01 13:43:03] [INFO] Scheduler started.
-[2025-06-01 13:43:03] [INFO] Scheduler started.
-[2025-06-01 13:43:13] [INFO] Closing sockets...
-[2025-06-01 13:43:13] [INFO] Scheduler shut down.
-[2025-06-01 13:43:14] [INFO] Scheduler started.
-[2025-06-01 13:43:14] [INFO] Scheduler started.
-[2025-06-01 13:43:22] [INFO] Closing sockets...
-[2025-06-01 13:43:22] [INFO] Scheduler shut down.
-[2025-06-01 13:43:23] [INFO] Scheduler started.
-[2025-06-01 13:43:23] [INFO] Scheduler started.
-[2025-06-01 13:43:37] [INFO] Closing sockets...
-[2025-06-01 13:43:37] [INFO] Scheduler shut down.
-[2025-06-01 13:43:38] [INFO] Scheduler started.
-[2025-06-01 13:43:38] [INFO] Scheduler started.
-[2025-06-01 13:43:45] [INFO] Closing sockets...
-[2025-06-01 13:43:45] [INFO] Scheduler shut down.
-[2025-06-01 13:43:45] [INFO] Scheduler started.
-[2025-06-01 13:43:45] [INFO] Scheduler started.
-[2025-06-01 13:44:09] [INFO] Closing sockets...
-[2025-06-01 13:44:09] [INFO] Scheduler shut down.
-[2025-06-01 13:44:10] [INFO] Scheduler started.
-[2025-06-01 13:44:10] [INFO] Scheduler started.
-[2025-06-01 13:44:18] [INFO] Closing sockets...
-[2025-06-01 13:44:18] [INFO] Scheduler shut down.
-[2025-06-01 13:44:19] [INFO] Scheduler started.
-[2025-06-01 13:44:19] [INFO] Scheduler started.
-[2025-06-01 13:44:26] [INFO] Closing sockets...
-[2025-06-01 13:44:26] [INFO] Scheduler shut down.
-[2025-06-01 13:44:27] [INFO] Scheduler started.
-[2025-06-01 13:44:27] [INFO] Scheduler started.
-[2025-06-01 13:44:55] [INFO] Closing sockets...
-[2025-06-01 13:44:55] [INFO] Scheduler shut down.
-[2025-06-01 13:44:56] [INFO] Scheduler started.
-[2025-06-01 13:44:56] [INFO] Scheduler started.
-[2025-06-01 13:44:57] [INFO] Closing sockets...
-[2025-06-01 13:44:57] [INFO] Scheduler shut down.
-[2025-06-01 13:44:58] [INFO] Scheduler started.
-[2025-06-01 13:44:58] [INFO] Scheduler started.
-[2025-06-01 13:44:59] [INFO] Closing sockets...
-[2025-06-01 13:44:59] [INFO] Scheduler shut down.
-[2025-06-01 13:44:59] [INFO] Scheduler started.
-[2025-06-01 13:44:59] [INFO] Scheduler started.
-[2025-06-01 13:45:04] [INFO] Closing sockets...
-[2025-06-01 13:45:04] [INFO] Scheduler shut down.
-[2025-06-01 13:45:05] [INFO] Scheduler started.
-[2025-06-01 13:45:05] [INFO] Scheduler started.
-[2025-06-01 13:45:05] [INFO] Closing sockets...
-[2025-06-01 13:45:05] [INFO] Scheduler shut down.
-[2025-06-01 13:45:06] [INFO] Scheduler started.
-[2025-06-01 13:45:06] [INFO] Scheduler started.
-[2025-06-01 13:45:07] [INFO] Closing sockets...
-[2025-06-01 13:45:07] [INFO] Scheduler shut down.
-[2025-06-01 13:45:07] [INFO] Scheduler started.
-[2025-06-01 13:45:08] [INFO] Scheduler started.
-[2025-06-01 13:45:08] [INFO] Closing sockets...
-[2025-06-01 13:45:08] [INFO] Scheduler shut down.
-[2025-06-01 13:45:09] [INFO] Scheduler started.
-[2025-06-01 13:45:09] [INFO] Scheduler started.
-[2025-06-01 13:45:10] [INFO] Closing sockets...
-[2025-06-01 13:45:10] [INFO] Scheduler shut down.
-[2025-06-01 13:45:10] [INFO] Scheduler started.
-[2025-06-01 13:45:10] [INFO] Scheduler started.
-[2025-06-01 13:48:04] [INFO] Closing sockets...
-[2025-06-01 13:48:04] [INFO] Scheduler shut down.
-[2025-06-01 13:48:05] [INFO] Scheduler started.
-[2025-06-01 13:48:05] [INFO] Scheduler started.
-[2025-06-01 13:48:13] [INFO] Closing sockets...
-[2025-06-01 13:48:13] [INFO] Scheduler shut down.
-[2025-06-01 13:48:14] [INFO] Scheduler started.
-[2025-06-01 13:48:14] [INFO] Scheduler started.
-[2025-06-01 13:48:14] [INFO] Closing sockets...
-[2025-06-01 13:48:14] [INFO] Scheduler shut down.
-[2025-06-01 13:48:15] [INFO] Scheduler started.
-[2025-06-01 13:48:15] [INFO] Scheduler started.
-[2025-06-01 13:48:19] [INFO] Closing sockets...
-[2025-06-01 13:48:19] [INFO] Scheduler shut down.
-[2025-06-01 13:48:20] [INFO] Scheduler started.
-[2025-06-01 13:48:20] [INFO] Scheduler started.
-[2025-06-01 13:48:20] [INFO] Closing sockets...
-[2025-06-01 13:48:20] [INFO] Scheduler shut down.
-[2025-06-01 13:48:20] [INFO] Scheduler started.
-[2025-06-01 13:48:21] [INFO] Scheduler started.
-[2025-06-01 13:51:23] [INFO] Closing sockets...
-[2025-06-01 13:51:23] [INFO] Scheduler shut down.
-[2025-06-01 13:51:23] [INFO] Scheduler started.
-[2025-06-01 13:51:23] [INFO] Scheduler started.
-[2025-06-01 13:54:51] [INFO] Closing sockets...
-[2025-06-01 13:54:51] [INFO] Scheduler shut down.
-[2025-06-01 13:54:52] [INFO] Scheduler started.
-[2025-06-01 13:54:52] [INFO] Scheduler started.
-[2025-06-01 13:54:53] [INFO] Closing sockets...
-[2025-06-01 13:54:53] [INFO] Scheduler shut down.
-[2025-06-01 13:54:54] [INFO] Scheduler started.
-[2025-06-01 13:54:54] [INFO] Scheduler started.
-[2025-06-01 13:58:13] [INFO] Closing sockets...
-[2025-06-01 13:58:13] [INFO] Scheduler shut down.
-[2025-06-01 13:58:14] [INFO] Scheduler started.
-[2025-06-01 13:58:14] [INFO] Scheduler started.
-[2025-06-01 13:58:27] [INFO] Closing sockets...
-[2025-06-01 13:58:27] [INFO] Scheduler shut down.
-[2025-06-01 13:58:28] [INFO] Scheduler started.
-[2025-06-01 13:58:28] [INFO] Scheduler started.
-[2025-06-01 13:58:33] [INFO] Closing sockets...
-[2025-06-01 13:58:33] [INFO] Scheduler shut down.
-[2025-06-01 13:58:34] [INFO] Scheduler started.
-[2025-06-01 13:58:34] [INFO] Scheduler started.
-[2025-06-01 13:58:39] [INFO] Closing sockets...
-[2025-06-01 13:58:39] [INFO] Scheduler shut down.
-[2025-06-01 13:58:40] [INFO] Scheduler started.
-[2025-06-01 13:58:40] [INFO] Scheduler started.
-[2025-06-01 13:59:26] [INFO] Closing sockets...
-[2025-06-01 13:59:26] [INFO] Scheduler shut down.
-[2025-06-01 13:59:26] [INFO] Scheduler started.
-[2025-06-01 13:59:27] [INFO] Scheduler started.
-[2025-06-01 14:01:39] [INFO] Closing sockets...
-[2025-06-01 14:01:39] [INFO] Scheduler shut down.
-[2025-06-01 14:01:40] [INFO] Scheduler started.
-[2025-06-01 14:01:40] [INFO] Scheduler started.
-[2025-06-01 14:03:32] [INFO] Closing sockets...
-[2025-06-01 14:03:32] [INFO] Scheduler shut down.
-[2025-06-01 14:03:33] [INFO] Scheduler started.
-[2025-06-01 14:03:33] [INFO] Scheduler started.
-[2025-06-01 14:05:17] [INFO] Closing sockets...
-[2025-06-01 14:05:17] [INFO] Scheduler shut down.
-[2025-06-01 14:05:18] [INFO] Scheduler started.
-[2025-06-01 14:05:18] [INFO] Scheduler started.
-[2025-06-01 14:05:19] [INFO] Closing sockets...
-[2025-06-01 14:05:19] [INFO] Scheduler shut down.
-[2025-06-01 14:05:19] [INFO] Scheduler started.
-[2025-06-01 14:05:19] [INFO] Scheduler started.
-[2025-06-01 14:10:55] [INFO] Closing sockets...
-[2025-06-01 14:10:55] [INFO] Scheduler shut down.
-[2025-06-01 14:10:56] [INFO] Scheduler started.
-[2025-06-01 14:10:56] [INFO] Scheduler started.
-[2025-06-01 14:13:12] [INFO] Closing sockets...
-[2025-06-01 14:13:12] [INFO] Scheduler shut down.
-[2025-06-01 14:13:13] [INFO] Scheduler started.
-[2025-06-01 14:13:13] [INFO] Scheduler started.
-[2025-06-01 14:13:47] [INFO] Closing sockets...
-[2025-06-01 14:13:47] [INFO] Scheduler shut down.
-[2025-06-01 14:13:48] [INFO] Scheduler started.
-[2025-06-01 14:13:48] [INFO] Scheduler started.
-[2025-06-01 14:16:23] [INFO] Closing sockets...
-[2025-06-01 14:16:23] [INFO] Scheduler shut down.
-[2025-06-01 14:16:24] [INFO] Scheduler started.
-[2025-06-01 14:16:24] [INFO] Scheduler started.
-[2025-06-01 14:18:16] [INFO] Closing sockets...
-[2025-06-01 14:18:16] [INFO] Scheduler shut down.
-[2025-06-01 14:18:17] [INFO] Scheduler started.
-[2025-06-01 14:18:17] [INFO] Scheduler started.
-[2025-06-01 14:18:19] [INFO] Closing sockets...
-[2025-06-01 14:18:19] [INFO] Scheduler shut down.
-[2025-06-01 14:18:19] [INFO] Scheduler started.
-[2025-06-01 14:18:19] [INFO] Scheduler started.
-[2025-06-01 14:18:21] [INFO] Closing sockets...
-[2025-06-01 14:18:21] [INFO] Scheduler shut down.
-[2025-06-01 14:18:22] [INFO] Scheduler started.
-[2025-06-01 14:18:22] [INFO] Scheduler started.
-[2025-06-01 14:18:27] [INFO] Closing sockets...
-[2025-06-01 14:18:27] [INFO] Scheduler shut down.
-[2025-06-01 14:18:27] [INFO] Scheduler started.
-[2025-06-01 14:18:27] [INFO] Scheduler started.
-[2025-06-01 14:18:32] [INFO] Closing sockets...
-[2025-06-01 14:18:32] [INFO] Scheduler shut down.
-[2025-06-01 14:18:33] [INFO] Scheduler started.
-[2025-06-01 14:18:33] [INFO] Scheduler started.
-[2025-06-01 14:18:33] [INFO] Closing sockets...
-[2025-06-01 14:18:33] [INFO] Scheduler shut down.
-[2025-06-01 14:18:34] [INFO] Scheduler started.
-[2025-06-01 14:18:34] [INFO] Scheduler started.
-[2025-06-01 14:18:34] [INFO] Closing sockets...
-[2025-06-01 14:18:34] [INFO] Scheduler shut down.
-[2025-06-01 14:18:35] [INFO] Scheduler started.
-[2025-06-01 14:18:35] [INFO] Scheduler started.
-[2025-06-01 14:18:35] [INFO] Closing sockets...
-[2025-06-01 14:18:35] [INFO] Scheduler shut down.
-[2025-06-01 14:18:36] [INFO] Scheduler started.
-[2025-06-01 14:18:36] [INFO] Scheduler started.
-[2025-06-01 14:18:39] [INFO] Closing sockets...
-[2025-06-01 14:18:39] [INFO] Scheduler shut down.
-[2025-06-01 14:18:40] [INFO] Scheduler started.
-[2025-06-01 14:18:40] [INFO] Scheduler started.
-[2025-06-01 14:18:42] [INFO] Closing sockets...
-[2025-06-01 14:18:42] [INFO] Scheduler shut down.
-[2025-06-01 14:18:43] [INFO] Scheduler started.
-[2025-06-01 14:18:43] [INFO] Scheduler started.
-[2025-06-01 14:22:26] [INFO] Closing sockets...
-[2025-06-01 14:22:26] [INFO] Scheduler shut down.
-[2025-06-01 14:22:26] [INFO] Scheduler started.
-[2025-06-01 14:22:26] [INFO] Scheduler started.
-[2025-06-01 14:23:38] [INFO] Closing sockets...
-[2025-06-01 14:23:38] [INFO] Scheduler shut down.
-[2025-06-01 14:23:39] [INFO] Scheduler started.
-[2025-06-01 14:23:39] [INFO] Scheduler started.
-[2025-06-01 14:24:24] [INFO] Closing sockets...
-[2025-06-01 14:24:24] [INFO] Scheduler shut down.
-[2025-06-01 14:24:25] [INFO] Scheduler started.
-[2025-06-01 14:24:25] [INFO] Scheduler started.
-[2025-06-01 14:39:34] [INFO] Closing sockets...
-[2025-06-01 14:39:34] [INFO] Scheduler shut down.
-[2025-06-01 14:39:35] [INFO] Scheduler started.
-[2025-06-01 14:39:35] [INFO] Scheduler started.
-[2025-06-01 14:39:47] [INFO] Closing sockets...
-[2025-06-01 14:39:47] [INFO] Scheduler shut down.
-[2025-06-01 14:39:48] [INFO] Scheduler started.
-[2025-06-01 14:39:48] [INFO] Scheduler started.
-[2025-06-01 14:40:10] [INFO] Closing sockets...
-[2025-06-01 14:40:10] [INFO] Scheduler shut down.
-[2025-06-01 14:40:11] [INFO] Scheduler started.
-[2025-06-01 14:40:11] [INFO] Scheduler started.
-[2025-06-01 14:41:17] [INFO] Closing sockets...
-[2025-06-01 14:41:17] [INFO] Scheduler shut down.
-[2025-06-01 14:41:17] [INFO] Scheduler started.
-[2025-06-01 14:41:18] [INFO] Scheduler started.
-[2025-06-01 14:56:33] [INFO] Closing sockets...
-[2025-06-01 14:56:33] [INFO] Scheduler shut down.
-[2025-06-01 14:56:35] [INFO] Scheduler started.
-[2025-06-01 14:56:35] [INFO] Scheduler started.
-[2025-06-01 14:56:37] [INFO] Closing sockets...
-[2025-06-01 14:56:37] [INFO] Scheduler shut down.
-[2025-06-01 14:56:38] [INFO] Scheduler started.
-[2025-06-01 14:56:38] [INFO] Scheduler started.
-[2025-06-01 15:04:21] [INFO] Closing sockets...
-[2025-06-01 15:04:21] [INFO] Scheduler shut down.
-[2025-06-01 15:04:22] [INFO] Scheduler started.
-[2025-06-01 15:04:22] [INFO] Scheduler started.
-[2025-06-01 15:04:29] [INFO] Closing sockets...
-[2025-06-01 15:04:29] [INFO] Scheduler shut down.
-[2025-06-01 15:04:29] [INFO] Scheduler started.
-[2025-06-01 15:04:30] [INFO] Scheduler started.
-[2025-06-01 15:04:32] [INFO] Closing sockets...
-[2025-06-01 15:04:32] [INFO] Scheduler shut down.
-[2025-06-01 15:04:33] [INFO] Scheduler started.
-[2025-06-01 15:04:33] [INFO] Scheduler started.
-[2025-06-01 15:05:35] [INFO] Closing sockets...
-[2025-06-01 15:05:35] [INFO] Scheduler shut down.
-[2025-06-01 15:05:36] [INFO] Scheduler started.
-[2025-06-01 15:05:36] [INFO] Scheduler started.
-[2025-06-01 15:05:40] [INFO] Closing sockets...
-[2025-06-01 15:05:40] [INFO] Scheduler shut down.
-[2025-06-01 15:05:41] [INFO] Scheduler started.
-[2025-06-01 15:05:41] [INFO] Scheduler started.
-[2025-06-01 15:05:42] [INFO] Closing sockets...
-[2025-06-01 15:05:42] [INFO] Scheduler shut down.
-[2025-06-01 15:05:43] [INFO] Scheduler started.
-[2025-06-01 15:05:43] [INFO] Scheduler started.
-[2025-06-01 15:05:44] [INFO] Closing sockets...
-[2025-06-01 15:05:44] [INFO] Scheduler shut down.
-[2025-06-01 15:05:45] [INFO] Scheduler started.
-[2025-06-01 15:05:45] [INFO] Scheduler started.
-[2025-06-01 15:05:46] [INFO] Closing sockets...
-[2025-06-01 15:05:46] [INFO] Scheduler shut down.
-[2025-06-01 15:05:46] [INFO] Scheduler started.
-[2025-06-01 15:05:47] [INFO] Scheduler started.
-[2025-06-01 15:05:51] [INFO] Closing sockets...
-[2025-06-01 15:05:51] [INFO] Scheduler shut down.
-[2025-06-01 15:05:52] [INFO] Scheduler started.
-[2025-06-01 15:05:52] [INFO] Scheduler started.
-[2025-06-01 15:05:53] [INFO] Closing sockets...
-[2025-06-01 15:05:53] [INFO] Scheduler shut down.
-[2025-06-01 15:05:53] [INFO] Scheduler started.
-[2025-06-01 15:05:53] [INFO] Scheduler started.
-[2025-06-01 16:49:51] [INFO] Closing sockets...
-[2025-06-01 16:49:51] [INFO] Scheduler shut down.
+[2025-06-02 09:25:12] [INFO] Scheduler started.
+[2025-06-02 09:25:12] [INFO] Scheduler started.
+[2025-06-02 13:57:58] [INFO] Closing sockets...
+[2025-06-02 13:57:58] [INFO] Scheduler shut down.
+[2025-06-02 13:57:58] [INFO] Scheduler started.
+[2025-06-02 13:57:58] [INFO] Scheduler started.
+[2025-06-02 13:59:12] [INFO] Closing sockets...
+[2025-06-02 13:59:12] [INFO] Scheduler shut down.
+[2025-06-02 13:59:13] [INFO] Scheduler started.
+[2025-06-02 13:59:13] [INFO] Scheduler started.
+[2025-06-02 14:00:02] [INFO] Closing sockets...
+[2025-06-02 14:00:02] [INFO] Scheduler shut down.
+[2025-06-02 14:00:03] [INFO] Scheduler started.
+[2025-06-02 14:00:03] [INFO] Scheduler started.
+[2025-06-02 14:00:43] [INFO] Closing sockets...
+[2025-06-02 14:00:43] [INFO] Scheduler shut down.
+[2025-06-02 14:00:44] [INFO] Scheduler started.
+[2025-06-02 14:00:44] [INFO] Scheduler started.
+[2025-06-02 14:02:33] [INFO] Closing sockets...
+[2025-06-02 14:02:33] [INFO] Scheduler shut down.
+[2025-06-02 14:02:34] [INFO] Scheduler started.
+[2025-06-02 14:02:34] [INFO] Scheduler started.
+[2025-06-02 14:02:43] [INFO] Closing sockets...
+[2025-06-02 14:02:43] [INFO] Scheduler shut down.
+[2025-06-02 14:02:44] [INFO] Scheduler started.
+[2025-06-02 14:02:44] [INFO] Scheduler started.
+[2025-06-02 14:02:47] [INFO] Closing sockets...
+[2025-06-02 14:02:47] [INFO] Scheduler shut down.
+[2025-06-02 14:02:47] [INFO] Scheduler started.
+[2025-06-02 14:02:48] [INFO] Scheduler started.
+[2025-06-02 14:06:23] [INFO] Closing sockets...
+[2025-06-02 14:06:23] [INFO] Scheduler shut down.
+[2025-06-02 14:06:23] [INFO] Scheduler started.
+[2025-06-02 14:06:24] [INFO] Scheduler started.
+[2025-06-02 14:06:25] [INFO] Closing sockets...
+[2025-06-02 14:06:25] [INFO] Scheduler shut down.
+[2025-06-02 14:06:25] [INFO] Scheduler started.
+[2025-06-02 14:06:26] [INFO] Scheduler started.
+[2025-06-02 14:06:28] [INFO] Closing sockets...
+[2025-06-02 14:06:28] [INFO] Scheduler shut down.
+[2025-06-02 14:06:29] [INFO] Scheduler started.
+[2025-06-02 14:06:29] [INFO] Scheduler started.
+[2025-06-02 14:06:31] [INFO] Closing sockets...
+[2025-06-02 14:06:31] [INFO] Scheduler shut down.
+[2025-06-02 14:06:32] [INFO] Scheduler started.
+[2025-06-02 14:06:32] [INFO] Scheduler started.
+[2025-06-02 14:08:28] [INFO] Closing sockets...
+[2025-06-02 14:08:28] [INFO] Scheduler shut down.
+[2025-06-02 14:08:28] [INFO] Scheduler started.
+[2025-06-02 14:08:28] [INFO] Scheduler started.
+[2025-06-02 14:11:12] [INFO] Closing sockets...
+[2025-06-02 14:11:12] [INFO] Scheduler shut down.
+[2025-06-02 14:11:13] [INFO] Scheduler started.
+[2025-06-02 14:11:13] [INFO] Scheduler started.
+[2025-06-02 14:13:11] [INFO] Closing sockets...
+[2025-06-02 14:13:11] [INFO] Scheduler shut down.
+[2025-06-02 14:13:12] [INFO] Scheduler started.
+[2025-06-02 14:13:12] [INFO] Scheduler started.
+[2025-06-02 14:15:35] [INFO] Closing sockets...
+[2025-06-02 14:15:35] [INFO] Scheduler shut down.
+[2025-06-02 14:15:36] [INFO] Scheduler started.
+[2025-06-02 14:15:36] [INFO] Scheduler started.
+[2025-06-02 14:15:47] [INFO] Closing sockets...
+[2025-06-02 14:15:47] [INFO] Scheduler shut down.
+[2025-06-02 14:15:48] [INFO] Scheduler started.
+[2025-06-02 14:15:48] [INFO] Scheduler started.
+[2025-06-02 14:16:06] [INFO] Closing sockets...
+[2025-06-02 14:16:06] [INFO] Scheduler shut down.
+[2025-06-02 14:16:07] [INFO] Scheduler started.
+[2025-06-02 14:16:07] [INFO] Scheduler started.
+[2025-06-02 14:16:19] [INFO] Closing sockets...
+[2025-06-02 14:16:19] [INFO] Scheduler shut down.
+[2025-06-02 14:16:20] [INFO] Scheduler started.
+[2025-06-02 14:16:20] [INFO] Scheduler started.
+[2025-06-02 14:18:57] [INFO] Closing sockets...
+[2025-06-02 14:18:57] [INFO] Scheduler shut down.
+[2025-06-02 14:18:58] [INFO] Scheduler started.
+[2025-06-02 14:18:58] [INFO] Scheduler started.
+[2025-06-02 14:19:05] [INFO] Closing sockets...
+[2025-06-02 14:19:05] [INFO] Scheduler shut down.
+[2025-06-02 14:19:06] [INFO] Scheduler started.
+[2025-06-02 14:19:06] [INFO] Scheduler started.
+[2025-06-02 14:20:20] [INFO] Closing sockets...
+[2025-06-02 14:20:20] [INFO] Scheduler shut down.
+[2025-06-02 14:20:21] [INFO] Scheduler started.
+[2025-06-02 14:20:21] [INFO] Scheduler started.
+[2025-06-02 14:22:42] [INFO] Closing sockets...
+[2025-06-02 14:22:42] [INFO] Scheduler shut down.
+[2025-06-02 14:22:42] [INFO] Scheduler started.
+[2025-06-02 14:22:43] [INFO] Scheduler started.
+[2025-06-02 14:22:54] [INFO] Closing sockets...
+[2025-06-02 14:22:54] [INFO] Scheduler shut down.
+[2025-06-02 14:22:55] [INFO] Scheduler started.
+[2025-06-02 14:22:55] [INFO] Scheduler started.
+[2025-06-02 14:22:59] [INFO] Closing sockets...
+[2025-06-02 14:22:59] [INFO] Scheduler shut down.
+[2025-06-02 14:23:00] [INFO] Scheduler started.
+[2025-06-02 14:23:00] [INFO] Scheduler started.
+[2025-06-02 14:27:02] [INFO] Closing sockets...
+[2025-06-02 14:27:02] [INFO] Scheduler shut down.
+[2025-06-02 14:27:03] [INFO] Scheduler started.
+[2025-06-02 14:27:03] [INFO] Scheduler started.
+[2025-06-02 14:27:05] [INFO] Closing sockets...
+[2025-06-02 14:27:05] [INFO] Scheduler shut down.
+[2025-06-02 14:27:05] [INFO] Scheduler started.
+[2025-06-02 14:27:05] [INFO] Scheduler started.
+[2025-06-02 16:37:58] [INFO] Closing sockets...
+[2025-06-02 16:37:58] [INFO] Scheduler shut down.
+[2025-06-02 16:37:59] [INFO] Scheduler started.
+[2025-06-02 16:37:59] [INFO] Scheduler started.
+[2025-06-02 16:39:55] [INFO] Closing sockets...
+[2025-06-02 16:39:55] [INFO] Scheduler shut down.
+[2025-06-02 16:39:56] [INFO] Scheduler started.
+[2025-06-02 16:39:56] [INFO] Scheduler started.
+[2025-06-02 16:40:07] [INFO] Closing sockets...
+[2025-06-02 16:40:07] [INFO] Scheduler shut down.
+[2025-06-02 16:40:08] [INFO] Scheduler started.
+[2025-06-02 16:40:08] [INFO] Scheduler started.
+[2025-06-02 16:41:11] [INFO] Closing sockets...
+[2025-06-02 16:41:11] [INFO] Scheduler shut down.
+[2025-06-02 16:41:12] [INFO] Scheduler started.
+[2025-06-02 16:41:12] [INFO] Scheduler started.
+[2025-06-02 16:41:29] [INFO] Closing sockets...
+[2025-06-02 16:41:29] [INFO] Scheduler shut down.
+[2025-06-02 16:41:29] [INFO] Scheduler started.
+[2025-06-02 16:41:30] [INFO] Scheduler started.
+[2025-06-02 16:41:31] [INFO] Closing sockets...
+[2025-06-02 16:41:31] [INFO] Scheduler shut down.
+[2025-06-02 16:41:31] [INFO] Scheduler started.
+[2025-06-02 16:41:32] [INFO] Scheduler started.
+[2025-06-02 16:43:43] [INFO] Closing sockets...
+[2025-06-02 16:43:43] [INFO] Scheduler shut down.
+[2025-06-02 16:43:44] [INFO] Scheduler started.
+[2025-06-02 16:43:44] [INFO] Scheduler started.
+[2025-06-02 16:44:12] [INFO] Closing sockets...
+[2025-06-02 16:44:12] [INFO] Scheduler shut down.
+[2025-06-02 16:44:12] [INFO] Scheduler started.
+[2025-06-02 16:44:12] [INFO] Scheduler started.
+[2025-06-02 16:45:03] [INFO] Closing sockets...
+[2025-06-02 16:45:03] [INFO] Scheduler shut down.
+[2025-06-02 16:45:04] [INFO] Scheduler started.
+[2025-06-02 16:45:04] [INFO] Scheduler started.
+[2025-06-02 16:45:59] [INFO] Closing sockets...
+[2025-06-02 16:45:59] [INFO] Scheduler shut down.
+[2025-06-02 16:46:00] [INFO] Scheduler started.
+[2025-06-02 16:46:00] [INFO] Scheduler started.
+[2025-06-02 16:47:07] [INFO] Closing sockets...
+[2025-06-02 16:47:07] [INFO] Scheduler shut down.
+[2025-06-02 16:47:07] [INFO] Scheduler started.
+[2025-06-02 16:47:08] [INFO] Scheduler started.
+[2025-06-02 16:56:05] [INFO] Closing sockets...
+[2025-06-02 16:56:05] [INFO] Scheduler shut down.
+[2025-06-02 16:56:06] [INFO] Scheduler started.
+[2025-06-02 16:56:06] [INFO] Scheduler started.
+[2025-06-02 16:56:36] [INFO] Closing sockets...
+[2025-06-02 16:56:36] [INFO] Scheduler shut down.
+[2025-06-02 16:56:37] [INFO] Scheduler started.
+[2025-06-02 16:56:37] [INFO] Scheduler started.
+[2025-06-02 16:56:44] [INFO] Closing sockets...
+[2025-06-02 16:56:44] [INFO] Scheduler shut down.
+[2025-06-02 16:56:45] [INFO] Scheduler started.
+[2025-06-02 16:56:45] [INFO] Scheduler started.
+[2025-06-02 16:56:55] [INFO] Closing sockets...
+[2025-06-02 16:56:55] [INFO] Scheduler shut down.
+[2025-06-02 16:56:55] [INFO] Scheduler started.
+[2025-06-02 16:56:55] [INFO] Scheduler started.
+[2025-06-02 16:57:11] [INFO] Closing sockets...
+[2025-06-02 16:57:11] [INFO] Scheduler shut down.
+[2025-06-02 16:57:12] [INFO] Scheduler started.
+[2025-06-02 16:57:12] [INFO] Scheduler started.
+[2025-06-02 16:57:14] [INFO] Closing sockets...
+[2025-06-02 16:57:14] [INFO] Scheduler shut down.
+[2025-06-02 16:57:15] [INFO] Scheduler started.
+[2025-06-02 16:57:15] [INFO] Scheduler started.
+[2025-06-02 16:59:30] [INFO] Closing sockets...
+[2025-06-02 16:59:30] [INFO] Scheduler shut down.
+[2025-06-02 16:59:31] [INFO] Scheduler started.
+[2025-06-02 16:59:31] [INFO] Scheduler started.
+[2025-06-02 17:02:29] [INFO] Closing sockets...
+[2025-06-02 17:02:29] [INFO] Scheduler shut down.
+[2025-06-02 17:02:30] [INFO] Scheduler started.
+[2025-06-02 17:02:30] [INFO] Scheduler started.
+[2025-06-02 17:02:33] [INFO] Closing sockets...
+[2025-06-02 17:02:33] [INFO] Scheduler shut down.
+[2025-06-02 17:02:34] [INFO] Scheduler started.
+[2025-06-02 17:02:34] [INFO] Scheduler started.
+[2025-06-02 17:02:34] [INFO] Closing sockets...
+[2025-06-02 17:02:34] [INFO] Scheduler shut down.
+[2025-06-02 17:02:35] [INFO] Scheduler started.
+[2025-06-02 17:02:35] [INFO] Scheduler started.
+[2025-06-02 17:02:37] [INFO] Closing sockets...
+[2025-06-02 17:02:37] [INFO] Scheduler shut down.
+[2025-06-02 17:02:38] [INFO] Scheduler started.
+[2025-06-02 17:02:38] [INFO] Scheduler started.
+[2025-06-02 17:02:39] [INFO] Closing sockets...
+[2025-06-02 17:02:39] [INFO] Scheduler shut down.
+[2025-06-02 17:02:40] [INFO] Scheduler started.
+[2025-06-02 17:02:40] [INFO] Scheduler started.
+[2025-06-02 17:02:40] [INFO] Closing sockets...
+[2025-06-02 17:02:40] [INFO] Scheduler shut down.
+[2025-06-02 17:02:41] [INFO] Scheduler started.
+[2025-06-02 17:02:41] [INFO] Scheduler started.

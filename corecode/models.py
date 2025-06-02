@@ -28,6 +28,8 @@ class UserPreference(models.Model):
         return f"{self.user.username}의 환경설정"
 
 
+
+
 #데이터 명칭, 단위
 class DataName(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -128,7 +130,6 @@ class DataName(models.Model):
             self.method_result_type = None
         super().save(*args, **kwargs)
     
-
 class UserManual(models.Model):
     """
     사용자 취급 메뉴얼 정보를 관리하는 모델
@@ -280,8 +281,8 @@ class Variable(models.Model):
     """
     메모리 그룹(MemoryGroup)에 속한 개별 변수 정보를 관리하는 모델
     """
-    group = models.ForeignKey(MemoryGroup, on_delete=models.CASCADE, related_name='variables')
-    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='data_names')
+    group = models.ForeignKey(MemoryGroup, on_delete=models.CASCADE, related_name='variables') # 기존 유지
+    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='physical_variables') # related_name 변경
     device = models.CharField(max_length=2)
     address = models.FloatField()
     data_type = models.CharField(max_length=10, choices=[
@@ -320,14 +321,14 @@ class CalcVariable(models.Model):
     """
     계산식에 사용되는 변수 정보를 관리하는 모델
     """
-    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='variables')
-    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='calc_variables')
+    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='calc_variables_in_group') # related_name 변경
+    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='as_calc_variable') # related_name 변경
     data_type = models.CharField(max_length=20, blank=True)
     use_method = models.CharField(
         max_length=40,
         null=True,
         blank=True,
-        choices=[(method, method) for method in calculation_methods]
+        choices=[(method, method) for method in calculation_methods] # control_methods 제거
     )
     args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
@@ -355,19 +356,101 @@ class ControlGroup(models.Model):
 
 class ControlLogic(models.Model):
     """
-    제어 로직에 사용되는 변수 정보를 관리하는 모델
+    제어 로직 정의 (공통 사용)
     """
-    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='logics')
-    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='control_logics')
-    data_type = models.CharField(max_length=20, blank=True)
+    name = models.CharField(max_length=100, blank=True, null=True, help_text="제어 로직 이름")
     use_method = models.CharField(
         max_length=40,
         null=True,
         blank=True,
         choices=[(method, method) for method in control_methods]
     )
+    method_description = models.CharField(max_length=200, null=True, blank=True)
+    method_args_desc = models.JSONField(default=dict, null=True, blank=True, help_text="메서드 인자 설명")
+    method_result = models.JSONField(default=dict, null=True, blank=True, help_text="메서드 결과 설명")
+    method_args_type = models.JSONField(default=dict, null=True, blank=True, help_text="메서드 인자 타입")
+    method_result_type = models.CharField(max_length=100, null=True, blank=True, help_text="메서드 반환 타입")
+    
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if self.use_method:
+            import inspect
+            import re
+            from utils.control import all_dict as control_all_dict
+            
+            func = control_all_dict.get(self.use_method)
+            if func:
+                doc = inspect.getdoc(func)
+                return_desc = None
+                return_type = None
+                if doc:
+                    return_match = re.search(r"\n:return: ([^\n]+)", doc)
+                    if return_match:
+                        return_desc = return_match.group(1).strip()
+                    rtype_match = re.search(r"\n:rtype: ([^\n]+)", doc)
+                    if rtype_match:
+                        return_type = rtype_match.group(1).strip()
+                    doc_cleaned = re.sub(r"\n:param [^:]+:.*?(?=\n|$)", "", doc)
+                    doc_cleaned = re.sub(r"\n:return:.*?(?=\n|$)", "", doc_cleaned)
+                    doc_cleaned = re.sub(r"\n:rtype:.*?(?=\n|$)", "", doc_cleaned)
+                    self.method_description = doc_cleaned.strip()
+                else:
+                    self.method_description = None
+                
+                param_desc = {}
+                param_type = {}
+                if inspect.getdoc(func): # inspect.getdoc(func) can be None
+                    sig = inspect.signature(func)
+                    doc_str = inspect.getdoc(func)
+                    matches = re.findall(r":param (\w+): ([^\n]+)", doc_str)
+                    for p_name, desc in matches:
+                        param_desc[p_name] = desc
+                    for p_name, param in sig.parameters.items():
+                        if param.annotation != inspect.Parameter.empty:
+                            ann = param.annotation
+                            if hasattr(ann, '__name__'):
+                                if ann.__name__ in ('float', 'int'):
+                                    param_type[p_name] = 'number'
+                                else:
+                                    param_type[p_name] = ann.__name__
+                            else:
+                                ann_str = str(ann)
+                                if ann_str in ("<class 'float'>", "<class 'int'>"):
+                                    param_type[p_name] = 'number'
+                                else:
+                                    param_type[p_name] = ann_str
+                self.method_args_desc = param_desc
+                self.method_args_type = param_type
+                self.method_result = return_desc
+                self.method_result_type = return_type
+            else:
+                self.method_description = None
+                self.method_args_desc = {}
+                self.method_args_type = {}
+                self.method_result = None
+                self.method_result_type = None
+        else:
+            self.method_description = None
+            self.method_args_desc = {}
+            self.method_args_type = {}
+            self.method_result = None
+            self.method_result_type = None
+        super().save(*args, **kwargs)
+    
+
+class ControlVariable(models.Model):
+    """
+    제어 그룹(ControlGroup)에 속한 개별 제어 변수(로직 적용 인스턴스)
+    """
+    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='control_variables_in_group')
+    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='as_control_variable')
+    data_type = models.CharField(max_length=20, blank=True) # 이 필드가 필요한지 검토 필요 (DataName.dtype 또는 ControlLogic 결과 타입으로 유추 가능할 수 있음)
+    applied_logic = models.ForeignKey(ControlLogic, on_delete=models.CASCADE, related_name='applications')
     args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
 
     def __str__(self):
-        return f"{self.name}"
+        # name이 ForeignKey이므로, 실제 표시될 이름을 위해 수정 필요
+        return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
