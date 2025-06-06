@@ -244,6 +244,20 @@ class ControlLogicViewSet(viewsets.ModelViewSet):
     filterset_fields = ['use_method'] # group__id 제거, 모델 필드에 맞게 수정
     ordering_fields = ['id']
 
+    @action(detail=False, methods=['get'])
+    def dict(self, request):
+        """
+        Return control logics as dict (default) or list (if ?type=list).
+        """
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data
+        if request.query_params.get('type') == 'list':
+            return Response(data)
+        # default: return dict keyed by id
+        result = {str(item['id']): item for item in data}
+        return Response(result)
+
 class ControlVariableViewSet(viewsets.ModelViewSet):
     queryset = ControlVariable.objects.all()
     serializer_class = ControlVariableSerializer

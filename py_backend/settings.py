@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 load_dotenv(os.path.join(BASE_DIR, '.env'))
-EXCLUDE_AUTH_IP = os.environ.get('EXCLUDE_AUTH_IP', '192.168.0.63')
+EXCLUDE_AUTH_IP = os.environ.get('EXCLUDE_AUTH_IP', '192.168.219.104')
 
 # ASGI 설정
 ASGI_APPLICATION = 'py_backend.asgi.application'
