@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from .models import *
 from .serializers import *
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
@@ -95,3 +97,25 @@ class VarietyImageViewSet(viewsets.ModelViewSet):
 class VarietyGuideViewSet(viewsets.ModelViewSet):
     queryset = VarietyGuide.objects.all()
     serializer_class = VarietyGuideSerializer
+
+# 신규 ViewSets 추가
+class RecipeProfileViewSet(viewsets.ModelViewSet):
+    queryset = RecipeProfile.objects.all()
+    serializer_class = RecipeProfileSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['crop__id', 'recipe_name']
+    ordering_fields = ['id', 'created_at']
+
+class ControlItemViewSet(viewsets.ModelViewSet):
+    queryset = ControlItem.objects.all()
+    serializer_class = ControlItemSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['item_name']
+    ordering_fields = ['id', 'item_name']
+
+class RecipeItemValueViewSet(viewsets.ModelViewSet):
+    queryset = RecipeItemValue.objects.all()
+    serializer_class = RecipeItemValueSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['recipe__id', 'control_item__id']
+    ordering_fields = ['id']

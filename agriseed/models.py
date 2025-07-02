@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import RangeField
 from django.db.models import JSONField
+from corecode.models import DataName, ControlLogic  # ensure ControlLogic imported
 
 class Device(models.Model):
     name = models.CharField(max_length=100)
@@ -202,3 +203,30 @@ class FacilityHistory(models.Model):
     light = models.JSONField(default=list, help_text="조도 기록")
     soil_moisture = models.JSONField(default=list, help_text="토양 수분 기록")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
+class RecipeProfile(models.Model):
+    crop = models.ForeignKey(Crop, on_delete=models.CASCADE, related_name='recipe_profiles')
+    recipe_name = models.CharField(max_length=200, help_text="레시피 이름 (예: 초기 생장기, 생식기 등)")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.crop.name} - {self.recipe_name}"
+
+class ControlItem(models.Model):
+    item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='control_items', help_text="제어 항목명(DataName)")
+    description = models.TextField(blank=True, help_text="설명")
+
+    def __str__(self):
+        return str(self.item_name)
+
+class RecipeItemValue(models.Model):
+    recipe = models.ForeignKey(RecipeProfile, on_delete=models.CASCADE, related_name='item_values')
+    control_item = models.ForeignKey(ControlItem, on_delete=models.CASCADE, related_name='recipe_values')
+    set_value = models.FloatField(help_text="설정값 (목표값 등)")
+    min_value = models.FloatField(null=True, blank=True, help_text="최소 허용값 (선택)")
+    max_value = models.FloatField(null=True, blank=True, help_text="최대 허용값 (선택)")
+    control_logic = models.ForeignKey(ControlLogic,null=True, blank=True, on_delete=models.CASCADE, related_name='recipe_item_values', help_text="적용할 제어 로직")
+    priority = models.IntegerField(null=True, blank=True, help_text="우선순위 (선택)")
+
+    def __str__(self):
+        return f"{self.recipe.recipe_name}: {self.control_item.item_name}"

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -107,3 +107,42 @@ class CropSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crop
         fields = '__all__'
+
+
+class ControlItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlItem
+        fields = ['id', 'item_name', 'description']
+
+class RecipeItemValueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecipeItemValue
+        fields = [
+            'id', 'recipe', 'control_item', 'set_value',
+            'min_value', 'max_value', 'control_logic', 'priority'
+        ]
+        
+class RecipeProfileSerializer(serializers.ModelSerializer):
+    item_values = RecipeItemValueSerializer(many=True, required=False)
+
+    class Meta:
+        model = RecipeProfile
+        fields = ['id', 'crop', 'recipe_name', 'created_at', 'item_values']
+        read_only_fields = ['created_at']
+
+    def create(self, validated_data):
+        item_values_data = validated_data.pop('item_values', [])
+        profile = RecipeProfile.objects.create(**validated_data)
+        for iv in item_values_data:
+            RecipeItemValue.objects.create(recipe=profile, **iv)
+        return profile
+
+    def update(self, instance, validated_data):
+        item_values_data = validated_data.pop('item_values', None)
+        instance.recipe_name = validated_data.get('recipe_name', instance.recipe_name)
+        instance.save()
+        if item_values_data is not None:
+            instance.item_values.all().delete()
+            for iv in item_values_data:
+                RecipeItemValue.objects.create(recipe=instance, **iv)
+        return instance
