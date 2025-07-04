@@ -220,7 +220,7 @@ class ControlItem(models.Model):
     description = models.TextField(blank=True, help_text="설명")
 
     def __str__(self):
-        return str(self.item_name)
+        return f"{self.description}({self.item_name})"
 
 class RecipeItemValue(models.Model):
     recipe = models.ForeignKey(RecipeProfile, on_delete=models.CASCADE, related_name='item_values')

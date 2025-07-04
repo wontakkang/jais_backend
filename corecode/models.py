@@ -57,7 +57,7 @@ class DataName(models.Model):
     method_result = models.JSONField(default=dict, null=True, blank=True, help_text="계산 메서드 인자 설명")
     method_args_type = models.JSONField(default=dict, null=True, blank=True, help_text="계산 메서드 인자 타입")
     method_result_type = models.CharField(max_length=100, null=True, blank=True, help_text="계산 메서드 반환 타입")
-    
+    icon = models.CharField(max_length=100, blank=True, null=True, help_text="아이콘 클래스 (문자열)")
     def __str__(self):
         return self.name
 
@@ -177,7 +177,7 @@ class Device(models.Model):
     ]
     connector = models.CharField(max_length=50, null=True, blank=True, choices=CONNECTOR_TYPE_CHOICES)
     catalog = models.FileField(upload_to='device_catalogs/', null=True, blank=True, help_text="장비 카탈로그 파일")
-    user_manuals = models.ManyToManyField('UserManual', null=True, blank=True, related_name='devices', help_text="사용자 취급 메뉴얼 파일들")
+    user_manuals = models.ManyToManyField('UserManual', blank=True, related_name='devices', help_text="사용자 취급 메뉴얼 파일들")
 
     def __str__(self):
         return self.name
