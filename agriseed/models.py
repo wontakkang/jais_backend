@@ -208,6 +208,9 @@ class RecipeProfile(models.Model):
     crop = models.ForeignKey(Crop, on_delete=models.CASCADE, related_name='recipe_profiles')
     recipe_name = models.CharField(max_length=200, help_text="레시피 이름 (예: 초기 생장기, 생식기 등)")
     created_at = models.DateTimeField(auto_now_add=True)
+    duration_days = models.IntegerField(null=True, blank=True, help_text="기간 (일)")
+    description = models.TextField(blank=True, help_text="설명")
+    order = models.IntegerField(default=0, help_text="레시피 순서 (우선순위)")
 
     def __str__(self):
         return f"{self.crop.name} - {self.recipe_name}"
