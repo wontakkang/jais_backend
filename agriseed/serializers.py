@@ -127,7 +127,7 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeProfile
-        fields = ['id', 'crop', 'recipe_name', 'duration_days', 'created_at', 'item_values']
+        fields = ['id', 'variety', 'recipe_name', 'duration_days', 'created_at', 'item_values']
         read_only_fields = ['created_at']
 
     def create(self, validated_data):
@@ -139,6 +139,8 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         item_values_data = validated_data.pop('item_values', None)
+        # variety 필드 반영
+        instance.variety = validated_data.get('variety', instance.variety)
         instance.recipe_name = validated_data.get('recipe_name', instance.recipe_name)
         instance.duration_days = validated_data.get('duration_days', instance.duration_days)
         instance.save()

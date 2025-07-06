@@ -205,7 +205,12 @@ class FacilityHistory(models.Model):
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class RecipeProfile(models.Model):
-    crop = models.ForeignKey(Crop, on_delete=models.CASCADE, related_name='recipe_profiles')
+    variety = models.ForeignKey(
+        Variety, null=True, blank=True, 
+        on_delete=models.CASCADE,
+        related_name='recipe_profiles',
+        help_text="레시피 대상 품종"
+    )
     recipe_name = models.CharField(max_length=200, help_text="레시피 이름 (예: 초기 생장기, 생식기 등)")
     created_at = models.DateTimeField(auto_now_add=True)
     duration_days = models.IntegerField(null=True, blank=True, help_text="기간 (일)")
@@ -213,7 +218,7 @@ class RecipeProfile(models.Model):
     order = models.IntegerField(default=0, help_text="레시피 순서 (우선순위)")
 
     def __str__(self):
-        return f"{self.crop.name} - {self.recipe_name}"
+        return f"{self.variety} - {self.recipe_name}"
 
 class ControlItem(models.Model):
     item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='control_items', help_text="제어 항목명(DataName)")

@@ -103,7 +103,7 @@ class RecipeProfileViewSet(viewsets.ModelViewSet):
     queryset = RecipeProfile.objects.all()
     serializer_class = RecipeProfileSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['crop__id', 'recipe_name']
+    filterset_fields = ['variety__id', 'recipe_name']
     ordering_fields = ['id', 'created_at']
 
 class ControlItemViewSet(viewsets.ModelViewSet):
