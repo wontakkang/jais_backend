@@ -199,7 +199,7 @@ class ControlValue(models.Model):
         return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
 
 class ControlValueHistory(models.Model):
-    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, related_name='histories', verbose_name="제어값")
+    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, null=True, blank=True, related_name='histories', verbose_name="제어값")
     status = models.CharField(max_length=30, verbose_name="명령상태")
     command_name = models.CharField(max_length=100, verbose_name="명령이름")
     target = models.CharField(max_length=100, verbose_name="타겟")

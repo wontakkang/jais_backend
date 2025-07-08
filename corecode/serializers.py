@@ -269,7 +269,6 @@ class ControlValueSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ControlValueHistorySerializer(serializers.ModelSerializer):
-    control_value = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = ControlValueHistory
         fields = '__all__'

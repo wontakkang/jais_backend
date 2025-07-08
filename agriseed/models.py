@@ -225,7 +225,7 @@ class RecipeProfile(models.Model):
         return f"{self.variety} - {self.recipe_name}"
 
 class ControlItem(models.Model):
-    item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='control_items', help_text="제어 항목명(DataName)")
+    item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='control_items', help_text="제어 항목명(DataName)")
     description = models.TextField(blank=True, help_text="설명")
 
     def __str__(self):

@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "192.168.0.159",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "agri_seed",
+            "database": "agri_seed",
+            "username": "daeeun"
+        }
+    ]
+}
