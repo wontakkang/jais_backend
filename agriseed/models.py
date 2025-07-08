@@ -206,13 +206,17 @@ class FacilityHistory(models.Model):
 
 class RecipeProfile(models.Model):
     variety = models.ForeignKey(
-        Variety, null=True, blank=True, 
+        Variety, null=True, blank=True,
         on_delete=models.CASCADE,
         related_name='recipe_profiles',
         help_text="레시피 대상 품종"
     )
     recipe_name = models.CharField(max_length=200, help_text="레시피 이름 (예: 초기 생장기, 생식기 등)")
     created_at = models.DateTimeField(auto_now_add=True)
+    # 수정 시간 및 상태 플래그
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    is_active = models.BooleanField(default=True, null=True, blank=True, help_text="레시피 활성화 여부")
+    is_deleted = models.BooleanField(default=False, null=True, blank=True, help_text="삭제 여부")
     duration_days = models.IntegerField(null=True, blank=True, help_text="기간 (일)")
     description = models.TextField(blank=True, help_text="설명")
     order = models.IntegerField(default=0, help_text="레시피 순서 (우선순위)")

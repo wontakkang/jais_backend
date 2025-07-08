@@ -100,11 +100,18 @@ class VarietyGuideViewSet(viewsets.ModelViewSet):
 
 # 신규 ViewSets 추가
 class RecipeProfileViewSet(viewsets.ModelViewSet):
-    queryset = RecipeProfile.objects.all()
+    # 기본적으로 삭제되지 않은 레시피만 조회
+    queryset = RecipeProfile.objects.filter(is_deleted=False)
     serializer_class = RecipeProfileSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['variety__id', 'recipe_name']
-    ordering_fields = ['id', 'created_at']
+    filterset_fields = ['variety__id', 'recipe_name', 'is_active', 'is_deleted']
+    ordering_fields = ['id', 'created_at', 'updated_at']
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.is_deleted = True
+        instance.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ControlItemViewSet(viewsets.ModelViewSet):
     queryset = ControlItem.objects.all()
