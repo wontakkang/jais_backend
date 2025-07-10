@@ -293,7 +293,7 @@ class Variable(models.Model):
         ('bit', 'bit'), ('byte', 'byte'), ('word', 'word'), ('dword', 'dword'),
     ])
     scale = models.FloatField(default=1)
-    offset = models.PositiveIntegerField(default=0)
+    offset = models.FloatField(default=0)
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
 
     def __str__(self):

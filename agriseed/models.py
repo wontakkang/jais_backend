@@ -179,7 +179,7 @@ class SensorData(models.Model):
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class ControlSettings(models.Model):
-    facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='control_settings', help_text="소속된 시설", default="0", null=True, blank=True)
+    facility = models.ForeignKey(Facility, on_delete=models.CASCADE, related_name='control_settings', help_text="소속된 시설", null=True, blank=True)
     fan_is_on = models.BooleanField(default=False, help_text="팬 작동 여부 (기본값: 꺼짐)")
     fan_speed = models.IntegerField(default=50, help_text="팬 속도 (기본값: 50%)")
     water_is_on = models.BooleanField(default=False, help_text="물 공급 여부 (기본값: 꺼짐)")
