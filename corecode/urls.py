@@ -18,6 +18,8 @@ router.register(r'calc-groups', CalcGroupViewSet)
 router.register(r'control-variables', ControlVariableViewSet)
 router.register(r'control-logics', ControlLogicViewSet)
 router.register(r'control-groups', ControlGroupViewSet)
+router.register(r'location-groups', LocationGroupViewSet)
+router.register(r'location-codes', LocationCodeViewSet)
 
 urlpatterns = router.urls
 

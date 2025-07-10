@@ -272,3 +272,36 @@ class ControlValueHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ControlValueHistory
         fields = '__all__'
+
+class LocationCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LocationCode
+        fields = '__all__'
+
+class LocationGroupSerializer(serializers.ModelSerializer):
+    codes = LocationCodeSerializer(many=True, required=False)
+
+    class Meta:
+        model = LocationGroup
+        fields = [
+            'group_id', 'group_name', 'description', 'timezone',
+            'created_at', 'updated_at', 'codes'
+        ]
+
+    def create(self, validated_data):
+        codes_data = validated_data.pop('codes', [])
+        group = LocationGroup.objects.create(**validated_data)
+        for code in codes_data:
+            LocationCode.objects.create(group=group, **code)
+        return group
+
+    def update(self, instance, validated_data):
+        codes_data = validated_data.pop('codes', None)
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        instance.save()
+        if codes_data is not None:
+            instance.codes.all().delete()
+            for code in codes_data:
+                LocationCode.objects.create(group=instance, **code)
+        return instance

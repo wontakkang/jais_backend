@@ -271,3 +271,19 @@ class ControlGroupViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['project_version__id']
     ordering_fields = ['id']
+
+class LocationGroupViewSet(viewsets.ModelViewSet):
+    """지역 그룹(LocationGroup) 모델의 CRUD API"""
+    queryset = LocationGroup.objects.all()
+    serializer_class = LocationGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group_id', 'group_name']
+    ordering_fields = ['group_id', 'group_name']
+
+class LocationCodeViewSet(viewsets.ModelViewSet):
+    """그룹별 코드(LocationCode) 모델의 CRUD API"""
+    queryset = LocationCode.objects.all()
+    serializer_class = LocationCodeSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__group_id', 'code_type', 'code_key']
+    ordering_fields = ['code_id', 'code_type', 'code_key']
