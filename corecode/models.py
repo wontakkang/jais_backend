@@ -454,3 +454,48 @@ class ControlVariable(models.Model):
     def __str__(self):
         # name이 ForeignKey이므로, 실제 표시될 이름을 위해 수정 필요
         return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
+
+class LocationGroup(models.Model):
+    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
+    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
+    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
+    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'location_group'
+        verbose_name = 'Location Group'
+        verbose_name_plural = 'Location Groups'
+
+    def __str__(self):
+        return self.group_name
+
+
+class LocationCode(models.Model):
+    code_id = models.AutoField(primary_key=True)
+    group = models.ForeignKey(
+        LocationGroup,
+        on_delete=models.CASCADE,
+        db_column='group_id',
+        related_name='codes',
+        help_text='FK → location_group.group_id'
+    )
+    code_type = models.CharField(max_length=50, help_text='코드 구분 (예: alarm_level, daytime_range)')
+    code_key = models.CharField(max_length=50, help_text='코드 키 값 (예: LEVEL_1, START_TIME)')
+    code_value = models.TextField(help_text='값 (예: 30, "06:00", JSON 형식도 가능)')
+    unit = models.CharField(max_length=20, help_text='단위 (예: ℃, %, HH:MM 등)')
+    description = models.TextField(blank=True, null=True, help_text='코드 설명 (예: "주의 경고 상한온도")')
+    sort_order = models.IntegerField(default=0, help_text='정렬 순서')
+    is_active = models.BooleanField(default=True, help_text='활성화 여부')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'location_code'
+        verbose_name = 'Location Code'
+        verbose_name_plural = 'Location Codes'
+
+    def __str__(self):
+        return f"{self.code_type}:{self.code_key}"
+
