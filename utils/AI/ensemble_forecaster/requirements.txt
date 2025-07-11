@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+tensorflow
+numpy
+keras
+keras-tuner
+optuna
+scikit-learn
+pandas
+joblib
+catboost

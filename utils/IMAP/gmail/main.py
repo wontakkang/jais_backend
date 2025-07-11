@@ -1,5 +1,5 @@
 import smtplib
-from app.config import settings
+from utils.config import settings
 import base64
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText

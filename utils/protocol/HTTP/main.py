@@ -1,7 +1,8 @@
 import requests, json, xmltodict
 from datetime import timedelta
-from ...logger import setup_logger
+from utils import setup_logger
 import ssl
+from utils.config import settings
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)  # Force TLS 1.2
 context.set_ciphers('ECDHE-RSA-AES128-GCM-SHA256')  # Example cipher
 
@@ -22,7 +23,7 @@ context.set_ciphers('ECDHE-RSA-AES128-GCM-SHA256')  # Example cipher
 # session.mount("https://", SSLAdapter()) 
 
 # SQL 로거 초기화
-http_logger = setup_logger(name="http_logger", log_file="./log/http_logger.log")
+http_logger = setup_logger(name="http_logger", log_file=f"{settings.LOG_DIR}/http_logger.log")
 
 # GET
 class HTTP:
@@ -70,4 +71,4 @@ class HTTP:
             http_logger.error(f"HTTP --POST--{err.__dict__, type(err)}")
             return err
 
-phttp = HTTP()
+phttp= HTTP()

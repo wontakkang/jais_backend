@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 from datetime import datetime
 import pandas as pd
 from utils.DB.mariaDB import SQLBuilder
-from db import *
+from utils.connection import *
 
 # 네트워크 디바이스 유형별 시계열 데이터 SQL
 def get_network_device_data(start: datetime, end: datetime) -> List[Dict[str, Any]]:

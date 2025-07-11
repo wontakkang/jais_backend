@@ -1,14 +1,14 @@
 from functools import reduce
 import json, sys, time
 from datetime import datetime, timedelta
-from utils.protocol.LSIS import LSIS_TcpClient
-from utils import setup_logger
-from utils.DB import SQLBuilder
+from app.utils.protocol.LSIS import LSIS_TcpClient
+from app.utils import setup_logger
+from app.utils.DB import SQLBuilder
 from app.db import *
-from utils import dict_to_object, log_exceptions
-from utils.protocol.LSIS.utilities import LSIS_MappingTool
-from utils.DB.context import RegistersSlaveContext
-from utils.protocol.HTTP import phttp
+from app.utils import dict_to_object, log_exceptions
+from app.utils.protocol.LSIS.utilities import LSIS_MappingTool
+from app.utils.DB.context import RegistersSlaveContext
+from app.utils.protocol.HTTP import phttp
 
 client_logger = setup_logger(name="client_logger", log_file="./log/client_queries.log")
 
