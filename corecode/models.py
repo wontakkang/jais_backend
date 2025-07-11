@@ -463,10 +463,6 @@ class LocationGroup(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        db_table = 'location_group'
-        verbose_name = 'Location Group'
-        verbose_name_plural = 'Location Groups'
 
     def __str__(self):
         return self.group_name
@@ -490,11 +486,6 @@ class LocationCode(models.Model):
     is_active = models.BooleanField(default=True, help_text='활성화 여부')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'location_code'
-        verbose_name = 'Location Code'
-        verbose_name_plural = 'Location Codes'
 
     def __str__(self):
         return f"{self.code_type}:{self.code_key}"

@@ -127,7 +127,7 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeProfile
-        fields = ['id', 'variety', 'recipe_name', 'duration_days', 'created_at', 'updated_at', 'is_active', 'is_deleted', 'item_values']
+        fields = ['id', 'variety', 'recipe_name', 'duration_days', 'created_at', 'updated_at', 'is_active', 'is_deleted', 'item_values', 'order']
         read_only_fields = ['created_at', 'updated_at']
 
     def create(self, validated_data):

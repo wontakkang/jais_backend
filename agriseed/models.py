@@ -16,7 +16,7 @@ class Device(models.Model):
 
 class Activity(models.Model):
     time = models.DateTimeField()
-    device = models.ForeignKey(Device, on_delete=models.CASCADE, related_name='activities')
+    device = models.ForeignKey(Device, null=True, blank=True, on_delete=models.CASCADE, related_name='activities')
     event = models.CharField(max_length=200)
     status = models.CharField(max_length=50)
     location = models.CharField(max_length=100)
@@ -26,7 +26,7 @@ class Activity(models.Model):
 
 class ControlHistory(models.Model):
     time = models.DateTimeField()
-    device = models.ForeignKey(Device, on_delete=models.CASCADE, related_name='control_histories')
+    device = models.ForeignKey(Device, null=True, blank=True, on_delete=models.CASCADE, related_name='control_histories')
     action = models.CharField(max_length=200)
     trigger = models.CharField(max_length=200)
     status = models.CharField(max_length=50)
