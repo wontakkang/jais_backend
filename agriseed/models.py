@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import RangeField
 from django.db.models import JSONField
 from corecode.models import DataName, ControlLogic  # ensure ControlLogic imported
+from django.conf import settings
 
 class Device(models.Model):
     name = models.CharField(max_length=100)
@@ -205,16 +206,12 @@ class FacilityHistory(models.Model):
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class RecipeProfile(models.Model):
-    variety = models.ForeignKey(
-        Variety, null=True, blank=True,
-        on_delete=models.CASCADE,
-        related_name='recipe_profiles',
-        help_text="레시피 대상 품종"
-    )
-    recipe_name = models.CharField(max_length=200, help_text="레시피 이름 (예: 초기 생장기, 생식기 등)")
+    variety = models.ForeignKey(Variety, null=True, blank=True, on_delete=models.CASCADE, related_name='recipe_profiles', help_text="레시피 대상 품종")
+    recipe_name = models.CharField(max_length=200, help_text="레시피 이름")
     created_at = models.DateTimeField(auto_now_add=True)
-    # 수정 시간 및 상태 플래그
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='created_recipe_profiles',help_text="생성자")
+    updated_by = models.ForeignKey( settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='updated_recipe_profiles', help_text="수정자")
     is_active = models.BooleanField(default=True, null=True, blank=True, help_text="레시피 활성화 여부")
     is_deleted = models.BooleanField(default=False, null=True, blank=True, help_text="삭제 여부")
     duration_days = models.IntegerField(null=True, blank=True, help_text="기간 (일)")
@@ -224,6 +221,19 @@ class RecipeProfile(models.Model):
     def __str__(self):
         return f"{self.variety} - {self.recipe_name}"
 
+class RecipeStep(models.Model):
+    recipe_profile = models.ForeignKey( RecipeProfile, on_delete=models.CASCADE, related_name='steps', help_text="레시피 프로필에 속한 단계")
+    name = models.CharField(max_length=100, help_text="단계 이름 (예: 준비, 성장, 수확)")
+    order = models.PositiveIntegerField(default=0, help_text="단계 순서 지정용 정수")
+    duration_days = models.IntegerField(null=True, blank=True, help_text="이 단계의 기간 (일)")
+    description = models.TextField(blank=True, help_text="단계 설명")
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.recipe_profile.recipe_name} - {self.name}"
+
 class ControlItem(models.Model):
     item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='control_items', help_text="제어 항목명(DataName)")
     description = models.TextField(blank=True, help_text="설명")
@@ -232,7 +242,7 @@ class ControlItem(models.Model):
         return f"{self.description}({self.item_name})"
 
 class RecipeItemValue(models.Model):
-    recipe = models.ForeignKey(RecipeProfile, on_delete=models.CASCADE, related_name='item_values')
+    recipe = models.ForeignKey(RecipeStep, null=True, blank=True, on_delete=models.CASCADE, related_name='item_values')
     control_item = models.ForeignKey(ControlItem, on_delete=models.CASCADE, related_name='recipe_values')
     set_value = models.FloatField(help_text="설정값 (목표값 등)")
     min_value = models.FloatField(null=True, blank=True, help_text="최소 허용값 (선택)")
@@ -241,4 +251,7 @@ class RecipeItemValue(models.Model):
     priority = models.IntegerField(null=True, blank=True, help_text="우선순위 (선택)")
 
     def __str__(self):
-        return f"{self.recipe.recipe_name}: {self.control_item.item_name}"
+        # recipe is now a RecipeStep, include profile name and step
+        profile_name = self.recipe.recipe_profile.recipe_name
+        step_name = self.recipe.name
+        return f"{profile_name} - {step_name}: {self.control_item.item_name}"

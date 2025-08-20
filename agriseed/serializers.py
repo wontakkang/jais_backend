@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -117,35 +117,41 @@ class ControlItemSerializer(serializers.ModelSerializer):
 class RecipeItemValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeItemValue
-        fields = [
-            'id', 'recipe', 'control_item', 'set_value',
-            'min_value', 'max_value', 'control_logic', 'priority'
-        ]
-        
-class RecipeProfileSerializer(serializers.ModelSerializer):
-    item_values = RecipeItemValueSerializer(many=True, required=False)
+        fields = ['id', 'control_item', 'set_value', 'min_value', 'max_value', 'control_logic', 'priority']
 
+class RecipeStepSerializer(serializers.ModelSerializer):
+    item_values = RecipeItemValueSerializer(many=True, required=False)
+    class Meta:
+        model = RecipeStep
+        fields = ['id', 'name', 'order', 'duration_days', 'description', 'item_values']
+
+class RecipeProfileSerializer(serializers.ModelSerializer):
+    steps = RecipeStepSerializer(many=True, required=False)
     class Meta:
         model = RecipeProfile
-        fields = ['id', 'variety', 'recipe_name', 'duration_days', 'created_at', 'updated_at', 'is_active', 'is_deleted', 'item_values', 'order']
+        fields = ['id', 'variety', 'recipe_name', 'description', 'duration_days', 'order', 'created_at', 'updated_at', 'is_active', 'steps']
         read_only_fields = ['created_at', 'updated_at']
 
     def create(self, validated_data):
-        item_values_data = validated_data.pop('item_values', [])
+        steps_data = validated_data.pop('steps', [])
         profile = RecipeProfile.objects.create(**validated_data)
-        for iv in item_values_data:
-            RecipeItemValue.objects.create(recipe=profile, **iv)
+        for step_data in steps_data:
+            item_values_data = step_data.pop('item_values', [])
+            step = RecipeStep.objects.create(recipe_profile=profile, **step_data)
+            for iv in item_values_data:
+                RecipeItemValue.objects.create(recipe=step, **iv)
         return profile
 
     def update(self, instance, validated_data):
-        item_values_data = validated_data.pop('item_values', None)
-        # variety 필드 반영
-        instance.variety = validated_data.get('variety', instance.variety)
-        instance.recipe_name = validated_data.get('recipe_name', instance.recipe_name)
-        instance.duration_days = validated_data.get('duration_days', instance.duration_days)
+        steps_data = validated_data.pop('steps', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
         instance.save()
-        if item_values_data is not None:
-            instance.item_values.all().delete()
-            for iv in item_values_data:
-                RecipeItemValue.objects.create(recipe=instance, **iv)
+        if steps_data is not None:
+            instance.steps.all().delete()
+            for step_data in steps_data:
+                item_values_data = step_data.pop('item_values', [])
+                step = RecipeStep.objects.create(recipe_profile=instance, **step_data)
+                for iv in item_values_data:
+                    RecipeItemValue.objects.create(recipe=step, **iv)
         return instance

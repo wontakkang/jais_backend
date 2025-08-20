@@ -126,3 +126,13 @@ class RecipeItemValueViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['recipe__id', 'control_item__id']
     ordering_fields = ['id']
+
+class RecipeStepViewSet(viewsets.ModelViewSet):
+    """RecipeStep 모델의 CRUD API"""
+    queryset = RecipeStep.objects.all()
+    serializer_class = RecipeStepSerializer
+    # 필터, 검색, 정렬 지원
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['recipe_profile', 'name', 'order', 'duration_days']
+    search_fields = ['name', 'description']
+    ordering_fields = ['order', 'id']
