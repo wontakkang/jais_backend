@@ -127,21 +127,24 @@ class RecipeStepSerializer(serializers.ModelSerializer):
 
 class RecipePerformanceSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    recipe = serializers.PrimaryKeyRelatedField(queryset=RecipeProfile.objects.all())
     class Meta:
         model = RecipePerformance
-        fields = ['id', 'user', 'yield_amount', 'success', 'notes', 'created_at']
+        fields = ['id', 'recipe', 'user', 'yield_amount', 'success', 'notes', 'created_at']
 
 class RecipeRatingSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    recipe = serializers.PrimaryKeyRelatedField(queryset=RecipeProfile.objects.all())
     class Meta:
         model = RecipeRating
-        fields = ['id', 'user', 'rating', 'created_at']
+        fields = ['id', 'recipe', 'user', 'rating', 'created_at']
 
 class RecipeCommentVoteSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    comment = serializers.PrimaryKeyRelatedField(queryset=RecipeComment.objects.all())
     class Meta:
         model = RecipeCommentVote
-        fields = ['id', 'user', 'is_helpful', 'created_at']
+        fields = ['id', 'comment', 'user', 'is_helpful', 'created_at']
 
 class RecipeCommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
@@ -160,6 +163,8 @@ class RecipeCommentSerializer(serializers.ModelSerializer):
         return RecipeCommentSerializer(qs, many=True).data
 
 class RecipeProfileSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+    updated_by = serializers.StringRelatedField(read_only=True)
     steps = RecipeStepSerializer(many=True, required=False)
     comments = RecipeCommentSerializer(many=True, read_only=True)
     performances = RecipePerformanceSerializer(many=True, read_only=True)
@@ -170,8 +175,13 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
     success_rate = serializers.FloatField(read_only=True)
     class Meta:
         model = RecipeProfile
-        fields = ['id', 'variety', 'recipe_name', 'description', 'duration_days', 'order', 'created_at', 'updated_at', 'is_active', 'steps', 'comments', 'performances', 'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate']
-        read_only_fields = ['created_at', 'updated_at']
+        fields = [
+            'id', 'variety', 'recipe_name', 'description', 'duration_days',
+            'order', 'is_active', 'created_at', 'updated_at',
+            'created_by', 'updated_by', 'steps', 'comments', 'performances',
+            'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate'
+        ]
+        read_only_fields = ['created_at', 'updated_at', 'created_by', 'updated_by']
 
     def create(self, validated_data):
         steps_data = validated_data.pop('steps', [])

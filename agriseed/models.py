@@ -206,12 +206,27 @@ class FacilityHistory(models.Model):
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
 class RecipeProfile(models.Model):
-    variety = models.ForeignKey(Variety, null=True, blank=True, on_delete=models.CASCADE, related_name='recipe_profiles', help_text="레시피 대상 품종")
+    variety = models.ForeignKey(
+        Variety, null=True, blank=True,
+        on_delete=models.CASCADE,
+        related_name='recipe_profiles',
+        help_text="레시피 대상 품종"
+    )
     recipe_name = models.CharField(max_length=200, help_text="레시피 이름")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='created_recipe_profiles',help_text="생성자")
-    updated_by = models.ForeignKey( settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='updated_recipe_profiles', help_text="수정자")
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='created_recipe_profiles',
+        help_text="생성자"
+    )
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='updated_recipe_profiles',
+        help_text="수정자"
+    )
     is_active = models.BooleanField(default=True, null=True, blank=True, help_text="레시피 활성화 여부")
     is_deleted = models.BooleanField(default=False, null=True, blank=True, help_text="삭제 여부")
     duration_days = models.IntegerField(null=True, blank=True, help_text="기간 (일)")
@@ -219,7 +234,8 @@ class RecipeProfile(models.Model):
     order = models.IntegerField(default=0, help_text="레시피 순서 (우선순위)")
 
     def __str__(self):
-        return f"{self.variety} - {self.recipe_name}"
+        creator = self.created_by.username if self.created_by else "Unknown Creator"
+        return f"{creator} - {self.variety} - {self.recipe_name}"
 
     @property
     def average_rating(self):
@@ -249,7 +265,7 @@ class RecipeStep(models.Model):
     order = models.PositiveIntegerField(default=0, help_text="단계 순서 지정용 정수")
     duration_days = models.IntegerField(null=True, blank=True, help_text="이 단계의 기간 (일)")
     description = models.TextField(blank=True, help_text="단계 설명")
-
+    label_icon = models.CharField(max_length=20, null=True, blank=True, help_text="단계 아이콘 (선택 사항)")
     class Meta:
         ordering = ['order']
 

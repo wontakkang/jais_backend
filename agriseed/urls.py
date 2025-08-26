@@ -1,12 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (
-    DeviceViewSet, ActivityViewSet, ControlHistoryViewSet, ControlRoleViewSet, IssueViewSet,
-    ResolvedIssueViewSet, ScheduleViewSet, FacilityViewSet, ZoneViewSet, SensorDataViewSet,
-    ControlSettingsViewSet, FacilityHistoryViewSet, CropViewSet, VarietyViewSet, VarietyImageViewSet, VarietyGuideViewSet,
-    RecipeProfileViewSet, ControlItemViewSet, RecipeItemValueViewSet, RecipeStepViewSet,
-    RecipeCommentViewSet, RecipeCommentVoteViewSet  # 댓글 및 투표 ViewSet 추가
-)
+from .views import *
 
 router = DefaultRouter()
 router.register(r'devices', DeviceViewSet)
@@ -31,6 +25,8 @@ router.register(r'control-items', ControlItemViewSet)     # 제어 항목
 router.register(r'recipe-item-values', RecipeItemValueViewSet)  # 레시피 항목 값
 router.register(r'recipe-comments', RecipeCommentViewSet, basename='recipe-comment')  # 레시피 코멘트
 router.register(r'comment-votes', RecipeCommentVoteViewSet, basename='comment-vote')  # 코멘트 도움됨/도움안됨
+router.register(r'recipe-performances', RecipePerformanceViewSet)  # 레시피 성과
+router.register(r'recipe-ratings', RecipeRatingViewSet)  # 레시피 별점
 
 urlpatterns = [
     path('', include(router.urls)),

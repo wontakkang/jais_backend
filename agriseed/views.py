@@ -111,6 +111,12 @@ class RecipeProfileViewSet(viewsets.ModelViewSet):
     filterset_fields = ['variety__id', 'recipe_name', 'is_active', 'is_deleted']
     ordering_fields = ['order', 'id']
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user, updated_by=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(updated_by=self.request.user)
+
     @action(detail=False, methods=['get'], url_path=r'by-variety/(?P<variety_id>[^/.]+)')
     def by_variety(self, request, variety_id=None):
         """variety id로 레시피 프로필, 코멘트, 성과, 평점 등을 함께 조회합니다."""
@@ -169,3 +175,29 @@ class RecipeCommentVoteViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class RecipePerformanceViewSet(viewsets.ModelViewSet):
+    """RecipePerformance 모델의 CRUD API"""
+    queryset = RecipePerformance.objects.all()
+    serializer_class = RecipePerformanceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        recipe = serializer.validated_data.get('recipe')
+        if not recipe:
+            from .models import RecipeProfile
+            recipe = RecipeProfile.objects.get(pk=1)
+        serializer.save(user=self.request.user, recipe=recipe)
+
+class RecipeRatingViewSet(viewsets.ModelViewSet):
+    """RecipeRating 모델의 CRUD API"""
+    queryset = RecipeRating.objects.all()
+    serializer_class = RecipeRatingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        recipe = serializer.validated_data.get('recipe')
+        if not recipe:
+            from .models import RecipeProfile
+            recipe = RecipeProfile.objects.get(pk=1)
+        serializer.save(user=self.request.user, recipe=recipe)
