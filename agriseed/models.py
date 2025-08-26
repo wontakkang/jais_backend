@@ -221,6 +221,28 @@ class RecipeProfile(models.Model):
     def __str__(self):
         return f"{self.variety} - {self.recipe_name}"
 
+    @property
+    def average_rating(self):
+        from django.db.models import Avg
+        return self.ratings.aggregate(Avg('rating'))['rating__avg'] or 0
+
+    @property
+    def rating_count(self):
+        return self.ratings.count()
+
+    @property
+    def average_yield(self):
+        from django.db.models import Avg
+        return self.performances.aggregate(Avg('yield_amount'))['yield_amount__avg'] or 0
+
+    @property
+    def success_rate(self):
+        total = self.performances.count()
+        if total:
+            success_count = self.performances.filter(success=True).count()
+            return (success_count / total) * 100
+        return 0
+
 class RecipeStep(models.Model):
     recipe_profile = models.ForeignKey( RecipeProfile, on_delete=models.CASCADE, related_name='steps', help_text="레시피 프로필에 속한 단계")
     name = models.CharField(max_length=100, help_text="단계 이름 (예: 준비, 성장, 수확)")
@@ -255,3 +277,71 @@ class RecipeItemValue(models.Model):
         profile_name = self.recipe.recipe_profile.recipe_name
         step_name = self.recipe.name
         return f"{profile_name} - {step_name}: {self.control_item.item_name}"
+
+# 커뮤니티 피드백, 별점 및 레시피 성과 관리 기능 모델 추가
+class RecipeComment(models.Model):
+    recipe = models.ForeignKey(RecipeProfile, on_delete=models.CASCADE, related_name='comments', help_text="레시피에 대한 코멘트")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='recipe_comments', help_text="작성자")
+    content = models.TextField(help_text="코멘트 내용")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    parent = models.ForeignKey(
+        'self', null=True, blank=True,
+        on_delete=models.CASCADE, related_name='replies',
+        help_text="부모 코멘트"
+    )
+
+    @property
+    def helpful_count(self):
+        return self.votes.filter(is_helpful=True).count()
+
+    @property
+    def unhelpful_count(self):
+        return self.votes.filter(is_helpful=False).count()
+
+    def __str__(self):
+        return f"{self.recipe} - {self.user}: {self.content[:20]}"
+
+class RecipeRating(models.Model):
+    recipe = models.ForeignKey(RecipeProfile, on_delete=models.CASCADE, related_name='ratings', help_text="레시피에 대한 별점")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='recipe_ratings', help_text="평가자")
+    rating = models.PositiveSmallIntegerField(help_text="별점 (1~5)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('recipe', 'user')
+
+    def __str__(self):
+        return f"{self.recipe} - {self.rating}"
+
+class RecipePerformance(models.Model):
+    recipe = models.ForeignKey(RecipeProfile, on_delete=models.CASCADE, related_name='performances', help_text="레시피 시도 결과")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='recipe_performances', help_text="시행자")
+    yield_amount = models.FloatField(help_text="수확량 (kg)")
+    success = models.BooleanField(help_text="성공 여부")
+    notes = models.TextField(null=True, blank=True, help_text="추가 메모")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.recipe} - yield={self.yield_amount}, success={self.success}"
+
+# 코멘트 도움됨/도움안됨 표시용 모델
+class RecipeCommentVote(models.Model):
+    comment = models.ForeignKey(
+        RecipeComment, on_delete=models.CASCADE,
+        related_name='votes', help_text="코멘트에 대한 투표"
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='comment_votes', help_text="투표한 사용자"
+    )
+    is_helpful = models.BooleanField(help_text="도움됨(True)/도움안됨(False)")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('comment', 'user')
+
+    def __str__(self):
+        status = '도움됨' if self.is_helpful else '도움안됨'
+        return f"{self.comment} - {self.user}: {status}"

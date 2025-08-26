@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -125,11 +125,52 @@ class RecipeStepSerializer(serializers.ModelSerializer):
         model = RecipeStep
         fields = ['id', 'name', 'order', 'duration_days', 'description', 'item_values']
 
+class RecipePerformanceSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = RecipePerformance
+        fields = ['id', 'user', 'yield_amount', 'success', 'notes', 'created_at']
+
+class RecipeRatingSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = RecipeRating
+        fields = ['id', 'user', 'rating', 'created_at']
+
+class RecipeCommentVoteSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = RecipeCommentVote
+        fields = ['id', 'user', 'is_helpful', 'created_at']
+
+class RecipeCommentSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    replies = serializers.SerializerMethodField()
+    helpful_count = serializers.IntegerField(read_only=True)
+    unhelpful_count = serializers.IntegerField(read_only=True)
+    votes = RecipeCommentVoteSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = RecipeComment
+        fields = ['id', 'recipe', 'user', 'content', 'created_at', 'updated_at', 'parent',
+                  'helpful_count', 'unhelpful_count', 'replies', 'votes']
+
+    def get_replies(self, obj):
+        qs = obj.replies.all()
+        return RecipeCommentSerializer(qs, many=True).data
+
 class RecipeProfileSerializer(serializers.ModelSerializer):
     steps = RecipeStepSerializer(many=True, required=False)
+    comments = RecipeCommentSerializer(many=True, read_only=True)
+    performances = RecipePerformanceSerializer(many=True, read_only=True)
+    ratings = RecipeRatingSerializer(many=True, read_only=True)
+    average_rating = serializers.FloatField(read_only=True)
+    rating_count = serializers.IntegerField(read_only=True)
+    average_yield = serializers.FloatField(read_only=True)
+    success_rate = serializers.FloatField(read_only=True)
     class Meta:
         model = RecipeProfile
-        fields = ['id', 'variety', 'recipe_name', 'description', 'duration_days', 'order', 'created_at', 'updated_at', 'is_active', 'steps']
+        fields = ['id', 'variety', 'recipe_name', 'description', 'duration_days', 'order', 'created_at', 'updated_at', 'is_active', 'steps', 'comments', 'performances', 'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate']
         read_only_fields = ['created_at', 'updated_at']
 
     def create(self, validated_data):

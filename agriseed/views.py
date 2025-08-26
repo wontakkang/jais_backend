@@ -3,6 +3,10 @@ from .models import *
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import action
 
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
@@ -107,6 +111,19 @@ class RecipeProfileViewSet(viewsets.ModelViewSet):
     filterset_fields = ['variety__id', 'recipe_name', 'is_active', 'is_deleted']
     ordering_fields = ['order', 'id']
 
+    @action(detail=False, methods=['get'], url_path=r'by-variety/(?P<variety_id>[^/.]+)')
+    def by_variety(self, request, variety_id=None):
+        """variety id로 레시피 프로필, 코멘트, 성과, 평점 등을 함께 조회합니다."""
+        qs = RecipeProfile.objects.filter(is_deleted=False, variety_id=variety_id).prefetch_related(
+            'comments__replies', 'comments__votes', 'performances', 'ratings', 'steps__item_values', 'steps__item_values__control_item'
+        )
+        page = self.paginate_queryset(qs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.is_deleted = True
@@ -136,3 +153,19 @@ class RecipeStepViewSet(viewsets.ModelViewSet):
     filterset_fields = ['recipe_profile', 'name', 'order', 'duration_days']
     search_fields = ['name', 'description']
     ordering_fields = ['order', 'id']
+
+class RecipeCommentViewSet(viewsets.ModelViewSet):
+    queryset = RecipeComment.objects.all()
+    serializer_class = RecipeCommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class RecipeCommentVoteViewSet(viewsets.ModelViewSet):
+    queryset = RecipeCommentVote.objects.all()
+    serializer_class = RecipeCommentVoteSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

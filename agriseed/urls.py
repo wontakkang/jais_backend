@@ -4,7 +4,8 @@ from .views import (
     DeviceViewSet, ActivityViewSet, ControlHistoryViewSet, ControlRoleViewSet, IssueViewSet,
     ResolvedIssueViewSet, ScheduleViewSet, FacilityViewSet, ZoneViewSet, SensorDataViewSet,
     ControlSettingsViewSet, FacilityHistoryViewSet, CropViewSet, VarietyViewSet, VarietyImageViewSet, VarietyGuideViewSet,
-    RecipeProfileViewSet, ControlItemViewSet, RecipeItemValueViewSet, RecipeStepViewSet  # 추가된 ViewSet import
+    RecipeProfileViewSet, ControlItemViewSet, RecipeItemValueViewSet, RecipeStepViewSet,
+    RecipeCommentViewSet, RecipeCommentVoteViewSet  # 댓글 및 투표 ViewSet 추가
 )
 
 router = DefaultRouter()
@@ -28,6 +29,8 @@ router.register(r'recipe-profiles', RecipeProfileViewSet)  # 레시피 프로필
 router.register(r'recipe-steps', RecipeStepViewSet)  # 레시피 단계 값
 router.register(r'control-items', ControlItemViewSet)     # 제어 항목
 router.register(r'recipe-item-values', RecipeItemValueViewSet)  # 레시피 항목 값
+router.register(r'recipe-comments', RecipeCommentViewSet, basename='recipe-comment')  # 레시피 코멘트
+router.register(r'comment-votes', RecipeCommentVoteViewSet, basename='comment-vote')  # 코멘트 도움됨/도움안됨
 
 urlpatterns = [
     path('', include(router.urls)),
