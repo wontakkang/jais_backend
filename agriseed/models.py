@@ -232,6 +232,7 @@ class RecipeProfile(models.Model):
     duration_days = models.IntegerField(null=True, blank=True, help_text="기간 (일)")
     description = models.TextField(blank=True, help_text="설명")
     order = models.IntegerField(default=0, help_text="레시피 순서 (우선순위)")
+    bookmark = models.BooleanField(default=False, help_text="북마크 여부")
 
     def __str__(self):
         creator = self.created_by.username if self.created_by else "Unknown Creator"
@@ -266,6 +267,7 @@ class RecipeStep(models.Model):
     duration_days = models.IntegerField(null=True, blank=True, help_text="이 단계의 기간 (일)")
     description = models.TextField(blank=True, help_text="단계 설명")
     label_icon = models.CharField(max_length=20, null=True, blank=True, help_text="단계 아이콘 (선택 사항)")
+    active = models.BooleanField(default=True, help_text="단계 활성화 여부")
     class Meta:
         ordering = ['order']
 

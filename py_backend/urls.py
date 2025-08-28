@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-from corecode.views import UserMeView
+from corecode.views import UserMeView, SignupView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from rest_framework import urls as drf_urls  # add import
 
@@ -34,6 +34,7 @@ urlpatterns += [
 
 urlpatterns += [
     path('api/auth/user/me/', UserMeView.as_view()),
+    path('api/auth/signup/', SignupView.as_view(), name='signup'),
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),

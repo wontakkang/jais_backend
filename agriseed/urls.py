@@ -25,8 +25,8 @@ router.register(r'control-items', ControlItemViewSet)     # 제어 항목
 router.register(r'recipe-item-values', RecipeItemValueViewSet)  # 레시피 항목 값
 router.register(r'recipe-comments', RecipeCommentViewSet, basename='recipe-comment')  # 레시피 코멘트
 router.register(r'comment-votes', RecipeCommentVoteViewSet, basename='comment-vote')  # 코멘트 도움됨/도움안됨
-router.register(r'recipe-performances', RecipePerformanceViewSet)  # 레시피 성과
-router.register(r'recipe-ratings', RecipeRatingViewSet)  # 레시피 별점
+router.register(r'recipe-performances', RecipePerformanceViewSet, basename='recipe-performance')  # 레시피 성과
+router.register(r'recipe-ratings', RecipeRatingViewSet, basename='recipe-rating')  # 레시피 별점
 
 urlpatterns = [
     path('', include(router.urls)),

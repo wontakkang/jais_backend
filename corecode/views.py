@@ -1,16 +1,24 @@
 from django.shortcuts import render
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, serializers
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.renderers import JSONRenderer
+import logging
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.conf import settings
 from .models import *
 from .serializers import *
 from utils.custom_permission import LocalhostBypassPermission
+from django.contrib.auth import get_user_model
+from django.apps import apps
+
+logger = logging.getLogger('corecode')
+
 # ProjectViewSet
 # -------------------
 # 이 ViewSet은 프로젝트의 CRUD, 버전 백업(코멘트와 함께 저장), 특정 버전으로의 복구(롤백) 기능을 제공합니다.
@@ -92,50 +100,48 @@ class ProjectVersionRestoreView(APIView):
 class UserPreferencesView(APIView):
     permission_classes = [IsAuthenticated]
 
+    def _resolve_user_for_pref(self, username):
+        """Return the User model instance using get_user_model()."""
+        UserModel = get_user_model()
+        return UserModel.objects.filter(username=username)[0]
+
     def get(self, request, username):
         if request.user.username != username:
             return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
         try:
-            user = User.objects.get(username=username)
-            # UserPreference가 없으면 생성
-            pref, _ = UserPreference.objects.get_or_create(user=user)
+            user_obj = self._resolve_user_for_pref(username)
+            pref, _ = UserPreference.objects.get_or_create(user_id=user_obj.id)
             serializer = UserPreferenceSerializer(pref)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except User.DoesNotExist:
+        except Exception:
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, username):
         if request.user.username != username:
             return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
         try:
-            user = User.objects.get(username=username)
-            pref, _ = UserPreference.objects.get_or_create(user=user)
+            user_obj = self._resolve_user_for_pref(username)
+            pref, _ = UserPreference.objects.get_or_create(user=user_obj)
             serializer = UserPreferenceSerializer(pref, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except User.DoesNotExist:
+        except Exception:
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, username):
         if request.user.username != username:
             return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
         try:
-            user = User.objects.get(username=username)
-            pref, _ = UserPreference.objects.get_or_create(user=user)
+            user_obj = self._resolve_user_for_pref(username)
+            pref, _ = UserPreference.objects.get_or_create(user=user_obj)
             serializer = UserPreferenceSerializer(pref, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except User.DoesNotExist:
+        except Exception:
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class UserMeView(APIView):
@@ -149,6 +155,73 @@ class UserMeView(APIView):
             "email": user.email,
             # 필요시 추가 필드
         })
+
+class SignupView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        logger.info('Signup attempt from IP %s, data keys: %s', request.META.get('REMOTE_ADDR'), list(request.data.keys()))
+        serializer = SignupSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                tokens_container = {}
+
+                def _make_tokens(user):
+                    try:
+                        refresh = RefreshToken.for_user(user)
+                        tokens_container['access'] = str(refresh.access_token)
+                        tokens_container['refresh'] = str(refresh)
+                    except Exception as e:
+                        logger.exception('Token creation failed in on_commit: %s', str(e))
+
+                try:
+                    with transaction.atomic():
+                        user = serializer.save()
+                        # Ensure token creation happens after DB commit
+                        transaction.on_commit(lambda: _make_tokens(user))
+                except serializers.ValidationError as ve:
+                    logger.warning('Signup validation failed at create: %s', ve.detail)
+                    return Response(ve.detail, status=status.HTTP_400_BAD_REQUEST)
+                except IntegrityError as ie:
+                    logger.exception('Signup IntegrityError during create: %s', str(ie))
+                    return Response({'detail': 'Database integrity error'}, status=status.HTTP_400_BAD_REQUEST)
+                except Exception as e:
+                    logger.exception('Signup error during create: %s', str(e))
+                    return Response({'detail': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+                # transaction.on_commit callbacks should have run by now; check tokens
+                if tokens_container:
+                    logger.info('Signup success for username=%s id=%s', user.username, user.id)
+                    return Response({
+                        'id': user.id,
+                        'username': user.username,
+                        'access': tokens_container.get('access'),
+                        'refresh': tokens_container.get('refresh')
+                    }, status=status.HTTP_201_CREATED)
+                else:
+                    logger.warning('Signup succeeded but token not issued for username=%s', user.username)
+                    return Response({
+                        'id': user.id,
+                        'username': user.username,
+                        'detail': 'User created but token issuance failed or not available. Please login to obtain tokens.'
+                    }, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                logger.exception('Unhandled signup error: %s', str(e))
+                return Response({'detail': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            logger.warning('Signup validation failed: %s', serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UsersListView(APIView):
+    """Debug endpoint to list users. Enabled only in DEBUG or when accessed from localhost."""
+    permission_classes = [LocalhostBypassPermission]
+
+    def get(self, request):
+        if not settings.DEBUG and request.META.get('REMOTE_ADDR') not in ('127.0.0.1', '::1'):
+            return Response({'detail': 'Not allowed'}, status=status.HTTP_403_FORBIDDEN)
+        UserModel = get_user_model()
+        users = UserModel.objects.all().values('id', 'username', 'email', 'is_active', 'is_staff', 'is_superuser')
+        return Response(list(users))
 
 class DeviceViewSet(viewsets.ModelViewSet):
     queryset = Device.objects.all()

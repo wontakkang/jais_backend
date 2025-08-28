@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from .models import *
 from utils.control import __all__ as control_methods_list # ControlLogic use_method choices
+from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.db import IntegrityError, transaction
 
+User = get_user_model()
 
 class DataNameSerializer(serializers.ModelSerializer):
     use_method = serializers.ChoiceField(
@@ -305,3 +310,40 @@ class LocationGroupSerializer(serializers.ModelSerializer):
             for code in codes_data:
                 LocationCode.objects.create(group=instance, **code)
         return instance
+
+class SignupSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=150)
+    email = serializers.EmailField(required=False, allow_blank=True)
+    password = serializers.CharField(write_only=True)
+    name = serializers.CharField(required=False, allow_blank=True)
+
+    def validate(self, attrs):
+        # normalize username and validate uniqueness case-insensitively
+        username = attrs.get('username', '')
+        username = username.strip().lower()
+        if not username:
+            raise serializers.ValidationError({'username': '사용자 이름을 입력하세요.'})
+        if User.objects.filter(username__iexact=username).exists():
+            raise serializers.ValidationError({'username': '이미 사용 중인 사용자 이름입니다.'})
+        # validate password using Django validators
+        password = attrs.get('password')
+        try:
+            validate_password(password)
+        except DjangoValidationError as e:
+            raise serializers.ValidationError({'password': list(e.messages)})
+        attrs['username'] = username
+        return attrs
+
+    def create(self, validated_data):
+        # create user inside a transaction and translate DB integrity errors to validation errors
+        try:
+            with transaction.atomic():
+                user = User.objects.create_user(
+                    username=validated_data['username'],
+                    email=validated_data.get('email', ''),
+                    password=validated_data['password']
+                )
+                return user
+        except IntegrityError:
+            # unique constraint violation or FK issue
+            raise serializers.ValidationError({'username': '이미 사용 중인 사용자 이름입니다.'})

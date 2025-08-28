@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 load_dotenv(os.path.join(BASE_DIR, '.env'))
-EXCLUDE_AUTH_IP = os.environ.get('EXCLUDE_AUTH_IP', '192.168.219.104')
+EXCLUDE_AUTH_IP = os.environ.get('EXCLUDE_AUTH_IP', '*')
 
 # ASGI 설정
 ASGI_APPLICATION = 'py_backend.asgi.application'
@@ -62,9 +62,9 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',  # enable session login
         'utils.custom_permission.CustomIPAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -142,7 +142,8 @@ except Exception as e:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-AUTH_USER_MODEL = 'corecode.User'
+# Use default Django user model (auth.User). Previously set to 'corecode.User' which is not used in this project.
+AUTH_USER_MODEL = 'auth.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -160,8 +161,18 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    # custom complex password validator
+    {
+        'NAME': 'corecode.validators.ComplexPasswordValidator',
+        'OPTIONS': {
+            'min_length': 8,
+            'require_upper': True,
+            'require_lower': True,
+            'require_digit': True,
+            'require_special': True,
+        }
+    },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

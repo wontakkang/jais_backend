@@ -123,7 +123,26 @@ class RecipeStepSerializer(serializers.ModelSerializer):
     item_values = RecipeItemValueSerializer(many=True, required=False)
     class Meta:
         model = RecipeStep
-        fields = ['id', 'name', 'order', 'duration_days', 'description', 'item_values']
+        fields = ['id', 'recipe_profile', 'name', 'order', 'duration_days', 'description', 'item_values', 'label_icon', 'active']
+
+    def create(self, validated_data):
+        item_values_data = validated_data.pop('item_values', [])
+        step = RecipeStep.objects.create(**validated_data)
+        for iv in item_values_data:
+            RecipeItemValue.objects.create(recipe=step, **iv)
+        return step
+
+    def update(self, instance, validated_data):
+        item_values_data = validated_data.pop('item_values', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if item_values_data is not None:
+            # 간단 구현: 기존 항목값 삭제 후 재생성
+            instance.item_values.all().delete()
+            for iv in item_values_data:
+                RecipeItemValue.objects.create(recipe=instance, **iv)
+        return instance
 
 class RecipePerformanceSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
@@ -179,7 +198,7 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
             'id', 'variety', 'recipe_name', 'description', 'duration_days',
             'order', 'is_active', 'created_at', 'updated_at',
             'created_by', 'updated_by', 'steps', 'comments', 'performances',
-            'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate'
+            'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate', 'bookmark'
         ]
         read_only_fields = ['created_at', 'updated_at', 'created_by', 'updated_by']
 

@@ -7,6 +7,7 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
+from django.db.models import Count, Avg, Q
 
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
@@ -119,16 +120,82 @@ class RecipeProfileViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path=r'by-variety/(?P<variety_id>[^/.]+)')
     def by_variety(self, request, variety_id=None):
-        """variety id로 레시피 프로필, 코멘트, 성과, 평점 등을 함께 조회합니다."""
-        qs = RecipeProfile.objects.filter(is_deleted=False, variety_id=variety_id).prefetch_related(
-            'comments__replies', 'comments__votes', 'performances', 'ratings', 'steps__item_values', 'steps__item_values__control_item'
-        )
+        """variety id로 레시피 프로필, 코멘트(요약), 성과(요약), 평점(샘플)을 함께 조회합니다.
+        지원 쿼리파라미터:
+        - sort: recent|popular (default: recent)
+        - comments_limit: int (default:3)
+        - comments_sort: recent|popular (default: popular)
+        - performances_limit: int (default:5)
+        - performances_sort: recent|top_yield (default: recent)
+        """
+        sort = request.query_params.get('sort', 'recent')
+        comments_limit = int(request.query_params.get('comments_limit', 3))
+        comments_sort = request.query_params.get('comments_sort', 'popular')
+        performances_limit = int(request.query_params.get('performances_limit', 5))
+        performances_sort = request.query_params.get('performances_sort', 'recent')
+
+        qs = RecipeProfile.objects.filter(is_deleted=False, variety_id=variety_id)
+        # annotate for popularity sort
+        qs = qs.annotate(_avg_rating=Avg('ratings__rating'), _rating_count=Count('ratings'))
+        if sort == 'popular':
+            qs = qs.order_by('-_avg_rating', '-_rating_count', '-created_at')
+        else:
+            qs = qs.order_by('-created_at')
+
+        # prefetch related to avoid N+1
+        qs = qs.prefetch_related('steps__item_values', 'steps__item_values__control_item')
+
         page = self.paginate_queryset(qs)
+        items = page if page is not None else list(qs)
+
+        results = []
+        for profile in items:
+            # base serialization without related heavy lists
+            base_serialized = RecipeProfileSerializer(profile).data
+
+            # comments limited with sorting
+            comments_qs = profile.comments.all().annotate(helpful_count=Count('votes', filter=Q(votes__is_helpful=True)))
+            if comments_sort == 'recent':
+                comments_qs = comments_qs.order_by('-created_at')
+            else:
+                comments_qs = comments_qs.order_by('-helpful_count', '-created_at')
+            total_comments = comments_qs.count()
+            comments_sample = comments_qs[:comments_limit]
+            base_serialized['comments'] = RecipeCommentSerializer(comments_sample, many=True).data
+            base_serialized['comments_pagination'] = {
+                'full_list_url': f"/api/recipe-comments/?recipe={profile.id}&ordering={'-helpful_count,-created_at' if comments_sort!='recent' else '-created_at'}",
+                'total': total_comments
+            }
+
+            # performances limited with sorting
+            performances_qs = profile.performances.all()
+            if performances_sort == 'top_yield':
+                performances_qs = performances_qs.order_by('-yield_amount', '-created_at')
+            else:
+                performances_qs = performances_qs.order_by('-created_at')
+            total_performances = performances_qs.count()
+            performances_sample = performances_qs[:performances_limit]
+            base_serialized['performances'] = RecipePerformanceSerializer(performances_sample, many=True).data
+            base_serialized['performances_pagination'] = {
+                'full_list_url': f"/api/recipe-performances/?recipe={profile.id}&ordering={'-yield_amount' if performances_sort=='top_yield' else '-created_at'}",
+                'total': total_performances
+            }
+
+            # ratings sample (latest few)
+            ratings_sample = profile.ratings.order_by('-created_at')[:5]
+            base_serialized['ratings'] = RecipeRatingSerializer(ratings_sample, many=True).data
+
+            # aggregated fields are computed properties on model; ensure they are included
+            base_serialized['average_rating'] = profile.average_rating
+            base_serialized['rating_count'] = profile.rating_count
+            base_serialized['average_yield'] = profile.average_yield
+            base_serialized['success_rate'] = profile.success_rate
+
+            results.append(base_serialized)
+
         if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(qs, many=True)
-        return Response(serializer.data)
+            return self.get_paginated_response(results)
+        return Response(results)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -157,7 +224,7 @@ class RecipeStepViewSet(viewsets.ModelViewSet):
     # 필터, 검색, 정렬 지원
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_fields = ['recipe_profile', 'name', 'order', 'duration_days']
-    search_fields = ['name', 'description']
+    search_fields = ['name', 'description', '']
     ordering_fields = ['order', 'id']
 
 class RecipeCommentViewSet(viewsets.ModelViewSet):
@@ -181,6 +248,9 @@ class RecipePerformanceViewSet(viewsets.ModelViewSet):
     queryset = RecipePerformance.objects.all()
     serializer_class = RecipePerformanceSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['recipe__id', 'user__id']
+    ordering_fields = ['created_at', 'yield_amount', 'id']
 
     def perform_create(self, serializer):
         recipe = serializer.validated_data.get('recipe')
@@ -194,6 +264,9 @@ class RecipeRatingViewSet(viewsets.ModelViewSet):
     queryset = RecipeRating.objects.all()
     serializer_class = RecipeRatingSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['recipe__id', 'user__id']
+    ordering_fields = ['created_at', 'rating', 'id']
 
     def perform_create(self, serializer):
         recipe = serializer.validated_data.get('recipe')
