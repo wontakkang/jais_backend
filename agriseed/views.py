@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
 from django.db.models import Count, Avg, Q
+from rest_framework.pagination import PageNumberPagination
 
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
@@ -23,10 +24,23 @@ from django.db.models import Count, Avg, Q
 #   DELETE /crops/2/ (작물 삭제)
 # -------------------
 
+# Default pagination and filtering/search/ordering
+class DefaultPagination(PageNumberPagination):
+    page_size = 20
+
+class BaseViewSet(viewsets.ModelViewSet):
+    pagination_class = DefaultPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = []  # override in subclasses if needed
+    ordering_fields = ['id']  # override in subclasses
+
 # DeviceViewSet: 장치(Device) 모델의 CRUD API를 제공합니다.
-class DeviceViewSet(viewsets.ModelViewSet):
-    queryset = Device.objects.all()
+class DeviceViewSet(BaseViewSet):
+    queryset = Device.objects.select_related('manufacturer').prefetch_related('zones').all()
     serializer_class = DeviceSerializer
+    filterset_fields = ['manufacturer', 'is_deleted']
+    search_fields = ['name', 'description']
+    ordering_fields = ['id', 'created_at']
 
 # ActivityViewSet: 활동(Activity) 모델의 CRUD API를 제공합니다.
 class ActivityViewSet(viewsets.ModelViewSet):
@@ -104,13 +118,14 @@ class VarietyGuideViewSet(viewsets.ModelViewSet):
     serializer_class = VarietyGuideSerializer
 
 # 신규 ViewSets 추가
-class RecipeProfileViewSet(viewsets.ModelViewSet):
+class RecipeProfileViewSet(BaseViewSet):
     # 기본적으로 삭제되지 않은 레시피만 조회
-    queryset = RecipeProfile.objects.filter(is_deleted=False)
+    queryset = RecipeProfile.objects.filter(is_deleted=False).select_related('variety', 'created_by', 'updated_by')\
+        .prefetch_related('comments__replies', 'performances', 'ratings', 'steps__item_values')
     serializer_class = RecipeProfileSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['variety__id', 'recipe_name', 'is_active', 'is_deleted']
     ordering_fields = ['order', 'id']
+    search_fields = ['recipe_name', 'description']
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
