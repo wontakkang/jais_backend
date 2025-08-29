@@ -6,8 +6,7 @@
 
 import { defineStore } from 'pinia';
 import { CorecodeService } from './corecode.service';
-import { showToast } from './domUtils';
-
+import { showToast } from '@/utils/domUtils';
 // Common params: filtering and ordering via `params`, e.g. { project__id: 1, ordering: '-id' }
 export const useCorecodeStore = defineStore('corecode', {
   state: () => ({

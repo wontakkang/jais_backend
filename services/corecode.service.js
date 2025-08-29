@@ -1,13 +1,37 @@
 import axios from "axios";
-import { showToast } from "./domUtils";
+import { showToast } from '@/utils/domUtils';
+import { buildDjangoFilterParams } from '@/utils/django-filter.js';
+
+// 응답 정규화 헬퍼
+function normalizeData(data, responseType = 'original', wrapSingle = false) {
+  const type = (responseType || 'original').toString().toLowerCase();
+  const isArray = Array.isArray(data);
+  const results = data && Array.isArray(data.results) ? data.results : (data && Array.isArray(data.data) ? data.data : null);
+  if (type === 'original') return data;
+  if (type === 'array' || type === 'list') {
+    if (isArray) return data;
+    if (results) return results;
+    if (data && typeof data === 'object') return wrapSingle ? [data] : [];
+    return [];
+  }
+  if (type === 'object' || type === 'dict') {
+    if (!isArray && data && typeof data === 'object') return data;
+    if (isArray) return data.length ? data[0] : null;
+    if (results && results.length) return results[0];
+    return null;
+  }
+  return data;
+}
 
 // Common usage: pass a `params` object to list methods for filtering and ordering, e.g. { status: 'active', ordering: '-id' }
 export const CorecodeService = {
   // Projects
-  async listProjects(params) {
+  async listProjects(params, options = {}) {
     try {
-      const res = await axios.get('/corecode/projects/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/corecode/projects/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('프로젝트 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -67,10 +91,12 @@ export const CorecodeService = {
   },
 
   // Project Versions
-  async listProjectVersions(params) {
+  async listProjectVersions(params, options = {}) {
     try {
-      const res = await axios.get('/corecode/project-versions/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/corecode/project-versions/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('프로젝트 버전 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -141,10 +167,12 @@ export const CorecodeService = {
   },
 
   // Devices
-  async listDevices(params) {
+  async listDevices(params, options = {}) {
     try {
-      const res = await axios.get('/corecode/devices/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/corecode/devices/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('디바이스 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -204,10 +232,12 @@ export const CorecodeService = {
   },
 
   // Companies
-  async listCompanies(params) {
+  async listCompanies(params, options = {}) {
     try {
-      const res = await axios.get('/corecode/companies/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/corecode/companies/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('회사 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -215,10 +245,12 @@ export const CorecodeService = {
   },
 
   // DataNames
-  async listDataNames(params) {
+  async listDataNames(params, options = {}) {
     try {
-      const res = await axios.get('/corecode/data-names/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/corecode/data-names/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('데이터 이름 목록 로드 실패', 3000, 'error');
       throw error;
@@ -235,10 +267,12 @@ export const CorecodeService = {
   },
 
   // Control Logics
-  async listControlLogics(params) {
+  async listControlLogics(params, options = {}) {
     try {
-      const res = await axios.get('/corecode/control-logics/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/corecode/control-logics/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('제어 로직 목록 로드 실패', 3000, 'error');
       throw error;
@@ -253,10 +287,14 @@ export const CorecodeService = {
       throw error;
     }
   },
-  async listControlLogicsList() {
+  async listControlLogicsList(params, options = {}) {
     try {
-      const res = await axios.get('/corecode/control-logics/dict/?type=list');
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const qp = query instanceof URLSearchParams ? query : new URLSearchParams(query)
+      qp.append('type', 'list')
+      const res = await axios.get('/corecode/control-logics/dict/', { params: qp });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('제어 로직 리스트 로드 실패', 3000, 'error');
       throw error;
@@ -296,10 +334,12 @@ export const CorecodeService = {
   },
 
   // Debug user list
-  async listUsersDebug(params) {
+  async listUsersDebug(params, options = {}) {
     try {
-      const res = await axios.get('/corecode/users-debug/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/corecode/users-debug/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('디버그 사용자 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;

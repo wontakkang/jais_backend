@@ -178,7 +178,7 @@ class RecipeProfileViewSet(BaseViewSet):
             comments_sample = comments_qs[:comments_limit]
             base_serialized['comments'] = RecipeCommentSerializer(comments_sample, many=True).data
             base_serialized['comments_pagination'] = {
-                'full_list_url': f"/api/recipe-comments/?recipe={profile.id}&ordering={'-helpful_count,-created_at' if comments_sort!='recent' else '-created_at'}",
+                'full_list_url': f"/agriseed/recipe-comments/?recipe={profile.id}&ordering={'-helpful_count,-created_at' if comments_sort!='recent' else '-created_at'}",
                 'total': total_comments
             }
 
@@ -192,7 +192,7 @@ class RecipeProfileViewSet(BaseViewSet):
             performances_sample = performances_qs[:performances_limit]
             base_serialized['performances'] = RecipePerformanceSerializer(performances_sample, many=True).data
             base_serialized['performances_pagination'] = {
-                'full_list_url': f"/api/recipe-performances/?recipe={profile.id}&ordering={'-yield_amount' if performances_sort=='top_yield' else '-created_at'}",
+                'full_list_url': f"/agriseed/recipe-performances/?recipe={profile.id}&ordering={'-yield_amount' if performances_sort=='top_yield' else '-created_at'}",
                 'total': total_performances
             }
 
@@ -239,7 +239,7 @@ class RecipeStepViewSet(viewsets.ModelViewSet):
     # 필터, 검색, 정렬 지원
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_fields = ['recipe_profile', 'name', 'order', 'duration_days']
-    search_fields = ['name', 'description', '']
+    search_fields = ['name', 'description']
     ordering_fields = ['order', 'id']
 
 class RecipeCommentViewSet(viewsets.ModelViewSet):

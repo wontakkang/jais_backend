@@ -1,13 +1,37 @@
 import axios from "axios";
-import { showToast } from "./domUtils";
+import { showToast } from '@/utils/domUtils';
+import { buildDjangoFilterParams } from '@/utils/django-filter.js';
+
+// 응답 정규화 헬퍼
+function normalizeData(data, responseType = 'original', wrapSingle = false) {
+  const type = (responseType || 'original').toString().toLowerCase();
+  const isArray = Array.isArray(data);
+  const results = data && Array.isArray(data.results) ? data.results : (data && Array.isArray(data.data) ? data.data : null);
+  if (type === 'original') return data;
+  if (type === 'array' || type === 'list') {
+    if (isArray) return data;
+    if (results) return results;
+    if (data && typeof data === 'object') return wrapSingle ? [data] : [];
+    return [];
+  }
+  if (type === 'object' || type === 'dict') {
+    if (!isArray && data && typeof data === 'object') return data;
+    if (isArray) return data.length ? data[0] : null;
+    if (results && results.length) return results[0];
+    return null;
+  }
+  return data;
+}
 
 // Common usage: pass a `params` object to list methods for filtering and ordering, e.g. { config__id: 1, ordering: '-updated_at' }
 export const LSISsocketService = {
   // Client Configs
-  async listClientConfigs(params) {
+  async listClientConfigs(params, options = {}) {
     try {
-      const res = await axios.get('/LSISsocket/client-configs/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/LSISsocket/client-configs/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('클라이언트 설정 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -63,10 +87,12 @@ export const LSISsocketService = {
   },
 
   // Client Status
-  async listClientStatus(params) {
+  async listClientStatus(params, options = {}) {
     try {
-      const res = await axios.get('/LSISsocket/client-status/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/LSISsocket/client-status/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('클라이언트 상태 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -83,10 +109,12 @@ export const LSISsocketService = {
   },
 
   // Client Logs
-  async listClientLogs(params) {
+  async listClientLogs(params, options = {}) {
     try {
-      const res = await axios.get('/LSISsocket/client-logs/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/LSISsocket/client-logs/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('클라이언트 로그 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -103,10 +131,12 @@ export const LSISsocketService = {
   },
 
   // Sensor Node Configs
-  async listSensorNodeConfigs(params) {
+  async listSensorNodeConfigs(params, options = {}) {
     try {
-      const res = await axios.get('/LSISsocket/sensor-node-configs/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/LSISsocket/sensor-node-configs/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('센서 노드 설정 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -162,10 +192,12 @@ export const LSISsocketService = {
   },
 
   // Control Node Configs
-  async listControlNodeConfigs(params) {
+  async listControlNodeConfigs(params, options = {}) {
     try {
-      const res = await axios.get('/LSISsocket/control-node-configs/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/LSISsocket/control-node-configs/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('제어 노드 설정 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -221,10 +253,12 @@ export const LSISsocketService = {
   },
 
   // Client Commands
-  async listClientCommands(params) {
+  async listClientCommands(params, options = {}) {
     try {
-      const res = await axios.get('/LSISsocket/client-commands/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/LSISsocket/client-commands/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('클라이언트 명령 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -280,10 +314,12 @@ export const LSISsocketService = {
   },
 
   // Adapters
-  async listAdapters(params) {
+  async listAdapters(params, options = {}) {
     try {
-      const res = await axios.get('/LSISsocket/adapters/', { params });
-      return res.data;
+      const query = buildDjangoFilterParams(params)
+      const res = await axios.get('/LSISsocket/adapters/', { params: query });
+      const data = res.data;
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle);
     } catch (error) {
       showToast('어댑터 목록을 불러오는 중 오류가 발생했습니다.', 3000, 'error');
       throw error;
@@ -339,27 +375,30 @@ export const LSISsocketService = {
   },
 
   // LSIS CPU Commands
-  async initReset() {
+  async initReset(params) {
     try {
-      await axios.post('/LSISsocket/cpu/init-reset/');
+      const qp = buildDjangoFilterParams(params);
+      await axios.post('/LSISsocket/cpu/init-reset/', null, { params: qp });
       showToast('CPU 초기화 리셋 명령이 전송되었습니다.', 3000, 'success');
     } catch (error) {
       showToast('CPU 초기화 리셋 명령 전송에 실패했습니다.', 3000, 'error');
       throw error;
     }
   },
-  async stop() {
+  async stop(params) {
     try {
-      await axios.post('/LSISsocket/cpu/stop/');
+      const qp = buildDjangoFilterParams(params);
+      await axios.post('/LSISsocket/cpu/stop/', null, { params: qp });
       showToast('CPU 정지 명령이 전송되었습니다.', 3000, 'success');
     } catch (error) {
       showToast('CPU 정지 명령 전송에 실패했습니다.', 3000, 'error');
       throw error;
     }
   },
-  async run() {
+  async run(params) {
     try {
-      await axios.post('/LSISsocket/cpu/run/');
+      const qp = buildDjangoFilterParams(params);
+      await axios.post('/LSISsocket/cpu/run/', null, { params: qp });
       showToast('CPU 실행 명령이 전송되었습니다.', 3000, 'success');
     } catch (error) {
       showToast('CPU 실행 명령 전송에 실패했습니다.', 3000, 'error');

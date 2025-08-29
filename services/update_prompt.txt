@@ -21,6 +21,12 @@ service.js와 store.js 업데이트를 위한 생성 프롬프트:
 6. 추가 기능:
    - by-variety, dict/list endpoints 지원 메서드 포함
 
+7. 다중 파라미터 지원 및 django-filter 유틸 사용 (추가):
+   - 클라이언트에서 동일 키를 여러번 전송하는 다중 파라미터(key=value&key=value) 지원
+   - src/utils/django-filter.js에 buildDjangoFilterParams 구현을 사용하여 params를 URLSearchParams로 변환
+   - 서비스 레이어에서 buildDjangoFilterParams(params)를 사용하도록 수정
+   - 서버(DRF)에서는 request.GET.getlist() 또는 MultipleChoiceFilter로 동일 키 반복 파라미터를 처리해야 함
+
 파일 경로:
 - services/agriseed.service.js
 - services/corecode.service.js

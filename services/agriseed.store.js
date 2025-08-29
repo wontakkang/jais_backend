@@ -6,7 +6,6 @@
 
 import { defineStore } from 'pinia';
 import { AgriseedService } from './agriseed.service';
-import { showToast } from './domUtils';
 
 // Common params: filtering and ordering via `params`, e.g. { status: 'active', ordering: '-id' }
 export const useAgriseedStore = defineStore('agriseed', {
@@ -62,7 +61,13 @@ export const useAgriseedStore = defineStore('agriseed', {
     },
     // RecipeProfiles CRUD
     async fetchRecipes(params) {
-      this.recipeProfiles = await AgriseedService.listRecipes(params);
+      // AgriseedService.listRecipes는 res.data를 반환하므로, 반환 형태가 배열인지
+      // pagination 객체({ results: [...] })인지 등 여러 경우를 안전하게 처리합니다.
+      const res = await AgriseedService.listRecipes(params)
+      const list = Array.isArray(res)
+        ? res
+        : (res && Array.isArray(res.results) ? res.results : (res && Array.isArray(res.data) ? res.data : []))
+      this.recipeProfiles = list
     },
     async fetchRecipesByVariety(varietyId, params) {
       this.recipeProfiles = await AgriseedService.listRecipesByVariety(varietyId, params);
@@ -74,6 +79,13 @@ export const useAgriseedStore = defineStore('agriseed', {
     },
     async updateRecipe(id, data) {
       const updated = await AgriseedService.updateRecipe(id, data);
+      const idx = this.recipeProfiles.findIndex(x => x.id === id);
+      if (idx !== -1) this.recipeProfiles.splice(idx, 1, updated);
+      return updated;
+    },
+    // Partial update (PATCH) for recipe profiles
+    async patchRecipe(id, data) {
+      const updated = await AgriseedService.patchRecipe(id, data);
       const idx = this.recipeProfiles.findIndex(x => x.id === id);
       if (idx !== -1) this.recipeProfiles.splice(idx, 1, updated);
       return updated;

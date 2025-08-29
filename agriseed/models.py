@@ -283,7 +283,7 @@ class ControlItem(models.Model):
 
 class RecipeItemValue(models.Model):
     recipe = models.ForeignKey(RecipeStep, null=True, blank=True, on_delete=models.CASCADE, related_name='item_values')
-    control_item = models.ForeignKey(ControlItem, on_delete=models.CASCADE, related_name='recipe_values')
+    control_item = models.ForeignKey(ControlItem, on_delete=models.CASCADE, null=True, blank=True, related_name='recipe_values')
     set_value = models.FloatField(help_text="설정값 (목표값 등)")
     min_value = models.FloatField(null=True, blank=True, help_text="최소 허용값 (선택)")
     max_value = models.FloatField(null=True, blank=True, help_text="최대 허용값 (선택)")
