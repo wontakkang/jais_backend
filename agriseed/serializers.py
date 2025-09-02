@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating, Tree, Tree_tags
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -224,4 +224,36 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
                 step = RecipeStep.objects.create(recipe_profile=instance, **step_data)
                 for iv in item_values_data:
                     RecipeItemValue.objects.create(recipe=step, **iv)
+        return instance
+
+# Tree 및 Tree_tags 직렬화기 추가
+class TreeTagsSerializer(serializers.ModelSerializer):
+    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all())
+    class Meta:
+        model = Tree_tags
+        fields = '__all__'
+
+class TreeSerializer(serializers.ModelSerializer):
+    tags = TreeTagsSerializer(many=True, required=False)
+    variety = serializers.PrimaryKeyRelatedField(queryset=Variety.objects.all())
+    zone = serializers.PrimaryKeyRelatedField(queryset=Zone.objects.all())
+    class Meta:
+        model = Tree
+        fields = '__all__'
+    def create(self, validated_data):
+        tags_data = validated_data.pop('tags', [])
+        tree = Tree.objects.create(**validated_data)
+        for tag_data in tags_data:
+            Tree_tags.objects.create(tree=tree, **tag_data)
+        return tree
+
+    def update(self, instance, validated_data):
+        tags_data = validated_data.pop('tags', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if tags_data is not None:
+            instance.tags.all().delete()
+            for tag_data in tags_data:
+                Tree_tags.objects.create(tree=instance, **tag_data)
         return instance

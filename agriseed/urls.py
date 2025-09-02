@@ -28,6 +28,10 @@ router.register(r'comment-votes', RecipeCommentVoteViewSet, basename='comment-vo
 router.register(r'recipe-performances', RecipePerformanceViewSet, basename='recipe-performance')  # 레시피 성과
 router.register(r'recipe-ratings', RecipeRatingViewSet, basename='recipe-rating')  # 레시피 별점
 
+# Tree 관련 엔드포인트 등록
+router.register(r'trees', TreeViewSet)
+router.register(r'tree-tags', TreeTagsViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
 ]
