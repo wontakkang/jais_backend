@@ -170,6 +170,8 @@ class Zone(models.Model):
     watering_interval = models.CharField(max_length=50, default="매일", help_text="공급 주기 (예: 매일, 격일 등)")
     watering_amount = models.FloatField(default=0.0, help_text="공급량 (mL)")
 
+# geometry
+
 class SensorData(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='sensor_data', help_text="소속된 구역")
     temperature = models.FloatField(default=24.5, help_text="온도 (기본값: 24.5°C)")
@@ -363,3 +365,40 @@ class RecipeCommentVote(models.Model):
     def __str__(self):
         status = '도움됨' if self.is_helpful else '도움안됨'
         return f"{self.comment} - {self.user}: {status}"
+
+class Tree(models.Model):
+    zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='trees', help_text="소속된 구역")
+    variety = models.ForeignKey(Variety, on_delete=models.CASCADE, related_name='varieties', help_text="연결된 품종")
+    name = models.CharField(max_length=100)
+    tree_code = models.CharField(max_length=20, help_text="현장 표기 (예: B12-034)")
+    row_no = models.IntegerField(help_text="행 번호")
+    tree_no = models.IntegerField(help_text="주 번호")
+    notes = models.TextField(null=True, blank=True, help_text="특이사항")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    tree_age = models.IntegerField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    height = models.FloatField(help_text="Height in meters")
+    diameter = models.FloatField(help_text="Diameter in centimeters")
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
+    def __str__(self):
+        return f"{self.name} ({self.species})"
+    
+class Tree_tags(models.Model):
+    tree = models.ForeignKey(Tree, on_delete=models.CASCADE, related_name='tags', help_text="소속된 나무")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    barcode_type = models.CharField(max_length=20, help_text="바코드 유형 (예: QR, Code128 등)")
+    barcode_value = models.CharField(max_length=100, help_text="바코드 값")
+    qr_payload = models.TextField(help_text="QR 코드 페이로드 (예: URL 또는 JSON)")
+    issue_date = models.DateField(help_text="발급일")
+    issued_by = models.CharField(max_length=100, help_text="발급자")
+    valid_from = models.DateField(help_text="유효 시작일")
+    valid_to = models.DateField(null=True, blank=True, help_text="유효 종료일 (빈 값이면 무한대로 간주)")
+    is_active = models.BooleanField(default=True, help_text="태그 활성화 여부")
+    notes = models.TextField(null=True, blank=True, help_text="특이사항")
+
+    def __str__(self):
+        return f"{self.tree.name} - {self.tag}"
