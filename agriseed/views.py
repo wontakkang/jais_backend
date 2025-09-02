@@ -9,6 +9,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from django.db.models import Count, Avg, Q
 from rest_framework.pagination import PageNumberPagination
+from django_filters import rest_framework as df_filters
 
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
@@ -289,3 +290,32 @@ class RecipeRatingViewSet(viewsets.ModelViewSet):
             from .models import RecipeProfile
             recipe = RecipeProfile.objects.get(pk=1)
         serializer.save(user=self.request.user, recipe=recipe)
+
+# Tree 및 Tree_tags ViewSet 추가
+class TreeViewSet(BaseViewSet):
+    """Tree 모델의 CRUD API"""
+    queryset = Tree.objects.select_related('variety', 'zone').prefetch_related('tags').all()
+    serializer_class = TreeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['zone__id', 'variety__id', 'tree_code', 'row_no', 'tree_no', 'is_deleted']
+    search_fields = ['name', 'tree_code', 'notes']
+    ordering_fields = ['id', 'created_at', 'updated_at', 'row_no', 'tree_no']
+
+# QR payload 복잡 필터 지원을 위한 FilterSet
+class TreeTagsFilter(df_filters.FilterSet):
+    qr_payload_contains = df_filters.CharFilter(field_name='qr_payload', lookup_expr='icontains')
+
+    class Meta:
+        model = Tree_tags
+        fields = ['tree', 'barcode_type', 'barcode_value', 'is_active', 'qr_payload_contains']
+
+class TreeTagsViewSet(viewsets.ModelViewSet):
+    """Tree_tags 모델의 CRUD API"""
+    queryset = Tree_tags.objects.all()
+    serializer_class = TreeTagsSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_class = TreeTagsFilter
+    search_fields = ['barcode_value', 'qr_payload']
+    ordering_fields = ['id', 'issue_date', 'created_at']
