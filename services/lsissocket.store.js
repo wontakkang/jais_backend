@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { LSISsocketService } from './lsissocket.service';
-import { showToast } from '@/utils/domUtils';
 
 // Common params: filtering and ordering via `params`, e.g. { config__id: 1, ordering: '-updated_at' }
 export const useLSISsocketStore = defineStore('lsissocket', {
