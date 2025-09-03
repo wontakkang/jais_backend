@@ -370,7 +370,7 @@ class Tree(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='trees', help_text="소속된 구역")
     variety = models.ForeignKey(Variety, on_delete=models.CASCADE, related_name='varieties', help_text="연결된 품종")
     tree_code = models.CharField(max_length=20, help_text="현장 표기 (예: B12-034)")
-    height_level = models.CharField(help_text="상단, 중단, 하단 구분")
+    height_level = models.CharField(max_length=20, null=True, blank=True, help_text="상단, 중단, 하단 구분")
     degree = models.IntegerField(help_text="나침반 각도")
     notes = models.TextField(null=True, blank=True, help_text="특이사항")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -383,8 +383,9 @@ class Tree(models.Model):
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
     def __str__(self):
-        return f"{self.name} ({self.species})"
-    
+        # 모델 필드에 맞게 표시값을 수정 (tree_code 우선 사용)
+        return f"{self.tree_code}" 
+
 class Tree_tags(models.Model):
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE, related_name='tags', help_text="소속된 나무")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -400,4 +401,68 @@ class Tree_tags(models.Model):
     notes = models.TextField(null=True, blank=True, help_text="특이사항")
 
     def __str__(self):
-        return f"{self.tree.name} - {self.tag}"
+        # tree.name 및 self.tag 는 모델에 존재하지 않음 -> 안전하게 tree_code와 barcode_value 사용
+        return f"{self.tree.tree_code} - {self.barcode_value}"
+
+class TreeImage(models.Model):
+    tree = models.ForeignKey(Tree, on_delete=models.CASCADE, related_name='images', help_text="연결된 나무")
+    image = models.ImageField(upload_to='tree_images/', help_text="나무 이미지")
+    caption = models.CharField(max_length=200, null=True, blank=True, help_text="이미지 설명")
+    taken_at = models.DateTimeField(null=True, blank=True, help_text="촬영 일시")
+    uploaded_at = models.DateTimeField(auto_now_add=True, help_text="업로드 일시")
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
+    def __str__(self):
+        return f"{self.tree.tree_code} - {self.caption or self.uploaded_at:%Y-%m-%d}"
+
+
+class SpecimenData(models.Model):
+    """표본(샘플) 데이터 저장용 모델
+    - tree: 관련 나무 (있을 경우 연결)
+    - specimen_code: 현장 표본 코드
+    - collected_by: 채집자
+    - collected_at: 채집 일시
+    - latitude/longitude: 채집 위치 (선택)
+    - sample_type: 표본 유형 (예: 잎, 토양, 씨앗 등)
+    - measurements: 측정값(온도, 수분 등) JSON
+    - attachments: 추가 파일(이미지 등)의 경로를 JSON으로 저장
+    """
+    tree = models.ForeignKey(Tree, null=True, blank=True, on_delete=models.SET_NULL, related_name='specimens', help_text="관련 나무(선택)")
+    specimen_code = models.CharField(max_length=50, unique=True, help_text="표본 코드(현장 식별자)")
+    collected_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='collected_specimens', help_text="채집자(사용자, 선택)")
+    collected_at = models.DateTimeField(null=True, blank=True, help_text="채집 일시")
+    latitude = models.FloatField(null=True, blank=True, help_text="위도(선택)")
+    longitude = models.FloatField(null=True, blank=True, help_text="경도(선택)")
+    sample_type = models.CharField(max_length=50, null=True, blank=True, help_text="표본 유형(예: 잎, 토양)")
+    measurements = models.JSONField(null=True, blank=True, help_text="측정값(JSON, 예: {'moisture': 12.3, 'ph': 6.5})")
+    attachments = models.JSONField(null=True, blank=True, help_text="첨부파일 경로 목록(JSON)")
+    notes = models.TextField(null=True, blank=True, help_text="비고/특이사항")
+    created_at = models.DateTimeField(auto_now_add=True, help_text="기록 생성일시")
+    updated_at = models.DateTimeField(auto_now=True, help_text="기록 수정일시")
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Specimen {self.specimen_code} ({self.sample_type or 'unknown'})"
+
+
+class SpecimenAttachment(models.Model):
+    """SpecimenData에 연결된 파일(이미지 등)을 저장하는 모델
+    - specimen: 연결된 표본
+    - file: 업로드된 파일
+    - filename, content_type: 메타데이터
+    - is_image: 이미지 여부 빠른 판별
+    """
+    specimen = models.ForeignKey(SpecimenData, on_delete=models.CASCADE, related_name='attachments_files')
+    file = models.FileField(upload_to='specimen_attachments/')
+    filename = models.CharField(max_length=200, null=True, blank=True)
+    content_type = models.CharField(max_length=100, null=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    is_image = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
+    def __str__(self):
+        return f"{self.specimen.specimen_code} - {self.filename or self.file.name}"
+

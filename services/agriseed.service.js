@@ -506,6 +506,230 @@ export const AgriseedService = {
       apiToast('별점 생성에 실패했습니다.', 'error');
       throw error;
     }
+  },
+
+  async listTreeImages(params, options = {}) {
+    try {
+      const query = buildDjangoFilterParams(params)
+      const res = await api.get('/agriseed/tree-images/', { params: query })
+      const data = res.data
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle)
+    } catch (error) {
+      apiToast('나무 이미지 목록을 불러오는 데 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  // Trees CRUD
+  async listTrees(params, options = {}) {
+    try {
+      const query = buildDjangoFilterParams(params)
+      const res = await api.get('/agriseed/trees/', { params: query })
+      const data = res.data
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle)
+    } catch (error) {
+      apiToast('나무 목록을 불러오는 데 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async detailTree(id) {
+    try {
+      const res = await api.get(`/agriseed/trees/${id}/`)
+      return res.data
+    } catch (error) {
+      apiToast('나무 상세 정보를 불러오는 데 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async createTree(payload) {
+    try {
+      const res = await api.post('/agriseed/trees/', payload)
+      apiToast('나무 생성에 성공했습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('나무 생성에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async updateTree(id, payload) {
+    try {
+      const res = await api.put(`/agriseed/trees/${id}/`, payload)
+      apiToast('나무 업데이트에 성공했습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('나무 업데이트에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async patchTree(id, payload) {
+    try {
+      const res = await api.patch(`/agriseed/trees/${id}/`, payload)
+      apiToast('나무 정보 부분 수정에 성공했습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('나무 정보 부분 수정에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async removeTree(id) {
+    try {
+      await api.delete(`/agriseed/trees/${id}/`)
+      apiToast('나무 삭제에 성공했습니다.', 'success')
+    } catch (error) {
+      apiToast('나무 삭제에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  // Tree tags (QR/바코드) CRUD
+  async listTreeTags(params, options = {}) {
+    try {
+      const query = buildDjangoFilterParams(params)
+      const res = await api.get('/agriseed/tree-tags/', { params: query })
+      const data = res.data
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle)
+    } catch (error) {
+      apiToast('태그 목록을 불러오는 데 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async createTreeTag(payload) {
+    try {
+      const res = await api.post('/agriseed/tree-tags/', payload)
+      apiToast('태그 생성에 성공했습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('태그 생성에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async removeTreeTag(id) {
+    try {
+      await api.delete(`/agriseed/tree-tags/${id}/`)
+      apiToast('태그 삭제에 성공했습니다.', 'success')
+    } catch (error) {
+      apiToast('태그 삭제에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async uploadTreeImage(payload) {
+    try {
+      const isForm = (typeof FormData !== 'undefined') && (payload instanceof FormData)
+      const config = isForm ? { headers: { 'Content-Type': 'multipart/form-data' } } : {}
+      const res = await api.post('/agriseed/tree-images/', payload, config)
+      apiToast('나무 이미지 업로드에 성공했습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('나무 이미지 업로드에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async removeTreeImage(id) {
+    try {
+      await api.delete(`/agriseed/tree-images/${id}/`)
+      apiToast('나무 이미지가 삭제되었습니다.', 'success')
+    } catch (error) {
+      apiToast('나무 이미지 삭제에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  // Specimens (표본) API
+  async listSpecimens(params, options = {}) {
+    try {
+      const query = buildDjangoFilterParams(params)
+      const res = await api.get('/agriseed/specimens/', { params: query })
+      const data = res.data
+      return normalizeData(data, options.responseType || options.type || 'original', options.wrapSingle)
+    } catch (error) {
+      apiToast('표본 목록을 불러오는 데 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async detailSpecimen(id) {
+    try {
+      const res = await api.get(`/agriseed/specimens/${id}/`)
+      return res.data
+    } catch (error) {
+      apiToast('표본 상세 정보를 불러오는 데 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async createSpecimen(payload) {
+    try {
+      const isForm = (typeof FormData !== 'undefined') && (payload instanceof FormData)
+      const config = isForm ? { headers: { 'Content-Type': 'multipart/form-data' } } : {}
+      const res = await api.post('/agriseed/specimens/', payload, config)
+      apiToast('표본이 생성되었습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('표본 생성에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async updateSpecimen(id, payload) {
+    try {
+      const isForm = (typeof FormData !== 'undefined') && (payload instanceof FormData)
+      const config = isForm ? { headers: { 'Content-Type': 'multipart/form-data' } } : {}
+      const res = await api.put(`/agriseed/specimens/${id}/`, payload, config)
+      apiToast('표본이 업데이트되었습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('표본 업데이트에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async patchSpecimen(id, payload) {
+    try {
+      const isForm = (typeof FormData !== 'undefined') && (payload instanceof FormData)
+      const config = isForm ? { headers: { 'Content-Type': 'multipart/form-data' } } : {}
+      const res = await api.patch(`/agriseed/specimens/${id}/`, payload, config)
+      apiToast('표본 정보가 수정되었습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('표본 수정에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async removeSpecimen(id) {
+    try {
+      await api.delete(`/agriseed/specimens/${id}/`)
+      apiToast('표본이 삭제되었습니다.', 'success')
+    } catch (error) {
+      apiToast('표본 삭제에 실패했습니다.', 'error')
+      throw error
+    }
+  },
+
+  async uploadSpecimenAttachments(specimenId, files) {
+    try {
+      const form = new FormData()
+      if (Array.isArray(files)) {
+        files.forEach(f => form.append('attachments', f))
+      } else if (files) {
+        form.append('attachments', files)
+      }
+      const res = await api.post(`/agriseed/specimens/${specimenId}/upload-attachments/`, form, { headers: { 'Content-Type': 'multipart/form-data' } })
+      apiToast('첨부파일 업로드에 성공했습니다.', 'success')
+      return res.data
+    } catch (error) {
+      apiToast('첨부파일 업로드에 실패했습니다.', 'error')
+      throw error
+    }
   }
 };
 

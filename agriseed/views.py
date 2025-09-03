@@ -37,11 +37,12 @@ class BaseViewSet(viewsets.ModelViewSet):
 
 # DeviceViewSet: 장치(Device) 모델의 CRUD API를 제공합니다.
 class DeviceViewSet(BaseViewSet):
-    queryset = Device.objects.select_related('manufacturer').prefetch_related('zones').all()
+    # Device 모델에 맞게 queryset 및 필터/검색/정렬 필드 조정
+    queryset = Device.objects.all()
     serializer_class = DeviceSerializer
-    filterset_fields = ['manufacturer', 'is_deleted']
-    search_fields = ['name', 'description']
-    ordering_fields = ['id', 'created_at']
+    filterset_fields = ['device_id', 'type', 'is_deleted']
+    search_fields = ['name', 'device_id', 'location']
+    ordering_fields = ['id', 'installed_at']
 
 # ActivityViewSet: 활동(Activity) 모델의 CRUD API를 제공합니다.
 class ActivityViewSet(viewsets.ModelViewSet):
@@ -294,13 +295,14 @@ class RecipeRatingViewSet(viewsets.ModelViewSet):
 # Tree 및 Tree_tags ViewSet 추가
 class TreeViewSet(BaseViewSet):
     """Tree 모델의 CRUD API"""
+    # 모델에 정의된 필드 기준으로 필터/검색/정렬 구성
     queryset = Tree.objects.select_related('variety', 'zone').prefetch_related('tags').all()
     serializer_class = TreeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['zone__id', 'variety__id', 'tree_code', 'row_no', 'tree_no', 'is_deleted']
-    search_fields = ['name', 'tree_code', 'notes']
-    ordering_fields = ['id', 'created_at', 'updated_at', 'row_no', 'tree_no']
+    filterset_fields = ['zone__id', 'variety__id', 'tree_code', 'is_deleted']
+    search_fields = ['tree_code', 'notes', 'degree']
+    ordering_fields = ['id', 'created_at', 'updated_at', 'tree_age', 'degree']
 
 # QR payload 복잡 필터 지원을 위한 FilterSet
 class TreeTagsFilter(df_filters.FilterSet):
@@ -319,3 +321,89 @@ class TreeTagsViewSet(viewsets.ModelViewSet):
     filterset_class = TreeTagsFilter
     search_fields = ['barcode_value', 'qr_payload']
     ordering_fields = ['id', 'issue_date', 'created_at']
+
+# TreeImage 및 SpecimenData ViewSet 추가
+class TreeImageViewSet(BaseViewSet):
+    """TreeImage 모델의 CRUD API (이미지 업로드 포함)"""
+    queryset = TreeImage.objects.all()
+    serializer_class = TreeImageSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['tree__id', 'is_deleted']
+    ordering_fields = ['uploaded_at', 'id']
+
+class SpecimenDataViewSet(BaseViewSet):
+    """SpecimenData 모델의 CRUD API"""
+    queryset = SpecimenData.objects.all()
+    serializer_class = SpecimenDataSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['tree__id', 'specimen_code', 'collected_by', 'is_deleted']
+    search_fields = ['specimen_code', 'notes', 'sample_type']
+    ordering_fields = ['created_at', 'id']
+
+    def perform_create(self, serializer):
+        # 기본 저장은 serializer에 위임
+        specimen = serializer.save(collected_by=self.request.user if self.request.user.is_authenticated else None)
+        # 파일 업로드 처리: multipart form-data에서 'attachments'로 다중 파일 전송
+        files = self.request.FILES.getlist('attachments')
+        for f in files:
+            content_type = getattr(f, 'content_type', '')
+            is_image = content_type.startswith('image/') if content_type else False
+            SpecimenAttachment.objects.create(
+                specimen=specimen,
+                file=f,
+                filename=getattr(f, 'name', None),
+                content_type=content_type,
+                is_image=is_image
+            )
+
+    def create(self, request, *args, **kwargs):
+        # serializer로 데이터 검증 후 perform_create 호출
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_update(self, serializer):
+        specimen = serializer.save()
+        # 업데이트 시에도 새로운 파일이 있으면 추가로 저장
+        files = self.request.FILES.getlist('attachments')
+        for f in files:
+            content_type = getattr(f, 'content_type', '')
+            is_image = content_type.startswith('image/') if content_type else False
+            SpecimenAttachment.objects.create(
+                specimen=specimen,
+                file=f,
+                filename=getattr(f, 'name', None),
+                content_type=content_type,
+                is_image=is_image
+            )
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'], url_path='upload-attachments')
+    def upload_attachments(self, request, pk=None):
+        """별도 엔드포인트로 파일만 업로드할 때 사용. multipart/form-data, key='attachments'"""
+        specimen = self.get_object()
+        files = request.FILES.getlist('attachments')
+        created = []
+        for f in files:
+            content_type = getattr(f, 'content_type', '')
+            is_image = content_type.startswith('image/') if content_type else False
+            att = SpecimenAttachment.objects.create(
+                specimen=specimen,
+                file=f,
+                filename=getattr(f, 'name', None),
+                content_type=content_type,
+                is_image=is_image
+            )
+            created.append(SpecimenAttachmentSerializer(att, context={'request': request}).data)
+        return Response({'created': created}, status=status.HTTP_201_CREATED)

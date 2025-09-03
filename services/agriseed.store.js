@@ -36,6 +36,12 @@ export const useAgriseedStore = defineStore('agriseed', {
     varietyGuides: [],
     controlItems: [],
     commentVotes: [],
+    // Tree images 및 Specimens 관련 캐시 추가
+    treeImages: [],
+    specimens: [],
+    // Trees 및 태그 캐시
+    trees: [],
+    treeTags: [],
     // 전역 로딩/에러 상태
     isLoading: false,
     lastError: null
@@ -189,6 +195,52 @@ export const useAgriseedStore = defineStore('agriseed', {
     async fetchVarietyGuides(params) { return await this._fetchCollection('varietyGuides', AgriseedService.listVarietyGuides, params) },
     async createVarietyGuide(data) { return await this._createItem('varietyGuides', AgriseedService.createVarietyGuide, data) },
     async deleteVarietyGuide(id) { return await this._deleteItem('varietyGuides', AgriseedService.removeVarietyGuide, id) },
+
+    // Tree images
+    async fetchTreeImages(params) { return await this._fetchCollection('treeImages', AgriseedService.listTreeImages, params) },
+    async uploadTreeImage(data) { return await this._createItem('treeImages', AgriseedService.uploadTreeImage, data) },
+    async deleteTreeImage(id) { return await this._deleteItem('treeImages', AgriseedService.removeTreeImage, id) },
+
+    // Trees CRUD
+    async fetchTrees(params) { return await this._fetchCollection('trees', AgriseedService.listTrees, params) },
+    async getTree(id) { return await this._getItem(AgriseedService.detailTree, id) },
+    async createTree(data) { return await this._createItem('trees', AgriseedService.createTree, data) },
+    async updateTree(id, data) { return await this._updateItem('trees', AgriseedService.updateTree, id, data) },
+    async patchTree(id, data) { return await this._updateItem('trees', AgriseedService.patchTree, id, data) },
+    async deleteTree(id) { return await this._deleteItem('trees', AgriseedService.removeTree, id) },
+
+    // Tree tags CRUD
+    async fetchTreeTags(params) { return await this._fetchCollection('treeTags', AgriseedService.listTreeTags, params) },
+    async createTreeTag(data) { return await this._createItem('treeTags', AgriseedService.createTreeTag, data) },
+    async deleteTreeTag(id) { return await this._deleteItem('treeTags', AgriseedService.removeTreeTag, id) },
+
+    // Specimens (표본)
+    async fetchSpecimens(params) { return await this._fetchCollection('specimens', AgriseedService.listSpecimens, params) },
+    async getSpecimen(id) { return await this._getItem(AgriseedService.detailSpecimen, id) },
+    async createSpecimen(data) { return await this._createItem('specimens', AgriseedService.createSpecimen, data) },
+    async updateSpecimen(id, data) { return await this._updateItem('specimens', AgriseedService.updateSpecimen, id, data) },
+    async patchSpecimen(id, data) { return await this._updateItem('specimens', AgriseedService.patchSpecimen, id, data) },
+    async deleteSpecimen(id) { return await this._deleteItem('specimens', AgriseedService.removeSpecimen, id) },
+
+    // Specimen attachments 업로드 (성공 시 로컬 상태에 반영)
+    async uploadSpecimenAttachments(specimenId, files) {
+      const res = await AgriseedService.uploadSpecimenAttachments(specimenId, files)
+      // 응답에 created 배열이 있으면 specimens 캐시에 반영
+      try {
+        if (res && res.created && Array.isArray(res.created)) {
+          const idx = this.specimens.findIndex(s => s.id === specimenId)
+          if (idx !== -1) {
+            const specimen = { ...this.specimens[idx] }
+            specimen.attachments_files = (specimen.attachments_files || []).concat(res.created)
+            this.specimens.splice(idx, 1, specimen)
+          }
+        }
+      } catch (e) {
+        // 상태 반영 실패는 무시하되 에러로 기록
+        this.lastError = e
+      }
+      return res
+    },
 
     // Control items (정적 목록으로 사용될 수 있음)
     async fetchControlItems(params) { return await this._fetchCollection('controlItems', AgriseedService.listControlItems, params) },

@@ -31,6 +31,8 @@ router.register(r'recipe-ratings', RecipeRatingViewSet, basename='recipe-rating'
 # Tree 관련 엔드포인트 등록
 router.register(r'trees', TreeViewSet)
 router.register(r'tree-tags', TreeTagsViewSet)
+router.register(r'tree-images', TreeImageViewSet)
+router.register(r'specimens', SpecimenDataViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

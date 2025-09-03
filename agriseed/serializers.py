@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating, Tree, Tree_tags
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating, Tree, Tree_tags, TreeImage, SpecimenData, SpecimenAttachment
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -257,3 +257,35 @@ class TreeSerializer(serializers.ModelSerializer):
             for tag_data in tags_data:
                 Tree_tags.objects.create(tree=instance, **tag_data)
         return instance
+
+# 새로 추가: TreeImage 및 SpecimenData 직렬화기
+class TreeImageSerializer(serializers.ModelSerializer):
+    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all())
+    class Meta:
+        model = TreeImage
+        fields = '__all__'
+
+# 새로 추가: SpecimenAttachment 직렬화기
+class SpecimenAttachmentSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SpecimenAttachment
+        fields = ['id', 'file', 'file_url', 'filename', 'content_type', 'uploaded_at', 'is_image', 'is_deleted']
+        read_only_fields = ('uploaded_at', 'is_image', 'content_type', 'filename')
+
+    def get_file_url(self, obj):
+        request = self.context.get('request')
+        if obj.file and hasattr(obj.file, 'url'):
+            return request.build_absolute_uri(obj.file.url) if request else obj.file.url
+        return None
+
+class SpecimenDataSerializer(serializers.ModelSerializer):
+    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all(), allow_null=True, required=False)
+    collected_by = serializers.StringRelatedField(read_only=True)
+    attachments_files = SpecimenAttachmentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = SpecimenData
+        fields = '__all__'
+        read_only_fields = ('created_at', 'updated_at',)
