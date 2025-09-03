@@ -369,15 +369,9 @@ class RecipeCommentVote(models.Model):
 class Tree(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='trees', help_text="소속된 구역")
     variety = models.ForeignKey(Variety, on_delete=models.CASCADE, related_name='varieties', help_text="연결된 품종")
-    name = models.CharField(max_length=100)
     tree_code = models.CharField(max_length=20, help_text="현장 표기 (예: B12-034)")
-<<<<<<< HEAD
-    row_no = models.IntegerField(help_text="행 번호")
-    tree_no = models.IntegerField(help_text="주 번호")
-=======
     height_level = models.CharField(help_text="상단, 중단, 하단 구분")
     degree = models.IntegerField(help_text="나침반 각도")
->>>>>>> 9d532d28e88dfe506489439d9ef8c859c6dbc566
     notes = models.TextField(null=True, blank=True, help_text="특이사항")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -406,8 +400,4 @@ class Tree_tags(models.Model):
     notes = models.TextField(null=True, blank=True, help_text="특이사항")
 
     def __str__(self):
-<<<<<<< HEAD
         return f"{self.tree.name} - {self.tag}"
-=======
-        return f"{self.tree.name} - {self.tag}"
->>>>>>> 9d532d28e88dfe506489439d9ef8c859c6dbc566
