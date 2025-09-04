@@ -370,8 +370,6 @@ class Tree(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='trees', help_text="소속된 구역")
     variety = models.ForeignKey(Variety, on_delete=models.CASCADE, related_name='varieties', help_text="연결된 품종")
     tree_code = models.CharField(max_length=20, help_text="현장 표기 (예: B12-034)")
-    height_level = models.CharField(max_length=20, null=True, blank=True, help_text="상단, 중단, 하단 구분")
-    degree = models.IntegerField(help_text="나침반 각도")
     notes = models.TextField(null=True, blank=True, help_text="특이사항")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -384,8 +382,11 @@ class Tree(models.Model):
 
     def __str__(self):
         # 모델 필드에 맞게 표시값을 수정 (tree_code 우선 사용)
-        return f"{self.tree_code}" 
+        return f"{self.tree_code}"
+     
 
+# 수확 전과 수확 후 기준 boolean
+# Tree_tags에 영농일지 작성
 class Tree_tags(models.Model):
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE, related_name='tags', help_text="소속된 나무")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -393,12 +394,20 @@ class Tree_tags(models.Model):
     barcode_type = models.CharField(max_length=20, help_text="바코드 유형 (예: QR, Code128 등)")
     barcode_value = models.CharField(max_length=100, help_text="바코드 값")
     qr_payload = models.TextField(help_text="QR 코드 페이로드 (예: URL 또는 JSON)")
-    issue_date = models.DateField(help_text="발급일")
+    height_level = models.CharField(max_length=20, null=True, blank=True, help_text="상단, 중단, 하단 구분")
+    degree = models.IntegerField(help_text="나침반 각도", null=True, blank=True)
+    issue_date = models.DateField(help_text="발급일", null=True, blank=True)
     issued_by = models.CharField(max_length=100, help_text="발급자")
     valid_from = models.DateField(help_text="유효 시작일")
     valid_to = models.DateField(null=True, blank=True, help_text="유효 종료일 (빈 값이면 무한대로 간주)")
     is_active = models.BooleanField(default=True, help_text="태그 활성화 여부")
     notes = models.TextField(null=True, blank=True, help_text="특이사항")
+
+    # 새로 추가: 수확 전/수확 후 구분 및 영농일지 관련 필드
+    # 수확 상태는 단일 boolean으로 관리합니다. (True = 수확 후, False = 수확 전)
+    is_post_harvest = models.BooleanField(default=False, help_text="이 태그가 수확 후 기준인지 여부 (True=수확후, False=수확전)")
+    has_farm_log = models.BooleanField(default=False, help_text="영농일지 작성 여부")
+    farm_log = models.TextField(null=True, blank=True, help_text="태그와 연결된 영농일지(간단 텍스트 저장)")
 
     def __str__(self):
         # tree.name 및 self.tag 는 모델에 존재하지 않음 -> 안전하게 tree_code와 barcode_value 사용
@@ -415,7 +424,8 @@ class TreeImage(models.Model):
     def __str__(self):
         return f"{self.tree.tree_code} - {self.caption or self.uploaded_at:%Y-%m-%d}"
 
-
+# SpecimenData.sample_type 표본데이터의 기준값 및 범위와 분류명, 단계지수를 관리하는 테이블
+# 수확 전과 수확 후 기준 boolean
 class SpecimenData(models.Model):
     """표본(샘플) 데이터 저장용 모델
     - tree: 관련 나무 (있을 경우 연결)
@@ -437,6 +447,11 @@ class SpecimenData(models.Model):
     measurements = models.JSONField(null=True, blank=True, help_text="측정값(JSON, 예: {'moisture': 12.3, 'ph': 6.5})")
     attachments = models.JSONField(null=True, blank=True, help_text="첨부파일 경로 목록(JSON)")
     notes = models.TextField(null=True, blank=True, help_text="비고/특이사항")
+
+    # 새로 추가: 수확 전/수확 후 기준 boolean 값
+    # 수확 상태는 단일 boolean으로 관리합니다. (True = 수확 후, False = 수확 전)
+    is_post_harvest = models.BooleanField(default=False, help_text="이 표본이 수확 후 시점에 채집되었는지 여부 (Tree_tags 기준으로 동기화)")
+
     created_at = models.DateTimeField(auto_now_add=True, help_text="기록 생성일시")
     updated_at = models.DateTimeField(auto_now=True, help_text="기록 수정일시")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
@@ -447,6 +462,18 @@ class SpecimenData(models.Model):
     def __str__(self):
         return f"Specimen {self.specimen_code} ({self.sample_type or 'unknown'})"
 
+    def save(self, *args, **kwargs):
+        # tree가 연결되어 있을 경우 가장 최근의 Tree_tags 기준으로 수확 전/후 플래그를 동기화
+        try:
+            if self.tree:
+                latest_tag = self.tree.tags.order_by('-created_at').first()
+                if latest_tag:
+                    # 태그의 is_post_harvest 값을 표본에 복사 (True=수확후, False=수확전)
+                    self.is_post_harvest = bool(latest_tag.is_post_harvest)
+        except Exception:
+            # 안전하게 무시하고 저장되도록 함
+            pass
+        super().save(*args, **kwargs)
 
 class SpecimenAttachment(models.Model):
     """SpecimenData에 연결된 파일(이미지 등)을 저장하는 모델

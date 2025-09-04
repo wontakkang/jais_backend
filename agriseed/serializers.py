@@ -228,7 +228,12 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
 
 # Tree 및 Tree_tags 직렬화기 추가
 class TreeTagsSerializer(serializers.ModelSerializer):
-    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all())
+    # tree를 nested 생성시 생략할 수 있도록 선택적으로 만듭니다.
+    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all(), required=False, allow_null=True)
+    # 단일 boolean 필드로 수확 상태를 관리 (True=수확후)
+    is_post_harvest = serializers.BooleanField(required=False, default=False)
+    has_farm_log = serializers.BooleanField(required=False, default=False)
+
     class Meta:
         model = Tree_tags
         fields = '__all__'
@@ -284,6 +289,8 @@ class SpecimenDataSerializer(serializers.ModelSerializer):
     tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all(), allow_null=True, required=False)
     collected_by = serializers.StringRelatedField(read_only=True)
     attachments_files = SpecimenAttachmentSerializer(many=True, read_only=True)
+    # Specimen의 수확 상태는 Tree_tags에서 동기화되므로 API 기본 동작에서는 읽기 전용으로 노출
+    is_post_harvest = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = SpecimenData

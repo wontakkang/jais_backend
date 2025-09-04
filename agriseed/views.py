@@ -300,17 +300,27 @@ class TreeViewSet(BaseViewSet):
     serializer_class = TreeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['zone__id', 'variety__id', 'tree_code', 'is_deleted']
-    search_fields = ['tree_code', 'notes', 'degree']
-    ordering_fields = ['id', 'created_at', 'updated_at', 'tree_age', 'degree']
+    # degree, height_level이 Tree_tags로 이동했으므로 관련 필드로 필터링하도록 변경
+    filterset_fields = ['zone__id', 'variety__id', 'tree_code', 'is_deleted', 'tags__degree', 'tags__height_level', 'tags__is_post_harvest', 'tags__has_farm_log']
+    # 검색에서 degree 제거 (tags 관련 검색은 tree-tags 엔드포인트 사용 권장)
+    search_fields = ['tree_code', 'notes']
+    # 정렬 필드에서 degree 제거
+    ordering_fields = ['id', 'created_at', 'updated_at', 'tree_age']
 
 # QR payload 복잡 필터 지원을 위한 FilterSet
 class TreeTagsFilter(df_filters.FilterSet):
     qr_payload_contains = df_filters.CharFilter(field_name='qr_payload', lookup_expr='icontains')
+    # degree는 숫자 필터로, height_level은 문자열 필터로 노출
+    degree = df_filters.NumberFilter(field_name='degree')
+    height_level = df_filters.CharFilter(field_name='height_level', lookup_expr='iexact')
+    # 수확 상태는 단일 boolean으로 제공
+    is_post_harvest = df_filters.BooleanFilter(field_name='is_post_harvest')
+    has_farm_log = df_filters.BooleanFilter(field_name='has_farm_log')
 
     class Meta:
         model = Tree_tags
-        fields = ['tree', 'barcode_type', 'barcode_value', 'is_active', 'qr_payload_contains']
+        fields = ['tree', 'barcode_type', 'barcode_value', 'is_active', 'qr_payload_contains', 'degree', 'height_level', 'is_post_harvest', 'has_farm_log']
+
 
 class TreeTagsViewSet(viewsets.ModelViewSet):
     """Tree_tags 모델의 CRUD API"""
@@ -319,7 +329,7 @@ class TreeTagsViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_class = TreeTagsFilter
-    search_fields = ['barcode_value', 'qr_payload']
+    search_fields = ['barcode_value', 'qr_payload', 'height_level', 'degree']
     ordering_fields = ['id', 'issue_date', 'created_at']
 
 # TreeImage 및 SpecimenData ViewSet 추가
