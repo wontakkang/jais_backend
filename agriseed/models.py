@@ -3,6 +3,8 @@ from django.contrib.postgres.fields import RangeField
 from django.db.models import JSONField
 from corecode.models import DataName, ControlLogic  # ensure ControlLogic imported
 from django.conf import settings
+import random
+from django.utils import timezone
 
 class Device(models.Model):
     name = models.CharField(max_length=100)
@@ -438,11 +440,8 @@ class SpecimenData(models.Model):
     - attachments: 추가 파일(이미지 등)의 경로를 JSON으로 저장
     """
     tree = models.ForeignKey(Tree, null=True, blank=True, on_delete=models.SET_NULL, related_name='specimens', help_text="관련 나무(선택)")
-    specimen_code = models.CharField(max_length=50, unique=True, help_text="표본 코드(현장 식별자)")
     collected_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='collected_specimens', help_text="채집자(사용자, 선택)")
     collected_at = models.DateTimeField(null=True, blank=True, help_text="채집 일시")
-    latitude = models.FloatField(null=True, blank=True, help_text="위도(선택)")
-    longitude = models.FloatField(null=True, blank=True, help_text="경도(선택)")
     sample_type = models.CharField(max_length=50, null=True, blank=True, help_text="표본 유형(예: 잎, 토양)")
     measurements = models.JSONField(null=True, blank=True, help_text="측정값(JSON, 예: {'moisture': 12.3, 'ph': 6.5})")
     attachments = models.JSONField(null=True, blank=True, help_text="첨부파일 경로 목록(JSON)")

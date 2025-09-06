@@ -348,8 +348,9 @@ class SpecimenDataViewSet(BaseViewSet):
     serializer_class = SpecimenDataSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['tree__id', 'specimen_code', 'collected_by', 'is_deleted']
-    search_fields = ['specimen_code', 'notes', 'sample_type']
+    # 모델 컬럼 변경 반영: specimen_code 필드 제거되어 관련 필터/검색어를 제거
+    filterset_fields = ['tree__id', 'collected_by', 'is_deleted', 'is_post_harvest', 'sample_type']
+    search_fields = ['notes', 'sample_type']
     ordering_fields = ['created_at', 'id']
 
     def perform_create(self, serializer):
