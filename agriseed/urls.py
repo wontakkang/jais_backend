@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import *
+from jais_backend.agriseed import views
 
 router = DefaultRouter()
 router.register(r'devices', DeviceViewSet)
@@ -36,4 +37,5 @@ router.register(r'specimens', SpecimenDataViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('agriseed/qr/<str:identifier>/', views.qr_image, name='agriseed-qr'),
 ]

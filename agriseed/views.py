@@ -418,3 +418,32 @@ class SpecimenDataViewSet(BaseViewSet):
             )
             created.append(SpecimenAttachmentSerializer(att, context={'request': request}).data)
         return Response({'created': created}, status=status.HTTP_201_CREATED)
+
+# views.py
+import io
+import qrcode
+from django.http import HttpResponse
+from django.views.decorators.http import require_GET
+from django.contrib.auth.decorators import login_required  # 필요시
+
+@require_GET
+# @login_required  # 인증 필요 시 활성화
+def qr_image(request, identifier):
+    """
+    identifier: sample id 또는 sample code
+    반환: image/png (QR에는 앱 내 절대 URL 또는 JSON 페이로드 삽입)
+    """
+    payload = {
+        "id": identifier,
+        "url": request.build_absolute_uri(f"/measurement/{identifier}"),
+        "code": str(identifier)
+    }
+    qr = qrcode.QRCode(box_size=6, border=2)
+    qr.add_data(json.dumps(payload))
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    buf.seek(0)
+    return HttpResponse(buf.getvalue(), content_type="image/png")
