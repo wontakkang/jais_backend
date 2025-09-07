@@ -10,6 +10,9 @@ from rest_framework.decorators import action
 from django.db.models import Count, Avg, Q
 from rest_framework.pagination import PageNumberPagination
 from django_filters import rest_framework as df_filters
+import json
+from rest_framework.views import APIView
+from .serializers import EvaluateMeasurementInputSerializer, VarietyDataThresholdSerializer, QualityEventSerializer
 
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
@@ -418,6 +421,127 @@ class SpecimenDataViewSet(BaseViewSet):
             )
             created.append(SpecimenAttachmentSerializer(att, context={'request': request}).data)
         return Response({'created': created}, status=status.HTTP_201_CREATED)
+
+class SensorItemViewSet(BaseViewSet):
+    """SensorItem 모델의 CRUD API"""
+    queryset = SensorItem.objects.select_related('item_name').all()
+    serializer_class = SensorItemSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['item_name']
+    search_fields = ['description', 'item_name__name']
+    ordering_fields = ['id']
+
+class MeasurementItemViewSet(BaseViewSet):
+    """MeasurementItem 모델의 CRUD API"""
+    # MeasurementItem 모델은 sensor_item/is_active 필드를 가지지 않음
+    queryset = MeasurementItem.objects.select_related('item_name').all()
+    serializer_class = MeasurementItemSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['item_name']
+    search_fields = ['description', 'item_name__name']
+    ordering_fields = ['id']
+
+class VarietyDataThresholdViewSet(BaseViewSet):
+    """품종별 DataName 임계값 관리용 CRUD API"""
+    queryset = VarietyDataThreshold.objects.select_related('variety', 'data_name').all()
+    serializer_class = VarietyDataThresholdSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['variety', 'data_name', 'is_active']
+    search_fields = ['note', 'data_name__name', 'variety__name']
+    ordering_fields = ['-priority', 'id']
+
+class QualityEventViewSet(BaseViewSet):
+    """평가 이벤트 로그 조회/관리 API"""
+    queryset = QualityEvent.objects.select_related('variety', 'data_name', 'rule').all()
+    serializer_class = QualityEventSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['variety', 'data_name', 'level_name', 'quality', 'source_type']
+    search_fields = ['message', 'data_name__name', 'variety__name']
+    ordering_fields = ['-created_at', 'level_severity']
+
+class EvaluateMeasurementView(APIView):
+    """POST로 측정값을 전달하면 품종별 규칙을 찾아 평가하고 QualityEvent를 생성합니다."""
+    permission_classes = [permissions.AllowAny]
+
+    LEVEL_MAP = {
+        'normal': ('NORMAL', 0),
+        'info': ('INFO', 1),
+        'warning': ('WARNING', 2),
+        'critical': ('CRITICAL', 3),
+    }
+
+    def post(self, request, *args, **kwargs):
+        serializer = EvaluateMeasurementInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        data_name_id = data.get('data_name')
+        variety_id = data.get('variety')
+        value = data.get('value')
+        source_type = data.get('source_type') or 'unknown'
+        source_id = data.get('source_id')
+
+        # 데이터명/품종 존재 확인
+        try:
+            dn = DataName.objects.get(pk=data_name_id)
+        except DataName.DoesNotExist:
+            return Response({'detail': 'data_name not found'}, status=status.HTTP_400_BAD_REQUEST)
+
+        variety = None
+        if variety_id:
+            try:
+                variety = Variety.objects.get(pk=variety_id)
+            except Variety.DoesNotExist:
+                return Response({'detail': 'variety not found'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 규칙 조회: 품종이 주어지면 해당 품종 우선, 없으면 전체에서 data_name 매칭된 것 검색
+        rules_qs = VarietyDataThreshold.objects.filter(data_name=dn, is_active=True)
+        if variety:
+            rules_qs = rules_qs.filter(variety=variety)
+        rules_qs = rules_qs.order_by('-priority')
+
+        if not rules_qs.exists():
+            return Response({'detail': 'no threshold rule found for given data_name/variety'}, status=status.HTTP_404_NOT_FOUND)
+
+        # 첫 번째 규칙 적용 (우선순위 높은 규칙)
+        rule = rules_qs.first()
+        eval_result = rule.evaluate(value)
+        level_key = eval_result.get('level')
+        quality = eval_result.get('quality')
+        level_name, severity = self.LEVEL_MAP.get(level_key, ('INFO', 1))
+
+        # 메시지 생성 (간단한 템플릿)
+        msg = f"{dn.name}: {level_name} (value={value})"
+        if rule.min_good is not None and rule.max_good is not None:
+            msg += f"; normal={rule.min_good}~{rule.max_good}"
+        if rule.min_warn is not None and rule.max_warn is not None:
+            msg += f"; warn={rule.min_warn}~{rule.max_warn}"
+
+        # 이벤트 저장
+        event = QualityEvent.objects.create(
+            source_type=source_type,
+            source_id=source_id,
+            variety=variety,
+            data_name=dn,
+            value=value,
+            level_name=level_name,
+            level_severity=severity,
+            quality=quality,
+            rule=rule,
+            message=msg
+        )
+
+        return Response({
+            'data_name': dn.name,
+            'variety': str(variety) if variety else None,
+            'value': value,
+            'level': level_name,
+            'severity': severity,
+            'quality': quality,
+            'rule': rule.id,
+            'message': msg,
+            'event_id': event.id
+        }, status=status.HTTP_200_OK)
 
 # views.py
 import io

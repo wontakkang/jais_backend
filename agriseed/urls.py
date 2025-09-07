@@ -1,7 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import *
-from jais_backend.agriseed import views
 
 router = DefaultRouter()
 router.register(r'devices', DeviceViewSet)
@@ -24,6 +23,8 @@ router.register(r'recipe-profiles', RecipeProfileViewSet)  # 레시피 프로필
 router.register(r'recipe-steps', RecipeStepViewSet)  # 레시피 단계 값
 router.register(r'control-items', ControlItemViewSet)     # 제어 항목
 router.register(r'recipe-item-values', RecipeItemValueViewSet)  # 레시피 항목 값
+router.register(r'sensor-items', SensorItemViewSet)
+router.register(r'measurement-items', MeasurementItemViewSet)
 router.register(r'recipe-comments', RecipeCommentViewSet, basename='recipe-comment')  # 레시피 코멘트
 router.register(r'comment-votes', RecipeCommentVoteViewSet, basename='comment-vote')  # 코멘트 도움됨/도움안됨
 router.register(r'recipe-performances', RecipePerformanceViewSet, basename='recipe-performance')  # 레시피 성과
@@ -37,5 +38,5 @@ router.register(r'specimens', SpecimenDataViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('agriseed/qr/<str:identifier>/', views.qr_image, name='agriseed-qr'),
+    path('agriseed/qr/<str:identifier>/', qr_image, name='agriseed-qr'),
 ]

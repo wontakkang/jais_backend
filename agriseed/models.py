@@ -285,6 +285,127 @@ class ControlItem(models.Model):
     def __str__(self):
         return f"{self.description}({self.item_name})"
 
+class MeasurementItem(models.Model):
+    item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='measurement_items', help_text="측정 항목명(DataName)")
+    description = models.TextField(blank=True, help_text="설명")
+
+    def __str__(self):
+        return f"{self.description}({self.item_name})"
+    
+class SensorItem(models.Model):
+    item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='sensor_items', help_text="센서 항목명(DataName)")
+    description = models.TextField(blank=True, help_text="설명")
+
+    def __str__(self):
+        return f"{self.description}({self.item_name})"
+
+# 새로 추가: 품종별(DataName x Variety) 기준값 테이블
+class VarietyDataThreshold(models.Model):
+    """특정 품종(variety) 및 데이터항목(data_name)에 대한 품질/임계값을 저장합니다.
+    예: 품종 A의 온도 정상 범위(18~25), 경고 범위(15~28) 등
+    """
+    variety = models.ForeignKey(Variety, on_delete=models.CASCADE, related_name='data_thresholds', help_text="대상 품종")
+    data_name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='variety_thresholds', help_text="측정/센서 항목 (DataName)")
+
+    # 정상(good) 범위
+    min_good = models.FloatField(null=True, blank=True, help_text="정상 최소값 (선택)")
+    max_good = models.FloatField(null=True, blank=True, help_text="정상 최대값 (선택)")
+
+    # 경고(warning) 범위 - good 범위를 포함하거나 확장하도록 설정 가능
+    min_warn = models.FloatField(null=True, blank=True, help_text="경고 최소값 (선택)")
+    max_warn = models.FloatField(null=True, blank=True, help_text="경고 최대값 (선택)")
+
+    # 우선순위(높을수록 우선 적용)
+    priority = models.IntegerField(default=0, help_text="우선순위 (높을수록 우선 적용)")
+    note = models.TextField(null=True, blank=True, help_text="설명/메모")
+    is_active = models.BooleanField(default=True, help_text="활성화 여부")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('variety', 'data_name')
+        ordering = ['-priority', 'variety', 'data_name']
+
+    def __str__(self):
+        return f"{self.variety} - {self.data_name} (pri={self.priority})"
+
+    def evaluate(self, value):
+        """주어진 값(value)에 대해 이 규칙만으로 판단한 결과를 반환합니다.
+        반환 예: {'level': 'normal'|'warning'|'critical', 'quality': 'good'|'fair'|'poor'}
+        로직: good 범위가 정의되면 우선 검사, warning 범위가 정의되면 그 다음, 그 외는 critical
+        """
+        try:
+            v = float(value)
+        except Exception:
+            return {'level': 'unknown', 'quality': 'unknown'}
+
+        # normal / good
+        if self.min_good is not None and self.max_good is not None:
+            if self.min_good <= v <= self.max_good:
+                return {'level': 'normal', 'quality': 'good'}
+
+        # warning / fair
+        if self.min_warn is not None and self.max_warn is not None:
+            if self.min_warn <= v <= self.max_warn:
+                return {'level': 'warning', 'quality': 'fair'}
+
+        # default critical/poor
+        return {'level': 'critical', 'quality': 'poor'}
+
+# 새로 추가: 평가 이벤트 로그 모델
+class QualityEvent(models.Model):
+    """측정값 평가 결과를 저장하는 이벤트 로그
+    - source_type/source_id: 이벤트가 발생한 원본 (sensor, specimen 등)을 식별
+    - variety/data_name: 어떤 품종/항목에 대해 평가했는지
+    - value: 원시 측정값
+    - level_name: NORMAL/INFO/WARNING/CRITICAL
+    - level_severity: 정수 심각도(0..3)
+    - quality: good/fair/poor
+    - rule: 적용된 VarietyDataThreshold (선택)
+    - message: 사람 읽을 수 있는 설명
+    """
+    SOURCE_CHOICES = [
+        ('sensor', 'Sensor'),
+        ('specimen', 'Specimen'),
+        ('manual', 'Manual'),
+        ('unknown', 'Unknown'),
+    ]
+
+    LEVEL_CHOICES = [
+        ('NORMAL', 'Normal'),
+        ('INFO', 'Info'),
+        ('WARNING', 'Warning'),
+        ('CRITICAL', 'Critical'),
+    ]
+
+    QUALITY_CHOICES = [
+        ('good', 'Good'),
+        ('fair', 'Fair'),
+        ('poor', 'Poor'),
+    ]
+
+    source_type = models.CharField(max_length=30, choices=SOURCE_CHOICES, default='unknown')
+    source_id = models.CharField(max_length=100, null=True, blank=True)
+
+    variety = models.ForeignKey(Variety, on_delete=models.SET_NULL, null=True, blank=True, related_name='quality_events')
+    data_name = models.ForeignKey(DataName, on_delete=models.SET_NULL, null=True, blank=True, related_name='quality_events')
+
+    value = models.FloatField(null=True, blank=True)
+    level_name = models.CharField(max_length=20, choices=LEVEL_CHOICES)
+    level_severity = models.IntegerField()  # 0..3
+    quality = models.CharField(max_length=10, choices=QUALITY_CHOICES)
+    rule = models.ForeignKey(VarietyDataThreshold, on_delete=models.SET_NULL, null=True, blank=True, related_name='events')
+    message = models.TextField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.data_name}({self.value}) -> {self.level_name} ({self.quality})"
+
 class RecipeItemValue(models.Model):
     recipe = models.ForeignKey(RecipeStep, null=True, blank=True, on_delete=models.CASCADE, related_name='item_values')
     control_item = models.ForeignKey(ControlItem, on_delete=models.CASCADE, null=True, blank=True, related_name='recipe_values')

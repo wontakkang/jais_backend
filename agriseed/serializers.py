@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating, Tree, Tree_tags, TreeImage, SpecimenData, SpecimenAttachment
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating, Tree, Tree_tags, TreeImage, SpecimenData, SpecimenAttachment, SensorItem, MeasurementItem, VarietyDataThreshold, QualityEvent
+from corecode.models import DataName
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -296,3 +297,45 @@ class SpecimenDataSerializer(serializers.ModelSerializer):
         model = SpecimenData
         fields = '__all__'
         read_only_fields = ('created_at', 'updated_at',)
+
+class SensorItemSerializer(serializers.ModelSerializer):
+    item_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all())
+
+    class Meta:
+        model = SensorItem
+        fields = ['id', 'item_name', 'description']
+
+
+class MeasurementItemSerializer(serializers.ModelSerializer):
+    item_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all())
+
+    class Meta:
+        model = MeasurementItem
+        fields = ['id', 'item_name', 'description']
+
+class VarietyDataThresholdSerializer(serializers.ModelSerializer):
+    variety = serializers.PrimaryKeyRelatedField(queryset=Variety.objects.all())
+    data_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all())
+
+    class Meta:
+        model = VarietyDataThreshold
+        fields = ['id', 'variety', 'data_name', 'min_good', 'max_good', 'min_warn', 'max_warn', 'priority', 'note', 'is_active', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
+
+
+class QualityEventSerializer(serializers.ModelSerializer):
+    variety = serializers.StringRelatedField()
+    data_name = serializers.StringRelatedField()
+
+    class Meta:
+        model = QualityEvent
+        fields = ['id', 'source_type', 'source_id', 'variety', 'data_name', 'value', 'level_name', 'level_severity', 'quality', 'rule', 'message', 'created_at']
+        read_only_fields = ['created_at']
+
+
+class EvaluateMeasurementInputSerializer(serializers.Serializer):
+    data_name = serializers.IntegerField()
+    variety = serializers.IntegerField(required=False, allow_null=True)
+    value = serializers.FloatField()
+    source_type = serializers.ChoiceField(choices=[('sensor','Sensor'),('specimen','Specimen'),('manual','Manual')], required=False, default='unknown')
+    source_id = serializers.CharField(required=False, allow_blank=True, allow_null=True)
