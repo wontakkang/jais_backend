@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
 from django.db.models import Count, Avg, Q
+from django.db import IntegrityError
 from rest_framework.pagination import PageNumberPagination
 from django_filters import rest_framework as df_filters
 import json
@@ -442,13 +443,36 @@ class MeasurementItemViewSet(BaseViewSet):
     ordering_fields = ['id']
 
 class VarietyDataThresholdViewSet(BaseViewSet):
-    """품종별 DataName 임계값 관리용 CRUD API"""
+    """품종별 데이터 임계값 CRUD API
+    - 권한: 읽기 공개, 작성/수정은 인증 필요
+    - 필터: variety, data_name, is_active, level_label, quality_label
+    - 검색: note, data_name__name, variety__name, level_label, quality_label
+    - 정렬: 우선순위 기준 기본(-priority)
+    """
     queryset = VarietyDataThreshold.objects.select_related('variety', 'data_name').all()
     serializer_class = VarietyDataThresholdSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['variety', 'data_name', 'is_active']
-    search_fields = ['note', 'data_name__name', 'variety__name']
-    ordering_fields = ['-priority', 'id']
+    filterset_fields = ['variety', 'data_name', 'is_active', 'level_label', 'quality_label']
+    search_fields = ['note', 'data_name__name', 'variety__name', 'level_label', 'quality_label']
+    ordering_fields = ['-priority', 'id', 'created_at']
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            self.perform_create(serializer)
+        except IntegrityError:
+            return Response({'detail': 'threshold with same variety/data_name/priority already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        # 기본 저장
+        serializer.save()
+
+    def perform_update(self, serializer):
+        serializer.save()
 
 class QualityEventViewSet(BaseViewSet):
     """평가 이벤트 로그 조회/관리 API"""
@@ -464,10 +488,13 @@ class EvaluateMeasurementView(APIView):
     """POST로 측정값을 전달하면 품종별 규칙을 찾아 평가하고 QualityEvent를 생성합니다."""
     permission_classes = [permissions.AllowAny]
 
+    # 기존 매핑에 risk/high_risk를 추가하여 평가 단계별 level_name 및 severity를 명확히 함
     LEVEL_MAP = {
         'normal': ('NORMAL', 0),
         'info': ('INFO', 1),
-        'warning': ('WARNING', 2),
+        'warning': ('WARNING', 1),
+        'risk': ('WARNING', 2),
+        'high_risk': ('CRITICAL', 3),
         'critical': ('CRITICAL', 3),
     }
 

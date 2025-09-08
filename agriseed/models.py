@@ -299,59 +299,149 @@ class SensorItem(models.Model):
     def __str__(self):
         return f"{self.description}({self.item_name})"
 
-# 새로 추가: 품종별(DataName x Variety) 기준값 테이블
 class VarietyDataThreshold(models.Model):
     """특정 품종(variety) 및 데이터항목(data_name)에 대한 품질/임계값을 저장합니다.
-    예: 품종 A의 온도 정상 범위(18~25), 경고 범위(15~28) 등
+    예: 온주밀감 당도 정상 범위(11.5~13.4), 경고 범위(10.0~11.4) 등
+
+    구현 보완:
+    - clean()에서 min<=max 보장, 쌍 누락 방지, 구간 겹침 방지(반-열린 구간 기준)
+    - save()에서 full_clean() 호출로 저장 시 검증 수행
+    - evaluate()는 반-열린 구간 [min, max) 표준을 따르며 matched_range 반환
     """
-    variety = models.ForeignKey(Variety, on_delete=models.CASCADE, related_name='data_thresholds', help_text="대상 품종")
-    data_name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='variety_thresholds', help_text="측정/센서 항목 (DataName)")
+    LEVEL_LABELS = {
+        'normal': ('정상', '우수'),
+        'warning': ('주의', '양호'),
+        'risk': ('위험', '불량'),
+        'high_risk': ('고위험', '불량'),
+        'critical': ('부적합', '불량'),
+    }
+
+    variety = models.ForeignKey(Variety, on_delete=models.CASCADE, related_name='data_thresholds')
+    data_name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='variety_thresholds')
 
     # 정상(good) 범위
-    min_good = models.FloatField(null=True, blank=True, help_text="정상 최소값 (선택)")
-    max_good = models.FloatField(null=True, blank=True, help_text="정상 최대값 (선택)")
+    min_good = models.FloatField(null=True, blank=True)
+    max_good = models.FloatField(null=True, blank=True)
 
-    # 경고(warning) 범위 - good 범위를 포함하거나 확장하도록 설정 가능
-    min_warn = models.FloatField(null=True, blank=True, help_text="경고 최소값 (선택)")
-    max_warn = models.FloatField(null=True, blank=True, help_text="경고 최대값 (선택)")
+    # 경고(warning) 범위
+    min_warn = models.FloatField(null=True, blank=True)
+    max_warn = models.FloatField(null=True, blank=True)
 
-    # 우선순위(높을수록 우선 적용)
-    priority = models.IntegerField(default=0, help_text="우선순위 (높을수록 우선 적용)")
-    note = models.TextField(null=True, blank=True, help_text="설명/메모")
-    is_active = models.BooleanField(default=True, help_text="활성화 여부")
+    # 추가: 위험(risk) 및 고위험(high_risk) 범위
+    min_risk = models.FloatField(null=True, blank=True)
+    max_risk = models.FloatField(null=True, blank=True)
+
+    min_high_risk = models.FloatField(null=True, blank=True)
+    max_high_risk = models.FloatField(null=True, blank=True)
+
+    # 우선순위
+    priority = models.IntegerField(default=0)
+    note = models.TextField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    # 라벨 필드
+    level_label = models.CharField(max_length=50, null=True, blank=True,
+                                   help_text="레벨 라벨 (예: normal=정상, warning=주의, critical=부적합)")
+    quality_label = models.CharField(max_length=50, null=True, blank=True,
+                                     help_text="품질 라벨 (예: good=우수, fair=양호, poor=불량)")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('variety', 'data_name')
+        unique_together = ('variety', 'data_name', 'priority')
         ordering = ['-priority', 'variety', 'data_name']
 
     def __str__(self):
         return f"{self.variety} - {self.data_name} (pri={self.priority})"
 
+    def clean(self):
+        """모델 레벨 검증
+        - 각 (min, max)는 함께 있거나 함께 비워야 함
+        - min <= max
+        - 서로 다른 구간 간 겹침 금지 (반-열린 구간 기준: [min, max) )
+        """
+        from django.core.exceptions import ValidationError
+
+        pairs = [
+            ('min_good', 'max_good', 'good'),
+            ('min_warn', 'max_warn', 'warn'),
+            ('min_risk', 'max_risk', 'risk'),
+            ('min_high_risk', 'max_high_risk', 'high_risk'),
+        ]
+
+        intervals = {}
+        for lo_key, hi_key, name in pairs:
+            lo = getattr(self, lo_key)
+            hi = getattr(self, hi_key)
+            if (lo is None) ^ (hi is None):
+                raise ValidationError({lo_key: f"{lo_key}/{hi_key}는 함께 설정하거나 함께 비워두어야 합니다."})
+            if lo is not None and hi is not None:
+                if lo > hi:
+                    raise ValidationError({lo_key: f"{lo_key} <= {hi_key} 여야 합니다."})
+                intervals[name] = (float(lo), float(hi))
+
+        # 반-열린(interv [lo, hi)) 기준으로 서로 겹치지 않는지 검사
+        names = list(intervals.keys())
+        for i in range(len(names)):
+            for j in range(i + 1, len(names)):
+                n1 = names[i]
+                n2 = names[j]
+                a_lo, a_hi = intervals[n1]
+                b_lo, b_hi = intervals[n2]
+                # overlap if a_lo < b_hi and b_lo < a_hi  (반-열린 기준에서 경계 접합은 허용)
+                if (a_lo < b_hi) and (b_lo < a_hi):
+                    # 허용되는 경우: 정확히 a_hi == b_lo 또는 b_hi == a_lo (경계 접합)
+                    if not (a_hi == b_lo or b_hi == a_lo):
+                        raise ValidationError(f"구간 '{n1}'과 '{n2}'이(가) 겹칩니다: {a_lo}-{a_hi} vs {b_lo}-{b_hi}. 경계는 접합(예: [a,b)와 [b,c))만 허용됩니다.")
+
+    def save(self, *args, **kwargs):
+        # 저장 전 검증
+        try:
+            self.full_clean()
+        except Exception:
+            raise
+        super().save(*args, **kwargs)
+
     def evaluate(self, value):
         """주어진 값(value)에 대해 이 규칙만으로 판단한 결과를 반환합니다.
-        반환 예: {'level': 'normal'|'warning'|'critical', 'quality': 'good'|'fair'|'poor'}
-        로직: good 범위가 정의되면 우선 검사, warning 범위가 정의되면 그 다음, 그 외는 critical
+        반-열린 구간 표준: 각각 [min, max)
+        반환값에 matched_range 포함(디버깅/운영용)
         """
         try:
             v = float(value)
         except Exception:
-            return {'level': 'unknown', 'quality': 'unknown'}
+            return {'level': 'unknown', 'quality': 'unknown', 'matched_range': None}
 
-        # normal / good
-        if self.min_good is not None and self.max_good is not None:
-            if self.min_good <= v <= self.max_good:
-                return {'level': 'normal', 'quality': 'good'}
+        def resp(level_key, matched_range):
+            lvl_label_default, ql_default = self.LEVEL_LABELS.get(level_key, ('Unknown', 'Unknown'))
+            return {
+                'level': level_key,
+                'quality': ('good' if level_key == 'normal' else ('fair' if level_key == 'warning' else 'poor')),
+                'label': self.level_label or lvl_label_default,
+                'quality_label': self.quality_label or ql_default,
+                'matched_range': matched_range
+            }
 
-        # warning / fair
+        # high_risk
+        if self.min_high_risk is not None and self.max_high_risk is not None:
+            if self.min_high_risk <= v < self.max_high_risk:
+                return resp('high_risk', {'min': self.min_high_risk, 'max': self.max_high_risk})
+        # risk
+        if self.min_risk is not None and self.max_risk is not None:
+            if self.min_risk <= v < self.max_risk:
+                return resp('risk', {'min': self.min_risk, 'max': self.max_risk})
+        # warning
         if self.min_warn is not None and self.max_warn is not None:
-            if self.min_warn <= v <= self.max_warn:
-                return {'level': 'warning', 'quality': 'fair'}
+            if self.min_warn <= v < self.max_warn:
+                return resp('warning', {'min': self.min_warn, 'max': self.max_warn})
+        # normal
+        if self.min_good is not None and self.max_good is not None:
+            if self.min_good <= v < self.max_good:
+                return resp('normal', {'min': self.min_good, 'max': self.max_good})
 
-        # default critical/poor
-        return {'level': 'critical', 'quality': 'poor'}
+        # 모든 구간에 속하지 않음 -> critical
+        return resp('critical', None)
 
 # 새로 추가: 평가 이벤트 로그 모델
 class QualityEvent(models.Model):

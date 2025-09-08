@@ -319,9 +319,22 @@ class VarietyDataThresholdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VarietyDataThreshold
-        fields = ['id', 'variety', 'data_name', 'min_good', 'max_good', 'min_warn', 'max_warn', 'priority', 'note', 'is_active', 'created_at', 'updated_at']
+        fields = ['id', 'variety', 'data_name', 'min_good', 'max_good', 'min_warn', 'max_warn', 'min_risk', 'max_risk', 'min_high_risk', 'max_high_risk', 'priority', 'note', 'is_active', 'level_label', 'quality_label', 'created_at', 'updated_at']
         read_only_fields = ['created_at', 'updated_at']
 
+    def validate(self, attrs):
+        # 범위 논리 검증
+        def check_pair(a_key, b_key, name):
+            a = attrs.get(a_key) if a_key in attrs else None
+            b = attrs.get(b_key) if b_key in attrs else None
+            if a is not None and b is not None and a > b:
+                raise serializers.ValidationError(f'{a_key} must be <= {b_key} for {name}')
+
+        check_pair('min_good', 'max_good', 'good')
+        check_pair('min_warn', 'max_warn', 'warn')
+        check_pair('min_risk', 'max_risk', 'risk')
+        check_pair('min_high_risk', 'max_high_risk', 'high_risk')
+        return attrs
 
 class QualityEventSerializer(serializers.ModelSerializer):
     variety = serializers.StringRelatedField()
