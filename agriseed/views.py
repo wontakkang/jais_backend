@@ -12,8 +12,6 @@ from django.db import IntegrityError
 from rest_framework.pagination import PageNumberPagination
 from django_filters import rest_framework as df_filters
 import json
-from rest_framework.views import APIView
-from .serializers import EvaluateMeasurementInputSerializer, VarietyDataThresholdSerializer, QualityEventSerializer
 
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
@@ -84,9 +82,34 @@ class FacilityViewSet(viewsets.ModelViewSet):
     serializer_class = FacilitySerializer
 
 # ZoneViewSet: 구역(Zone) 모델의 CRUD API를 제공합니다.
-class ZoneViewSet(viewsets.ModelViewSet):
-    queryset = Zone.objects.all()
+class ZoneViewSet(BaseViewSet):
+    """구역(Zone) 모델의 CRUD API - facility/crop/variety 연동 및 기본 검증 포함"""
+    queryset = Zone.objects.select_related('facility', 'crop', 'variety').all()
     serializer_class = ZoneSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['facility', 'crop', 'variety', 'status', 'health_status', 'environment_status', 'is_deleted']
+    search_fields = ['name', 'style']
+    ordering_fields = ['id', 'area', 'expected_yield']
+
+    def perform_create(self, serializer):
+        facility = serializer.validated_data.get('facility')
+        name = serializer.validated_data.get('name')
+        # 같은 시설내 중복 이름 방지
+        if facility and name and Zone.objects.filter(facility=facility, name=name).exists():
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError({'name': '같은 시설에 동일한 구역 이름이 이미 존재합니다.'})
+        serializer.save()
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        facility = serializer.validated_data.get('facility', instance.facility)
+        name = serializer.validated_data.get('name', instance.name)
+        # 업데이트 시에도 중복 체크 (자기 자신은 제외)
+        if facility and name and Zone.objects.filter(facility=facility, name=name).exclude(pk=instance.pk).exists():
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError({'name': '같은 시설에 동일한 구역 이름이 이미 존재합니다.'})
+        serializer.save()
 
 # SensorDataViewSet: 센서 데이터(SensorData) 모델의 CRUD API를 제공합니다.
 class SensorDataViewSet(viewsets.ModelViewSet):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating, Tree, Tree_tags, TreeImage, SpecimenData, SpecimenAttachment, SensorItem, MeasurementItem, VarietyDataThreshold, QualityEvent
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating, Tree, Tree_tags, TreeImage, SpecimenData, SpecimenAttachment, SensorItem, MeasurementItem
 from corecode.models import DataName
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -38,9 +38,42 @@ class ScheduleSerializer(serializers.ModelSerializer):
         exclude = ('is_deleted',)
 
 class ZoneSerializer(serializers.ModelSerializer):
+    facility = serializers.PrimaryKeyRelatedField(queryset=Facility.objects.all())
+    crop = serializers.PrimaryKeyRelatedField(queryset=Crop.objects.all(), allow_null=True, required=False)
+    variety = serializers.PrimaryKeyRelatedField(queryset=Variety.objects.all(), allow_null=True, required=False)
+
+    facility_name = serializers.SerializerMethodField(read_only=True)
+    crop_name = serializers.SerializerMethodField(read_only=True)
+    variety_name = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Zone
-        exclude = ('is_deleted',)
+        fields = ['id', 'facility', 'facility_name', 'name', 'type', 'area', 'crop', 'crop_name', 'variety', 'variety_name', 'style', 'expected_yield', 'sowing_date', 'expected_harvest_date', 'health_status', 'environment_status', 'status', 'is_deleted', 'watering_amount_per_time', 'daily_watering_count', 'watering_interval', 'watering_amount']
+        read_only_fields = ['id', 'facility_name', 'crop_name', 'variety_name']
+
+    def get_facility_name(self, obj):
+        return obj.facility.name if obj.facility else None
+
+    def get_crop_name(self, obj):
+        return obj.crop.name if obj.crop else None
+
+    def get_variety_name(self, obj):
+        return obj.variety.name if obj.variety else None
+
+    def validate_name(self, value):
+        # Ensure zone name is not empty
+        if not value or not str(value).strip():
+            raise serializers.ValidationError('Zone name must not be empty')
+        return value
+
+    def create(self, validated_data):
+        return Zone.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        instance.save()
+        return instance
 
 class SensorDataSerializer(serializers.ModelSerializer):
     class Meta:
