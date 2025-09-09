@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, Crop, Variety, VarietyImage, VarietyGuide, RecipeProfile, ControlItem, RecipeItemValue, RecipeStep, RecipeComment, RecipeCommentVote, RecipePerformance, RecipeRating, Tree, Tree_tags, TreeImage, SpecimenData, SpecimenAttachment, SensorItem, MeasurementItem
+from .models import *
 from corecode.models import DataName
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -42,13 +42,20 @@ class ZoneSerializer(serializers.ModelSerializer):
     crop = serializers.PrimaryKeyRelatedField(queryset=Crop.objects.all(), allow_null=True, required=False)
     variety = serializers.PrimaryKeyRelatedField(queryset=Variety.objects.all(), allow_null=True, required=False)
 
+    # Zone당 하나의 레시피(ForeignKey)를 recipe_profile로 노출
+    recipe_profile = serializers.PrimaryKeyRelatedField(
+        queryset=RecipeProfile.objects.all(),
+        required=False,
+        allow_null=True
+    )
+
     facility_name = serializers.SerializerMethodField(read_only=True)
     crop_name = serializers.SerializerMethodField(read_only=True)
     variety_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Zone
-        fields = ['id', 'facility', 'facility_name', 'name', 'type', 'area', 'crop', 'crop_name', 'variety', 'variety_name', 'style', 'expected_yield', 'sowing_date', 'expected_harvest_date', 'health_status', 'environment_status', 'status', 'is_deleted', 'watering_amount_per_time', 'daily_watering_count', 'watering_interval', 'watering_amount']
+        fields = ['id', 'facility', 'facility_name', 'name', 'type', 'area', 'crop', 'crop_name', 'variety', 'variety_name', 'style', 'expected_yield', 'sowing_date', 'expected_harvest_date', 'health_status', 'environment_status', 'status', 'is_deleted', 'watering_amount_per_time', 'daily_watering_count', 'watering_interval', 'watering_amount', 'recipe_profile']
         read_only_fields = ['id', 'facility_name', 'crop_name', 'variety_name']
 
     def get_facility_name(self, obj):
@@ -67,7 +74,9 @@ class ZoneSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        return Zone.objects.create(**validated_data)
+        # recipe_profile은 ForeignKey이므로 바로 전달
+        zone = Zone.objects.create(**validated_data)
+        return zone
 
     def update(self, instance, validated_data):
         for attr, val in validated_data.items():

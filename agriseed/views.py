@@ -12,7 +12,7 @@ from django.db import IntegrityError
 from rest_framework.pagination import PageNumberPagination
 from django_filters import rest_framework as df_filters
 import json
-
+from rest_framework.views import APIView
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
 # 주요 기능:
@@ -84,11 +84,13 @@ class FacilityViewSet(viewsets.ModelViewSet):
 # ZoneViewSet: 구역(Zone) 모델의 CRUD API를 제공합니다.
 class ZoneViewSet(BaseViewSet):
     """구역(Zone) 모델의 CRUD API - facility/crop/variety 연동 및 기본 검증 포함"""
-    queryset = Zone.objects.select_related('facility', 'crop', 'variety').all()
+    # Zone은 단일 recipe_profile(FK)을 가짐 -> select_related로 조인하여 N+1 문제 완화
+    queryset = Zone.objects.select_related('facility', 'crop', 'variety', 'recipe_profile', 'recipe_profile__created_by', 'recipe_profile__variety').all()
     serializer_class = ZoneSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['facility', 'crop', 'variety', 'status', 'health_status', 'environment_status', 'is_deleted']
+    # recipe_profile(FK)로 필터 가능 (예: ?recipe_profile=1)
+    filterset_fields = ['facility', 'crop', 'variety', 'status', 'health_status', 'environment_status', 'is_deleted', 'recipe_profile']
     search_fields = ['name', 'style']
     ordering_fields = ['id', 'area', 'expected_yield']
 
@@ -198,16 +200,18 @@ class RecipeProfileViewSet(BaseViewSet):
             base_serialized = RecipeProfileSerializer(profile).data
 
             # comments limited with sorting
-            comments_qs = profile.comments.all().annotate(helpful_count=Count('votes', filter=Q(votes__is_helpful=True)))
+            # annotate using a non-conflicting name to avoid colliding with the model's @property 'helpful_count'
+            comments_qs = profile.comments.all().annotate(helpful_count_ann=Count('votes', filter=Q(votes__is_helpful=True)))
             if comments_sort == 'recent':
                 comments_qs = comments_qs.order_by('-created_at')
             else:
-                comments_qs = comments_qs.order_by('-helpful_count', '-created_at')
+                comments_qs = comments_qs.order_by('-helpful_count_ann', '-created_at')
             total_comments = comments_qs.count()
             comments_sample = comments_qs[:comments_limit]
+            # serialize comments; serializer can still access the model property 'helpful_count' if needed
             base_serialized['comments'] = RecipeCommentSerializer(comments_sample, many=True).data
             base_serialized['comments_pagination'] = {
-                'full_list_url': f"/agriseed/recipe-comments/?recipe={profile.id}&ordering={'-helpful_count,-created_at' if comments_sort!='recent' else '-created_at'}",
+                'full_list_url': f"/agriseed/recipe-comments/?recipe={profile.id}&ordering={'-helpful_count_ann,-created_at' if comments_sort!='recent' else '-created_at'}",
                 'total': total_comments
             }
 

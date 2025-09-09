@@ -171,7 +171,7 @@ class Zone(models.Model):
     daily_watering_count = models.IntegerField(default=1, help_text="일일 급수 횟수")
     watering_interval = models.CharField(max_length=50, default="매일", help_text="공급 주기 (예: 매일, 격일 등)")
     watering_amount = models.FloatField(default=0.0, help_text="공급량 (mL)")
-
+    recipe_profile = models.ForeignKey('RecipeProfile', on_delete=models.SET_NULL, null=True, blank=True, related_name='zones', help_text="적용된 레시피 프로필 (단일)")
 # geometry
 
 class SensorData(models.Model):
