@@ -90,7 +90,7 @@ class ZoneViewSet(BaseViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     # recipe_profile(FK)로 필터 가능 (예: ?recipe_profile=1)
-    filterset_fields = ['facility', 'crop', 'variety', 'status', 'health_status', 'environment_status', 'is_deleted', 'recipe_profile']
+    filterset_fields = ['facility', 'crop', 'variety', 'status', 'health_status', 'environment_status', 'is_deleted', 'recipe_profile', 'seed_amount']
     search_fields = ['name', 'style']
     ordering_fields = ['id', 'area', 'expected_yield']
 

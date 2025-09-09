@@ -55,7 +55,7 @@ class ZoneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Zone
-        fields = ['id', 'facility', 'facility_name', 'name', 'type', 'area', 'crop', 'crop_name', 'variety', 'variety_name', 'style', 'expected_yield', 'sowing_date', 'expected_harvest_date', 'health_status', 'environment_status', 'status', 'is_deleted', 'watering_amount_per_time', 'daily_watering_count', 'watering_interval', 'watering_amount', 'recipe_profile']
+        fields = ['id', 'facility', 'facility_name', 'name', 'type', 'area', 'crop', 'crop_name', 'variety', 'variety_name', 'style', 'expected_yield', 'sowing_date', 'expected_harvest_date', 'health_status', 'environment_status', 'status', 'is_deleted', 'seed_amount', 'recipe_profile']
         read_only_fields = ['id', 'facility_name', 'crop_name', 'variety_name']
 
     def get_facility_name(self, obj):
