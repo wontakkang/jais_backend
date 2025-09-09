@@ -36,7 +36,13 @@ router.register(r'tree-tags', TreeTagsViewSet)
 router.register(r'tree-images', TreeImageViewSet)
 router.register(r'specimens', SpecimenDataViewSet)
 
+# VarietyDataThreshold 및 QualityEvent 엔드포인트 등록
+router.register(r'variety-data-thresholds', VarietyDataThresholdViewSet)
+router.register(r'quality-events', QualityEventViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('agriseed/qr/<str:identifier>/', qr_image, name='agriseed-qr'),
+    # 측정값 평가용 단일 엔드포인트
+    path('evaluate-measurement/', EvaluateMeasurementView.as_view(), name='evaluate-measurement'),
 ]
