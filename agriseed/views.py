@@ -13,6 +13,7 @@ from rest_framework.pagination import PageNumberPagination
 from django_filters import rest_framework as df_filters
 import json
 from rest_framework.views import APIView
+from utils.custom_permission import CreatedByOrStaffPermission
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
 # 주요 기능:
@@ -596,6 +597,51 @@ class EvaluateMeasurementView(APIView):
             'message': msg,
             'event_id': event.id
         }, status=status.HTTP_200_OK)
+
+# CalendarEvent 및 TodoItem 관련 ViewSet 추가
+class CalendarEventViewSet(BaseViewSet):
+    """캘린더 이벤트 CRUD API
+    - 읽기: 공개, 쓰기(생성/수정/삭제): 인증 필요
+    - 필터: facility, created_by, 시작/종료, all_day
+    """
+    queryset = CalendarEvent.objects.select_related('facility', 'created_by').prefetch_related('attendees').all()
+    serializer_class = CalendarEventSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, CreatedByOrStaffPermission]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['facility', 'created_by', 'all_day', 'is_deleted']
+    search_fields = ['title', 'description', 'location']
+    ordering_fields = ['start', 'end', 'created_at']
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user if self.request.user.is_authenticated else None)
+
+    # object-level permissions (수정/삭제 허용 여부)는 CreatedByOrStaffPermission이 처리합니다.
+
+class TodoItemViewSet(BaseViewSet):
+    """할일(Todo) 모델 CRUD API
+    - 읽기: 공개, 쓰기: 인증 필요
+    - 추가 액션: 완료 처리(mark_complete)
+    """
+    queryset = TodoItem.objects.select_related('facility', 'zone', 'assigned_to', 'created_by').all()
+    serializer_class = TodoItemSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['facility', 'zone', 'assigned_to', 'created_by', 'completed', 'status', 'priority', 'is_deleted']
+    search_fields = ['title', 'description']
+    ordering_fields = ['due_date', 'priority', 'created_at']
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user if self.request.user.is_authenticated else None)
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def mark_complete(self, request, pk=None):
+        """특정 Todo를 완료로 표시합니다. 완료 시간을 기록하고 필요시 담당자 할당을 업데이트합니다."""
+        instance = self.get_object()
+        try:
+            instance.mark_complete(by_user=request.user)
+        except Exception:
+            return Response({'detail': 'failed to mark complete'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(self.get_serializer(instance).data)
 
 # views.py
 import io

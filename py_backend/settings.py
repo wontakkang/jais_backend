@@ -174,6 +174,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# 전역 네이밍 규칙: API 필드명 자동 변환 옵션 (예: 'camelize' 또는 'underscore')
+JSON_API_FORMAT_FIELD_NAMES = 'camelize'
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 

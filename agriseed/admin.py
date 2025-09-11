@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory
+from .models import Device, Activity, ControlHistory, ControlRole, Issue, ResolvedIssue, Schedule, Facility, Zone, SensorData, ControlSettings, FacilityHistory, CalendarEvent, TodoItem
 
 admin.site.register(Device)
 admin.site.register(Activity)
@@ -13,3 +13,5 @@ admin.site.register(Zone)
 admin.site.register(SensorData)
 admin.site.register(ControlSettings)
 admin.site.register(FacilityHistory)
+admin.site.register(CalendarEvent)
+admin.site.register(TodoItem)

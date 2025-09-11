@@ -6,6 +6,39 @@ from django.conf import settings
 import random
 from django.utils import timezone
 
+class Facility(models.Model):
+    name = models.CharField(max_length=100, default="Unknown Facility", help_text="시설 이름")
+    type = models.CharField(max_length=50, default="vinyl", help_text="시설 유형 (예: vinyl, glass 등)")
+    location = models.CharField(max_length=200, default="Unknown Location", help_text="시설 위치")
+    area = models.FloatField(default=100.0, help_text="시설 면적 (기본값: 100 제곱미터)")
+    zone_count = models.IntegerField(default=1, help_text="구역 수 (기본값: 1)")
+    manager = models.CharField(max_length=100, default="Unknown Manager", help_text="시설 관리자")
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+    LSIS = JSONField(null=True, blank=True, help_text="토양 조건")
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        old_zone_count = None
+        if not is_new:
+            old = Facility.objects.get(pk=self.pk)
+            old_zone_count = old.zone_count
+        super().save(*args, **kwargs)
+        # Zone 자동 동기화
+        if is_new:
+            for i in range(1, self.zone_count + 1):
+                Zone.objects.create(facility=self, name=f"구역 {i}")
+        else:
+            zones = list(self.zones.order_by('id'))
+            diff = self.zone_count - len(zones)
+            if diff > 0:
+                # Zone 추가
+                for i in range(len(zones) + 1, self.zone_count + 1):
+                    Zone.objects.create(facility=self, name=f"구역 {i}")
+            elif diff < 0:
+                # Zone 삭제 (마지막부터)
+                for z in zones[diff:]:
+                    z.delete()
+                    
 class Device(models.Model):
     name = models.CharField(max_length=100)
     device_id = models.CharField(max_length=20, unique=True)
@@ -68,38 +101,82 @@ class Schedule(models.Model):
     enabled = models.BooleanField()
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
-class Facility(models.Model):
-    name = models.CharField(max_length=100, default="Unknown Facility", help_text="시설 이름")
-    type = models.CharField(max_length=50, default="vinyl", help_text="시설 유형 (예: vinyl, glass 등)")
-    location = models.CharField(max_length=200, default="Unknown Location", help_text="시설 위치")
-    area = models.FloatField(default=100.0, help_text="시설 면적 (기본값: 100 제곱미터)")
-    zone_count = models.IntegerField(default=1, help_text="구역 수 (기본값: 1)")
-    manager = models.CharField(max_length=100, default="Unknown Manager", help_text="시설 관리자")
+# 캘린더형 일정(Event) 및 할일(Todo) 모델 추가
+class CalendarEvent(models.Model):
+    """캘린더형 이벤트 모델
+    - start/end: 일정 시작/종료
+    - all_day: 종일 여부
+    - recurrence: 간단한 반복 규칙(JSON)
+    - reminders: 알림 목록(분 단위 오프셋 리스트)
+    """
+    # Facility가 파일 아래쪽에 정의되므로 문자열 참조로 forward-reference 처리
+    facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='calendar_events', help_text="소속 시설")
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    start = models.DateTimeField()
+    end = models.DateTimeField(null=True, blank=True)
+    all_day = models.BooleanField(default=False)
+    location = models.CharField(max_length=200, null=True, blank=True)
+    recurrence = models.JSONField(null=True, blank=True, help_text='예: {"freq":"DAILY","interval":1}')
+    reminders = models.JSONField(null=True, blank=True, help_text='예: [60, 10]  # 시작 60분 전, 10분 전')
+    attendees = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='events_attending')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='created_calendar_events')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-    LSIS = JSONField(null=True, blank=True, help_text="토양 조건")
 
-    def save(self, *args, **kwargs):
-        is_new = self.pk is None
-        old_zone_count = None
-        if not is_new:
-            old = Facility.objects.get(pk=self.pk)
-            old_zone_count = old.zone_count
-        super().save(*args, **kwargs)
-        # Zone 자동 동기화
-        if is_new:
-            for i in range(1, self.zone_count + 1):
-                Zone.objects.create(facility=self, name=f"구역 {i}")
-        else:
-            zones = list(self.zones.order_by('id'))
-            diff = self.zone_count - len(zones)
-            if diff > 0:
-                # Zone 추가
-                for i in range(len(zones) + 1, self.zone_count + 1):
-                    Zone.objects.create(facility=self, name=f"구역 {i}")
-            elif diff < 0:
-                # Zone 삭제 (마지막부터)
-                for z in zones[diff:]:
-                    z.delete()
+    class Meta:
+        ordering = ['-start']
+
+    def __str__(self):
+        try:
+            return f"{self.title} ({self.start:%Y-%m-%d %H:%M})"
+        except Exception:
+            return self.title
+
+
+class TodoItem(models.Model):
+    """할일/작업(Task) 모델
+    - zone: 특정 구역에 연결 가능
+    - assigned_to: 담당자
+    - priority: 1=high,2=normal,3=low
+    - reminders: 알림(분 단위 오프셋) 또는 기타 정보
+    """
+    # Facility가 파일 아래쪽에 정의되므로 문자열 참조로 forward-reference 처리
+    facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='todo_items', help_text="소속 시설")
+    zone = models.ForeignKey('Zone', on_delete=models.SET_NULL, null=True, blank=True, related_name='todo_items', help_text="관련 구역")
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='todos_created')
+    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='todos_assigned')
+    created_at = models.DateTimeField(auto_now_add=True)
+    due_date = models.DateTimeField(null=True, blank=True)
+    completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    priority = models.IntegerField(default=2, help_text='1=high,2=normal,3=low')
+    status = models.CharField(max_length=50, default='open')
+    reminders = models.JSONField(null=True, blank=True, help_text='예: [1440, 60] # 하루 전, 1시간 전')
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
+    class Meta:
+        ordering = ['completed', '-priority', 'due_date']
+
+    def mark_complete(self, by_user=None):
+        """작업을 완료 처리하고 완료자/완료시간을 기록합니다."""
+        self.completed = True
+        self.completed_at = timezone.now()
+        if by_user and not self.assigned_to:
+            # 선택적으로 완료자가 할당되지 않았으면 할당
+            try:
+                self.assigned_to = by_user
+            except Exception:
+                pass
+        self.status = 'completed'
+        self.save()
+
+    def __str__(self):
+        return f"{self.title} ({'완료' if self.completed else '진행중'})"
+
 
 class Crop(models.Model):
     name = models.CharField(max_length=100, unique=True, help_text="작물 종류명")

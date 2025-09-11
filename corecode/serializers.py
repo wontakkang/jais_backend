@@ -13,14 +13,16 @@ class DataNameSerializer(serializers.ModelSerializer):
         choices=[(k, k) for k in all_dict.keys()],
         required=False,
         allow_blank=True,
-        allow_null=True
+        allow_null=True,
+        help_text='데이터 이름에 연결된 처리 방법(선택). 예: "temperature_average"',
+        style={'example': 'temperature_average'}
     )
     class Meta:
         model = DataName
         fields = '__all__'
 
 class ControlLogicSerializer(serializers.ModelSerializer):
-    use_method = serializers.ChoiceField(choices=[(method, method) for method in control_methods_list])
+    use_method = serializers.ChoiceField(choices=[(method, method) for method in control_methods_list], help_text='제어 로직에서 사용할 메서드 이름(필수). 예: "pid_control"', style={'example': 'pid_control'})
     class Meta:
         model = ControlLogic
         fields = [
@@ -29,14 +31,16 @@ class ControlLogicSerializer(serializers.ModelSerializer):
         ]
 
 class ControlVariableSerializer(serializers.ModelSerializer):
-    group = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), required=False, allow_null=True)
-    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all())
-    applied_logic = serializers.PrimaryKeyRelatedField(queryset=ControlLogic.objects.all())
+    group = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), required=False, allow_null=True, help_text='속한 ControlGroup ID(선택). 예: 3', style={'example': 3})
+    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='연결된 DataName ID. 예: 12', style={'example': 12})
+    applied_logic = serializers.PrimaryKeyRelatedField(queryset=ControlLogic.objects.all(), help_text='적용할 ControlLogic ID. 예: 2', style={'example': 2})
     attributes = serializers.ListField(
         child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
         allow_empty=True,
         required=False,
-        default=list
+        default=list,
+        help_text='변수 속성 목록(예: ["감시","기록"])',
+        style={'example': ['감시', '기록']}
     )
 
     class Meta:
@@ -48,8 +52,8 @@ class ControlVariableSerializer(serializers.ModelSerializer):
     # create, update 메서드는 기본 동작으로 충분할 수 있으나, 필요시 오버라이드
 
 class ControlGroupSerializer(serializers.ModelSerializer):
-    control_variables_in_group = ControlVariableSerializer(many=True, read_only=False, required=False)
-    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all())
+    control_variables_in_group = ControlVariableSerializer(many=True, read_only=False, required=False, help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)')
+    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID')
     project_id = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -85,13 +89,15 @@ class ControlGroupSerializer(serializers.ModelSerializer):
         return instance
 
 class CalcVariableSerializer(serializers.ModelSerializer):
-    group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False, allow_null=True)
-    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all())
+    group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False, allow_null=True, help_text='소속 CalcGroup ID(선택). 예: 4', style={'example': 4})
+    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='연결된 DataName ID. 예: 8', style={'example': 8})
     attributes = serializers.ListField(
         child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
         allow_empty=True,
         required=False,
-        default=list
+        default=list,
+        help_text='변수 속성 목록(선택). 예: ["감시"]',
+        style={'example': ['감시']}
     )
     # use_method는 models.py의 choices를 따름 (calculation_methods)
     class Meta:
@@ -102,7 +108,7 @@ class CalcVariableSerializer(serializers.ModelSerializer):
 
 class CalcGroupSerializer(serializers.ModelSerializer):
     calc_variables_in_group = CalcVariableSerializer(many=True, read_only=False, required=False) # related_name 변경 반영
-    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all())
+    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID')
     project_id = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -132,15 +138,20 @@ class CalcGroupSerializer(serializers.ModelSerializer):
         return instance
 
 class VariableSerializer(serializers.ModelSerializer):
-    device_address = serializers.SerializerMethodField(read_only=True)
-    group = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), required=False, allow_null=True)
-    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all())
+    device_address = serializers.SerializerMethodField(read_only=True, help_text='표현형 장치 주소 문자열. 예: "%DeviceW100"')
+    group = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), required=False, allow_null=True, help_text='소속 MemoryGroup ID(선택)')
+    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='연결된 DataName ID')
     attributes = serializers.ListField(
         child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
         allow_empty=True,
         required=False,
-        default=list
+        default=list,
+        help_text='변수 속성 목록(선택). 예: ["감시"]',
+        style={'example': ['감시']}
     )
+    # 명시적으로 device 필드를 노출하여 help_text 제공
+    device = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), required=False, allow_null=True, help_text='연결된 장치(Device) ID')
+    address = serializers.IntegerField(help_text='장치 내 주소(정수). 예: 100', style={'example': 100})
     class Meta:
         model = Variable
         fields = [
@@ -152,8 +163,8 @@ class VariableSerializer(serializers.ModelSerializer):
         return f"%{obj.device}{unit_symbol}{int(obj.address)}"
 
 class MemoryGroupSerializer(serializers.ModelSerializer):
-    variables = VariableSerializer(many=True, read_only=False, required=False)
-    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all())
+    variables = VariableSerializer(many=True, read_only=False, required=False, help_text='이 그룹에 포함된 변수 목록 (선택)')
+    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID. 예: 7', style={'example': 7})
     project_id = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -183,9 +194,10 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
         return instance
 
 class ProjectVersionSerializer(serializers.ModelSerializer):
-    groups = MemoryGroupSerializer(many=True, read_only=False, required=False)
-    calc_groups = CalcGroupSerializer(many=True, read_only=False, required=False)
-    control_groups = ControlGroupSerializer(many=True, read_only=False, required=False)
+    project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all(), help_text='소속 Project ID. 예: 2', style={'example': 2})
+    groups = MemoryGroupSerializer(many=True, read_only=False, required=False, help_text='메모리 그룹(선택)')
+    calc_groups = CalcGroupSerializer(many=True, read_only=False, required=False, help_text='계산 그룹(선택)')
+    control_groups = ControlGroupSerializer(many=True, read_only=False, required=False, help_text='제어 그룹(선택)')
 
     class Meta:
         model = ProjectVersion
@@ -224,7 +236,7 @@ class ProjectVersionSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     versions = ProjectVersionSerializer(many=True, read_only=True)
     # device 필드는 ForeignKey이므로, 필요시 DeviceSerializer 등으로 표현 가능
-    device = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), allow_null=True, required=False)
+    device = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), allow_null=True, required=False, help_text='연결된 Device ID(선택)', style={'example': 4})
 
     class Meta:
         model = Project
@@ -259,9 +271,9 @@ class UserManualSerializer(serializers.ModelSerializer):
 
 class DeviceSerializer(serializers.ModelSerializer):
     manufacturer = DeviceCompanySerializer(read_only=True)
-    manufacturer_id = serializers.PrimaryKeyRelatedField(queryset=DeviceCompany.objects.all(), source='manufacturer', write_only=True, allow_null=True, required=False)
+    manufacturer_id = serializers.PrimaryKeyRelatedField(queryset=DeviceCompany.objects.all(), source='manufacturer', write_only=True, allow_null=True, required=False, help_text='제조사(DeviceCompany) ID(선택)', style={'example': 2})
     user_manuals = UserManualSerializer(many=True, read_only=True)
-    user_manual_ids = serializers.PrimaryKeyRelatedField(queryset=UserManual.objects.all(), source='user_manuals', many=True, write_only=True, required=False)
+    user_manual_ids = serializers.PrimaryKeyRelatedField(queryset=UserManual.objects.all(), source='user_manuals', many=True, write_only=True, required=False, help_text='연결할 UserManual ID 리스트(선택)', style={'example': [5,6]})
 
     class Meta:
         model = Device
@@ -312,10 +324,10 @@ class LocationGroupSerializer(serializers.ModelSerializer):
         return instance
 
 class SignupSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=150)
-    email = serializers.EmailField(required=False, allow_blank=True)
-    password = serializers.CharField(write_only=True)
-    name = serializers.CharField(required=False, allow_blank=True)
+    username = serializers.CharField(max_length=150, help_text='회원가입할 사용자 이름(소문자 권장)', style={'example': 'user01'})
+    email = serializers.EmailField(required=False, allow_blank=True, help_text='이메일 주소(선택)', style={'example': 'user@example.com'})
+    password = serializers.CharField(write_only=True, help_text='계정 비밀번호 (보안상 출력되지 않음)')
+    name = serializers.CharField(required=False, allow_blank=True, help_text='실명 또는 표시 이름(선택)', style={'example': '홍길동'})
 
     def validate(self, attrs):
         # normalize username and validate uniqueness case-insensitively

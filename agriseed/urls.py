@@ -40,6 +40,10 @@ router.register(r'specimens', SpecimenDataViewSet)
 router.register(r'variety-data-thresholds', VarietyDataThresholdViewSet)
 router.register(r'quality-events', QualityEventViewSet)
 
+# Calendar 및 Todo 엔드포인트 등록
+router.register(r'calendar-events', CalendarEventViewSet)
+router.register(r'todos', TodoItemViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('agriseed/qr/<str:identifier>/', qr_image, name='agriseed-qr'),

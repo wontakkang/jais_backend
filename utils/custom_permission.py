@@ -1,5 +1,5 @@
 from django.conf import settings
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 from rest_framework.authentication import BaseAuthentication
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
@@ -37,3 +37,27 @@ class CustomIPAuthentication(BaseAuthentication):
             return (user, None)
         except Exception:
             return (AnonymousUser(), None)
+
+class CreatedByOrStaffPermission(BasePermission):
+    """Object-level permission: allow safe methods for anyone; for unsafe methods,
+    allow only when request.user is staff or when obj.created_by is None or equals the user.
+    This mirrors previous ad-hoc checks in CalendarEventViewSet.perform_update/destroy.
+    """
+    def has_permission(self, request, view):
+        # Allow view-level access; object-level checks will enforce creator/staff rules.
+        return True
+
+    def has_object_permission(self, request, view, obj):
+        # Allow read-only methods for everyone
+        if request.method in SAFE_METHODS:
+            return True
+        user = request.user
+        if not user or not getattr(user, 'is_authenticated', False):
+            return False
+        if getattr(user, 'is_staff', False):
+            return True
+        creator = getattr(obj, 'created_by', None)
+        # If creator is None (e.g. anonymous-created), allow modification
+        if creator is None or creator == user:
+            return True
+        return False
