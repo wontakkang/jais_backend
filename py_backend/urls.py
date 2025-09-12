@@ -33,12 +33,12 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('api/auth/user/me/', UserMeView.as_view()),
-    path('api/auth/signup/', SignupView.as_view(), name='signup'),
-    path('api/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),  # browsable API login
+    path('auth/user/me/', UserMeView.as_view()),
+    path('auth/signup/', SignupView.as_view(), name='signup'),
+    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('auth/', include('rest_framework.urls', namespace='rest_framework')),  # browsable API login
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
