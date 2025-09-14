@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 from corecode.models import DataName
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 User = get_user_model()
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -40,12 +41,13 @@ class ScheduleSerializer(serializers.ModelSerializer):
         exclude = ('is_deleted',)
 
 class ZoneSerializer(serializers.ModelSerializer):
-    facility = serializers.PrimaryKeyRelatedField(queryset=Facility.objects.all(), help_text='시설 ID (PK). 예: 12', style={'example': 12})
-    crop = serializers.PrimaryKeyRelatedField(queryset=Crop.objects.all(), allow_null=True, required=False, help_text='작물 ID (선택). 예: 3', style={'example': 3})
-    variety = serializers.PrimaryKeyRelatedField(queryset=Variety.objects.all(), allow_null=True, required=False, help_text='품종 ID (선택). 예: 7', style={'example': 7})
+    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12}, allow_null=True)
+    cropId = serializers.PrimaryKeyRelatedField(source='crop', queryset=Crop.objects.all(), allow_null=True, required=False, help_text='작물 ID (선택). 예: 3', style={'example': 3})
+    varietyId = serializers.PrimaryKeyRelatedField(source='variety', queryset=Variety.objects.all(), allow_null=True, required=False, help_text='품종 ID (선택). 예: 7', style={'example': 7})
 
-    # Zone당 하나의 레시피(ForeignKey)를 recipe_profile로 노출
-    recipe_profile = serializers.PrimaryKeyRelatedField(
+    # Zone당 하나의 레시피(ForeignKey)를 recipe_profile로 노출 (public name: recipeProfile)
+    recipeProfile = serializers.PrimaryKeyRelatedField(
+        source='recipe_profile',
         queryset=RecipeProfile.objects.all(),
         required=False,
         allow_null=True,
@@ -61,7 +63,8 @@ class ZoneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Zone
-        fields = ['id', 'facility', 'facility_name', 'name', 'type', 'area', 'crop', 'crop_name', 'variety', 'variety_name', 'style', 'expected_yield', 'sowing_date', 'expected_harvest_date', 'health_status', 'environment_status', 'status', 'is_deleted', 'seed_amount', 'recipe_profile']
+        # expose public-friendly field names and keep read-only helper fields
+        fields = ['id', 'facilityId', 'facility_name', 'name', 'type', 'area', 'cropId', 'crop_name', 'varietyId', 'variety_name', 'style', 'expected_yield', 'sowing_date', 'expected_harvest_date', 'health_status', 'environment_status', 'status', 'is_deleted', 'seed_amount', 'recipeProfile']
         read_only_fields = ['id', 'facility_name', 'crop_name', 'variety_name']
 
     def get_facility_name(self, obj):
@@ -411,16 +414,16 @@ class EvaluateMeasurementInputSerializer(serializers.Serializer):
 
 # CalendarEvent 및 TodoItem 직렬화기 추가 (공개 필드명과 내부 필드명 분리: source= 사용)
 class CalendarEventSerializer(serializers.ModelSerializer):
-    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12')
-    title = serializers.CharField(help_text='이벤트 제목. 예: "수확 준비"', style={'example': '수확 준비'})
-    description = serializers.CharField(allow_blank=True, required=False, help_text='상세 설명. 예: "수확 관련 미팅 및 준비사항"', style={'example': '수확 관련 미팅 및 준비사항'})
-    start = serializers.DateTimeField(help_text='시작 시간 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-11T10:00:00+09:00', style={'example': '2025-09-11T10:00:00+09:00'})
-    end = serializers.DateTimeField(allow_null=True, required=False, help_text='종료 시간 (ISO 8601, 선택, Asia/Seoul +09:00). 예: 2025-09-11T12:00:00+09:00', style={'example': '2025-09-11T12:00:00+09:00'})
-    allDay = serializers.BooleanField(source='all_day', default=False, help_text='종일 여부 (True/False). 예: False', style={'example': False})
-    location = serializers.CharField(allow_blank=True, allow_null=True, required=False, help_text='장소(선택). 예: "온실 A 동"', style={'example': '온실 A 동'})
-    recurrence = serializers.JSONField(allow_null=True, required=False, help_text='반복 규칙(JSON, 선택).', style={'type':'object'})
-    reminders = serializers.JSONField(allow_null=True, required=False, help_text='알림 설정(JSON 배열, 선택).', style={'type':'array','itemType':'object'})
-    attendeeIds = serializers.PrimaryKeyRelatedField(source='attendees', many=True, queryset=User.objects.all(), required=False, help_text='참석자 사용자 ID 리스트.')
+    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, default=None, help_text='시설 ID (Facility primary key). 예: 12')
+    title = serializers.CharField(required=False, allow_blank=True, default='', help_text='이벤트 제목. 예: "수확 준비"', style={'example': '수확 준비'})
+    description = serializers.CharField(required=False, allow_blank=True, default='', help_text='상세 설명. 예: "수확 관련 미팅 및 준비사항"', style={'example': '수확 관련 미팅 및 준비사항'})
+    start = serializers.DateTimeField(required=False, default=timezone.now, help_text='시작 시간 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-11T10:00:00+09:00', style={'example': '2025-09-11T10:00:00+09:00'})
+    end = serializers.DateTimeField(allow_null=True, required=False, default=None, help_text='종료 시간 (ISO 8601, 선택, Asia/Seoul +09:00). 예: 2025-09-11T12:00:00+09:00', style={'example': '2025-09-11T12:00:00+09:00'})
+    allDay = serializers.BooleanField(source='all_day', required=False, default=False, help_text='종일 여부 (True/False). 예: False', style={'example': False})
+    location = serializers.CharField(allow_blank=True, allow_null=True, required=False, default=None, help_text='장소(선택). 예: "온실 A 동"', style={'example': '온실 A 동'})
+    recurrence = serializers.JSONField(allow_null=True, required=False, default=None, help_text='반복 규칙(JSON, 선택).', style={'type':'object'})
+    reminders = serializers.JSONField(allow_null=True, required=False, default=None, help_text='알림 설정(JSON 배열, 선택).', style={'type':'array','itemType':'object'})
+    attendeeIds = serializers.PrimaryKeyRelatedField(source='attendees', many=True, queryset=User.objects.all(), required=False, default=[], help_text='참석자 사용자 ID 리스트.')
     createdBy = serializers.PrimaryKeyRelatedField(source='created_by', read_only=True, help_text='작성자(읽기전용). 사용자 ID')
     createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
     updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
