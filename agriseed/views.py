@@ -16,11 +16,15 @@ from rest_framework.views import APIView
 from utils.custom_permission import CreatedByOrStaffPermission
 from rest_framework.metadata import SimpleMetadata
 from rest_framework.relations import PrimaryKeyRelatedField
+from rest_framework import serializers as drf_serializers
 
 class StyleMetadata(SimpleMetadata):
     def get_field_info(self, field):
         info = super().get_field_info(field)
-        # Preserve style if present
+        # Preserve default if present and not DRF empty sentinel
+        default_val = getattr(field, 'default', drf_serializers.empty)
+        if default_val is not drf_serializers.empty:
+            info['default'] = default_val
         if hasattr(field, 'style'):
             info['style'] = field.style
         # Mark related fields
@@ -37,7 +41,25 @@ class StyleMetadata(SimpleMetadata):
                     info['field'] = 'username'
                 else:
                     info['field'] = None
-        return info
+        # Sanitize any non-JSON-serializable objects to strings (types, callables, etc.)
+        def sanitize(obj):
+            # types
+            if isinstance(obj, type):
+                return obj.__name__
+            # callables (functions, lambdas, callables returning default)
+            if callable(obj):
+                try:
+                    return getattr(obj, '__name__', str(obj))
+                except Exception:
+                    return str(obj)
+            # dict / list recursion
+            if isinstance(obj, dict):
+                return {k: sanitize(v) for k, v in obj.items()}
+            if isinstance(obj, (list, tuple)):
+                return [sanitize(v) for v in obj]
+            return obj
+
+        return sanitize(info)
 
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
