@@ -248,6 +248,12 @@ class DataNameViewSet(viewsets.ModelViewSet):
     queryset = DataName.objects.all()
     serializer_class = DataNameSerializer
 
+    def get_view_name(self):
+        return "Data Name List"
+
+    def get_view_description(self, html=False):
+        return "DataName CRUD API"
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)

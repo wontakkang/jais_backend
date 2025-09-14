@@ -14,6 +14,31 @@ from django_filters import rest_framework as df_filters
 import json
 from rest_framework.views import APIView
 from utils.custom_permission import CreatedByOrStaffPermission
+from rest_framework.metadata import SimpleMetadata
+from rest_framework.relations import PrimaryKeyRelatedField
+
+class StyleMetadata(SimpleMetadata):
+    def get_field_info(self, field):
+        info = super().get_field_info(field)
+        # Preserve style if present
+        if hasattr(field, 'style'):
+            info['style'] = field.style
+        # Mark related fields
+        if isinstance(field, PrimaryKeyRelatedField):
+            info['type'] = 'related'
+            queryset = getattr(field, 'queryset', None)
+            if queryset is not None:
+                model = queryset.model
+                info['target'] = model.__name__
+                # determine display attribute
+                if hasattr(model, 'name'):
+                    info['field'] = 'name'
+                elif hasattr(model, 'username'):
+                    info['field'] = 'username'
+                else:
+                    info['field'] = None
+        return info
+
 # -------------------
 # 이 ViewSet은 장치, 활동, 제어 이력, 역할, 이슈, 스케줄, 시설, 구역, 센서 데이터 등 농업 자동화 시스템의 주요 엔터티에 대한 CRUD API를 제공합니다.
 # 주요 기능:
@@ -600,6 +625,7 @@ class EvaluateMeasurementView(APIView):
 
 # CalendarEvent 및 TodoItem 관련 ViewSet 추가
 class CalendarEventViewSet(BaseViewSet):
+    metadata_class = StyleMetadata
     """캘린더 이벤트 CRUD API
     - 읽기: 공개, 쓰기(생성/수정/삭제): 인증 필요
     - 필터: facility, created_by, 시작/종료, all_day
@@ -612,12 +638,19 @@ class CalendarEventViewSet(BaseViewSet):
     search_fields = ['title', 'description', 'location']
     ordering_fields = ['start', 'end', 'created_at']
 
+    def get_view_name(self):
+        return "Calendar Event List"
+
+    def get_view_description(self, html=False):
+        return "캘린더 이벤트 CRUD API\n- 읽기: 공개, 쓰기(생성/수정/삭제): 인증 필요\n- 필터: facility, created_by, 시작/종료, all_day"
+
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user if self.request.user.is_authenticated else None)
 
     # object-level permissions (수정/삭제 허용 여부)는 CreatedByOrStaffPermission이 처리합니다.
 
 class TodoItemViewSet(BaseViewSet):
+    metadata_class = StyleMetadata
     """할일(Todo) 모델 CRUD API
     - 읽기: 공개, 쓰기: 인증 필요
     - 추가 액션: 완료 처리(mark_complete)

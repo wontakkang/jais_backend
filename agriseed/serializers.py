@@ -411,16 +411,16 @@ class EvaluateMeasurementInputSerializer(serializers.Serializer):
 
 # CalendarEvent 및 TodoItem 직렬화기 추가 (공개 필드명과 내부 필드명 분리: source= 사용)
 class CalendarEventSerializer(serializers.ModelSerializer):
-    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12})
+    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12')
     title = serializers.CharField(help_text='이벤트 제목. 예: "수확 준비"', style={'example': '수확 준비'})
     description = serializers.CharField(allow_blank=True, required=False, help_text='상세 설명. 예: "수확 관련 미팅 및 준비사항"', style={'example': '수확 관련 미팅 및 준비사항'})
     start = serializers.DateTimeField(help_text='시작 시간 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-11T10:00:00+09:00', style={'example': '2025-09-11T10:00:00+09:00'})
     end = serializers.DateTimeField(allow_null=True, required=False, help_text='종료 시간 (ISO 8601, 선택, Asia/Seoul +09:00). 예: 2025-09-11T12:00:00+09:00', style={'example': '2025-09-11T12:00:00+09:00'})
     allDay = serializers.BooleanField(source='all_day', default=False, help_text='종일 여부 (True/False). 예: False', style={'example': False})
     location = serializers.CharField(allow_blank=True, allow_null=True, required=False, help_text='장소(선택). 예: "온실 A 동"', style={'example': '온실 A 동'})
-    recurrence = serializers.JSONField(allow_null=True, required=False, help_text='반복 규칙(JSON, 선택). 예: {"freq":"weekly","interval":1}', style={'example': {'freq':'weekly','interval':1}})
-    reminders = serializers.JSONField(allow_null=True, required=False, help_text='알림 설정(JSON 배열, 선택). 예: [{"method":"email","minutes":60}]', style={'example': [{'method':'email','minutes':60}]})
-    attendeeIds = serializers.PrimaryKeyRelatedField(source='attendees', many=True, queryset=User.objects.all(), required=False, help_text='참석자 사용자 ID 리스트. 예: [2, 3]', style={'example': [2,3]})
+    recurrence = serializers.JSONField(allow_null=True, required=False, help_text='반복 규칙(JSON, 선택).', style={'type':'object'})
+    reminders = serializers.JSONField(allow_null=True, required=False, help_text='알림 설정(JSON 배열, 선택).', style={'type':'array','itemType':'object'})
+    attendeeIds = serializers.PrimaryKeyRelatedField(source='attendees', many=True, queryset=User.objects.all(), required=False, help_text='참석자 사용자 ID 리스트.')
     createdBy = serializers.PrimaryKeyRelatedField(source='created_by', read_only=True, help_text='작성자(읽기전용). 사용자 ID')
     createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
     updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
@@ -449,18 +449,18 @@ class CalendarEventSerializer(serializers.ModelSerializer):
         return instance
 
 class TodoItemSerializer(serializers.ModelSerializer):
-    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12})
-    zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5', style={'example': 5})
+    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12')
+    zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5')
     title = serializers.CharField(help_text='할일 제목. 예: "관수 점검"', style={'example': '관수 점검'})
     description = serializers.CharField(allow_blank=True, required=False, help_text='상세 설명(선택). 예: "펌프 점검 및 호스 교체 필요"', style={'example': '펌프 점검 및 호스 교체 필요'})
     createdBy = serializers.PrimaryKeyRelatedField(source='created_by', read_only=True, help_text='작성자(읽기전용). 사용자 ID')
-    assignedTo = serializers.PrimaryKeyRelatedField(source='assigned_to', queryset=User.objects.all(), allow_null=True, required=False, help_text='담당자 사용자 ID(선택). 예: 3', style={'example': 3})
+    assignedTo = serializers.PrimaryKeyRelatedField(source='assigned_to', queryset=User.objects.all(), allow_null=True, required=False, help_text='담당자 사용자 ID(선택). 예: 3')
     dueDate = serializers.DateTimeField(source='due_date', allow_null=True, required=False, help_text='마감일 (ISO 8601, 선택, Asia/Seoul +09:00). 예: 2025-09-15T18:00:00+09:00', style={'example': '2025-09-15T18:00:00+09:00'})
     completed = serializers.BooleanField(default=False, help_text='완료 여부. True/False', style={'example': False})
     completedAt = serializers.DateTimeField(source='completed_at', read_only=True, help_text='완료 시각 (읽기전용)')
     priority = serializers.IntegerField(default=2, help_text='우선순위(숫자). 예: 1=높음,2=중간,3=낮음', style={'example': 2})
     status = serializers.CharField(default='open', help_text='상태 문자열. 예: "open" 또는 "closed"', style={'example': 'open'})
-    reminders = serializers.JSONField(allow_null=True, required=False, help_text='알림 설정(JSON 배열, 선택). 예: [{"method":"sms","minutes":30}]', style={'example': [{'method':'sms','minutes':30}]})
+    reminders = serializers.JSONField(allow_null=True, required=False, help_text='알림 설정(JSON 배열, 선택).', style={'type':'array','itemType':'object'})
     createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
     updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
 
