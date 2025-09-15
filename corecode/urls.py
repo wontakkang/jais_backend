@@ -26,6 +26,8 @@ urlpatterns = router.urls
 
 urlpatterns += [
     path('user-preferences/<str:username>/', UserPreferencesView.as_view()),
+    path('user-id-to-username/<int:user_id>/', UserIdToUsernameView.as_view()),
+    path('users-admin/', UsersAdminListView.as_view()),
     path('projects/<int:project_id>/restore/<str:version>/', ProjectVersionRestoreView.as_view(), name='project-restore-version'),
     path('users-debug/', UsersListView.as_view()),
 ]

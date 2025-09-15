@@ -223,6 +223,41 @@ class UsersListView(APIView):
         users = UserModel.objects.all().values('id', 'username', 'email', 'is_active', 'is_staff', 'is_superuser')
         return Response(list(users))
 
+
+class UsersAdminListView(APIView):
+    """Admin endpoint to list users.
+    - 권한: 인증 및 staff 계정만 사용 가능
+    - 반환: id, username, email, is_active, is_staff
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if not request.user.is_staff:
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        UserModel = get_user_model()
+        qs = UserModel.objects.all().values('id', 'username', 'email', 'is_active', 'is_staff')
+        return Response(list(qs))
+
+class UserIdToUsernameView(APIView):
+    """Return username for a given user id.
+    Authorization: authenticated users only. Staff can query any user; non-staff can query only their own id.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):
+        try:
+            UserModel = get_user_model()
+            user = UserModel.objects.get(pk=user_id)
+        except Exception:
+            return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Authorization: allow if staff or same user
+        if not (request.user.is_staff or request.user.id == user.id):
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Return username only
+        return Response({'username': user.username})
+
 class DeviceViewSet(viewsets.ModelViewSet):
     queryset = Device.objects.all()
     serializer_class = DeviceSerializer

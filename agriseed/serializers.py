@@ -424,7 +424,8 @@ class CalendarEventSerializer(serializers.ModelSerializer):
     recurrence = serializers.JSONField(allow_null=True, required=False, default=None, help_text='반복 규칙(JSON, 선택).', style={'type':'object'})
     reminders = serializers.JSONField(allow_null=True, required=False, default=None, help_text='알림 설정(JSON 배열, 선택).', style={'type':'array','itemType':'object'})
     attendeeIds = serializers.PrimaryKeyRelatedField(source='attendees', many=True, queryset=User.objects.all(), required=False, default=[], help_text='참석자 사용자 ID 리스트.')
-    createdBy = serializers.PrimaryKeyRelatedField(source='created_by', read_only=True, help_text='작성자(읽기전용). 사용자 ID')
+    # createdBy : 외부에는 username으로 노출하고, 입력 시 username을 받아 내부적으로 User FK로 저장합니다.
+    createdBy = serializers.SlugRelatedField(source='created_by', slug_field='username', queryset=User.objects.all(), required=False, allow_null=True, help_text='작성자 username (예: "alice"). 값이 주어지지 않으면 요청자의 계정이 사용됩니다.')
     createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
     updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
 
@@ -432,7 +433,7 @@ class CalendarEventSerializer(serializers.ModelSerializer):
         model = CalendarEvent
         # 내부 필드(is_deleted 등)는 노출하지 않음
         fields = ['id', 'facilityId', 'title', 'description', 'start', 'end', 'allDay', 'location', 'recurrence', 'reminders', 'attendeeIds', 'createdBy', 'createdAt', 'updatedAt']
-        read_only_fields = ['id', 'createdBy', 'createdAt', 'updatedAt']
+        read_only_fields = ['id', 'createdAt', 'updatedAt']
 
     def create(self, validated_data):
         # attendees는 M2M이므로 인스턴스 생성 후 설정
@@ -456,7 +457,8 @@ class TodoItemSerializer(serializers.ModelSerializer):
     zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5')
     title = serializers.CharField(help_text='할일 제목. 예: "관수 점검"', style={'example': '관수 점검'})
     description = serializers.CharField(allow_blank=True, required=False, help_text='상세 설명(선택). 예: "펌프 점검 및 호스 교체 필요"', style={'example': '펌프 점검 및 호스 교체 필요'})
-    createdBy = serializers.PrimaryKeyRelatedField(source='created_by', read_only=True, help_text='작성자(읽기전용). 사용자 ID')
+    # createdBy : 외부에는 username으로 노출하고, 입력 시 username을 받아 내부적으로 User FK로 저장합니다.
+    createdBy = serializers.SlugRelatedField(source='created_by', slug_field='username', queryset=User.objects.all(), required=False, allow_null=True, help_text='작성자 username (예: "alice"). 값이 주어지지 않으면 요청자의 계정이 사용됩니다.')
     assignedTo = serializers.PrimaryKeyRelatedField(source='assigned_to', queryset=User.objects.all(), allow_null=True, required=False, help_text='담당자 사용자 ID(선택). 예: 3')
     dueDate = serializers.DateTimeField(source='due_date', allow_null=True, required=False, help_text='마감일 (ISO 8601, 선택, Asia/Seoul +09:00). 예: 2025-09-15T18:00:00+09:00', style={'example': '2025-09-15T18:00:00+09:00'})
     completed = serializers.BooleanField(default=False, help_text='완료 여부. True/False', style={'example': False})
@@ -471,4 +473,4 @@ class TodoItemSerializer(serializers.ModelSerializer):
         model = TodoItem
         # 내부 필드(is_deleted 등)는 노출하지 않음
         fields = ['id', 'facilityId', 'zoneId', 'title', 'description', 'createdBy', 'assignedTo', 'dueDate', 'completed', 'completedAt', 'priority', 'status', 'reminders', 'createdAt', 'updatedAt']
-        read_only_fields = ['id', 'createdBy', 'createdAt', 'updatedAt', 'completedAt']
+        read_only_fields = ['id', 'createdAt', 'updatedAt', 'completedAt']
