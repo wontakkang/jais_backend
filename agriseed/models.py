@@ -93,14 +93,6 @@ class ResolvedIssue(models.Model):
     action = models.CharField(max_length=200)
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
-class Schedule(models.Model):
-    icon = models.CharField(max_length=100)
-    title = models.CharField(max_length=200)
-    schedule = models.CharField(max_length=200)
-    description = models.TextField()
-    enabled = models.BooleanField()
-    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-
 # 캘린더형 일정(Event) 및 할일(Todo) 모델 추가
 class CalendarEvent(models.Model):
     """캘린더형 이벤트 모델
@@ -288,9 +280,6 @@ class Zone(models.Model):
     crop = models.ForeignKey('Crop', on_delete=models.SET_NULL, null=True, blank=True, help_text="작물 종류")
     variety = models.ForeignKey('Variety', on_delete=models.SET_NULL, null=True, blank=True, help_text="품종")
     style = models.CharField(max_length=50, default="일반", null=True, blank=True, help_text="구역 스타일 (예: 일반, 특수 등)")
-    expected_yield = models.FloatField(default=0.0, null=True, blank=True, help_text="예상 수확량(kg)")
-    sowing_date = models.DateField(null=True, blank=True, help_text="파종일")
-    expected_harvest_date = models.DateField(null=True, blank=True, help_text="예상 수확일")
     health_status = models.CharField(max_length=50, default="양호", null=True, blank=True, help_text="건강 상태 (예: 양호, 주의, 위험 등)")
     environment_status = models.CharField(max_length=50, default="정상", null=True, blank=True, help_text="환경 상태 (예: 정상, 주의, 위험 등)")
     STATUS_CHOICES = [
@@ -300,10 +289,11 @@ class Zone(models.Model):
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="활성화", null=True, blank=True, help_text="구역 상태 (활성화, 비활성화, 작업중)")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-    # 새로 추가된 필드: 구역별 사용 종자량
-    seed_amount = models.FloatField(default=0.0, help_text="사용 종자량 (단위: g, 기본값: 0.0)")
-    recipe_profile = models.ForeignKey(RecipeProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='zones', help_text="적용된 레시피 프로필 (단일)")
 
+    # timestamps and editor
+    created_at = models.DateTimeField(auto_now_add=True, help_text="생성 시각", null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, help_text="수정 시각", null=True, blank=True)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='updated_zones', help_text="최종 수정자")
 
 class SensorData(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='sensor_data', help_text="소속된 구역")
@@ -587,6 +577,27 @@ class RecipeItemValue(models.Model):
         profile_name = self.recipe.recipe_profile.recipe_name
         step_name = self.recipe.name
         return f"{profile_name} - {step_name}: {self.control_item.item_name}"
+
+class CalendarSchedule(models.Model):
+    facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='calendar_schedules', help_text="소속 시설")
+    zone = models.ForeignKey('Zone', on_delete=models.SET_NULL, null=True, blank=True, related_name='calendar_schedules', help_text="관련 구역")
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    enabled = models.BooleanField()
+    # 새로 추가된 필드: 구역별 사용 종자량
+    expected_yield = models.FloatField(default=0.0, null=True, blank=True, help_text="예상 수확량(kg)")
+    sowing_date = models.DateField(null=True, blank=True, help_text="파종일")
+    expected_harvest_date = models.DateField(null=True, blank=True, help_text="예상 수확일")
+    seed_amount = models.FloatField(default=0.0, help_text="사용 종자량 (단위: g, 기본값: 0.0)")
+    recipe_profile = models.ForeignKey(RecipeProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='zones', help_text="적용된 레시피 프로필 (단일)")
+
+    completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='created_calendar_schedules')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
 
 # 커뮤니티 피드백, 별점 및 레시피 성과 관리 기능 모델 추가
 class RecipeComment(models.Model):

@@ -36,25 +36,41 @@ class ResolvedIssueSerializer(serializers.ModelSerializer):
         model = ResolvedIssue
         exclude = ('is_deleted',)
 
-class ScheduleSerializer(serializers.ModelSerializer):
+class CalendarScheduleSerializer(serializers.ModelSerializer):
+    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12})
+    zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5', style={'example': 5})
+    title = serializers.CharField(required=True, help_text='일정 제목', style={'example': '파종'})
+    description = serializers.CharField(required=False, allow_blank=True, default='', help_text='상세 설명', style={'example': '파종 관련 준비'})
+    enabled = serializers.BooleanField(required=False, default=True, help_text='스케줄 활성화 여부')
+    expectedYield = serializers.FloatField(source='expected_yield', required=False, allow_null=True, help_text='예상 수확량(kg)', style={'example': 120.5})
+    sowingDate = serializers.DateField(source='sowing_date', required=False, allow_null=True, help_text='파종일', style={'example': '2025-09-01'})
+    expectedHarvestDate = serializers.DateField(source='expected_harvest_date', required=False, allow_null=True, help_text='예상 수확일', style={'example': '2026-02-01'})
+    seedAmount = serializers.FloatField(source='seed_amount', required=False, help_text='사용 종자량 (g)', style={'example': 50.0})
+    recipeProfile = serializers.PrimaryKeyRelatedField(source='recipe_profile', queryset=RecipeProfile.objects.all(), required=False, allow_null=True, help_text='적용된 레시피 프로필 ID (선택). 예: 5')
+    createdBy = serializers.SlugRelatedField(source='created_by', slug_field='username', read_only=True, help_text='작성자 username (읽기전용)')
+    createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
+    updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
+    completed = serializers.BooleanField(
+        default=False,
+        help_text='완료 여부 (True/False).',
+        style={'example': False, 'type': 'boolean'}
+    )
+    completedAt = serializers.DateTimeField(
+        source='completed_at', read_only=True,
+        help_text='완료 시각 (읽기전용)',
+        style={'example': None, 'type': 'string', 'format': 'date-time'}
+    )
+
     class Meta:
-        model = Schedule
-        exclude = ('is_deleted',)
+        model = CalendarSchedule
+        # include public serializer field names (these override model-backed fields via 'source')
+        fields = ['id', 'facilityId', 'zoneId', 'title', 'description', 'enabled', 'completed', 'completedAt', 'expectedYield', 'sowingDate', 'expectedHarvestDate', 'seedAmount', 'recipeProfile', 'createdBy', 'createdAt', 'updatedAt']
+        read_only_fields = ['id', 'createdBy', 'completedAt', 'createdAt', 'updatedAt']
 
 class ZoneSerializer(serializers.ModelSerializer):
     facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12}, allow_null=True)
     cropId = serializers.PrimaryKeyRelatedField(source='crop', queryset=Crop.objects.all(), allow_null=True, required=False, help_text='작물 ID (선택). 예: 3', style={'example': 3})
     varietyId = serializers.PrimaryKeyRelatedField(source='variety', queryset=Variety.objects.all(), allow_null=True, required=False, help_text='품종 ID (선택). 예: 7', style={'example': 7})
-
-    # Zone당 하나의 레시피(ForeignKey)를 recipe_profile로 노출 (public name: recipeProfile)
-    recipeProfile = serializers.PrimaryKeyRelatedField(
-        source='recipe_profile',
-        queryset=RecipeProfile.objects.all(),
-        required=False,
-        allow_null=True,
-        help_text='적용된 레시피 프로필 ID (선택). 예: 5',
-        style={'example': 5}
-    )
 
     facility_name = serializers.SerializerMethodField(read_only=True)
     crop_name = serializers.SerializerMethodField(read_only=True)
@@ -62,11 +78,15 @@ class ZoneSerializer(serializers.ModelSerializer):
     name = serializers.CharField(help_text='구역 이름. 예: "동1-구역A"', style={'example': '동1-구역A'})
     area = serializers.FloatField(required=False, allow_null=True, help_text='면적(제곱미터, 선택). 예: 120.5', style={'example': 120.5})
 
+    # 타임스탬프 및 수정자 노출 (읽기 전용)
+    createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
+    updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
+    updatedBy = serializers.SlugRelatedField(source='updated_by', slug_field='username', read_only=True, help_text='최종 수정자 username (읽기전용)')
+
     class Meta:
         model = Zone
-        # expose public-friendly field names and keep read-only helper fields
-        fields = ['id', 'facilityId', 'facility_name', 'name', 'type', 'area', 'cropId', 'crop_name', 'varietyId', 'variety_name', 'style', 'expected_yield', 'sowing_date', 'expected_harvest_date', 'health_status', 'environment_status', 'status', 'is_deleted', 'seed_amount', 'recipeProfile']
-        read_only_fields = ['id', 'facility_name', 'crop_name', 'variety_name']
+        fields = ['id', 'facilityId', 'facility_name', 'name', 'type', 'area', 'cropId', 'crop_name', 'varietyId', 'variety_name', 'style', 'health_status', 'environment_status', 'status', 'is_deleted', 'createdAt', 'updatedAt', 'updatedBy']
+        read_only_fields = ['id', 'facility_name', 'crop_name', 'variety_name', 'createdAt', 'updatedAt', 'updatedBy']
 
     def get_facility_name(self, obj):
         return obj.facility.name if obj.facility else None
@@ -83,14 +103,36 @@ class ZoneSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Zone name must not be empty')
         return value
 
-    def create(self, validated_data):
-        # recipe_profile은 ForeignKey이므로 바로 전달
+    def create(self, validated_data, **kwargs):
+        # allow passing updated_by via serializer.save(updated_by=...)
+        updated_by = kwargs.pop('updated_by', None)
+        # fallback to request.user if available
+        if not updated_by:
+            req = self.context.get('request') if hasattr(self, 'context') else None
+            if req and getattr(req, 'user', None) and req.user.is_authenticated:
+                updated_by = req.user
         zone = Zone.objects.create(**validated_data)
+        if updated_by:
+            try:
+                zone.updated_by = updated_by
+                zone.save()
+            except Exception:
+                pass
         return zone
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data, **kwargs):
+        updated_by = kwargs.pop('updated_by', None)
+        if not updated_by:
+            req = self.context.get('request') if hasattr(self, 'context') else None
+            if req and getattr(req, 'user', None) and req.user.is_authenticated:
+                updated_by = req.user
         for attr, val in validated_data.items():
             setattr(instance, attr, val)
+        if updated_by:
+            try:
+                instance.updated_by = updated_by
+            except Exception:
+                pass
         instance.save()
         return instance
 
@@ -112,9 +154,11 @@ class ControlSettingsSerializer(serializers.ModelSerializer):
 class FacilitySerializer(serializers.ModelSerializer):
     control_settings = ControlSettingsSerializer(many=True)
     zones = ZoneSerializer(many=True, read_only=True)
+    calendar_schedules = CalendarScheduleSerializer(many=True, read_only=True)
     class Meta:
         model = Facility
-        exclude = ('is_deleted',)
+        # include model DB fields except internal 'is_deleted', and also include declared nested serializer fields
+        fields = [f.name for f in model._meta.fields if f.name != 'is_deleted'] + ['control_settings', 'zones', 'calendar_schedules']
 
     def create(self, validated_data):
         control_settings_data = validated_data.pop('control_settings', [])
@@ -243,8 +287,8 @@ class RecipeCommentSerializer(serializers.ModelSerializer):
         return RecipeCommentSerializer(qs, many=True).data
 
 class RecipeProfileSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField(read_only=True)
-    updated_by = serializers.StringRelatedField(read_only=True)
+    createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
+    updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
     steps = RecipeStepSerializer(many=True, required=False)
     comments = RecipeCommentSerializer(many=True, read_only=True)
     performances = RecipePerformanceSerializer(many=True, read_only=True)
@@ -253,19 +297,30 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
     rating_count = serializers.IntegerField(read_only=True)
     average_yield = serializers.FloatField(read_only=True)
     success_rate = serializers.FloatField(read_only=True)
+    createdBy = serializers.SlugRelatedField(source='created_by', slug_field='username', read_only=True, help_text='작성자 username (읽기전용)')
+    updatedBy = serializers.SlugRelatedField(source='updated_by', slug_field='username', read_only=True, help_text='최종 수정자 username (읽기전용)')
     class Meta:
         model = RecipeProfile
         fields = [
             'id', 'variety', 'recipe_name', 'description', 'duration_days',
-            'order', 'is_active', 'created_at', 'updated_at',
-            'created_by', 'updated_by', 'steps', 'comments', 'performances',
+            'order', 'is_active', 'createdAt', 'updatedAt',
+            'createdBy', 'updatedBy', 'steps', 'comments', 'performances',
             'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate', 'bookmark'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'created_by', 'updated_by']
+        read_only_fields = ['createdAt', 'updatedAt', 'createdBy', 'updatedBy']
 
     def create(self, validated_data):
         steps_data = validated_data.pop('steps', [])
-        profile = RecipeProfile.objects.create(**validated_data)
+        # created_by/updated_by fallback from context request if not provided
+        req = self.context.get('request') if hasattr(self, 'context') else None
+        user = None
+        if req and getattr(req, 'user', None) and req.user.is_authenticated:
+            user = req.user
+        # create profile with creator if available
+        if user:
+            profile = RecipeProfile.objects.create(created_by=user, updated_by=user, **validated_data)
+        else:
+            profile = RecipeProfile.objects.create(**validated_data)
         for step_data in steps_data:
             item_values_data = step_data.pop('item_values', [])
             step = RecipeStep.objects.create(recipe_profile=profile, **step_data)
@@ -275,8 +330,17 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         steps_data = validated_data.pop('steps', None)
+        req = self.context.get('request') if hasattr(self, 'context') else None
+        user = None
+        if req and getattr(req, 'user', None) and req.user.is_authenticated:
+            user = req.user
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+        if user:
+            try:
+                instance.updated_by = user
+            except Exception:
+                pass
         instance.save()
         if steps_data is not None:
             instance.steps.all().delete()
@@ -439,34 +503,94 @@ class CalendarEventSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # attendees는 M2M이므로 인스턴스 생성 후 설정
         attendees = validated_data.pop('attendees', [])
-        event = CalendarEvent.objects.create(**validated_data)
+        created_by = validated_data.pop('created_by', None)
+        # fallback to request.user when created_by not provided
+        if not created_by:
+            req = self.context.get('request') if hasattr(self, 'context') else None
+            if req and getattr(req, 'user', None) and req.user.is_authenticated:
+                created_by = req.user
+        event = CalendarEvent.objects.create(created_by=created_by, **validated_data)
         if attendees:
             event.attendees.set(attendees)
         return event
 
     def update(self, instance, validated_data):
         attendees = validated_data.pop('attendees', None)
+        # allow updating created_by if explicitly provided; otherwise keep existing
+        created_by = validated_data.pop('created_by', None)
         for attr, val in validated_data.items():
             setattr(instance, attr, val)
+        if created_by is not None:
+            try:
+                instance.created_by = created_by
+            except Exception:
+                pass
         instance.save()
         if attendees is not None:
             instance.attendees.set(attendees)
         return instance
 
 class TodoItemSerializer(serializers.ModelSerializer):
-    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12')
-    zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5')
-    title = serializers.CharField(help_text='할일 제목. 예: "관수 점검"', style={'example': '관수 점검'})
-    description = serializers.CharField(allow_blank=True, required=False, help_text='상세 설명(선택). 예: "펌프 점검 및 호스 교체 필요"', style={'example': '펌프 점검 및 호스 교체 필요'})
+    facilityId = serializers.PrimaryKeyRelatedField(
+        source='facility', queryset=Facility.objects.all(), allow_null=True, required=False,
+        help_text='시설 ID (Facility PK). 예: 12',
+        style={'example': 12, 'type': 'integer'}
+    )
+    zoneId = serializers.PrimaryKeyRelatedField(
+        source='zone', queryset=Zone.objects.all(), allow_null=True, required=False,
+        help_text='구역 ID (Zone PK). 예: 5',
+        style={'example': 5, 'type': 'integer'}
+    )
+    title = serializers.CharField(
+        help_text='할일 제목. 예: "관수 점검"',
+        style={'example': '관수 점검', 'type': 'string'}
+    )
+    description = serializers.CharField(
+        allow_blank=True, required=False,
+        help_text='상세 설명(선택). 예: "펌프 점검 및 호스 교체 필요"',
+        style={'example': '펌프 점검 및 호스 교체 필요', 'type': 'string'}
+    )
     # createdBy : 외부에는 username으로 노출하고, 입력 시 username을 받아 내부적으로 User FK로 저장합니다.
-    createdBy = serializers.SlugRelatedField(source='created_by', slug_field='username', queryset=User.objects.all(), required=False, allow_null=True, help_text='작성자 username (예: "alice"). 값이 주어지지 않으면 요청자의 계정이 사용됩니다.')
-    assignedTo = serializers.PrimaryKeyRelatedField(source='assigned_to', queryset=User.objects.all(), allow_null=True, required=False, help_text='담당자 사용자 ID(선택). 예: 3')
-    dueDate = serializers.DateTimeField(source='due_date', allow_null=True, required=False, help_text='마감일 (ISO 8601, 선택, Asia/Seoul +09:00). 예: 2025-09-15T18:00:00+09:00', style={'example': '2025-09-15T18:00:00+09:00'})
-    completed = serializers.BooleanField(default=False, help_text='완료 여부. True/False', style={'example': False})
-    completedAt = serializers.DateTimeField(source='completed_at', read_only=True, help_text='완료 시각 (읽기전용)')
-    priority = serializers.IntegerField(default=2, help_text='우선순위(숫자). 예: 1=높음,2=중간,3=낮음', style={'example': 2})
-    status = serializers.CharField(default='open', help_text='상태 문자열. 예: "open" 또는 "closed"', style={'example': 'open'})
-    reminders = serializers.JSONField(allow_null=True, required=False, help_text='알림 설정(JSON 배열, 선택).', style={'type':'array','itemType':'object'})
+    createdBy = serializers.SlugRelatedField(
+        source='created_by', slug_field='username', queryset=User.objects.all(), required=False, allow_null=True,
+        help_text='작성자 username (예: "alice"). 값이 주어지지 않으면 요청자의 계정이 사용됩니다.',
+        style={'example': 'alice', 'type': 'string'}
+    )
+    assignedTo = serializers.PrimaryKeyRelatedField(
+        source='assigned_to', queryset=User.objects.all(), allow_null=True, required=False,
+        help_text='담당자 사용자 ID(선택). 예: 3',
+        style={'example': 3, 'type': 'integer'}
+    )
+    dueDate = serializers.DateTimeField(
+        source='due_date', allow_null=True, required=False,
+        help_text='마감일 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-15T18:00:00+09:00',
+        style={'example': '2025-09-15T18:00:00+09:00', 'type': 'string', 'format': 'date-time'}
+    )
+    completed = serializers.BooleanField(
+        default=False,
+        help_text='완료 여부 (True/False).',
+        style={'example': False, 'type': 'boolean'}
+    )
+    completedAt = serializers.DateTimeField(
+        source='completed_at', read_only=True,
+        help_text='완료 시각 (읽기전용)',
+        style={'example': None, 'type': 'string', 'format': 'date-time'}
+    )
+    priority = serializers.IntegerField(
+        default=2,
+        help_text='우선순위(정수). 1=높음,2=중간,3=낮음',
+        style={'example': 2, 'type': 'integer'}
+    )
+    status = serializers.CharField(
+        default='open',
+        help_text='상태 문자열. 예: "open" 또는 "closed"',
+        style={'example': 'open', 'type': 'string'}
+    )
+    reminders = serializers.JSONField(
+        allow_null=True, required=False,
+        help_text='알림 설정(JSON 배열, 분 단위 오프셋 예: [1440, 60])',
+        style={'type': 'array', 'itemType': 'integer', 'example': [1440, 60]}
+    )
     createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
     updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
 
@@ -475,3 +599,25 @@ class TodoItemSerializer(serializers.ModelSerializer):
         # 내부 필드(is_deleted 등)는 노출하지 않음
         fields = ['id', 'facilityId', 'zoneId', 'title', 'description', 'createdBy', 'assignedTo', 'dueDate', 'completed', 'completedAt', 'priority', 'status', 'reminders', 'createdAt', 'updatedAt']
         read_only_fields = ['id', 'createdAt', 'updatedAt', 'completedAt']
+
+    def create(self, validated_data):
+        created_by = validated_data.pop('created_by', None)
+        if not created_by:
+            req = self.context.get('request') if hasattr(self, 'context') else None
+            if req and getattr(req, 'user', None) and req.user.is_authenticated:
+                created_by = req.user
+        todo = TodoItem.objects.create(created_by=created_by, **validated_data)
+        return todo
+
+    def update(self, instance, validated_data):
+        created_by = validated_data.pop('created_by', None)
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        # do not override created_by unless explicitly provided
+        if created_by is not None:
+            try:
+                instance.created_by = created_by
+            except Exception:
+                pass
+        instance.save()
+        return instance

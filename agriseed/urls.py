@@ -9,7 +9,6 @@ router.register(r'control-histories', ControlHistoryViewSet)
 router.register(r'control-roles', ControlRoleViewSet)
 router.register(r'issues', IssueViewSet)
 router.register(r'resolved-issues', ResolvedIssueViewSet)
-router.register(r'schedules', ScheduleViewSet)
 router.register(r'facilities', FacilityViewSet)
 router.register(r'zones', ZoneViewSet)
 router.register(r'sensor-data', SensorDataViewSet)
@@ -42,6 +41,7 @@ router.register(r'quality-events', QualityEventViewSet)
 
 # Calendar 및 Todo 엔드포인트 등록
 router.register(r'calendar-events', CalendarEventViewSet)
+router.register(r'calendar-schedules', CalendarScheduleViewSet)
 router.register(r'todos', TodoItemViewSet)
 
 urlpatterns = [

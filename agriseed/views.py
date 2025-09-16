@@ -25,8 +25,20 @@ class StyleMetadata(SimpleMetadata):
         default_val = getattr(field, 'default', drf_serializers.empty)
         if default_val is not drf_serializers.empty:
             info['default'] = default_val
+        # Ensure there is a style dict and inject defaults to avoid missing keys
+        style = info.get('style') if isinstance(info.get('style'), dict) else {}
+        # copy any field-level style attached to the serializer.Field instance
+        if hasattr(field, 'style') and isinstance(getattr(field, 'style'), dict):
+            # merge but keep existing keys in field.style
+            merged = {**style, **getattr(field, 'style')}
+            style = merged
+        # default style entries
+        style.setdefault('example', None)
+        style.setdefault('type', None)
+        style.setdefault('format', None)
+        info['style'] = style
         if hasattr(field, 'style'):
-            info['style'] = field.style
+            info['style_source'] = 'field'
         # Mark related fields
         if isinstance(field, PrimaryKeyRelatedField):
             info['type'] = 'related'
@@ -120,9 +132,9 @@ class ResolvedIssueViewSet(viewsets.ModelViewSet):
     serializer_class = ResolvedIssueSerializer
 
 # ScheduleViewSet: 스케줄(Schedule) 모델의 CRUD API를 제공합니다.
-class ScheduleViewSet(viewsets.ModelViewSet):
-    queryset = Schedule.objects.all()
-    serializer_class = ScheduleSerializer
+class CalendarScheduleViewSet(viewsets.ModelViewSet):
+    queryset = CalendarSchedule.objects.all()
+    serializer_class = CalendarScheduleSerializer
 
 # FacilityViewSet: 시설(Facility) 모델의 CRUD API를 제공합니다.
 class FacilityViewSet(viewsets.ModelViewSet):
@@ -133,12 +145,12 @@ class FacilityViewSet(viewsets.ModelViewSet):
 class ZoneViewSet(BaseViewSet):
     """구역(Zone) 모델의 CRUD API - facility/crop/variety 연동 및 기본 검증 포함"""
     # Zone은 단일 recipe_profile(FK)을 가짐 -> select_related로 조인하여 N+1 문제 완화
-    queryset = Zone.objects.select_related('facility', 'crop', 'variety', 'recipe_profile', 'recipe_profile__created_by', 'recipe_profile__variety').all()
+    queryset = Zone.objects.select_related('facility', 'crop', 'variety').all()
     serializer_class = ZoneSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     # recipe_profile(FK)로 필터 가능 (예: ?recipe_profile=1)
-    filterset_fields = ['facility', 'crop', 'variety', 'status', 'health_status', 'environment_status', 'is_deleted', 'recipe_profile', 'seed_amount']
+    filterset_fields = ['facility', 'crop', 'variety', 'status', 'health_status', 'environment_status', 'is_deleted']
     search_fields = ['name', 'style']
     ordering_fields = ['id', 'area', 'expected_yield']
 
@@ -149,7 +161,14 @@ class ZoneViewSet(BaseViewSet):
         if facility and name and Zone.objects.filter(facility=facility, name=name).exists():
             from rest_framework.exceptions import ValidationError
             raise ValidationError({'name': '같은 시설에 동일한 구역 이름이 이미 존재합니다.'})
-        serializer.save()
+        # 전달 가능한 경우 created_by/updated_by를 설정
+        user = self.request.user if getattr(self.request, 'user', None) and self.request.user.is_authenticated else None
+        try:
+            # try to set both if model/serializer accept them
+            serializer.save(created_by=user, updated_by=user)
+        except TypeError:
+            # fallback to plain save for backward compatibility
+            serializer.save()
 
     def perform_update(self, serializer):
         instance = self.get_object()
@@ -159,7 +178,11 @@ class ZoneViewSet(BaseViewSet):
         if facility and name and Zone.objects.filter(facility=facility, name=name).exclude(pk=instance.pk).exists():
             from rest_framework.exceptions import ValidationError
             raise ValidationError({'name': '같은 시설에 동일한 구역 이름이 이미 존재합니다.'})
-        serializer.save()
+        user = self.request.user if getattr(self.request, 'user', None) and self.request.user.is_authenticated else None
+        try:
+            serializer.save(updated_by=user)
+        except TypeError:
+            serializer.save()
 
 # SensorDataViewSet: 센서 데이터(SensorData) 모델의 CRUD API를 제공합니다.
 class SensorDataViewSet(viewsets.ModelViewSet):
