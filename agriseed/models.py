@@ -277,8 +277,6 @@ class Zone(models.Model):
     name = models.CharField(max_length=100, default="Default Zone", help_text="구역 이름")
     type = models.CharField(max_length=50, default="온실", help_text="구역 유형 (예: 온실, 저장고 등)")
     area = models.FloatField(default=50.0, help_text="구역 면적 (기본값: 50 제곱미터)")
-    crop = models.ForeignKey('Crop', on_delete=models.SET_NULL, null=True, blank=True, help_text="작물 종류")
-    variety = models.ForeignKey('Variety', on_delete=models.SET_NULL, null=True, blank=True, help_text="품종")
     style = models.CharField(max_length=50, default="일반", null=True, blank=True, help_text="구역 스타일 (예: 일반, 특수 등)")
     health_status = models.CharField(max_length=50, default="양호", null=True, blank=True, help_text="건강 상태 (예: 양호, 주의, 위험 등)")
     environment_status = models.CharField(max_length=50, default="정상", null=True, blank=True, help_text="환경 상태 (예: 정상, 주의, 위험 등)")
@@ -289,7 +287,6 @@ class Zone(models.Model):
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="활성화", null=True, blank=True, help_text="구역 상태 (활성화, 비활성화, 작업중)")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-
     # timestamps and editor
     created_at = models.DateTimeField(auto_now_add=True, help_text="생성 시각", null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, help_text="수정 시각", null=True, blank=True)
@@ -581,6 +578,8 @@ class RecipeItemValue(models.Model):
 class CalendarSchedule(models.Model):
     facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='calendar_schedules', help_text="소속 시설")
     zone = models.ForeignKey('Zone', on_delete=models.SET_NULL, null=True, blank=True, related_name='calendar_schedules', help_text="관련 구역")
+    crop = models.ForeignKey('Crop', on_delete=models.SET_NULL, null=True, blank=True, help_text="작물 종류")
+    variety = models.ForeignKey('Variety', on_delete=models.SET_NULL, null=True, blank=True, help_text="품종")
     title = models.CharField(max_length=200)
     description = models.TextField()
     enabled = models.BooleanField()

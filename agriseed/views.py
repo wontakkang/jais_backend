@@ -133,8 +133,29 @@ class ResolvedIssueViewSet(viewsets.ModelViewSet):
 
 # ScheduleViewSet: 스케줄(Schedule) 모델의 CRUD API를 제공합니다.
 class CalendarScheduleViewSet(viewsets.ModelViewSet):
-    queryset = CalendarSchedule.objects.all()
+    # CalendarSchedule now references crop and variety instead of zone-related fields
+    queryset = CalendarSchedule.objects.select_related('facility', 'zone', 'crop', 'variety', 'recipe_profile', 'created_by').all()
     serializer_class = CalendarScheduleSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['facility', 'zone', 'crop', 'variety', 'recipe_profile', 'enabled', 'completed', 'is_deleted']
+    search_fields = ['title', 'description']
+    ordering_fields = ['created_at', 'sowing_date', 'expected_harvest_date', 'id']
+
+    def perform_create(self, serializer):
+        # set created_by when creating via API if user is authenticated
+        user = self.request.user if getattr(self.request, 'user', None) and self.request.user.is_authenticated else None
+        try:
+            serializer.save(created_by=user)
+        except TypeError:
+            serializer.save()
+
+    def perform_update(self, serializer):
+        # preserve created_by but allow updating other fields
+        user = self.request.user if getattr(self.request, 'user', None) and self.request.user.is_authenticated else None
+        try:
+            serializer.save()
+        except TypeError:
+            serializer.save()
 
 # FacilityViewSet: 시설(Facility) 모델의 CRUD API를 제공합니다.
 class FacilityViewSet(viewsets.ModelViewSet):
@@ -143,14 +164,14 @@ class FacilityViewSet(viewsets.ModelViewSet):
 
 # ZoneViewSet: 구역(Zone) 모델의 CRUD API를 제공합니다.
 class ZoneViewSet(BaseViewSet):
-    """구역(Zone) 모델의 CRUD API - facility/crop/variety 연동 및 기본 검증 포함"""
+    """구역(Zone) 모델의 CRUD API - facility 연동 및 기본 검증 포함"""
     # Zone은 단일 recipe_profile(FK)을 가짐 -> select_related로 조인하여 N+1 문제 완화
-    queryset = Zone.objects.select_related('facility', 'crop', 'variety').all()
+    queryset = Zone.objects.select_related('facility', 'updated_by').all()
     serializer_class = ZoneSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     # recipe_profile(FK)로 필터 가능 (예: ?recipe_profile=1)
-    filterset_fields = ['facility', 'crop', 'variety', 'status', 'health_status', 'environment_status', 'is_deleted']
+    filterset_fields = ['facility', 'status', 'health_status', 'environment_status', 'is_deleted']
     search_fields = ['name', 'style']
     ordering_fields = ['id', 'area', 'expected_yield']
 

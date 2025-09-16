@@ -38,7 +38,12 @@ class ResolvedIssueSerializer(serializers.ModelSerializer):
 
 class CalendarScheduleSerializer(serializers.ModelSerializer):
     facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12})
-    zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5', style={'example': 5})
+    zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5')
+    cropId = serializers.PrimaryKeyRelatedField(source='crop', queryset=Crop.objects.all(), allow_null=True, required=False, help_text='작물 ID (Crop primary key). 예: 3', style={'example': 3})
+    varietyId = serializers.PrimaryKeyRelatedField(source='variety', queryset=Variety.objects.all(), allow_null=True, required=False, help_text='품종 ID (Variety primary key). 예: 7', style={'example': 7})
+    # read-only display names for convenience
+    crop_name = serializers.SerializerMethodField(read_only=True, help_text='작물 이름 (읽기전용)')
+    variety_name = serializers.SerializerMethodField(read_only=True, help_text='품종 이름 (읽기전용)')
     title = serializers.CharField(required=True, help_text='일정 제목', style={'example': '파종'})
     description = serializers.CharField(required=False, allow_blank=True, default='', help_text='상세 설명', style={'example': '파종 관련 준비'})
     enabled = serializers.BooleanField(required=False, default=True, help_text='스케줄 활성화 여부')
@@ -64,17 +69,18 @@ class CalendarScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalendarSchedule
         # include public serializer field names (these override model-backed fields via 'source')
-        fields = ['id', 'facilityId', 'zoneId', 'title', 'description', 'enabled', 'completed', 'completedAt', 'expectedYield', 'sowingDate', 'expectedHarvestDate', 'seedAmount', 'recipeProfile', 'createdBy', 'createdAt', 'updatedAt']
-        read_only_fields = ['id', 'createdBy', 'completedAt', 'createdAt', 'updatedAt']
+        fields = ['id', 'facilityId', 'zoneId', 'cropId', 'crop_name', 'varietyId', 'variety_name', 'title', 'description', 'enabled', 'completed', 'completedAt', 'expectedYield', 'sowingDate', 'expectedHarvestDate', 'seedAmount', 'recipeProfile', 'createdBy', 'createdAt', 'updatedAt']
+        read_only_fields = ['id', 'createdBy', 'completedAt', 'createdAt', 'updatedAt', 'crop_name', 'variety_name']
+
+    def get_crop_name(self, obj):
+        return obj.crop.name if obj.crop else None
+
+    def get_variety_name(self, obj):
+        return obj.variety.name if obj.variety else None
 
 class ZoneSerializer(serializers.ModelSerializer):
     facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12}, allow_null=True)
-    cropId = serializers.PrimaryKeyRelatedField(source='crop', queryset=Crop.objects.all(), allow_null=True, required=False, help_text='작물 ID (선택). 예: 3', style={'example': 3})
-    varietyId = serializers.PrimaryKeyRelatedField(source='variety', queryset=Variety.objects.all(), allow_null=True, required=False, help_text='품종 ID (선택). 예: 7', style={'example': 7})
-
     facility_name = serializers.SerializerMethodField(read_only=True)
-    crop_name = serializers.SerializerMethodField(read_only=True)
-    variety_name = serializers.SerializerMethodField(read_only=True)
     name = serializers.CharField(help_text='구역 이름. 예: "동1-구역A"', style={'example': '동1-구역A'})
     area = serializers.FloatField(required=False, allow_null=True, help_text='면적(제곱미터, 선택). 예: 120.5', style={'example': 120.5})
 
@@ -85,17 +91,11 @@ class ZoneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Zone
-        fields = ['id', 'facilityId', 'facility_name', 'name', 'type', 'area', 'cropId', 'crop_name', 'varietyId', 'variety_name', 'style', 'health_status', 'environment_status', 'status', 'is_deleted', 'createdAt', 'updatedAt', 'updatedBy']
-        read_only_fields = ['id', 'facility_name', 'crop_name', 'variety_name', 'createdAt', 'updatedAt', 'updatedBy']
+        fields = ['id', 'facilityId', 'facility_name', 'name', 'type', 'area', 'style', 'health_status', 'environment_status', 'status', 'is_deleted', 'createdAt', 'updatedAt', 'updatedBy']
+        read_only_fields = ['id', 'facility_name', 'createdAt', 'updatedAt', 'updatedBy']
 
     def get_facility_name(self, obj):
         return obj.facility.name if obj.facility else None
-
-    def get_crop_name(self, obj):
-        return obj.crop.name if obj.crop else None
-
-    def get_variety_name(self, obj):
-        return obj.variety.name if obj.variety else None
 
     def validate_name(self, value):
         # Ensure zone name is not empty
