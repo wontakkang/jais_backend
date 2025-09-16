@@ -652,12 +652,12 @@ class CalendarEventViewSet(BaseViewSet):
     - 읽기: 공개, 쓰기(생성/수정/삭제): 인증 필요
     - 필터: facility, created_by, 시작/종료, all_day
     """
-    queryset = CalendarEvent.objects.select_related('facility', 'created_by').prefetch_related('attendees').all()
+    queryset = CalendarEvent.objects.select_related('facility', 'zone', 'created_by').prefetch_related('attendees').all()
     serializer_class = CalendarEventSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, CreatedByOrStaffPermission]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['facility', 'created_by', 'all_day', 'is_deleted']
-    search_fields = ['title', 'description', 'location']
+    filterset_fields = ['facility', 'zone', 'created_by', 'all_day', 'is_deleted']
+    search_fields = ['title', 'description']
     ordering_fields = ['start', 'end', 'created_at']
 
     def get_view_name(self):

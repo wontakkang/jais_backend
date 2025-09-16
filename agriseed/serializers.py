@@ -3,6 +3,7 @@ from .models import *
 from corecode.models import DataName
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+
 User = get_user_model()
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -415,12 +416,12 @@ class EvaluateMeasurementInputSerializer(serializers.Serializer):
 # CalendarEvent 및 TodoItem 직렬화기 추가 (공개 필드명과 내부 필드명 분리: source= 사용)
 class CalendarEventSerializer(serializers.ModelSerializer):
     facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, default=None, help_text='시설 ID (Facility primary key). 예: 12')
-    title = serializers.CharField(required=False, allow_blank=True, default='', help_text='이벤트 제목. 예: "수확 준비"', style={'example': '수확 준비'})
+    zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5')
+    title = serializers.CharField(required=True, help_text='이벤트 제목. 예: "수확 준비"', style={'example': '수확 준비'})
     description = serializers.CharField(required=False, allow_blank=True, default='', help_text='상세 설명. 예: "수확 관련 미팅 및 준비사항"', style={'example': '수확 관련 미팅 및 준비사항'})
-    start = serializers.DateTimeField(required=False, default=timezone.now, help_text='시작 시간 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-11T10:00:00+09:00', style={'example': '2025-09-11T10:00:00+09:00'})
-    end = serializers.DateTimeField(allow_null=True, required=False, default=None, help_text='종료 시간 (ISO 8601, 선택, Asia/Seoul +09:00). 예: 2025-09-11T12:00:00+09:00', style={'example': '2025-09-11T12:00:00+09:00'})
+    start = serializers.DateTimeField(required=True, help_text='시작 시간 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-11T10:00:00+09:00', style={'example': timezone.localtime(timezone.now()).isoformat()})
+    end = serializers.DateTimeField(required=True, help_text='종료 시간 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-11T12:00:00+09:00', style={'example': timezone.localtime(timezone.now()).isoformat()})
     allDay = serializers.BooleanField(source='all_day', required=False, default=False, help_text='종일 여부 (True/False). 예: False', style={'example': False})
-    location = serializers.CharField(allow_blank=True, allow_null=True, required=False, default=None, help_text='장소(선택). 예: "온실 A 동"', style={'example': '온실 A 동'})
     recurrence = serializers.JSONField(allow_null=True, required=False, default=None, help_text='반복 규칙(JSON, 선택).', style={'type':'object'})
     reminders = serializers.JSONField(allow_null=True, required=False, default=None, help_text='알림 설정(JSON 배열, 선택).', style={'type':'array','itemType':'object'})
     attendeeIds = serializers.PrimaryKeyRelatedField(source='attendees', many=True, queryset=User.objects.all(), required=False, default=[], help_text='참석자 사용자 ID 리스트.')
@@ -432,7 +433,7 @@ class CalendarEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalendarEvent
         # 내부 필드(is_deleted 등)는 노출하지 않음
-        fields = ['id', 'facilityId', 'title', 'description', 'start', 'end', 'allDay', 'location', 'recurrence', 'reminders', 'attendeeIds', 'createdBy', 'createdAt', 'updatedAt']
+        fields = ['id', 'facilityId', 'title', 'description', 'start', 'end', 'allDay', 'zoneId', 'recurrence', 'reminders', 'attendeeIds', 'createdBy', 'createdAt', 'updatedAt']
         read_only_fields = ['id', 'createdAt', 'updatedAt']
 
     def create(self, validated_data):
