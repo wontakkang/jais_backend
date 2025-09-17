@@ -37,40 +37,39 @@ class ResolvedIssueSerializer(serializers.ModelSerializer):
         exclude = ('is_deleted',)
 
 class CalendarScheduleSerializer(serializers.ModelSerializer):
-    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12})
-    zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5')
-    cropId = serializers.PrimaryKeyRelatedField(source='crop', queryset=Crop.objects.all(), allow_null=True, required=False, help_text='작물 ID (Crop primary key). 예: 3', style={'example': 3})
-    varietyId = serializers.PrimaryKeyRelatedField(source='variety', queryset=Variety.objects.all(), allow_null=True, required=False, help_text='품종 ID (Variety primary key). 예: 7', style={'example': 7})
-    # read-only display names for convenience
-    crop_name = serializers.SerializerMethodField(read_only=True, help_text='작물 이름 (읽기전용)')
-    variety_name = serializers.SerializerMethodField(read_only=True, help_text='품종 이름 (읽기전용)')
-    title = serializers.CharField(required=True, help_text='일정 제목', style={'example': '파종'})
-    description = serializers.CharField(required=False, allow_blank=True, default='', help_text='상세 설명', style={'example': '파종 관련 준비'})
-    enabled = serializers.BooleanField(required=False, default=True, help_text='스케줄 활성화 여부')
-    expectedYield = serializers.FloatField(source='expected_yield', required=False, allow_null=True, help_text='예상 수확량(kg)', style={'example': 120.5})
-    sowingDate = serializers.DateField(source='sowing_date', required=False, allow_null=True, help_text='파종일', style={'example': '2025-09-01'})
-    expectedHarvestDate = serializers.DateField(source='expected_harvest_date', required=False, allow_null=True, help_text='예상 수확일', style={'example': '2026-02-01'})
-    seedAmount = serializers.FloatField(source='seed_amount', required=False, help_text='사용 종자량 (g)', style={'example': 50.0})
-    recipeProfile = serializers.PrimaryKeyRelatedField(source='recipe_profile', queryset=RecipeProfile.objects.all(), required=False, allow_null=True, help_text='적용된 레시피 프로필 ID (선택). 예: 5')
+    facilityId = serializers.PrimaryKeyRelatedField(
+        source='facility', queryset=Facility.objects.all(), allow_null=True, required=False,
+        help_text='시설 ID (Facility primary key). 예: 12', style={'type': 'integer'}
+    )
+    zoneId = serializers.PrimaryKeyRelatedField(
+        source='zone', queryset=Zone.objects.all(), allow_null=True, required=False,
+        help_text='구역 ID (Zone primary key). 예: 5', style={'type': 'integer'}
+    )
+    cropId = serializers.PrimaryKeyRelatedField(
+        source='crop', queryset=Crop.objects.all(), allow_null=True, required=False,
+        help_text='작물 ID (선택). 예: 3', style={'type': 'integer'}
+    )
+    varietyId = serializers.PrimaryKeyRelatedField(
+        source='variety', queryset=Variety.objects.all(), allow_null=True, required=False,
+        help_text='품종 ID (선택). 예: 7', style={'type': 'integer'}
+    )
+    enabled = serializers.BooleanField(required=False, default=False, help_text='스케줄 활성화 여부', style={'example': False, 'type': 'boolean'})
+    expectedYield = serializers.FloatField(source='expected_yield', required=False, allow_null=True, help_text='예상 수확량(kg)', style={'example': 120.5, 'type': 'number'})
+    sowingDate = serializers.DateField(source='sowing_date', required=False, allow_null=True, help_text='파종일', style={'example': '2025-09-01', 'type': 'string', 'format': 'date'})
+    expectedHarvestDate = serializers.DateField(source='expected_harvest_date', required=False, allow_null=True, help_text='예상 수확일', style={'example': '2026-02-01', 'type': 'string', 'format': 'date'})
+    seedAmount = serializers.FloatField(source='seed_amount', required=False, help_text='사용 종자량 (g)', style={'example': 50.0, 'type': 'number'})
+    recipeProfile = serializers.PrimaryKeyRelatedField(source='recipe_profile', queryset=RecipeProfile.objects.all(), required=False, allow_null=True, help_text='적용된 레시피 프로필 ID (선택). 예: 5', style={'example': 5, 'type': 'integer'})
+    completed = serializers.BooleanField(required=False, default=False, help_text='완료 여부', style={'example': False, 'type': 'boolean'})
+    completedAt = serializers.DateTimeField(source='completed_at', read_only=True, help_text='완료 시간 (읽기전용)', style={'example': None, 'type': 'string', 'format': 'date-time'})
     createdBy = serializers.SlugRelatedField(source='created_by', slug_field='username', read_only=True, help_text='작성자 username (읽기전용)')
     createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
     updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
-    completed = serializers.BooleanField(
-        default=False,
-        help_text='완료 여부 (True/False).',
-        style={'example': False, 'type': 'boolean'}
-    )
-    completedAt = serializers.DateTimeField(
-        source='completed_at', read_only=True,
-        help_text='완료 시각 (읽기전용)',
-        style={'example': None, 'type': 'string', 'format': 'date-time'}
-    )
 
     class Meta:
         model = CalendarSchedule
-        # include public serializer field names (these override model-backed fields via 'source')
-        fields = ['id', 'facilityId', 'zoneId', 'cropId', 'crop_name', 'varietyId', 'variety_name', 'title', 'description', 'enabled', 'completed', 'completedAt', 'expectedYield', 'sowingDate', 'expectedHarvestDate', 'seedAmount', 'recipeProfile', 'createdBy', 'createdAt', 'updatedAt']
-        read_only_fields = ['id', 'createdBy', 'completedAt', 'createdAt', 'updatedAt', 'crop_name', 'variety_name']
+        # expose public serializer field names mapped to model via 'source'
+        fields = ['id', 'facilityId', 'zoneId', 'cropId', 'varietyId', 'enabled', 'expectedYield', 'sowingDate', 'expectedHarvestDate', 'seedAmount', 'recipeProfile', 'completed', 'completedAt', 'createdBy', 'createdAt', 'updatedAt']
+        read_only_fields = ['id', 'completedAt', 'createdBy', 'createdAt', 'updatedAt']
 
     def get_crop_name(self, obj):
         return obj.crop.name if obj.crop else None
@@ -79,10 +78,10 @@ class CalendarScheduleSerializer(serializers.ModelSerializer):
         return obj.variety.name if obj.variety else None
 
 class ZoneSerializer(serializers.ModelSerializer):
-    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), help_text='시설 ID (Facility primary key). 예: 12', style={'example': 12}, allow_null=True)
+    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), help_text='시설 ID (Facility primary key). 예: 12', style={}, allow_null=True)
     facility_name = serializers.SerializerMethodField(read_only=True)
     name = serializers.CharField(help_text='구역 이름. 예: "동1-구역A"', style={'example': '동1-구역A'})
-    area = serializers.FloatField(required=False, allow_null=True, help_text='면적(제곱미터, 선택). 예: 120.5', style={'example': 120.5})
+    area = serializers.FloatField(required=False, allow_null=True, help_text='면적(제곱미터, 선택). 예: 120.5', style={})
 
     # 타임스탬프 및 수정자 노출 (읽기 전용)
     createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
@@ -212,7 +211,7 @@ class ControlItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'item_name', 'description']
 
 class RecipeItemValueSerializer(serializers.ModelSerializer):
-    control_item = serializers.PrimaryKeyRelatedField(queryset=ControlItem.objects.all(), help_text='ControlItem ID. 예: 2', style={'example': 2})
+    control_item = serializers.PrimaryKeyRelatedField(queryset=ControlItem.objects.all(), help_text='ControlItem ID. 예: 2', style={})
     set_value = serializers.FloatField(help_text='설정 값 (실수). 예: 23.5', style={'example': 23.5})
     min_value = serializers.FloatField(required=False, allow_null=True, help_text='허용 최소값 (선택). 예: 10.0', style={'example': 10.0})
     max_value = serializers.FloatField(required=False, allow_null=True, help_text='허용 최대값 (선택). 예: 40.0', style={'example': 40.0})
@@ -224,7 +223,7 @@ class RecipeItemValueSerializer(serializers.ModelSerializer):
 class RecipeStepSerializer(serializers.ModelSerializer):
     item_values = RecipeItemValueSerializer(many=True, required=False, help_text='이 스텝에 포함된 항목값 목록 (선택)')
     name = serializers.CharField(help_text='스텝 이름. 예: "발아 단계"', style={'example': '발아 단계'})
-    duration_days = serializers.IntegerField(required=False, allow_null=True, help_text='지속 일수 (선택). 예: 7', style={'example': 7})
+    duration_days = serializers.IntegerField(required=False, allow_null=True, help_text='지속 일수 (선택). 예: 7', style={})
     class Meta:
         model = RecipeStep
         fields = ['id', 'recipe_profile', 'name', 'order', 'duration_days', 'description', 'item_values', 'label_icon', 'active']
@@ -264,7 +263,7 @@ class RecipeRatingSerializer(serializers.ModelSerializer):
 
 class RecipeCommentVoteSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
-    comment = serializers.PrimaryKeyRelatedField(queryset=RecipeComment.objects.all(), help_text='댓글 ID', style={'example': 11})
+    comment = serializers.PrimaryKeyRelatedField(queryset=RecipeComment.objects.all(), help_text='댓글 ID', style={})
     class Meta:
         model = RecipeCommentVote
         fields = ['id', 'comment', 'user', 'is_helpful', 'created_at']
@@ -354,7 +353,7 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
 # Tree 및 Tree_tags 직렬화기 추가
 class TreeTagsSerializer(serializers.ModelSerializer):
     # tree를 nested 생성시 생략할 수 있도록 선택적으로 만듭니다.
-    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all(), required=False, allow_null=True, help_text='연결된 Tree ID (선택)', style={'example': 42})
+    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all(), required=False, allow_null=True, help_text='연결된 Tree ID (선택)', style={})
     # 단일 boolean 필드로 수확 상태를 관리 (True=수확후)
     is_post_harvest = serializers.BooleanField(required=False, default=False, help_text='수확 후 여부 (True=수확후)', style={'example': False})
     has_farm_log = serializers.BooleanField(required=False, default=False, help_text='농장일지 포함 여부 (선택)', style={'example': False})
@@ -411,7 +410,7 @@ class SpecimenAttachmentSerializer(serializers.ModelSerializer):
         return None
 
 class SpecimenDataSerializer(serializers.ModelSerializer):
-    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all(), allow_null=True, required=False, help_text='연결된 Tree ID (선택)', style={'example': 42})
+    tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all(), allow_null=True, required=False, help_text='연결된 Tree ID (선택)', style={})
     collected_by = serializers.StringRelatedField(read_only=True)
     attachments_files = SpecimenAttachmentSerializer(many=True, read_only=True, help_text='첨부 파일 리스트 (읽기전용)')
     # Specimen의 수확 상태는 Tree_tags에서 동기화되므로 API 기본 동작에서는 읽기 전용으로 노출
@@ -423,7 +422,7 @@ class SpecimenDataSerializer(serializers.ModelSerializer):
         read_only_fields = ('created_at', 'updated_at',)
 
 class SensorItemSerializer(serializers.ModelSerializer):
-    item_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='DataName ID (예: 온도). 예: 8', style={'example': 8})
+    item_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='DataName ID (예: 온도). 예: 8', style={})
 
     class Meta:
         model = SensorItem
@@ -431,15 +430,15 @@ class SensorItemSerializer(serializers.ModelSerializer):
 
 
 class MeasurementItemSerializer(serializers.ModelSerializer):
-    item_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='DataName ID (예: 측정값). 예: 9', style={'example': 9})
+    item_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='DataName ID (예: 측정값). 예: 9', style={})
 
     class Meta:
         model = MeasurementItem
         fields = ['id', 'item_name', 'description']
 
 class VarietyDataThresholdSerializer(serializers.ModelSerializer):
-    variety = serializers.PrimaryKeyRelatedField(queryset=Variety.objects.all(), help_text='품종 ID', style={'example': 7})
-    data_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='DataName ID', style={'example': 8})
+    variety = serializers.PrimaryKeyRelatedField(queryset=Variety.objects.all(), help_text='품종 ID', style={})
+    data_name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='DataName ID', style={})
 
     class Meta:
         model = VarietyDataThreshold
@@ -479,7 +478,7 @@ class EvaluateMeasurementInputSerializer(serializers.Serializer):
 
 # CalendarEvent 및 TodoItem 직렬화기 추가 (공개 필드명과 내부 필드명 분리: source= 사용)
 class CalendarEventSerializer(serializers.ModelSerializer):
-    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, default=None, help_text='시설 ID (Facility primary key). 예: 12')
+    facilityId = serializers.PrimaryKeyRelatedField(source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, default=None, help_text='시설 ID (Facility primary key)')
     zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5')
     title = serializers.CharField(required=True, help_text='이벤트 제목. 예: "수확 준비"', style={'example': '수확 준비'})
     description = serializers.CharField(required=False, allow_blank=True, default='', help_text='상세 설명. 예: "수확 관련 미팅 및 준비사항"', style={'example': '수확 관련 미팅 및 준비사항'})
@@ -534,12 +533,12 @@ class TodoItemSerializer(serializers.ModelSerializer):
     facilityId = serializers.PrimaryKeyRelatedField(
         source='facility', queryset=Facility.objects.all(), allow_null=True, required=False,
         help_text='시설 ID (Facility PK). 예: 12',
-        style={'example': 12, 'type': 'integer'}
+        style={'type': 'integer'}
     )
     zoneId = serializers.PrimaryKeyRelatedField(
         source='zone', queryset=Zone.objects.all(), allow_null=True, required=False,
         help_text='구역 ID (Zone PK). 예: 5',
-        style={'example': 5, 'type': 'integer'}
+        style={'type': 'integer'}
     )
     title = serializers.CharField(
         help_text='할일 제목. 예: "관수 점검"',
@@ -554,12 +553,12 @@ class TodoItemSerializer(serializers.ModelSerializer):
     createdBy = serializers.SlugRelatedField(
         source='created_by', slug_field='username', queryset=User.objects.all(), required=False, allow_null=True,
         help_text='작성자 username (예: "alice"). 값이 주어지지 않으면 요청자의 계정이 사용됩니다.',
-        style={'example': 'alice', 'type': 'string'}
+        style={'type': 'string'}
     )
     assignedTo = serializers.PrimaryKeyRelatedField(
         source='assigned_to', queryset=User.objects.all(), allow_null=True, required=False,
         help_text='담당자 사용자 ID(선택). 예: 3',
-        style={'example': 3, 'type': 'integer'}
+        style={'type': 'integer'}
     )
     dueDate = serializers.DateTimeField(
         source='due_date', allow_null=True, required=False,

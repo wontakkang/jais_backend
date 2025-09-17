@@ -580,8 +580,6 @@ class CalendarSchedule(models.Model):
     zone = models.ForeignKey('Zone', on_delete=models.SET_NULL, null=True, blank=True, related_name='calendar_schedules', help_text="관련 구역")
     crop = models.ForeignKey('Crop', on_delete=models.SET_NULL, null=True, blank=True, help_text="작물 종류")
     variety = models.ForeignKey('Variety', on_delete=models.SET_NULL, null=True, blank=True, help_text="품종")
-    title = models.CharField(max_length=200)
-    description = models.TextField()
     enabled = models.BooleanField()
     # 새로 추가된 필드: 구역별 사용 종자량
     expected_yield = models.FloatField(default=0.0, null=True, blank=True, help_text="예상 수확량(kg)")

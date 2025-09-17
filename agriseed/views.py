@@ -138,7 +138,6 @@ class CalendarScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = CalendarScheduleSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['facility', 'zone', 'crop', 'variety', 'recipe_profile', 'enabled', 'completed', 'is_deleted']
-    search_fields = ['title', 'description']
     ordering_fields = ['created_at', 'sowing_date', 'expected_harvest_date', 'id']
 
     def perform_create(self, serializer):
