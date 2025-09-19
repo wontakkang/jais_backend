@@ -401,3 +401,22 @@ class LocationCodeViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['group__group_id', 'code_type', 'code_key']
     ordering_fields = ['code_id', 'code_type', 'code_key']
+
+class ModuleViewSet(viewsets.ModelViewSet):
+    """Module(서브시스템) 모델 CRUD API"""
+    queryset = Module.objects.all()
+    serializer_class = ModuleSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['facility', 'location_group', 'module_type', 'is_enabled']
+    ordering_fields = ['id', 'order', 'name']
+    search_fields = ['name', 'description']
+
+
+class DeviceInstanceViewSet(viewsets.ModelViewSet):
+    """DeviceInstance(설치 장비) 모델 CRUD API"""
+    queryset = DeviceInstance.objects.select_related('catalog', 'module', 'catalog__manufacturer').all()
+    serializer_class = DeviceInstanceSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['catalog', 'module', 'status', 'is_active']
+    ordering_fields = ['last_seen', 'id']
+    search_fields = ['serial_number', 'name', 'device_id', 'mac_address']

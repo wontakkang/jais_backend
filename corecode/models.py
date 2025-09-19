@@ -496,3 +496,93 @@ class LocationCode(models.Model):
     def __str__(self):
         return f"{self.code_type}:{self.code_key}"
 
+
+class Module(models.Model):
+    """
+    System/Facility 내부의 기능 단위(서브시스템)입니다.
+    - system: agriseed.Facility(있다면) 또는 LocationGroup 중 하나에 연결할 수 있도록 유연하게 설계
+    - module_type: 관수, 환경제어, 조명 등
+    - control_scope/settings: JSON으로 유연하게 저장
+    """
+    MODULE_TYPE_CHOICES = [
+        ('irrigation', 'Irrigation'),
+        ('env_control', 'Environment Control'),
+        ('lighting', 'Lighting'),
+        ('sensor_hub', 'Sensor Hub'),
+        ('fertigation', 'Fertigation'),
+        ('storage', 'Storage'),
+        ('other', 'Other'),
+    ]
+
+    # optional link to agriseed.Facility if project uses Facility as top-level; nullable for flexibility
+    facility = models.ForeignKey('agriseed.Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='modules', help_text='소속 시설(Facility)')
+    # optional link to LocationGroup (지역 그룹) for multi-tenant grouping
+    location_group = models.ForeignKey(LocationGroup, on_delete=models.SET_NULL, null=True, blank=True, related_name='modules', help_text='지역 그룹 연결 (선택)')
+
+    name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
+    module_type = models.CharField(max_length=50, choices=MODULE_TYPE_CHOICES, default='other')
+    description = models.TextField(blank=True, null=True, help_text='모듈 설명')
+    control_scope = models.JSONField(default=dict, blank=True, help_text='이 모듈이 제어/감시하는 범위(구역/노드 등)')
+    settings = models.JSONField(default=dict, blank=True, help_text='운영 기본 설정 (JSON)')
+    order = models.PositiveIntegerField(default=0, help_text='모듈 정렬 순서')
+    is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
+    status = models.CharField(max_length=30, default='idle', help_text='운영 상태 (예: idle, running, maintenance)')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        indexes = [models.Index(fields=['module_type']), models.Index(fields=['is_enabled'])]
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return f"{self.name} ({self.module_type})"
+
+
+class DeviceInstance(models.Model):
+    """
+    실제 설치된 물리 장비 인스턴스
+    - catalog: Device(카탈로그) 참조
+    - module: 어느 Module에 속하는지
+    - serial_number는 해당 카탈로그 내에서 유일하도록 제약
+    """
+    STATUS_CHOICES = [
+        ('online', 'Online'),
+        ('offline', 'Offline'),
+        ('error', 'Error'),
+        ('maintenance', 'Maintenance'),
+        ('unknown', 'Unknown'),
+    ]
+
+    catalog = models.ForeignKey(Device, on_delete=models.SET_NULL, null=True, blank=True, related_name='instances', help_text='장비 카탈로그(Device) 참조')
+    module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True, related_name='devices', help_text='소속 모듈')
+
+    name = models.CharField(max_length=150, blank=True, null=True, help_text='인스턴스별 표시명 (선택)')
+    serial_number = models.CharField(max_length=200, help_text='시리얼 번호/고유 식별자')
+    hw_version = models.CharField(max_length=50, blank=True, null=True)
+    fw_version = models.CharField(max_length=50, blank=True, null=True)
+    device_id = models.CharField(max_length=200, blank=True, null=True, help_text='네트워크/관리용 장치 ID (MAC, UUID 등)')
+    mac_address = models.CharField(max_length=100, blank=True, null=True)
+
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='unknown', help_text='장비 상태')
+    last_seen = models.DateTimeField(null=True, blank=True, help_text='마지막 응답 시각')
+
+    configuration = models.JSONField(default=dict, blank=True, help_text='런타임 구성값 (JSON)')
+    health = models.JSONField(default=dict, blank=True, help_text='헬스/진단 정보 (JSON)')
+
+    location_within_module = models.CharField(max_length=200, blank=True, null=True, help_text='모듈 내 설치 위치(예: 구역A-포인트3)')
+
+    install_date = models.DateField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('catalog', 'serial_number')
+        indexes = [models.Index(fields=['serial_number']), models.Index(fields=['status']), models.Index(fields=['last_seen']), models.Index(fields=['catalog'])]
+
+    def __str__(self):
+        label = self.name or (self.catalog.name if self.catalog else 'Device')
+        return f"{label} [{self.serial_number}]"
+

@@ -21,6 +21,8 @@ router.register(r'control-logics', ControlLogicViewSet)
 router.register(r'control-groups', ControlGroupViewSet)
 router.register(r'location-groups', LocationGroupViewSet)
 router.register(r'location-codes', LocationCodeViewSet)
+router.register(r'modules', ModuleViewSet)
+router.register(r'device-instances', DeviceInstanceViewSet)
 
 urlpatterns = router.urls
 

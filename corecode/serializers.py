@@ -279,6 +279,19 @@ class DeviceSerializer(serializers.ModelSerializer):
         model = Device
         fields = '__all__'
 
+class DeviceInstanceSerializer(serializers.ModelSerializer):
+    catalog = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), required=False, allow_null=True, help_text='장비 카탈로그(Device) ID (선택)')
+    catalog_detail = DeviceSerializer(source='catalog', read_only=True)
+    module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
+
+    class Meta:
+        model = DeviceInstance
+        fields = [
+            'id', 'name', 'catalog', 'catalog_detail', 'module', 'serial_number', 'hw_version', 'fw_version', 'device_id', 'mac_address',
+            'status', 'last_seen', 'configuration', 'health', 'location_within_module', 'install_date', 'is_active', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'catalog_detail']
+
 class ControlValueSerializer(serializers.ModelSerializer):
     control_user = serializers.StringRelatedField(read_only=True)
     class Meta:
@@ -359,3 +372,16 @@ class SignupSerializer(serializers.Serializer):
         except IntegrityError:
             # unique constraint violation or FK issue
             raise serializers.ValidationError({'username': '이미 사용 중인 사용자 이름입니다.'})
+
+class ModuleSerializer(serializers.ModelSerializer):
+    Project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all(), required=False, allow_null=True, help_text='Facility ID (선택)')
+    location_group = serializers.PrimaryKeyRelatedField(queryset=LocationGroup.objects.all(), required=False, allow_null=True, help_text='LocationGroup ID (선택)')
+    devices = DeviceInstanceSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Module
+        fields = [
+            'id', 'name', 'module_type', 'description', 'facility', 'location_group', 'control_scope', 'settings', 'order', 'is_enabled', 'status',
+            'devices', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'devices', 'created_at', 'updated_at']
