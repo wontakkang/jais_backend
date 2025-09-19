@@ -346,7 +346,7 @@ class ControlItemViewSet(viewsets.ModelViewSet):
     queryset = ControlItem.objects.all()
     serializer_class = ControlItemSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['item_name']
+    filterset_fields = ['item_name', 'scada_tag_name']
     ordering_fields = ['id', 'item_name']
 
 class RecipeItemValueViewSet(viewsets.ModelViewSet):
@@ -540,6 +540,22 @@ class SpecimenDataViewSet(BaseViewSet):
             )
             created.append(SpecimenAttachmentSerializer(att, context={'request': request}).data)
         return Response({'created': created}, status=status.HTTP_201_CREATED)
+
+class SpecimenAttachmentViewSet(BaseViewSet):
+    """SpecimenAttachment 모델의 CRUD API (파일별 조회/삭제 등)"""
+    queryset = SpecimenAttachment.objects.select_related('specimen').all()
+    serializer_class = SpecimenAttachmentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['specimen', 'is_image', 'is_deleted']
+    search_fields = ['filename']
+    ordering_fields = ['uploaded_at', 'id']
+
+    def perform_create(self, serializer):
+        # 파일 업로드은 인증된 사용자만 허용하도록 만들 수 있음
+        user = self.request.user if getattr(self.request, 'user', None) and self.request.user.is_authenticated else None
+        # specimen field is expected to be provided in request data
+        serializer.save()
 
 class SensorItemViewSet(BaseViewSet):
     """SensorItem 모델의 CRUD API"""
@@ -769,3 +785,33 @@ def qr_image(request, identifier):
     img.save(buf, format="PNG")
     buf.seek(0)
     return HttpResponse(buf.getvalue(), content_type="image/png")
+
+class RecipeByZoneViewSet(viewsets.ReadOnlyModelViewSet):
+    """CalendarSchedule 기준으로 zone/facility별 레시피 요약을 반환하는 읽기 전용 ViewSet.
+    - Serializer: RecipeByZoneSerializer (읽기 전용, 계산 필드 포함)
+    - 필터: facility, zone, crop, variety, recipe_profile, enabled, completed
+    - 정렬: id, sowing_date, expected_harvest_date
+    """
+    queryset = CalendarSchedule.objects.select_related('facility', 'zone', 'crop', 'variety', 'recipe_profile')
+    serializer_class = RecipeByZoneSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['facility', 'zone', 'crop', 'variety', 'recipe_profile', 'enabled', 'completed']
+    ordering_fields = ['id', 'sowing_date', 'expected_harvest_date']
+    search_fields = ['facility__name', 'zone__name', 'crop__name', 'variety__name', 'recipe_profile__recipe_name']
+
+    def get_queryset(self):
+        # Prefetch heavy relations for serialization: recipe_profile -> steps -> item_values -> control_item
+        qs = super().get_queryset().all()
+        qs = qs.prefetch_related('recipe_profile__steps__item_values__control_item')
+        return qs
+
+    def list(self, request, *args, **kwargs):
+        """기본 list 구현: 페이징 적용 후 RecipeByZoneSerializer로 직렬화하여 반환."""
+        qs = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(qs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)

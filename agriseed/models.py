@@ -345,9 +345,10 @@ class RecipeStep(models.Model):
 class ControlItem(models.Model):
     item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='control_items', help_text="제어 항목명(DataName)")
     description = models.TextField(blank=True, help_text="설명")
+    scada_tag_name = models.TextField(null=True, blank=True, help_text="XSCADA 태그 이름")
 
     def __str__(self):
-        return f"{self.description}({self.item_name})"
+        return f"{self.description}({self.item_name})-{self.scada_tag_name}"
 
 class MeasurementItem(models.Model):
     item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='measurement_items', help_text="측정 항목명(DataName)")

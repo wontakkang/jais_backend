@@ -208,7 +208,14 @@ class CropSerializer(serializers.ModelSerializer):
 class ControlItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ControlItem
-        fields = ['id', 'item_name', 'description']
+        fields = ['id', 'item_name', 'description', 'scada_tag_name']
+
+# simple top-level serializer to avoid nested name resolution issues
+class ControlItemSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlItem
+        fields = ['id', 'item_name', 'description', 'scada_tag_name']
+        read_only_fields = fields
 
 class RecipeItemValueSerializer(serializers.ModelSerializer):
     control_item = serializers.PrimaryKeyRelatedField(queryset=ControlItem.objects.all(), help_text='ControlItem ID. 예: 2', style={})
@@ -387,12 +394,14 @@ class TreeSerializer(serializers.ModelSerializer):
                 Tree_tags.objects.create(tree=instance, **tag_data)
         return instance
 
+
 # 새로 추가: TreeImage 및 SpecimenData 직렬화기
 class TreeImageSerializer(serializers.ModelSerializer):
     tree = serializers.PrimaryKeyRelatedField(queryset=Tree.objects.all())
     class Meta:
         model = TreeImage
         fields = '__all__'
+
 
 # 새로 추가: SpecimenAttachment 직렬화기
 class SpecimenAttachmentSerializer(serializers.ModelSerializer):
@@ -620,3 +629,170 @@ class TodoItemSerializer(serializers.ModelSerializer):
                 pass
         instance.save()
         return instance
+    
+class RecipeByZoneSerializer(serializers.ModelSerializer):
+    # human-readable names instead of PKs
+    facilityName = serializers.SerializerMethodField(read_only=True)
+    zoneName = serializers.SerializerMethodField(read_only=True)
+    cropName = serializers.SerializerMethodField(read_only=True)
+    varietyName = serializers.SerializerMethodField(read_only=True)
+    recipeProfileName = serializers.SerializerMethodField(read_only=True)
+
+    # dates (read-only, follow existing naming convention)
+    sowingDate = serializers.DateField(source='sowing_date', read_only=True)
+    expectedHarvestDate = serializers.DateField(source='expected_harvest_date', read_only=True)
+
+    # elapsed / remaining days computed from dates
+    elapsedDays = serializers.SerializerMethodField(read_only=True)
+    remainingDays = serializers.SerializerMethodField(read_only=True)
+
+    # nested recipe profile with steps -> item_values -> control_item (all read-only)
+    recipeProfile = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = CalendarSchedule
+        # expose only read-only, name-based and computed fields
+        fields = [
+            'id',
+            'facilityName', 'zoneName', 'cropName', 'varietyName',
+            'recipeProfileName', 'sowingDate', 'expectedHarvestDate',
+            'elapsedDays', 'remainingDays',
+            'recipeProfile'
+        ]
+        read_only_fields = fields
+
+    # Nested helpers ------------------------------------------------------
+
+    class _RecipeItemValueNestedSerializer(serializers.ModelSerializer):
+        # expose control_item's description and scada_tag_name directly on the item_values level
+        set_value = serializers.FloatField(read_only=True)
+        control_description = serializers.SerializerMethodField(read_only=True)
+        control_scada_tag_name = serializers.SerializerMethodField(read_only=True)
+
+        class Meta:
+            model = RecipeItemValue
+            # intentionally hide RecipeItemValue.id and priority; expose set_value and control fields
+            fields = ['set_value', 'control_description', 'control_scada_tag_name']
+            read_only_fields = fields
+
+        def get_control_description(self, obj):
+            return obj.control_item.description if getattr(obj, 'control_item', None) else None
+
+        def get_control_scada_tag_name(self, obj):
+            return obj.control_item.scada_tag_name if getattr(obj, 'control_item', None) else None
+
+    class _RecipeStepNestedSerializer(serializers.ModelSerializer):
+        # hide id, order, description as requested
+        item_values = serializers.SerializerMethodField(read_only=True)
+        cumulative_days = serializers.SerializerMethodField(read_only=True)
+
+        class Meta:
+            model = RecipeStep
+            fields = ['name', 'duration_days', 'cumulative_days', 'item_values']
+            read_only_fields = fields
+
+        def get_item_values(self, step):
+            qs = step.item_values.all()
+            qs = qs.order_by('priority') if hasattr(qs, 'order_by') else sorted(qs, key=lambda x: (x.priority if x.priority is not None else 0))
+            return RecipeByZoneSerializer._RecipeItemValueNestedSerializer(qs, many=True).data
+
+        def get_cumulative_days(self, step):
+            # expect that step has an attribute '__cumulative_days' set by owner when computing sequence
+            return getattr(step, '__cumulative_days', None)
+
+    class _RecipeProfileNestedSerializer(serializers.ModelSerializer):
+        # expose recipe_name as recipeName (camelCase) for API consumers
+        recipeName = serializers.CharField(source='recipe_name', read_only=True)
+        steps = serializers.SerializerMethodField(read_only=True)
+
+        class Meta:
+            model = RecipeProfile
+            # use recipeName instead of recipe_name
+            fields = ['recipeName', 'duration_days', 'steps']
+            read_only_fields = fields
+
+        def get_steps(self, profile):
+            # compute cumulative duration for steps and determine current active step using elapsedDays passed via context
+            elapsed = self.context.get('elapsedDays') if isinstance(self.context, dict) else None
+            steps_qs = list(profile.steps.all())
+            # order by 'order' attribute
+            try:
+                steps_qs = sorted(steps_qs, key=lambda x: (x.order if x.order is not None else 0))
+            except Exception:
+                pass
+
+            cum = 0
+            active_index = None
+            for idx, s in enumerate(steps_qs):
+                dur = s.duration_days if getattr(s, 'duration_days', None) is not None else 0
+                cum += dur
+                # annotate step instance with cumulative value for serializer access
+                try:
+                    setattr(s, '__cumulative_days', cum)
+                except Exception:
+                    pass
+                # determine active step when elapsed is available
+                if elapsed is not None and active_index is None:
+                    prev_cum = cum - (dur or 0)
+                    # if elapsed falls into this step's window -> this is current
+                    if elapsed >= prev_cum and elapsed < cum:
+                        active_index = idx
+
+            # if elapsed provided and active_index found, return only that step
+            if elapsed is not None and active_index is not None and 0 <= active_index < len(steps_qs):
+                current = steps_qs[active_index]
+                # mark active flag on current step instance if possible
+                try:
+                    current.active = True
+                except Exception:
+                    pass
+                return RecipeByZoneSerializer._RecipeStepNestedSerializer(current, many=False, context=self.context).data
+
+            # fallback: return all steps
+            return RecipeByZoneSerializer._RecipeStepNestedSerializer(steps_qs, many=True, context=self.context).data
+
+    # --------------------------------------------------------------------
+
+    def get_facilityName(self, obj):
+        return obj.facility.name if getattr(obj, 'facility', None) else None
+
+    def get_zoneName(self, obj):
+        return obj.zone.name if getattr(obj, 'zone', None) else None
+
+    def get_cropName(self, obj):
+        return obj.crop.name if getattr(obj, 'crop', None) else None
+
+    def get_varietyName(self, obj):
+        return obj.variety.name if getattr(obj, 'variety', None) else None
+
+    def get_recipeProfileName(self, obj):
+        return obj.recipe_profile.recipe_name if getattr(obj, 'recipe_profile', None) else None
+
+    def get_elapsedDays(self, obj):
+        if not getattr(obj, 'sowing_date', None):
+            return None
+        now = timezone.localtime(timezone.now()).date()
+        sd = obj.sowing_date if isinstance(obj.sowing_date, type(now)) else obj.sowing_date
+        try:
+            return (now - sd).days
+        except Exception:
+            return None
+
+    def get_remainingDays(self, obj):
+        if not getattr(obj, 'expected_harvest_date', None):
+            return None
+        now = timezone.localtime(timezone.now()).date()
+        ed = obj.expected_harvest_date if isinstance(obj.expected_harvest_date, type(now)) else obj.expected_harvest_date
+        try:
+            return (ed - now).days
+        except Exception:
+            return None
+
+    def get_recipeProfile(self, obj):
+        profile = getattr(obj, 'recipe_profile', None)
+        if not profile:
+            return None
+        # pass elapsedDays in context so nested serializer can compute current active step
+        elapsed = self.get_elapsedDays(obj)
+        ctx = {'elapsedDays': elapsed}
+        return RecipeByZoneSerializer._RecipeProfileNestedSerializer(profile, context=ctx).data

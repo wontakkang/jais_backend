@@ -28,12 +28,14 @@ router.register(r'recipe-comments', RecipeCommentViewSet, basename='recipe-comme
 router.register(r'comment-votes', RecipeCommentVoteViewSet, basename='comment-vote')  # 코멘트 도움됨/도움안됨
 router.register(r'recipe-performances', RecipePerformanceViewSet, basename='recipe-performance')  # 레시피 성과
 router.register(r'recipe-ratings', RecipeRatingViewSet, basename='recipe-rating')  # 레시피 별점
+router.register(r'recipe-by-zone', RecipeByZoneViewSet, basename='recipe-by-zone')
 
 # Tree 관련 엔드포인트 등록
 router.register(r'trees', TreeViewSet)
 router.register(r'tree-tags', TreeTagsViewSet)
 router.register(r'tree-images', TreeImageViewSet)
 router.register(r'specimens', SpecimenDataViewSet)
+router.register(r'specimen-attachments', SpecimenAttachmentViewSet)
 
 # VarietyDataThreshold 및 QualityEvent 엔드포인트 등록
 router.register(r'variety-data-thresholds', VarietyDataThresholdViewSet)
