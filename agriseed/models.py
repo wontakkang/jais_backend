@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import RangeField
 from django.db.models import JSONField
-from corecode.models import DataName, ControlLogic  # ensure ControlLogic imported
 from django.conf import settings
 import random
 from django.utils import timezone
@@ -343,7 +342,7 @@ class RecipeStep(models.Model):
         return f"{self.recipe_profile.recipe_name} - {self.name}"
 
 class ControlItem(models.Model):
-    item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='control_items', help_text="제어 항목명(DataName)")
+    item_name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, null=True, blank=True, related_name='control_items', help_text="제어 항목명(DataName)")
     description = models.TextField(blank=True, help_text="설명")
     scada_tag_name = models.TextField(null=True, blank=True, help_text="XSCADA 태그 이름")
 
@@ -351,14 +350,14 @@ class ControlItem(models.Model):
         return f"{self.description}({self.item_name})-{self.scada_tag_name}"
 
 class MeasurementItem(models.Model):
-    item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='measurement_items', help_text="측정 항목명(DataName)")
+    item_name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, null=True, blank=True, related_name='measurement_items', help_text="측정 항목명(DataName)")
     description = models.TextField(blank=True, help_text="설명")
 
     def __str__(self):
         return f"{self.description}({self.item_name})"
     
 class SensorItem(models.Model):
-    item_name = models.ForeignKey(DataName, on_delete=models.CASCADE, null=True, blank=True, related_name='sensor_items', help_text="센서 항목명(DataName)")
+    item_name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, null=True, blank=True, related_name='sensor_items', help_text="센서 항목명(DataName)")
     description = models.TextField(blank=True, help_text="설명")
 
     def __str__(self):
@@ -382,7 +381,7 @@ class VarietyDataThreshold(models.Model):
     }
 
     variety = models.ForeignKey(Variety, on_delete=models.CASCADE, related_name='data_thresholds')
-    data_name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='variety_thresholds')
+    data_name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='variety_thresholds')
 
     # 정상(good) 범위
     min_good = models.FloatField(null=True, blank=True)
@@ -544,7 +543,7 @@ class QualityEvent(models.Model):
     source_id = models.CharField(max_length=100, null=True, blank=True)
 
     variety = models.ForeignKey(Variety, on_delete=models.SET_NULL, null=True, blank=True, related_name='quality_events')
-    data_name = models.ForeignKey(DataName, on_delete=models.SET_NULL, null=True, blank=True, related_name='quality_events')
+    data_name = models.ForeignKey('corecode.DataName', on_delete=models.SET_NULL, null=True, blank=True, related_name='quality_events')
 
     value = models.FloatField(null=True, blank=True)
     level_name = models.CharField(max_length=20, choices=LEVEL_CHOICES)
@@ -563,11 +562,12 @@ class QualityEvent(models.Model):
 
 class RecipeItemValue(models.Model):
     recipe = models.ForeignKey(RecipeStep, null=True, blank=True, on_delete=models.CASCADE, related_name='item_values')
-    control_item = models.ForeignKey(ControlItem, on_delete=models.CASCADE, null=True, blank=True, related_name='recipe_values')
+    # reference local ControlItem in agriseed app; corecode does not provide ControlItem
+    control_item = models.ForeignKey('ControlItem', on_delete=models.CASCADE, null=True, blank=True, related_name='agriseed_recipe_values')
     set_value = models.FloatField(help_text="설정값 (목표값 등)")
     min_value = models.FloatField(null=True, blank=True, help_text="최소 허용값 (선택)")
     max_value = models.FloatField(null=True, blank=True, help_text="최대 허용값 (선택)")
-    control_logic = models.ForeignKey(ControlLogic,null=True, blank=True, on_delete=models.CASCADE, related_name='recipe_item_values', help_text="적용할 제어 로직")
+    control_logic = models.ForeignKey('corecode.ControlLogic',null=True, blank=True, on_delete=models.CASCADE, related_name='recipe_item_values', help_text="적용할 제어 로직")
     priority = models.IntegerField(null=True, blank=True, help_text="우선순위 (선택)")
 
     def __str__(self):
@@ -787,4 +787,130 @@ class SpecimenAttachment(models.Model):
 
     def __str__(self):
         return f"{self.specimen.specimen_code} - {self.filename or self.file.name}"
+
+# --- 이전된 모델들 (corecode에서 agriseed로 이동) ---
+class LocationGroup(models.Model):
+    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
+    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
+    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
+    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.group_name
+
+
+class Module(models.Model):
+    MODULE_TYPE_CHOICES = [
+        ('irrigation', 'Irrigation'),
+        ('env_control', 'Environment Control'),
+        ('lighting', 'Lighting'),
+        ('sensor_hub', 'Sensor Hub'),
+        ('fertigation', 'Fertigation'),
+        ('storage', 'Storage'),
+        ('other', 'Other'),
+    ]
+
+    facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='agriseed_modules', help_text='소속 시설(Facility)')
+    location_group = models.ForeignKey(LocationGroup, on_delete=models.SET_NULL, null=True, blank=True, related_name='modules', help_text='지역 그룹 연결 (선택)')
+
+    name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
+    module_type = models.CharField(max_length=50, choices=MODULE_TYPE_CHOICES, default='other')
+    description = models.TextField(blank=True, null=True, help_text='모듈 설명')
+    control_scope = models.JSONField(default=dict, blank=True, help_text='이 모듈이 제어/감시하는 범위(구역/노드 등)')
+    settings = models.JSONField(default=dict, blank=True, help_text='운영 기본 설정 (JSON)')
+    order = models.PositiveIntegerField(default=0, help_text='모듈 정렬 순서')
+    is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
+    status = models.CharField(max_length=30, default='idle', help_text='운영 상태 (예: idle, running, maintenance)')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        indexes = [models.Index(fields=['module_type']), models.Index(fields=['is_enabled'])]
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return f"{self.name} ({self.module_type})"
+
+
+class DeviceInstance(models.Model):
+    STATUS_CHOICES = [
+        ('online', 'Online'),
+        ('offline', 'Offline'),
+        ('error', 'Error'),
+        ('maintenance', 'Maintenance'),
+        ('unknown', 'Unknown'),
+    ]
+
+    catalog = models.ForeignKey('corecode.Device', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_instances', help_text='장비 카탈로그(Device) 참조')
+    module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True, related_name='devices', help_text='소속 모듈')
+
+    name = models.CharField(max_length=150, blank=True, null=True, help_text='인스턴스별 표시명 (선택)')
+    serial_number = models.CharField(max_length=200, help_text='시리얼 번호/고유 식별자')
+    hw_version = models.CharField(max_length=50, blank=True, null=True)
+    fw_version = models.CharField(max_length=50, blank=True, null=True)
+    device_id = models.CharField(max_length=200, blank=True, null=True, help_text='네트워크/관리용 장치 ID (MAC, UUID 등)')
+    mac_address = models.CharField(max_length=100, blank=True, null=True)
+
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='unknown', help_text='장비 상태')
+    last_seen = models.DateTimeField(null=True, blank=True, help_text='마지막 응답 시각')
+
+    configuration = models.JSONField(default=dict, blank=True, help_text='런타임 구성값 (JSON)')
+    health = models.JSONField(default=dict, blank=True, help_text='헬스/진단 정보 (JSON)')
+
+    location_within_module = models.CharField(max_length=200, blank=True, null=True, help_text='모듈 내 설치 위치(예: 구역A-포인트3)')
+
+    install_date = models.DateField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('catalog', 'serial_number')
+        indexes = [models.Index(fields=['serial_number']), models.Index(fields=['status']), models.Index(fields=['last_seen']), models.Index(fields=['catalog'])]
+
+    def __str__(self):
+        label = self.name or (self.catalog.name if self.catalog else 'Device')
+        return f"{label} [{self.serial_number}]"
+
+
+class ControlGroup(models.Model):
+    project_version = models.ForeignKey('corecode.ProjectVersion', on_delete=models.CASCADE, related_name='agriseed_control_groups')
+    group_id = models.PositiveIntegerField()
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('project_version', 'group_id')
+        ordering = ['group_id']
+
+    def __str__(self):
+        return f"ControlGroup {self.group_id} ({self.name})"
+
+
+class ControlVariable(models.Model):
+    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_control_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_control_variable')
+    data_type = models.CharField(max_length=20, blank=True)
+    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='agriseed_applications')
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
+
+
+class CalcVariable(models.Model):
+    group = models.ForeignKey('corecode.CalcGroup', on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_calc_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_calc_variable')
+    data_type = models.CharField(max_length=20, blank=True)
+    use_method = models.CharField(max_length=40, null=True, blank=True)
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name}"
 

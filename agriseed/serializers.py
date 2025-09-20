@@ -6,6 +6,36 @@ from django.utils import timezone
 
 User = get_user_model()
 
+# Reuse corecode serializers when available to avoid duplication.
+# These aliases allow agriseed code to reference serializer classes from corecode transparently.
+try:
+    from corecode import serializers as corecode_serializers
+    # map core serializers to agriseed module-level names (override if present)
+    ModuleSerializer = getattr(corecode_serializers, 'ModuleSerializer')
+    DeviceInstanceSerializer = getattr(corecode_serializers, 'DeviceInstanceSerializer')
+    ControlGroupSerializer = getattr(corecode_serializers, 'ControlGroupSerializer')
+    ControlVariableSerializer = getattr(corecode_serializers, 'ControlVariableSerializer')
+    CalcVariableSerializer = getattr(corecode_serializers, 'CalcVariableSerializer')
+    LocationGroupSerializer = getattr(corecode_serializers, 'LocationGroupSerializer')
+    LocationCodeSerializer = getattr(corecode_serializers, 'LocationCodeSerializer')
+    ProjectSerializer = getattr(corecode_serializers, 'ProjectSerializer')
+    ProjectVersionSerializer = getattr(corecode_serializers, 'ProjectVersionSerializer')
+    MemoryGroupSerializer = getattr(corecode_serializers, 'MemoryGroupSerializer')
+    VariableSerializer = getattr(corecode_serializers, 'VariableSerializer')
+    DataNameSerializer = getattr(corecode_serializers, 'DataNameSerializer')
+    ControlLogicSerializer = getattr(corecode_serializers, 'ControlLogicSerializer')
+    CalcGroupSerializer = getattr(corecode_serializers, 'CalcGroupSerializer')
+    UserPreferenceSerializer = getattr(corecode_serializers, 'UserPreferenceSerializer')
+    DeviceSerializer = getattr(corecode_serializers, 'DeviceSerializer')
+    DeviceCompanySerializer = getattr(corecode_serializers, 'DeviceCompanySerializer')
+    UserManualSerializer = getattr(corecode_serializers, 'UserManualSerializer')
+    ControlValueSerializer = getattr(corecode_serializers, 'ControlValueSerializer')
+    ControlValueHistorySerializer = getattr(corecode_serializers, 'ControlValueHistorySerializer')
+    SignupSerializer = getattr(corecode_serializers, 'SignupSerializer')
+except Exception:
+    # corecode may not be importable in some environments (tests, tools); ignore gracefully
+    pass
+
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device

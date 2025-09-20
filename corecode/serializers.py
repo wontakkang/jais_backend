@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from agriseed.models import Module, DeviceInstance, ControlGroup, ControlVariable, CalcVariable, LocationGroup, Facility
 from utils.control import __all__ as control_methods_list # ControlLogic use_method choices
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password

@@ -815,3 +815,19 @@ class RecipeByZoneViewSet(viewsets.ReadOnlyModelViewSet):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
+
+# Try to reuse viewsets from corecode when available to avoid duplication.
+try:
+    from corecode import views as core_views
+    # copy selected viewset classes from corecode to agriseed module namespace when present
+    for _name in [
+        'ModuleViewSet','DeviceInstanceViewSet','ControlGroupViewSet','ControlVariableViewSet',
+        'CalcVariableViewSet','CalcGroupViewSet','ProjectViewSet','ProjectVersionViewSet',
+        'MemoryGroupViewSet','VariableViewSet','DataNameViewSet','ControlLogicViewSet',
+        'ControlValueViewSet','ControlValueHistoryViewSet'
+    ]:
+        if hasattr(core_views, _name):
+            globals()[_name] = getattr(core_views, _name)
+except Exception:
+    # corecode may not be importable in some environments; ignore gracefully
+    pass
