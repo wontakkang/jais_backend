@@ -347,7 +347,8 @@ class ControlItemViewSet(viewsets.ModelViewSet):
     serializer_class = ControlItemSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['item_name', 'scada_tag_name']
-    ordering_fields = ['id', 'item_name']
+    ordering_fields = ['id', 'item_name', 'description', 'scada_tag_name', 'order']
+
 
 class RecipeItemValueViewSet(viewsets.ModelViewSet):
     queryset = RecipeItemValue.objects.all()
