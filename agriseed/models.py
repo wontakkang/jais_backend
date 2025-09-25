@@ -4,6 +4,10 @@ from django.db.models import JSONField
 from django.conf import settings
 import random
 from django.utils import timezone
+from corecode.models import LocationGroup as CoreLocationGroup  # use corecode LocationGroup
+
+# backward compatibility alias (other modules may import agriseed.models.LocationGroup)
+LocationGroup = CoreLocationGroup
 
 class Facility(models.Model):
     name = models.CharField(max_length=100, default="Unknown Facility", help_text="시설 이름")
@@ -789,18 +793,6 @@ class SpecimenAttachment(models.Model):
         return f"{self.specimen.specimen_code} - {self.filename or self.file.name}"
 
 # --- 이전된 모델들 (corecode에서 agriseed로 이동) ---
-class LocationGroup(models.Model):
-    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
-    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
-    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
-    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.group_name
-
-
 class Module(models.Model):
     MODULE_TYPE_CHOICES = [
         ('irrigation', 'Irrigation'),
@@ -813,7 +805,8 @@ class Module(models.Model):
     ]
 
     facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='agriseed_modules', help_text='소속 시설(Facility)')
-    location_group = models.ForeignKey(LocationGroup, on_delete=models.SET_NULL, null=True, blank=True, related_name='modules', help_text='지역 그룹 연결 (선택)')
+    # use unique related_name to avoid clash with corecode.Module.location_group
+    location_group = models.ForeignKey('corecode.LocationGroup', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_modules', help_text='지역 그룹 연결 (선택)')
 
     name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
     module_type = models.CharField(max_length=50, choices=MODULE_TYPE_CHOICES, default='other')
