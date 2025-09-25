@@ -349,7 +349,10 @@ class ControlItem(models.Model):
     item_name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, null=True, blank=True, related_name='control_items', help_text="제어 항목명(DataName)")
     description = models.TextField(blank=True, help_text="설명")
     scada_tag_name = models.TextField(null=True, blank=True, help_text="XSCADA 태그 이름")
-
+    order = models.PositiveIntegerField(default=0, help_text="단계 순서 지정용 정수")
+    class Meta:
+        ordering = ['order']
+        
     def __str__(self):
         return f"{self.description}({self.item_name})-{self.scada_tag_name}"
 
