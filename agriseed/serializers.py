@@ -238,7 +238,7 @@ class CropSerializer(serializers.ModelSerializer):
 class ControlItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ControlItem
-        fields = ['id', 'item_name', 'description', 'scada_tag_name']
+        fields = ['id', 'order', 'item_name', 'description', 'scada_tag_name']
 
 # simple top-level serializer to avoid nested name resolution issues
 class ControlItemSimpleSerializer(serializers.ModelSerializer):
