@@ -4,6 +4,7 @@ from utils.calculation import __all__ as calculation_methods
 from utils.calculation import all_dict
 from utils.control import __all__ as control_methods
 from utils.control import all_dict as control_methods_dict
+
 class User(AbstractUser):
     groups = models.ManyToManyField(
         'auth.Group',
@@ -256,6 +257,8 @@ class ProjectVersion(models.Model):
     class Meta:
         unique_together = ('project', 'version')
         ordering = ['-updated_at']
+        verbose_name = 'Project Snapshot'
+        verbose_name_plural = 'Project Snapshots'
 
     def __str__(self):
         return f"{self.project.name} - v{self.version}"
@@ -263,6 +266,51 @@ class ProjectVersion(models.Model):
     def restore_version(self):
         self.save()  # 이 줄이 있으면 updated_at이 현재 시각으로 갱신됨
 
+
+class LocationGroup(models.Model):
+    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
+    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
+    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
+    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.group_name
+    
+class ControlGroup(models.Model):
+    """
+    프로젝트 버전(ProjectVersion)에 속한 제어 그룹을 관리하는 모델
+    """
+    project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='control_groups')
+    group_id = models.PositiveIntegerField()
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('project_version', 'group_id')
+        ordering = ['group_id']
+
+    def __str__(self):
+        return f"ControlGroup {self.group_id} ({self.name})"
+
+class CalcGroup(models.Model):
+    """
+    프로젝트 버전(ProjectVersion)에 속한 계산 그룹을 관리하는 모델
+    """
+    project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='calc_groups')
+    group_id = models.PositiveIntegerField()
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('project_version', 'group_id')
+        ordering = ['group_id']
+
+    def __str__(self):
+        return f"CalcGroup {self.group_id} ({self.name})"
+    
 class MemoryGroup(models.Model):
     """
     프로젝트 버전(ProjectVersion)에 속한 메모리 그룹을 관리하는 모델
@@ -306,21 +354,6 @@ class Variable(models.Model):
         return f"{self.name} ({self.device}{self.address})"
 
 
-class CalcGroup(models.Model):
-    """
-    프로젝트 버전(ProjectVersion)에 속한 계산 그룹을 관리하는 모델
-    """
-    project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='calc_groups')
-    group_id = models.PositiveIntegerField()
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-
-    class Meta:
-        unique_together = ('project_version', 'group_id')
-        ordering = ['group_id']
-
-    def __str__(self):
-        return f"CalcGroup {self.group_id} ({self.name})"
 
 
 class CalcVariable(models.Model):
@@ -341,23 +374,6 @@ class CalcVariable(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-
-
-class ControlGroup(models.Model):
-    """
-    프로젝트 버전(ProjectVersion)에 속한 제어 그룹을 관리하는 모델
-    """
-    project_version = models.ForeignKey(ProjectVersion, on_delete=models.CASCADE, related_name='control_groups')
-    group_id = models.PositiveIntegerField()
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-
-    class Meta:
-        unique_together = ('project_version', 'group_id')
-        ordering = ['group_id']
-
-    def __str__(self):
-        return f"ControlGroup {self.group_id} ({self.name})"
 
 
 class ControlLogic(models.Model):
@@ -446,33 +462,6 @@ class ControlLogic(models.Model):
         super().save(*args, **kwargs)
     
 
-class ControlVariable(models.Model):
-    """
-    제어 그룹(ControlGroup)에 속한 개별 제어 변수(로직 적용 인스턴스)
-    """
-    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='control_variables_in_group')
-    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='as_control_variable')
-    data_type = models.CharField(max_length=20, blank=True) # 이 필드가 필요한지 검토 필요 (DataName.dtype 또는 ControlLogic 결과 타입으로 유추 가능할 수 있음)
-    applied_logic = models.ForeignKey(ControlLogic, on_delete=models.CASCADE, related_name='applications')
-    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        # name이 ForeignKey이므로, 실제 표시될 이름을 위해 수정 필요
-        return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
-
-class LocationGroup(models.Model):
-    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
-    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
-    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
-    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
-    def __str__(self):
-        return self.group_name
-
 
 class LocationCode(models.Model):
     code_id = models.AutoField(primary_key=True)
@@ -496,93 +485,33 @@ class LocationCode(models.Model):
     def __str__(self):
         return f"{self.code_type}:{self.code_key}"
 
+# 어댑터 모델을 corecode로 이동
+class ActiveAdapterManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted=False)
 
-class Module(models.Model):
-    """
-    System/Facility 내부의 기능 단위(서브시스템)입니다.
-    - system: agriseed.Facility(있다면) 또는 LocationGroup 중 하나에 연결할 수 있도록 유연하게 설계
-    - module_type: 관수, 환경제어, 조명 등
-    - control_scope/settings: JSON으로 유연하게 저장
-    """
-    MODULE_TYPE_CHOICES = [
-        ('irrigation', 'Irrigation'),
-        ('env_control', 'Environment Control'),
-        ('lighting', 'Lighting'),
-        ('sensor_hub', 'Sensor Hub'),
-        ('fertigation', 'Fertigation'),
-        ('storage', 'Storage'),
-        ('other', 'Other'),
-    ]
-
-    # optional link to agriseed.Facility if project uses Facility as top-level; nullable for flexibility
-    facility = models.ForeignKey('agriseed.Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='modules', help_text='소속 시설(Facility)')
-    # optional link to LocationGroup (지역 그룹) for multi-tenant grouping
-    location_group = models.ForeignKey(LocationGroup, on_delete=models.SET_NULL, null=True, blank=True, related_name='modules', help_text='지역 그룹 연결 (선택)')
-
-    name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
-    module_type = models.CharField(max_length=50, choices=MODULE_TYPE_CHOICES, default='other')
-    description = models.TextField(blank=True, null=True, help_text='모듈 설명')
-    control_scope = models.JSONField(default=dict, blank=True, help_text='이 모듈이 제어/감시하는 범위(구역/노드 등)')
-    settings = models.JSONField(default=dict, blank=True, help_text='운영 기본 설정 (JSON)')
-    order = models.PositiveIntegerField(default=0, help_text='모듈 정렬 순서')
-    is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
-    status = models.CharField(max_length=30, default='idle', help_text='운영 상태 (예: idle, running, maintenance)')
-
+class Adapter(models.Model):
+    name = models.CharField(max_length=100, unique=True, help_text="어댑터 이름")
+    description = models.TextField(null=True, blank=True, help_text="설명")
+    protocol = models.CharField(max_length=50, help_text="프로토콜 종류 (예: TCP, MQTT, HTTP 등)")
+    config = models.JSONField(null=True, blank=True, help_text="어댑터별 추가 설정값")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
 
-    class Meta:
-        indexes = [models.Index(fields=['module_type']), models.Index(fields=['is_enabled'])]
-        ordering = ['order', 'id']
+    objects = ActiveAdapterManager()  # 삭제되지 않은 것만 조회
+    all_objects = models.Manager()    # 전체(삭제 포함) 조회
 
-    def __str__(self):
-        return f"{self.name} ({self.module_type})"
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save()
 
-
-class DeviceInstance(models.Model):
-    """
-    실제 설치된 물리 장비 인스턴스
-    - catalog: Device(카탈로그) 참조
-    - module: 어느 Module에 속하는지
-    - serial_number는 해당 카탈로그 내에서 유일하도록 제약
-    """
-    STATUS_CHOICES = [
-        ('online', 'Online'),
-        ('offline', 'Offline'),
-        ('error', 'Error'),
-        ('maintenance', 'Maintenance'),
-        ('unknown', 'Unknown'),
-    ]
-
-    catalog = models.ForeignKey(Device, on_delete=models.SET_NULL, null=True, blank=True, related_name='instances', help_text='장비 카탈로그(Device) 참조')
-    module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True, related_name='devices', help_text='소속 모듈')
-
-    name = models.CharField(max_length=150, blank=True, null=True, help_text='인스턴스별 표시명 (선택)')
-    serial_number = models.CharField(max_length=200, help_text='시리얼 번호/고유 식별자')
-    hw_version = models.CharField(max_length=50, blank=True, null=True)
-    fw_version = models.CharField(max_length=50, blank=True, null=True)
-    device_id = models.CharField(max_length=200, blank=True, null=True, help_text='네트워크/관리용 장치 ID (MAC, UUID 등)')
-    mac_address = models.CharField(max_length=100, blank=True, null=True)
-
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='unknown', help_text='장비 상태')
-    last_seen = models.DateTimeField(null=True, blank=True, help_text='마지막 응답 시각')
-
-    configuration = models.JSONField(default=dict, blank=True, help_text='런타임 구성값 (JSON)')
-    health = models.JSONField(default=dict, blank=True, help_text='헬스/진단 정보 (JSON)')
-
-    location_within_module = models.CharField(max_length=200, blank=True, null=True, help_text='모듈 내 설치 위치(예: 구역A-포인트3)')
-
-    install_date = models.DateField(null=True, blank=True)
-    is_active = models.BooleanField(default=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        unique_together = ('catalog', 'serial_number')
-        indexes = [models.Index(fields=['serial_number']), models.Index(fields=['status']), models.Index(fields=['last_seen']), models.Index(fields=['catalog'])]
+    def restore(self):
+        self.is_deleted = False
+        self.save()
 
     def __str__(self):
-        label = self.name or (self.catalog.name if self.catalog else 'Device')
-        return f"{label} [{self.serial_number}]"
+        return self.name
+
+
 

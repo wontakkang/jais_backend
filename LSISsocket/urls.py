@@ -7,10 +7,12 @@ router = routers.DefaultRouter()
 router.register(r'client-configs', SocketClientConfigViewSet)
 router.register(r'client-status', SocketClientStatusViewSet)
 router.register(r'client-logs', SocketClientLogViewSet)
-router.register(r'sensor-node-configs', SensorNodeConfigViewSet)
-router.register(r'control-node-configs', ControlNodeConfigViewSet)
 router.register(r'client-commands', SocketClientCommandViewSet)
-router.register(r'adapters', AdapterViewSet)
+# adapters 엔드포인트는 corecode로 이전됨
+# router.register(r'adapters', AdapterViewSet)
+# 메모리 그룹 API (코어 모델을 LSISsocket 네임스페이스에서 노출)
+router.register(r'memory-groups', MemoryGroupViewSet)
+
 urlpatterns = [
     *router.urls,
     # LSIS 명령 API

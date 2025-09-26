@@ -13,8 +13,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+# 코어 MemoryGroup 모델 참조 및 전용 직렬화기 임포트
+from corecode.models import MemoryGroup as CoreMemoryGroup
+from .serializers import LSISMemoryGroupSerializer
+
 # -------------------
-# 이 ViewSet들은 소켓 클라이언트, 센서/제어 노드, 어댑터 등 설비 통신 및 상태 관리의 CRUD API를 제공합니다.
+# 이 ViewSet들은 소켓 클라이언트, 센서/제어 노드 등 설비 통신 및 상태 관리의 CRUD API를 제공합니다.
 # 주요 기능:
 #   - 각 모델별 생성/조회/수정/삭제
 #   - 소켓 클라이언트 상태 필터링/정렬 지원
@@ -28,6 +32,14 @@ from django.utils.decorators import method_decorator
 #   POST /lsisstop/ {"host": "1.2.3.4", "port": 1234} (정지 명령)
 #   POST /lsisrun/ {"host": "1.2.3.4", "port": 1234} (실행 명령)
 # -------------------
+
+# MemoryGroupViewSet: 메모리 그룹(MemoryGroup) API를 LSISsocket 네임스페이스에서 제공
+class MemoryGroupViewSet(viewsets.ModelViewSet):
+    queryset = CoreMemoryGroup.objects.all()
+    serializer_class = LSISMemoryGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['project_version__id']
+    ordering_fields = ['id']
 
 # SocketClientConfigViewSet: 소켓 클라이언트 설정 모델의 CRUD API를 제공합니다.
 class SocketClientConfigViewSet(viewsets.ModelViewSet):
@@ -43,21 +55,6 @@ class SocketClientLogViewSet(viewsets.ModelViewSet):
 class SocketClientCommandViewSet(viewsets.ModelViewSet):
     queryset = SocketClientCommand.objects.all()
     serializer_class = SocketClientCommandSerializer
-
-# SensorNodeConfigViewSet: 센서 노드 설정 모델의 CRUD API를 제공합니다.
-class SensorNodeConfigViewSet(viewsets.ModelViewSet):
-    queryset = SensorNodeConfig.objects.all()
-    serializer_class = SensorNodeConfigSerializer
-
-# ControlNodeConfigViewSet: 제어 노드 설정 모델의 CRUD API를 제공합니다.
-class ControlNodeConfigViewSet(viewsets.ModelViewSet):
-    queryset = ControlNodeConfig.objects.all()
-    serializer_class = ControlNodeConfigSerializer
-
-# AdapterViewSet: 어댑터(Adapter) 모델의 CRUD API를 제공합니다.
-class AdapterViewSet(viewsets.ModelViewSet):
-    queryset = Adapter.objects.all()
-    serializer_class = AdapterSerializer
 
 # SocketClientStatusViewSet: 소켓 클라이언트 상태 모델의 CRUD API를 제공합니다.
 class SocketClientStatusViewSet(viewsets.ModelViewSet):
@@ -94,7 +91,7 @@ def lsis_init_and_reset(host, port, user=None):
             config=SocketClientConfig.objects.filter(host=host).first(),
             user=user or '',
             command='init_reset',
-            value='failure",',
+            value='failure',
             response=str(e),
             payload={'host': host, 'port': port},
             message='init_reset 명령 전송 실패',
@@ -126,7 +123,7 @@ def lsis_stop(host, port, user=None):
             config=SocketClientConfig.objects.filter(host=host).first(),
             user=user or '',
             command='stop',
-            value='failure",',
+            value='failure',
             response=str(e),
             payload={'host': host, 'port': port},
             message='STOP 명령 전송 실패',
@@ -159,7 +156,7 @@ def lsis_run(host, port, user=None):
             config=SocketClientConfig.objects.filter(host=host).first(),
             user=user or '',
             command='run',
-            value='failure",',
+            value='failure',
             response=str(e),
             payload={'host': host, 'port': port},
             message='RUN 명령 전송 실패',

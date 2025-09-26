@@ -2,6 +2,8 @@ from sqlite3 import IntegrityError
 from django.db import models
 from django.db.models import JSONField
 from django.utils import timezone
+# 코어 MemoryGroup을 이 앱에서 다루기 위한 Proxy 모델
+from corecode.models import MemoryGroup as CoreMemoryGroup
 
 class ActiveManager(models.Manager):
     def get_queryset(self):
@@ -121,7 +123,7 @@ class SensorNodeConfig(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)
     adapter = models.ForeignKey(
-        'Adapter',
+        'corecode.Adapter',
         on_delete=models.SET_NULL,
         null=True, blank=True,
         help_text="데이터 읽기/쓰기 어댑터(프로토콜) 선택"
@@ -181,29 +183,8 @@ class ControlNodeConfig(models.Model):
     def __str__(self):
         return self.name
 
-class ActiveAdapterManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(is_deleted=False)
-
-class Adapter(models.Model):
-    name = models.CharField(max_length=100, unique=True, help_text="어댑터 이름")
-    description = models.TextField(null=True, blank=True, help_text="설명")
-    protocol = models.CharField(max_length=50, help_text="프로토콜 종류 (예: TCP, MQTT, HTTP 등)")
-    config = models.JSONField(null=True, blank=True, help_text="어댑터별 추가 설정값")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-
-    objects = ActiveAdapterManager()  # 삭제되지 않은 것만 조회
-    all_objects = models.Manager()    # 전체(삭제 포함) 조회
-
-    def delete(self, using=None, keep_parents=False):
-        self.is_deleted = True
-        self.save()
-
-    def restore(self):
-        self.is_deleted = False
-        self.save()
-
-    def __str__(self):
-        return self.name
+class MemoryGroup(CoreMemoryGroup):
+    class Meta:
+        proxy = True
+        verbose_name = 'Memory Group'
+        verbose_name_plural = 'Memory Groups'

@@ -53,6 +53,7 @@ INSTALLED_APPS += [
     'agriseed.apps.AgriseedConfig',
     'LSISsocket.apps.LSISsocketConfig',
     'corecode.apps.CorecodeConfig',
+    'MCUnode.apps.McunodeConfig',
 ]
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'agriseed.exceptions.custom_exception_handler',

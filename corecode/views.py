@@ -420,3 +420,11 @@ class DeviceInstanceViewSet(viewsets.ModelViewSet):
     filterset_fields = ['catalog', 'module', 'status', 'is_active']
     ordering_fields = ['last_seen', 'id']
     search_fields = ['serial_number', 'name', 'device_id', 'mac_address']
+
+class AdapterViewSet(viewsets.ModelViewSet):
+    queryset = Adapter.objects.all()
+    serializer_class = AdapterSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['protocol', 'is_deleted']
+    ordering_fields = ['id', 'name', 'updated_at']
+    search_fields = ['name', 'description']

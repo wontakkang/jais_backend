@@ -50,10 +50,14 @@ class ControlVariableSerializer(serializers.ModelSerializer):
             'id', 'group', 'name', 'data_type', 'applied_logic', 'args', 'attributes'
         ]
 
-    # create, update 메서드는 기본 동작으로 충분할 수 있으나, 필요시 오버라이드
-
 class ControlGroupSerializer(serializers.ModelSerializer):
-    control_variables_in_group = ControlVariableSerializer(many=True, read_only=False, required=False, help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)')
+    control_variables_in_group = ControlVariableSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+        help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)',
+        source='agriseed_control_variables_in_group'
+    )
     project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID')
     project_id = serializers.SerializerMethodField(read_only=True)
 
@@ -67,14 +71,14 @@ class ControlGroupSerializer(serializers.ModelSerializer):
         return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
 
     def create(self, validated_data):
-        control_variables_data = validated_data.pop('control_variables_in_group', [])
+        control_variables_data = validated_data.pop('agriseed_control_variables_in_group', [])
         group = ControlGroup.objects.create(**validated_data)
         for var_data in control_variables_data:
             ControlVariable.objects.create(group=group, **var_data)
         return group
     
     def update(self, instance, validated_data):
-        control_variables_data = validated_data.pop('control_variables_in_group', None)
+        control_variables_data = validated_data.pop('agriseed_control_variables_in_group', None)
         
         # 기본 필드 업데이트
         instance.name = validated_data.get('name', instance.name)
@@ -84,7 +88,7 @@ class ControlGroupSerializer(serializers.ModelSerializer):
 
         if control_variables_data is not None:
             # 기존 변수 삭제 후 새로 생성 (간단한 방식) 또는 개별 업데이트/삭제/생성 로직 구현
-            instance.control_variables_in_group.all().delete()
+            instance.agriseed_control_variables_in_group.all().delete()
             for var_data in control_variables_data:
                 ControlVariable.objects.create(group=instance, **var_data)
         return instance
@@ -108,7 +112,12 @@ class CalcVariableSerializer(serializers.ModelSerializer):
         ]
 
 class CalcGroupSerializer(serializers.ModelSerializer):
-    calc_variables_in_group = CalcVariableSerializer(many=True, read_only=False, required=False) # related_name 변경 반영
+    calc_variables_in_group = CalcVariableSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+        source='agriseed_calc_variables_in_group'
+    )
     project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID')
     project_id = serializers.SerializerMethodField(read_only=True)
 
@@ -121,19 +130,19 @@ class CalcGroupSerializer(serializers.ModelSerializer):
         return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
 
     def create(self, validated_data):
-        calc_variables_data = validated_data.pop('calc_variables_in_group', [])
+        calc_variables_data = validated_data.pop('agriseed_calc_variables_in_group', [])
         group = CalcGroup.objects.create(**validated_data)
         for var_data in calc_variables_data:
             CalcVariable.objects.create(group=group, **var_data)
         return group
     
     def update(self, instance, validated_data):
-        calc_variables_data = validated_data.pop('calc_variables_in_group', None)
+        calc_variables_data = validated_data.pop('agriseed_calc_variables_in_group', None)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
         instance.save()
         if calc_variables_data is not None:
-            instance.calc_variables_in_group.all().delete()
+            instance.agriseed_calc_variables_in_group.all().delete()
             for var_data in calc_variables_data:
                 CalcVariable.objects.create(group=instance, **var_data)
         return instance
@@ -199,6 +208,9 @@ class ProjectVersionSerializer(serializers.ModelSerializer):
     groups = MemoryGroupSerializer(many=True, read_only=False, required=False, help_text='메모리 그룹(선택)')
     calc_groups = CalcGroupSerializer(many=True, read_only=False, required=False, help_text='계산 그룹(선택)')
     control_groups = ControlGroupSerializer(many=True, read_only=False, required=False, help_text='제어 그룹(선택)')
+    # 가독성 향상을 위한 스냅샷 라벨/설명 표시
+    version = serializers.CharField(help_text='스냅샷 라벨(예: 2025-09-26-01 또는 v1.2.0)', style={'example': '2025-09-26-01'})
+    note = serializers.CharField(required=False, allow_blank=True, help_text='스냅샷 설명(선택)', style={'example': '배포 전 상태 백업'})
 
     class Meta:
         model = ProjectVersion
@@ -386,3 +398,8 @@ class ModuleSerializer(serializers.ModelSerializer):
             'devices', 'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'devices', 'created_at', 'updated_at']
+
+class AdapterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Adapter
+        exclude = ('is_deleted',)

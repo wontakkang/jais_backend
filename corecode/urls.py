@@ -4,6 +4,7 @@ from .views import *
 from .views import UsersListView
 
 router = DefaultRouter()
+router.register(r'adapters', AdapterViewSet)
 router.register(r'projects', ProjectViewSet)
 router.register(r'project-versions', ProjectVersionViewSet)
 router.register(r'devices', DeviceViewSet)
@@ -13,7 +14,6 @@ router.register(r'data-names', DataNameViewSet)
 router.register(r'control-values', ControlValueViewSet)
 router.register(r'control-value-histories', ControlValueHistoryViewSet)
 router.register(r'variables', VariableViewSet)
-router.register(r'memory-groups', MemoryGroupViewSet)
 router.register(r'calc-variables', CalcVariableViewSet)
 router.register(r'calc-groups', CalcGroupViewSet)
 router.register(r'control-variables', ControlVariableViewSet)

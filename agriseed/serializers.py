@@ -1,40 +1,13 @@
 from rest_framework import serializers
 from .models import *
-from corecode.models import DataName
+from corecode.models import DataName, ProjectVersion, CalcGroup, ControlLogic
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 User = get_user_model()
 
-# Reuse corecode serializers when available to avoid duplication.
-# These aliases allow agriseed code to reference serializer classes from corecode transparently.
-try:
-    from corecode import serializers as corecode_serializers
-    # map core serializers to agriseed module-level names (override if present)
-    ModuleSerializer = getattr(corecode_serializers, 'ModuleSerializer')
-    DeviceInstanceSerializer = getattr(corecode_serializers, 'DeviceInstanceSerializer')
-    ControlGroupSerializer = getattr(corecode_serializers, 'ControlGroupSerializer')
-    ControlVariableSerializer = getattr(corecode_serializers, 'ControlVariableSerializer')
-    CalcVariableSerializer = getattr(corecode_serializers, 'CalcVariableSerializer')
-    LocationGroupSerializer = getattr(corecode_serializers, 'LocationGroupSerializer')
-    LocationCodeSerializer = getattr(corecode_serializers, 'LocationCodeSerializer')
-    ProjectSerializer = getattr(corecode_serializers, 'ProjectSerializer')
-    ProjectVersionSerializer = getattr(corecode_serializers, 'ProjectVersionSerializer')
-    MemoryGroupSerializer = getattr(corecode_serializers, 'MemoryGroupSerializer')
-    VariableSerializer = getattr(corecode_serializers, 'VariableSerializer')
-    DataNameSerializer = getattr(corecode_serializers, 'DataNameSerializer')
-    ControlLogicSerializer = getattr(corecode_serializers, 'ControlLogicSerializer')
-    CalcGroupSerializer = getattr(corecode_serializers, 'CalcGroupSerializer')
-    UserPreferenceSerializer = getattr(corecode_serializers, 'UserPreferenceSerializer')
-    DeviceSerializer = getattr(corecode_serializers, 'DeviceSerializer')
-    DeviceCompanySerializer = getattr(corecode_serializers, 'DeviceCompanySerializer')
-    UserManualSerializer = getattr(corecode_serializers, 'UserManualSerializer')
-    ControlValueSerializer = getattr(corecode_serializers, 'ControlValueSerializer')
-    ControlValueHistorySerializer = getattr(corecode_serializers, 'ControlValueHistorySerializer')
-    SignupSerializer = getattr(corecode_serializers, 'SignupSerializer')
-except Exception:
-    # corecode may not be importable in some environments (tests, tools); ignore gracefully
-    pass
+# corecode 별칭 재사용 로직 제거 (역참조 유발 방지)
+# 기존: corecode.serializers에서 직렬화기를 재노출하던 블록 삭제
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -379,6 +352,337 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
                 pass
         instance.save()
         if steps_data is not None:
+            # 간단히 전체 재배치
+            instance.steps.all().delete()
+            for step_data in steps_data:
+                item_values_data = step_data.pop('item_values', [])
+                step = RecipeStep.objects.create(recipe_profile=instance, **step_data)
+                for iv in item_values_data:
+                    RecipeItemValue.objects.create(recipe=step, **iv)
+        return instance
+
+class SensorDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SensorData
+        exclude = ('is_deleted',)
+
+class FacilityHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FacilityHistory
+        exclude = ('is_deleted',)
+
+# -----------------------------
+# 여기부터 corecode -> agriseed로 이동한 직렬화기들
+# -----------------------------
+
+class ControlVariableSerializer(serializers.ModelSerializer):
+    group = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), required=False, allow_null=True, help_text='속한 ControlGroup ID(선택). 예: 3', style={'example': 3})
+    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='연결된 DataName ID. 예: 12', style={'example': 12})
+    applied_logic = serializers.PrimaryKeyRelatedField(queryset=ControlLogic.objects.all(), help_text='적용할 ControlLogic ID. 예: 2', style={'example': 2})
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        allow_empty=True,
+        required=False,
+        default=list,
+        help_text='변수 속성 목록(예: ["감시","기록"])',
+        style={'example': ['감시', '기록']}
+    )
+
+    class Meta:
+        model = ControlVariable
+        fields = [
+            'id', 'group', 'name', 'data_type', 'applied_logic', 'args', 'attributes'
+        ]
+
+class ControlGroupSerializer(serializers.ModelSerializer):
+    control_variables_in_group = ControlVariableSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+        help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)',
+        source='agriseed_control_variables_in_group'
+    )
+    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID')
+    project_id = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = ControlGroup
+        fields = [
+            'id', 'name', 'project_version', 'project_id', 'group_id', 'description', 'control_variables_in_group'
+        ]
+
+    def get_project_id(self, obj):
+        return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
+
+    def create(self, validated_data):
+        control_variables_data = validated_data.pop('agriseed_control_variables_in_group', [])
+        group = ControlGroup.objects.create(**validated_data)
+        for var_data in control_variables_data:
+            ControlVariable.objects.create(group=group, **var_data)
+        return group
+    
+    def update(self, instance, validated_data):
+        control_variables_data = validated_data.pop('agriseed_control_variables_in_group', None)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.save()
+        if control_variables_data is not None:
+            instance.agriseed_control_variables_in_group.all().delete()
+            for var_data in control_variables_data:
+                ControlVariable.objects.create(group=instance, **var_data)
+        return instance
+
+class CalcVariableSerializer(serializers.ModelSerializer):
+    group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False, allow_null=True, help_text='소속 CalcGroup ID(선택). 예: 4', style={'example': 4})
+    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='연결된 DataName ID. 예: 8', style={'example': 8})
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        allow_empty=True,
+        required=False,
+        default=list,
+        help_text='변수 속성 목록(선택). 예: ["감시"]',
+        style={'example': ['감시']}
+    )
+    class Meta:
+        model = CalcVariable
+        fields = [
+            'id', 'group', 'name', 'data_type', 'use_method', 'args', 'attributes'
+        ]
+
+class CalcGroupSerializer(serializers.ModelSerializer):
+    calc_variables_in_group = CalcVariableSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+        source='agriseed_calc_variables_in_group'
+    )
+    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID')
+    project_id = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = CalcGroup
+        fields = [
+            'id', 'name', 'project_version', 'project_id', 'group_id', 'description', 'calc_variables_in_group'
+        ]
+    def get_project_id(self, obj):
+        return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
+
+    def create(self, validated_data):
+        calc_variables_data = validated_data.pop('agriseed_calc_variables_in_group', [])
+        group = CalcGroup.objects.create(**validated_data)
+        for var_data in calc_variables_data:
+            CalcVariable.objects.create(group=group, **var_data)
+        return group
+    
+    def update(self, instance, validated_data):
+        calc_variables_data = validated_data.pop('agriseed_calc_variables_in_group', None)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.save()
+        if calc_variables_data is not None:
+            instance.agriseed_calc_variables_in_group.all().delete()
+            for var_data in calc_variables_data:
+                CalcVariable.objects.create(group=instance, **var_data)
+        return instance
+
+class ModuleSerializer(serializers.ModelSerializer):
+    # Project 필드는 사용 안함. facility/location_group만 노출
+    location_group = serializers.PrimaryKeyRelatedField(queryset=CoreLocationGroup.objects.all(), required=False, allow_null=True, help_text='LocationGroup ID (선택)')
+
+    class Meta:
+        model = Module
+        fields = [
+            'id', 'name', 'module_type', 'description', 'facility', 'location_group', 'control_scope', 'settings', 'order', 'is_enabled', 'status',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+class DeviceInstanceSerializer(serializers.ModelSerializer):
+    from corecode.serializers import DeviceSerializer as CoreDeviceSerializer  # 안전한 단방향 참조
+    catalog = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), required=False, allow_null=True, help_text='장비 카탈로그(Device) ID (선택)')
+    catalog_detail = CoreDeviceSerializer(source='catalog', read_only=True)
+    module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
+
+    class Meta:
+        model = DeviceInstance
+        fields = [
+            'id', 'name', 'catalog', 'catalog_detail', 'module', 'serial_number', 'hw_version', 'fw_version', 'device_id', 'mac_address',
+            'status', 'last_seen', 'configuration', 'health', 'location_within_module', 'install_date', 'is_active', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'catalog_detail']
+
+class VarietyImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VarietyImage
+        fields = '__all__'
+
+class VarietyGuideSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VarietyGuide
+        fields = '__all__'
+
+
+
+class VarietySerializer(serializers.ModelSerializer):
+    images = VarietyImageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Variety
+        fields = '__all__'
+
+class CropSerializer(serializers.ModelSerializer):
+    varieties = VarietySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Crop
+        fields = '__all__'
+
+
+class ControlItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlItem
+        fields = ['id', 'order', 'item_name', 'description', 'scada_tag_name']
+
+# simple top-level serializer to avoid nested name resolution issues
+class ControlItemSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlItem
+        fields = ['id', 'item_name', 'description', 'scada_tag_name']
+        read_only_fields = fields
+
+class RecipeItemValueSerializer(serializers.ModelSerializer):
+    control_item = serializers.PrimaryKeyRelatedField(queryset=ControlItem.objects.all(), help_text='ControlItem ID. 예: 2', style={})
+    set_value = serializers.FloatField(help_text='설정 값 (실수). 예: 23.5', style={'example': 23.5})
+    min_value = serializers.FloatField(required=False, allow_null=True, help_text='허용 최소값 (선택). 예: 10.0', style={'example': 10.0})
+    max_value = serializers.FloatField(required=False, allow_null=True, help_text='허용 최대값 (선택). 예: 40.0', style={'example': 40.0})
+
+    class Meta:
+        model = RecipeItemValue
+        fields = ['id', 'control_item', 'set_value', 'min_value', 'max_value', 'control_logic', 'priority']
+
+class RecipeStepSerializer(serializers.ModelSerializer):
+    item_values = RecipeItemValueSerializer(many=True, required=False, help_text='이 스텝에 포함된 항목값 목록 (선택)')
+    name = serializers.CharField(help_text='스텝 이름. 예: "발아 단계"', style={'example': '발아 단계'})
+    duration_days = serializers.IntegerField(required=False, allow_null=True, help_text='지속 일수 (선택). 예: 7', style={})
+    class Meta:
+        model = RecipeStep
+        fields = ['id', 'recipe_profile', 'name', 'order', 'duration_days', 'description', 'item_values', 'label_icon', 'active']
+
+    def create(self, validated_data):
+        item_values_data = validated_data.pop('item_values', [])
+        step = RecipeStep.objects.create(**validated_data)
+        for iv in item_values_data:
+            RecipeItemValue.objects.create(recipe=step, **iv)
+        return step
+
+    def update(self, instance, validated_data):
+        item_values_data = validated_data.pop('item_values', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if item_values_data is not None:
+            # 간단 구현: 기존 항목값 삭제 후 재생성
+            instance.item_values.all().delete()
+            for iv in item_values_data:
+                RecipeItemValue.objects.create(recipe=instance, **iv)
+        return instance
+
+class RecipePerformanceSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    recipe = serializers.PrimaryKeyRelatedField(queryset=RecipeProfile.objects.all(), help_text='레시피 프로필 ID', style={'example': 5})
+    class Meta:
+        model = RecipePerformance
+        fields = ['id', 'recipe', 'user', 'yield_amount', 'success', 'notes', 'created_at']
+
+class RecipeRatingSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    recipe = serializers.PrimaryKeyRelatedField(queryset=RecipeProfile.objects.all(), help_text='레시피 프로필 ID', style={'example': 5})
+    class Meta:
+        model = RecipeRating
+        fields = ['id', 'recipe', 'user', 'rating', 'created_at']
+
+class RecipeCommentVoteSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    comment = serializers.PrimaryKeyRelatedField(queryset=RecipeComment.objects.all(), help_text='댓글 ID', style={})
+    class Meta:
+        model = RecipeCommentVote
+        fields = ['id', 'comment', 'user', 'is_helpful', 'created_at']
+
+class RecipeCommentSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    replies = serializers.SerializerMethodField()
+    helpful_count = serializers.IntegerField(read_only=True)
+    unhelpful_count = serializers.IntegerField(read_only=True)
+    votes = RecipeCommentVoteSerializer(many=True, read_only=True)
+    content = serializers.CharField(help_text='댓글 내용', style={'example': '유용한 레시피입니다.'})
+
+    class Meta:
+        model = RecipeComment
+        fields = ['id', 'recipe', 'user', 'content', 'created_at', 'updated_at', 'parent',
+                  'helpful_count', 'unhelpful_count', 'replies', 'votes']
+
+    def get_replies(self, obj):
+        qs = obj.replies.all()
+        return RecipeCommentSerializer(qs, many=True).data
+
+class RecipeProfileSerializer(serializers.ModelSerializer):
+    createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
+    updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
+    steps = RecipeStepSerializer(many=True, required=False)
+    comments = RecipeCommentSerializer(many=True, read_only=True)
+    performances = RecipePerformanceSerializer(many=True, read_only=True)
+    ratings = RecipeRatingSerializer(many=True, read_only=True)
+    average_rating = serializers.FloatField(read_only=True)
+    rating_count = serializers.IntegerField(read_only=True)
+    average_yield = serializers.FloatField(read_only=True)
+    success_rate = serializers.FloatField(read_only=True)
+    createdBy = serializers.SlugRelatedField(source='created_by', slug_field='username', read_only=True, help_text='작성자 username (읽기전용)')
+    updatedBy = serializers.SlugRelatedField(source='updated_by', slug_field='username', read_only=True, help_text='최종 수정자 username (읽기전용)')
+    class Meta:
+        model = RecipeProfile
+        fields = [
+            'id', 'variety', 'recipe_name', 'description', 'duration_days',
+            'order', 'is_active', 'createdAt', 'updatedAt',
+            'createdBy', 'updatedBy', 'steps', 'comments', 'performances',
+            'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate', 'bookmark'
+        ]
+        read_only_fields = ['createdAt', 'updatedAt', 'createdBy', 'updatedBy']
+
+    def create(self, validated_data):
+        steps_data = validated_data.pop('steps', [])
+        # created_by/updated_by fallback from context request if not provided
+        req = self.context.get('request') if hasattr(self, 'context') else None
+        user = None
+        if req and getattr(req, 'user', None) and req.user.is_authenticated:
+            user = req.user
+        # create profile with creator if available
+        if user:
+            profile = RecipeProfile.objects.create(created_by=user, updated_by=user, **validated_data)
+        else:
+            profile = RecipeProfile.objects.create(**validated_data)
+        for step_data in steps_data:
+            item_values_data = step_data.pop('item_values', [])
+            step = RecipeStep.objects.create(recipe_profile=profile, **step_data)
+            for iv in item_values_data:
+                RecipeItemValue.objects.create(recipe=step, **iv)
+        return profile
+
+    def update(self, instance, validated_data):
+        steps_data = validated_data.pop('steps', None)
+        req = self.context.get('request') if hasattr(self, 'context') else None
+        user = None
+        if req and getattr(req, 'user', None) and req.user.is_authenticated:
+            user = req.user
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if user:
+            try:
+                instance.updated_by = user
+            except Exception:
+                pass
+        instance.save()
+        if steps_data is not None:
+            # 간단히 전체 재배치
             instance.steps.all().delete()
             for step_data in steps_data:
                 item_values_data = step_data.pop('item_values', [])

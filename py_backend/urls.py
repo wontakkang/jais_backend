@@ -30,6 +30,7 @@ urlpatterns += [
     path('agriseed/', include('agriseed.urls')),
     path('corecode/', include('corecode.urls')),
     path('LSISsocket/', include('LSISsocket.urls')),
+    path('MCUnode/', include('MCUnode.urls')),
 ]
 
 urlpatterns += [
