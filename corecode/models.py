@@ -189,37 +189,7 @@ class Device(models.Model):
     def __str__(self):
         return self.name
 
-class ControlValue(models.Model):
-    control_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='control_values', verbose_name="제어 사용자")
-    status = models.CharField(max_length=30, verbose_name="명령상태")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
-    command_name = models.CharField(max_length=100, verbose_name="명령이름")
-    target = models.CharField(max_length=100, verbose_name="타겟")
-    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
-    value = models.JSONField(verbose_name="명령값")
-    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
-    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
-    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
-
-    def __str__(self):
-        return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
-
-class ControlValueHistory(models.Model):
-    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, null=True, blank=True, related_name='histories', verbose_name="제어값")
-    status = models.CharField(max_length=30, verbose_name="명령상태")
-    command_name = models.CharField(max_length=100, verbose_name="명령이름")
-    target = models.CharField(max_length=100, verbose_name="타겟")
-    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
-    value = models.JSONField(verbose_name="명령값")
-    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
-    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
-    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
-
-    def __str__(self):
-        return f"{self.command_name}({self.target}) - {self.status}"
-        
+           
 class Project(models.Model):
     """
     프로젝트의 메타 정보(이름, 설명 등)를 관리하는 모델
@@ -265,20 +235,38 @@ class ProjectVersion(models.Model):
 
     def restore_version(self):
         self.save()  # 이 줄이 있으면 updated_at이 현재 시각으로 갱신됨
-
-
-class LocationGroup(models.Model):
-    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
-    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
-    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
-    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
+        
+class ControlValue(models.Model):
+    control_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='control_values', verbose_name="제어 사용자")
+    status = models.CharField(max_length=30, verbose_name="명령상태")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
+    command_name = models.CharField(max_length=100, verbose_name="명령이름")
+    target = models.CharField(max_length=100, verbose_name="타겟")
+    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
+    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
+    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
 
     def __str__(self):
-        return self.group_name
-    
+        return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
+
+class ControlValueHistory(models.Model):
+    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, null=True, blank=True, related_name='histories', verbose_name="제어값")
+    status = models.CharField(max_length=30, verbose_name="명령상태")
+    command_name = models.CharField(max_length=100, verbose_name="명령이름")
+    target = models.CharField(max_length=100, verbose_name="타겟")
+    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
+    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
+    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
+
+    def __str__(self):
+        return f"{self.command_name}({self.target}) - {self.status}"
+  
 class ControlGroup(models.Model):
     """
     프로젝트 버전(ProjectVersion)에 속한 제어 그룹을 관리하는 모델
@@ -294,6 +282,20 @@ class ControlGroup(models.Model):
 
     def __str__(self):
         return f"ControlGroup {self.group_id} ({self.name})"
+
+
+class LocationGroup(models.Model):
+    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
+    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
+    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
+    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.group_name
+   
 
 class CalcGroup(models.Model):
     """
