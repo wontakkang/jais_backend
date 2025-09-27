@@ -7,6 +7,8 @@ from corecode.models import MemoryGroup as CoreMemoryGroup, Variable as CoreVari
 
 class SocketClientStatusSerializer(serializers.ModelSerializer):
     config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
+    # 추가: 연결된 설정의 이름
+    configName = serializers.CharField(source='config.name', read_only=True)
     class Meta:
         model = SocketClientStatus
         fields = '__all__'
@@ -42,6 +44,8 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
         
 class SocketClientLogSerializer(serializers.ModelSerializer):
     config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
+    # 추가: 연결된 설정의 이름
+    configName = serializers.CharField(source='config.name', read_only=True)
     class Meta:
         model = SocketClientLog
         exclude = ('is_deleted',)
