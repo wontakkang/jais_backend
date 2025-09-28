@@ -2,11 +2,13 @@ from rest_framework import serializers
 from .models import *
 
 # 코어 모델 참조 (MemoryGroup/Variable/DataName/ProjectVersion/Device)
-from corecode.models import MemoryGroup as CoreMemoryGroup, Variable as CoreVariable, DataName as CoreDataName, ProjectVersion as CoreProjectVersion, Device as CoreDevice
+from corecode.models import MemoryGroup as CoreMemoryGroup, Variable as CoreVariable, DataName as CoreDataName, Device as CoreDevice
 # from corecode.models import Adapter as CoreAdapter  # 제거: Adapter 직렬화기는 corecode로 이전됨
 
 class SocketClientStatusSerializer(serializers.ModelSerializer):
     config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
+    # 추가: 연결된 설정의 이름
+    configName = serializers.CharField(source='config.name', read_only=True)
     class Meta:
         model = SocketClientStatus
         fields = '__all__'
@@ -42,6 +44,8 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
         
 class SocketClientLogSerializer(serializers.ModelSerializer):
     config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
+    # 추가: 연결된 설정의 이름
+    configName = serializers.CharField(source='config.name', read_only=True)
     class Meta:
         model = SocketClientLog
         exclude = ('is_deleted',)
@@ -88,26 +92,21 @@ class LSISVariableSerializer(serializers.ModelSerializer):
 
 class LSISMemoryGroupSerializer(serializers.ModelSerializer):
     variables = LSISVariableSerializer(many=True, read_only=False, required=False, help_text='이 그룹에 포함된 변수 목록 (선택)')
-    project_version = serializers.PrimaryKeyRelatedField(queryset=CoreProjectVersion.objects.all(), help_text='소속 ProjectVersion ID. 예: 7')
-    project_id = serializers.SerializerMethodField(read_only=True)
-    # 공용 변수 기반 복제 옵션
+    # 공용 변수 기반 복제 옵션 (ProjectVersion 제거 구조에 맞게 단순 복제)
     clone_from_group = serializers.PrimaryKeyRelatedField(queryset=CoreMemoryGroup.objects.all(), write_only=True, required=False, allow_null=True, help_text='공용 변수 템플릿으로 사용할 MemoryGroup ID(선택)')
-    adjust_address = serializers.BooleanField(write_only=True, required=False, default=True, help_text='시작주소 차이만큼 변수 address를 자동 보정할지 여부(기본 true)')
+    address_offset = serializers.IntegerField(write_only=True, required=False, default=0, help_text='복제 시 변수 주소에 더할 오프셋(기본 0)')
 
     class Meta:
         model = CoreMemoryGroup
         fields = [
-            'id', 'name', 'project_version', 'project_id', 'group_id', 'start_device', 'start_address', 'size_byte', 'variables',
-            'clone_from_group', 'adjust_address'
+            'id', 'name', 'description', 'size_byte', 'variables',
+            'clone_from_group', 'address_offset'
         ]
-
-    def get_project_id(self, obj):
-        return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
 
     def create(self, validated_data):
         variables_data = validated_data.pop('variables', [])
         template_group = validated_data.pop('clone_from_group', None)
-        adjust_address = validated_data.pop('adjust_address', True)
+        address_delta = validated_data.pop('address_offset', 0) or 0
         group = CoreMemoryGroup.objects.create(**validated_data)
 
         # 1) 명시 변수가 오면 그대로 생성
@@ -119,18 +118,12 @@ class LSISMemoryGroupSerializer(serializers.ModelSerializer):
         # 2) 템플릿 그룹이 있으면 복제
         if template_group:
             try:
-                address_delta = 0
-                if adjust_address:
-                    try:
-                        address_delta = int(group.start_address) - int(template_group.start_address)
-                    except Exception:
-                        address_delta = 0
                 for v in template_group.variables.all():
                     CoreVariable.objects.create(
                         group=group,
                         name=v.name,
                         device=v.device,
-                        address=int(v.address) + address_delta if isinstance(v.address, (int, float)) else v.address,
+                        address=(float(v.address) + address_delta) if isinstance(v.address, (int, float)) else v.address,
                         data_type=v.data_type,
                         unit=v.unit,
                         scale=v.scale,
@@ -144,7 +137,7 @@ class LSISMemoryGroupSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # 복제 관련 필드는 업데이트에서 무시
         validated_data.pop('clone_from_group', None)
-        validated_data.pop('adjust_address', None)
+        validated_data.pop('address_offset', None)
         variables_data = validated_data.pop('variables', None)
         # 기본 필드 업데이트
         for attr, val in validated_data.items():

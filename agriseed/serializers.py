@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-from corecode.models import DataName, ProjectVersion, CalcGroup, ControlLogic
+from corecode.models import DataName, CalcGroup, ControlLogic, LocationGroup as CoreLocationGroup
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
@@ -402,17 +402,12 @@ class ControlGroupSerializer(serializers.ModelSerializer):
         help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)',
         source='agriseed_control_variables_in_group'
     )
-    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID')
-    project_id = serializers.SerializerMethodField(read_only=True)
-
+    
     class Meta:
         model = ControlGroup
         fields = [
-            'id', 'name', 'project_version', 'project_id', 'group_id', 'description', 'control_variables_in_group'
+            'id', 'group_id', 'name', 'description', 'control_variables_in_group'
         ]
-
-    def get_project_id(self, obj):
-        return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
 
     def create(self, validated_data):
         control_variables_data = validated_data.pop('agriseed_control_variables_in_group', [])
@@ -425,6 +420,9 @@ class ControlGroupSerializer(serializers.ModelSerializer):
         control_variables_data = validated_data.pop('agriseed_control_variables_in_group', None)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
+        # group_id 업데이트 허용
+        if 'group_id' in validated_data:
+            instance.group_id = validated_data['group_id']
         instance.save()
         if control_variables_data is not None:
             instance.agriseed_control_variables_in_group.all().delete()
@@ -456,16 +454,12 @@ class CalcGroupSerializer(serializers.ModelSerializer):
         required=False,
         source='agriseed_calc_variables_in_group'
     )
-    project_version = serializers.PrimaryKeyRelatedField(queryset=ProjectVersion.objects.all(), help_text='소속 ProjectVersion ID')
-    project_id = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = CalcGroup
         fields = [
-            'id', 'name', 'project_version', 'project_id', 'group_id', 'description', 'calc_variables_in_group'
+            'id', 'name', 'description', 'size_byte', 'calc_variables_in_group'
         ]
-    def get_project_id(self, obj):
-        return obj.project_version.project.id if obj.project_version and obj.project_version.project else None
 
     def create(self, validated_data):
         calc_variables_data = validated_data.pop('agriseed_calc_variables_in_group', [])
@@ -478,6 +472,8 @@ class CalcGroupSerializer(serializers.ModelSerializer):
         calc_variables_data = validated_data.pop('agriseed_calc_variables_in_group', None)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
+        if 'size_byte' in validated_data:
+            instance.size_byte = validated_data['size_byte']
         instance.save()
         if calc_variables_data is not None:
             instance.agriseed_calc_variables_in_group.all().delete()

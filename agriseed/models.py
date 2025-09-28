@@ -874,17 +874,19 @@ class DeviceInstance(models.Model):
 
 
 class ControlGroup(models.Model):
-    project_version = models.ForeignKey('corecode.ProjectVersion', on_delete=models.CASCADE, related_name='agriseed_control_groups')
-    group_id = models.PositiveIntegerField()
+    # project_version 의존 제거 및 독립 그룹으로 변경
+    # ...existing code...
+    group_id = models.PositiveIntegerField(null=True, blank=True, unique=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
     class Meta:
-        unique_together = ('project_version', 'group_id')
-        ordering = ['group_id']
+        # group_id가 없을 수도 있으므로 id로 보조 정렬
+        ordering = ['group_id', 'id']
 
     def __str__(self):
-        return f"ControlGroup {self.group_id} ({self.name})"
+        gid = self.group_id if self.group_id is not None else '-'
+        return f"ControlGroup {gid} ({self.name})"
 
 
 class ControlVariable(models.Model):

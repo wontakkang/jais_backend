@@ -38,7 +38,7 @@ class MemoryGroupViewSet(viewsets.ModelViewSet):
     queryset = CoreMemoryGroup.objects.all()
     serializer_class = LSISMemoryGroupSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['project_version__id']
+    filterset_fields = ['id', 'name']
     ordering_fields = ['id']
 
 # SocketClientConfigViewSet: 소켓 클라이언트 설정 모델의 CRUD API를 제공합니다.
