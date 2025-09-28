@@ -17,6 +17,8 @@ from utils.custom_permission import LocalhostBypassPermission
 from django.contrib.auth import get_user_model
 from django.apps import apps
 from agriseed.models import Module as AgriseedModule, DeviceInstance as AgriseedDeviceInstance
+from django.utils import timezone
+from agriseed.serializers import ModuleSerializer as AgriseedModuleSerializer
 
 logger = logging.getLogger('corecode')
 
@@ -259,8 +261,8 @@ class MemoryGroupViewSet(viewsets.ModelViewSet):
     queryset = MemoryGroup.objects.all()
     serializer_class = MemoryGroupSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['id', 'name']
-    ordering_fields = ['id']
+    filterset_fields = ['id', 'name', 'Device', 'Device__name']
+    ordering_fields = ['id', 'name']
     
 class CalcVariableViewSet(viewsets.ModelViewSet):
     queryset = CalcVariable.objects.all()
@@ -322,22 +324,79 @@ class LocationCodeViewSet(viewsets.ModelViewSet):
 
 class ModuleViewSet(viewsets.ModelViewSet):
     """Module(서브시스템) 모델 CRUD API (agriseed.models.Module)"""
-    queryset = AgriseedModule.objects.all()
-    serializer_class = ModuleSerializer
+    queryset = AgriseedModule.objects.select_related('facility', 'location_group').all()
+    serializer_class = AgriseedModuleSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['facility', 'location_group', 'module_type', 'is_enabled']
+    filterset_fields = ['facility', 'location_group', 'is_enabled']
     ordering_fields = ['id', 'order', 'name']
     search_fields = ['name', 'description']
 
-
 class DeviceInstanceViewSet(viewsets.ModelViewSet):
-    """DeviceInstance(설치 장비) 모델 CRUD API (agriseed.models.DeviceInstance)"""
-    queryset = AgriseedDeviceInstance.objects.select_related('catalog', 'module', 'catalog__manufacturer').all()
+    """DeviceInstance(설치 장비) 모델 CRUD API (agriseed.models.DeviceInstance)
+
+    추가 기능:
+    - POST /corecode/device-instances/{pk}/ping/ : 단일 디바이스 last_seen 갱신
+      Body (선택): {"status":"active"}
+    - POST /corecode/device-instances/ping/ : serial_number 리스트로 벌크 갱신
+      Body: {"serial_numbers":["SN-001","SN-002"], "status":"active"}
+    """
+    queryset = AgriseedDeviceInstance.objects.select_related('device', 'module', 'adapter').prefetch_related('memory_groups').all()
     serializer_class = DeviceInstanceSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['catalog', 'module', 'status', 'is_active']
+    filterset_fields = ['device', 'adapter', 'module', 'status', 'is_active']
     ordering_fields = ['last_seen', 'id']
-    search_fields = ['serial_number', 'name', 'device_id', 'mac_address']
+    search_fields = ['serial_number', 'name']
+
+    @action(detail=True, methods=['post'], url_path='ping')
+    def ping(self, request, pk=None):
+        """단일 장치 ping -> last_seen(now) 및 (선택) status 갱신"""
+        inst = self.get_object()
+        now = timezone.now()
+        fields_to_update = ['last_seen']
+        inst.last_seen = now
+        new_status = request.data.get('status')
+        if isinstance(new_status, str) and new_status.strip():
+            inst.status = new_status.strip()
+            fields_to_update.append('status')
+        inst.save(update_fields=fields_to_update)
+        return Response({
+            'id': inst.id,
+            'serial_number': inst.serial_number,
+            'last_seen': inst.last_seen.isoformat(),
+            'status': inst.status,
+            'updated_fields': fields_to_update
+        })
+
+    @action(detail=False, methods=['post'], url_path='ping')
+    def ping_bulk(self, request):
+        """여러 serial_number를 한번에 ping.
+        Body 예: {"serial_numbers":["SN-001","SN-002"], "status":"active"}
+        """
+        serials = request.data.get('serial_numbers') or []
+        if not isinstance(serials, list) or not serials:
+            return Response({'detail': 'serial_numbers 리스트가 필요합니다.'}, status=400)
+        new_status = request.data.get('status')
+        now = timezone.now()
+        updated = []
+        for sn in serials:
+            try:
+                inst = AgriseedDeviceInstance.objects.get(serial_number=sn)
+                inst.last_seen = now
+                fields = ['last_seen']
+                if isinstance(new_status, str) and new_status.strip():
+                    inst.status = new_status.strip()
+                    fields.append('status')
+                inst.save(update_fields=fields)
+                updated.append({
+                    'serial_number': sn,
+                    'id': inst.id,
+                    'last_seen': inst.last_seen.isoformat(),
+                    'status': inst.status,
+                    'updated_fields': fields
+                })
+            except AgriseedDeviceInstance.DoesNotExist:
+                updated.append({'serial_number': sn, 'error': 'not found'})
+        return Response({'updated': updated, 'count': len(updated)})
 
 class AdapterViewSet(viewsets.ModelViewSet):
     queryset = Adapter.objects.all()

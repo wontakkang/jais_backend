@@ -41,7 +41,14 @@ class Facility(models.Model):
                 # Zone 삭제 (마지막부터)
                 for z in zones[diff:]:
                     z.delete()
-                    
+
+
+    def __str__(self):
+        try:
+            return f"{self.name}"
+        except Exception:
+            return self.name
+                      
 class Device(models.Model):
     name = models.CharField(max_length=100)
     device_id = models.CharField(max_length=20, unique=True)
@@ -797,81 +804,81 @@ class SpecimenAttachment(models.Model):
 
 # --- 이전된 모델들 (corecode에서 agriseed로 이동) ---
 class Module(models.Model):
-    MODULE_TYPE_CHOICES = [
-        ('irrigation', 'Irrigation'),
-        ('env_control', 'Environment Control'),
-        ('lighting', 'Lighting'),
-        ('sensor_hub', 'Sensor Hub'),
-        ('fertigation', 'Fertigation'),
-        ('storage', 'Storage'),
-        ('other', 'Other'),
-    ]
-
     facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='agriseed_modules', help_text='소속 시설(Facility)')
     # use unique related_name to avoid clash with corecode.Module.location_group
     location_group = models.ForeignKey('corecode.LocationGroup', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_modules', help_text='지역 그룹 연결 (선택)')
 
     name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
-    module_type = models.CharField(max_length=50, choices=MODULE_TYPE_CHOICES, default='other')
     description = models.TextField(blank=True, null=True, help_text='모듈 설명')
-    control_scope = models.JSONField(default=dict, blank=True, help_text='이 모듈이 제어/감시하는 범위(구역/노드 등)')
-    settings = models.JSONField(default=dict, blank=True, help_text='운영 기본 설정 (JSON)')
+    
     order = models.PositiveIntegerField(default=0, help_text='모듈 정렬 순서')
     is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
-    status = models.CharField(max_length=30, default='idle', help_text='운영 상태 (예: idle, running, maintenance)')
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        indexes = [models.Index(fields=['module_type']), models.Index(fields=['is_enabled'])]
+        indexes = [models.Index(fields=['is_enabled'])]
         ordering = ['order', 'id']
 
     def __str__(self):
-        return f"{self.name} ({self.module_type})"
-
+        return f"{self.name}"
 
 class DeviceInstance(models.Model):
-    STATUS_CHOICES = [
-        ('online', 'Online'),
-        ('offline', 'Offline'),
-        ('error', 'Error'),
-        ('maintenance', 'Maintenance'),
-        ('unknown', 'Unknown'),
-    ]
-
-    catalog = models.ForeignKey('corecode.Device', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_instances', help_text='장비 카탈로그(Device) 참조')
+    # 소속 모듈 (모듈을 통해 facility 역추적 가능하나 조회 최적화를 위해 facility 별도 저장)
     module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True, related_name='devices', help_text='소속 모듈')
+    facility = models.ForeignKey('Facility', on_delete=models.SET_NULL, null=True, blank=True, related_name='device_instances', help_text='모듈 기반 시설(자동 동기화)', editable=False)
 
+    # 단일 물리 디바이스 FK (Option A) - 기존 M2M 제거
+    device = models.ForeignKey('corecode.Device', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_device_instances', help_text='연결된 코어 디바이스')
+    # 어댑터 (필드명 Adapter -> adapter 로 표준화)
+    adapter = models.ForeignKey('corecode.Adapter', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_device_instances', help_text='연결된 어댑터')
+
+    # 인스턴스 식별자
+    serial_number = models.CharField(max_length=100, unique=True, help_text='장치 고유 시리얼 번호')
     name = models.CharField(max_length=150, blank=True, null=True, help_text='인스턴스별 표시명 (선택)')
-    serial_number = models.CharField(max_length=200, help_text='시리얼 번호/고유 식별자')
-    hw_version = models.CharField(max_length=50, blank=True, null=True)
-    fw_version = models.CharField(max_length=50, blank=True, null=True)
-    device_id = models.CharField(max_length=200, blank=True, null=True, help_text='네트워크/관리용 장치 ID (MAC, UUID 등)')
-    mac_address = models.CharField(max_length=100, blank=True, null=True)
-
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='unknown', help_text='장비 상태')
+    status = models.CharField(max_length=30, default='idle', help_text='상태 (예: idle, active, fault)')
     last_seen = models.DateTimeField(null=True, blank=True, help_text='마지막 응답 시각')
-
-    configuration = models.JSONField(default=dict, blank=True, help_text='런타임 구성값 (JSON)')
-    health = models.JSONField(default=dict, blank=True, help_text='헬스/진단 정보 (JSON)')
-
     location_within_module = models.CharField(max_length=200, blank=True, null=True, help_text='모듈 내 설치 위치(예: 구역A-포인트3)')
+    install_date = models.DateField(null=True, blank=True, help_text='설치 일자')
+    is_active = models.BooleanField(default=True, help_text='활성 여부')
 
-    install_date = models.DateField(null=True, blank=True)
-    is_active = models.BooleanField(default=True)
+    # 관련 메모리 그룹 (Adapter + Device 조합으로 자동 연결)
+    memory_groups = models.ManyToManyField('corecode.MemoryGroup', blank=True, related_name='device_instances', help_text='연결된 메모리 그룹')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('catalog', 'serial_number')
-        indexes = [models.Index(fields=['serial_number']), models.Index(fields=['status']), models.Index(fields=['last_seen']), models.Index(fields=['catalog'])]
+        indexes = [
+            models.Index(fields=['serial_number']),
+            models.Index(fields=['last_seen']),
+            models.Index(fields=['status']),
+        ]
+        ordering = ['id']
 
     def __str__(self):
-        label = self.name or (self.catalog.name if self.catalog else 'Device')
+        label = self.name or (self.device.name if self.device else 'DeviceInstance')
         return f"{label} [{self.serial_number}]"
 
+    def save(self, *args, **kwargs):
+        # facility 자동 동기화 (module 변경 시)
+        if self.module and self.module.facility:
+            self.facility = self.module.facility
+        super().save(*args, **kwargs)
+        # 메모리 그룹 자동 연결 로직
+        try:
+            if self.adapter and self.device:
+                qs = self.adapter.memory_groups.filter(Device=self.device)
+                current_ids = set(self.memory_groups.values_list('id', flat=True))
+                target_ids = set(qs.values_list('id', flat=True))
+                # 추가
+                for mg_id in target_ids - current_ids:
+                    self.memory_groups.add(mg_id)
+                # 제거(동기화를 엄격히 원할 경우 주석 해제)
+                # for mg_id in current_ids - target_ids:
+                #     self.memory_groups.remove(mg_id)
+        except Exception:
+            pass
 
 class ControlGroup(models.Model):
     # project_version 의존 제거 및 독립 그룹으로 변경

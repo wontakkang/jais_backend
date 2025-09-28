@@ -267,6 +267,8 @@ class MemoryGroup(models.Model):
     메모리 그룹 모델 (프로젝트 버전 의존성 제거됨)
     각 그룹은 여러 Variable(변수)과 1:N 관계
     """
+    Adapter = models.ForeignKey('Adapter', on_delete=models.SET_NULL, null=True, blank=True, related_name='memory_groups', help_text="이 그룹이 속한 어댑터")
+    Device = models.ForeignKey(Device, on_delete=models.SET_NULL, null=True, blank=True, related_name='memory_groups')
     name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     size_byte = models.PositiveIntegerField()

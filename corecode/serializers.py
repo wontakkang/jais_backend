@@ -126,33 +126,6 @@ class VariableSerializer(serializers.ModelSerializer):
             addr_int = obj.address
         return f"%{obj.device}{unit_symbol}{addr_int}"
 
-class MemoryGroupSerializer(serializers.ModelSerializer):
-    variables = VariableSerializer(many=True, read_only=False, required=False, help_text='이 그룹에 포함된 변수 목록 (선택)')
-
-    class Meta:
-        model = MemoryGroup
-        fields = [
-            'id', 'name', 'description', 'size_byte', 'variables'
-        ]
-
-    def create(self, validated_data):
-        variables_data = validated_data.pop('variables', [])
-        group = MemoryGroup.objects.create(**validated_data)
-        for var_data in variables_data:
-            Variable.objects.create(group=group, **var_data)
-        return group
-
-    def update(self, instance, validated_data):
-        variables_data = validated_data.pop('variables', None)
-        instance.name = validated_data.get('name', instance.name)
-        instance.description = validated_data.get('description', instance.description)
-        instance.size_byte = validated_data.get('size_byte', instance.size_byte)
-        instance.save()
-        if variables_data is not None:
-            instance.variables.all().delete()
-            for var_data in variables_data:
-                Variable.objects.create(group=instance, **var_data)
-        return instance
 
 class ControlValueSerializer(serializers.ModelSerializer):
     control_user = serializers.StringRelatedField(read_only=True)
@@ -256,17 +229,20 @@ class DeviceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DeviceInstanceSerializer(serializers.ModelSerializer):
-    catalog = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), required=False, allow_null=True, help_text='장비 카탈로그(Device) ID (선택)')
-    catalog_detail = DeviceSerializer(source='catalog', read_only=True)
+    device = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), required=False, allow_null=True, help_text='장비(Device) ID (선택)')
+    device_detail = DeviceSerializer(source='device', read_only=True)
+    adapter = serializers.PrimaryKeyRelatedField(queryset=Adapter.objects.all(), required=False, allow_null=True, help_text='어댑터(Adapter) ID (선택)')
     module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
+    memory_groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = DeviceInstance
         fields = [
-            'id', 'name', 'catalog', 'catalog_detail', 'module', 'serial_number', 'hw_version', 'fw_version', 'device_id', 'mac_address',
-            'status', 'last_seen', 'configuration', 'health', 'location_within_module', 'install_date', 'is_active', 'created_at', 'updated_at'
+            'id', 'name', 'device', 'device_detail', 'adapter', 'module',
+            'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
+            'memory_groups', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'catalog_detail']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail', 'memory_groups']
 
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -277,3 +253,45 @@ class AdapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Adapter
         fields = '__all__'
+
+class MemoryGroupSerializer(serializers.ModelSerializer):
+    variables = VariableSerializer(many=True, read_only=False, required=False, help_text='이 그룹에 포함된 변수 목록 (선택)')
+    # 연결된 Device/Adapter의 id 설정 및 name 조회
+    device = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), source='Device', required=False, allow_null=True, help_text='연결된 Device ID(선택)')
+    device_name = serializers.CharField(source='Device.name', read_only=True)
+    deviceName = serializers.CharField(source='Device.name', read_only=True)
+    adapter = serializers.PrimaryKeyRelatedField(queryset=Adapter.objects.all(), source='Adapter', required=False, allow_null=True, help_text='연결된 Adapter ID(선택)')
+    adapterName = serializers.CharField(source='Adapter.name', read_only=True)
+
+    class Meta:
+        model = MemoryGroup
+        fields = [
+            'id', 'name', 'description', 'size_byte',
+            'adapter', 'adapterName',
+            'device', 'device_name', 'deviceName',
+            'variables'
+        ]
+
+    def create(self, validated_data):
+        variables_data = validated_data.pop('variables', [])
+        group = MemoryGroup.objects.create(**validated_data)
+        for var_data in variables_data:
+            Variable.objects.create(group=group, **var_data)
+        return group
+
+    def update(self, instance, validated_data):
+        variables_data = validated_data.pop('variables', None)
+        # 필드 업데이트 (Device/Adapter 포함)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.size_byte = validated_data.get('size_byte', instance.size_byte)
+        if 'Device' in validated_data:
+            instance.Device = validated_data.get('Device')
+        if 'Adapter' in validated_data:
+            instance.Adapter = validated_data.get('Adapter')
+        instance.save()
+        if variables_data is not None:
+            instance.variables.all().delete()
+            for var_data in variables_data:
+                Variable.objects.create(group=instance, **var_data)
+        return instance

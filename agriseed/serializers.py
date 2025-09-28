@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import *
 from corecode.models import DataName, CalcGroup, ControlLogic, LocationGroup as CoreLocationGroup
+# Core Device/Adapter 참조 추가
+from corecode.models import Device as CoreDevice, Adapter as CoreAdapter
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
@@ -488,24 +490,28 @@ class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
         fields = [
-            'id', 'name', 'module_type', 'description', 'facility', 'location_group', 'control_scope', 'settings', 'order', 'is_enabled', 'status',
+            'id', 'name', 'description', 'facility', 'location_group', 'order', 'is_enabled',
             'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class DeviceInstanceSerializer(serializers.ModelSerializer):
     from corecode.serializers import DeviceSerializer as CoreDeviceSerializer  # 안전한 단방향 참조
-    catalog = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), required=False, allow_null=True, help_text='장비 카탈로그(Device) ID (선택)')
-    catalog_detail = CoreDeviceSerializer(source='catalog', read_only=True)
+    device = serializers.PrimaryKeyRelatedField(queryset=CoreDevice.objects.all(), required=False, allow_null=True, help_text='장비 Device ID (선택)')
+    device_detail = CoreDeviceSerializer(source='device', read_only=True)
+    adapter = serializers.PrimaryKeyRelatedField(queryset=CoreAdapter.objects.all(), required=False, allow_null=True, help_text='어댑터 Adapter ID (선택)')
     module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
+    facility = serializers.PrimaryKeyRelatedField(read_only=True)
+    memory_groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = DeviceInstance
         fields = [
-            'id', 'name', 'catalog', 'catalog_detail', 'module', 'serial_number', 'hw_version', 'fw_version', 'device_id', 'mac_address',
-            'status', 'last_seen', 'configuration', 'health', 'location_within_module', 'install_date', 'is_active', 'created_at', 'updated_at'
+            'id', 'name', 'device', 'device_detail', 'adapter', 'module', 'facility',
+            'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
+            'memory_groups', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'catalog_detail']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail', 'facility', 'memory_groups']
 
 class VarietyImageSerializer(serializers.ModelSerializer):
     class Meta:
