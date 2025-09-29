@@ -172,7 +172,7 @@ class ZoneViewSet(BaseViewSet):
     # recipe_profile(FK)로 필터 가능 (예: ?recipe_profile=1)
     filterset_fields = ['facility', 'status', 'health_status', 'environment_status', 'is_deleted']
     search_fields = ['name', 'style']
-    ordering_fields = ['id', 'area', 'expected_yield']
+    ordering_fields = ['id', 'area']
 
     def perform_create(self, serializer):
         facility = serializer.validated_data.get('facility')

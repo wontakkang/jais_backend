@@ -3,6 +3,8 @@ from .models import *
 from corecode.models import DataName, CalcGroup, ControlLogic, LocationGroup as CoreLocationGroup
 # Core Device/Adapter 참조 추가
 from corecode.models import Device as CoreDevice, Adapter as CoreAdapter
+# 추가: MemoryGroup 모델 임포트
+from corecode.models import MemoryGroup as CoreMemoryGroup
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
@@ -43,19 +45,19 @@ class ResolvedIssueSerializer(serializers.ModelSerializer):
 
 class CalendarScheduleSerializer(serializers.ModelSerializer):
     facilityId = serializers.PrimaryKeyRelatedField(
-        source='facility', queryset=Facility.objects.all(), allow_null=True, required=False,
+        source='facility', queryset=Facility.objects.all(), allow_null=True, required=False, 
         help_text='시설 ID (Facility primary key). 예: 12', style={'type': 'integer'}
     )
     zoneId = serializers.PrimaryKeyRelatedField(
-        source='zone', queryset=Zone.objects.all(), allow_null=True, required=False,
+        source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, 
         help_text='구역 ID (Zone primary key). 예: 5', style={'type': 'integer'}
     )
     cropId = serializers.PrimaryKeyRelatedField(
-        source='crop', queryset=Crop.objects.all(), allow_null=True, required=False,
+        source='crop', queryset=Crop.objects.all(), allow_null=True, required=False, 
         help_text='작물 ID (선택). 예: 3', style={'type': 'integer'}
     )
     varietyId = serializers.PrimaryKeyRelatedField(
-        source='variety', queryset=Variety.objects.all(), allow_null=True, required=False,
+        source='variety', queryset=Variety.objects.all(), allow_null=True, required=False, 
         help_text='품종 ID (선택). 예: 7', style={'type': 'integer'}
     )
     enabled = serializers.BooleanField(required=False, default=False, help_text='스케줄 활성화 여부', style={'example': False, 'type': 'boolean'})
@@ -156,32 +158,41 @@ class ControlSettingsSerializer(serializers.ModelSerializer):
         exclude = ('is_deleted',)
 
 class FacilitySerializer(serializers.ModelSerializer):
-    control_settings = ControlSettingsSerializer(many=True)
+    # M2M module 노출 (ID 배열)
+    module = serializers.PrimaryKeyRelatedField(many=True, queryset=Module.objects.all(), required=False)
+    # nested control_settings는 선택 입력으로
+    control_settings = ControlSettingsSerializer(many=True, required=False)
     zones = ZoneSerializer(many=True, read_only=True)
     calendar_schedules = CalendarScheduleSerializer(many=True, read_only=True)
     class Meta:
         model = Facility
-        # include model DB fields except internal 'is_deleted', and also include declared nested serializer fields
-        fields = [f.name for f in model._meta.fields if f.name != 'is_deleted'] + ['control_settings', 'zones', 'calendar_schedules']
+        # include model DB fields except internal 'is_deleted', and also include declared nested/M2M fields
+        fields = [f.name for f in model._meta.fields if f.name != 'is_deleted'] + ['module', 'control_settings', 'zones', 'calendar_schedules']
 
     def create(self, validated_data):
         control_settings_data = validated_data.pop('control_settings', [])
+        modules = validated_data.pop('module', [])
         facility = Facility.objects.create(**validated_data)
+        if modules:
+            facility.module.set(modules)
         for cs_data in control_settings_data:
             ControlSettings.objects.create(facility=facility, **cs_data)
         return facility
 
     def update(self, instance, validated_data):
         control_settings_data = validated_data.pop('control_settings', [])
+        modules = validated_data.pop('module', None)
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
+        if modules is not None:
+            instance.module.set(modules)
         # 기존 ControlSettings 삭제 및 재생성 (간단 구현)
-        instance.control_settings.all().delete()
-        for cs_data in control_settings_data:
-            ControlSettings.objects.create(facility=instance, **cs_data)
+        if control_settings_data is not None:
+            instance.control_settings.all().delete()
+            for cs_data in control_settings_data:
+                ControlSettings.objects.create(facility=instance, **cs_data)
         return instance
-
 
 class VarietyImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -484,14 +495,11 @@ class CalcGroupSerializer(serializers.ModelSerializer):
         return instance
 
 class ModuleSerializer(serializers.ModelSerializer):
-    # Project 필드는 사용 안함. facility/location_group만 노출
-    location_group = serializers.PrimaryKeyRelatedField(queryset=CoreLocationGroup.objects.all(), required=False, allow_null=True, help_text='LocationGroup ID (선택)')
-
+    # agriseed.models.Module 스키마에 맞게 단순화
     class Meta:
         model = Module
         fields = [
-            'id', 'name', 'description', 'facility', 'location_group', 'order', 'is_enabled',
-            'created_at', 'updated_at'
+            'id', 'name', 'description', 'order', 'is_enabled', 'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
@@ -501,17 +509,55 @@ class DeviceInstanceSerializer(serializers.ModelSerializer):
     device_detail = CoreDeviceSerializer(source='device', read_only=True)
     adapter = serializers.PrimaryKeyRelatedField(queryset=CoreAdapter.objects.all(), required=False, allow_null=True, help_text='어댑터 Adapter ID (선택)')
     module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
-    facility = serializers.PrimaryKeyRelatedField(read_only=True)
-    memory_groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # memory_groups 쓰기 가능하게 변경
+    memory_groups = serializers.PrimaryKeyRelatedField(queryset=CoreMemoryGroup.objects.all(), many=True, required=False, help_text='연결된 MemoryGroup ID 목록(선택)')
+    # 제어/계산 그룹 연결 추가
+    control_groups = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), many=True, required=False, help_text='연결된 ControlGroup ID 목록(선택)')
+    calc_groups = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), many=True, required=False, help_text='연결된 CalcGroup ID 목록(선택)')
 
     class Meta:
         model = DeviceInstance
         fields = [
-            'id', 'name', 'device', 'device_detail', 'adapter', 'module', 'facility',
+            'id', 'name', 'device', 'device_detail', 'adapter', 'module',
             'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
-            'memory_groups', 'created_at', 'updated_at'
+            'memory_groups', 'control_groups', 'calc_groups',
+            'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail', 'facility', 'memory_groups']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail']
+
+    def create(self, validated_data):
+        mgs = validated_data.pop('memory_groups', []) if 'memory_groups' in validated_data else []
+        cgs = validated_data.pop('control_groups', []) if 'control_groups' in validated_data else []
+        ags = validated_data.pop('calc_groups', []) if 'calc_groups' in validated_data else []
+        instance = DeviceInstance.objects.create(**validated_data)
+        if mgs:
+            instance.memory_groups.set(mgs)
+        if cgs:
+            instance.control_groups.set(cgs)
+        if ags:
+            instance.calc_groups.set(ags)
+        return instance
+
+    def update(self, instance, validated_data):
+        mgs = validated_data.pop('memory_groups', None)
+        cgs = validated_data.pop('control_groups', None)
+        ags = validated_data.pop('calc_groups', None)
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        instance.save()
+        if mgs is not None:
+            instance.memory_groups.set(mgs)
+        if cgs is not None:
+            instance.control_groups.set(cgs)
+        if ags is not None:
+            instance.calc_groups.set(ags)
+        return instance
+
+# Core MemoryGroup용 간단 직렬화기 추가
+class MemoryGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CoreMemoryGroup
+        fields = '__all__'
 
 class VarietyImageSerializer(serializers.ModelSerializer):
     class Meta:
