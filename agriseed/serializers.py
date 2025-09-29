@@ -503,6 +503,8 @@ class DeviceInstanceSerializer(serializers.ModelSerializer):
     module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
     facility = serializers.PrimaryKeyRelatedField(read_only=True)
     memory_groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # serial_number를 선택 입력으로 허용 (빈 값 허용) -> 미제공 시 create에서 자동 생성
+    serial_number = serializers.CharField(required=False, allow_blank=True, help_text='미제공 시 자동으로 DE########### 형식으로 부여됩니다.')
 
     class Meta:
         model = DeviceInstance
@@ -512,6 +514,38 @@ class DeviceInstanceSerializer(serializers.ModelSerializer):
             'memory_groups', 'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail', 'facility', 'memory_groups']
+
+    def _generate_next_serial(self):
+        import re
+        prefix = 'DE'
+        pad = 11
+        pattern = re.compile(r'^DE(\d{11})$')
+        # 후보 조회 (DE로 시작)
+        candidates = DeviceInstance.objects.filter(serial_number__startswith=prefix).values_list('serial_number', flat=True)
+        max_num = -1
+        for s in candidates:
+            m = pattern.match(s or '')
+            if m:
+                try:
+                    num = int(m.group(1))
+                    if num > max_num:
+                        max_num = num
+                except Exception:
+                    pass
+        next_num = max_num + 1 if max_num >= 0 else 0
+        # 충돌 방지 루프
+        while True:
+            serial = f"{prefix}{next_num:0{pad}d}"
+            if not DeviceInstance.objects.filter(serial_number=serial).exists():
+                return serial
+            next_num += 1
+
+    def create(self, validated_data):
+        serial = validated_data.get('serial_number')
+        if not serial or not str(serial).strip():
+            validated_data['serial_number'] = self._generate_next_serial()
+        instance = DeviceInstance.objects.create(**validated_data)
+        return instance
 
 class VarietyImageSerializer(serializers.ModelSerializer):
     class Meta:
