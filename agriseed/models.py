@@ -4,10 +4,12 @@ from django.db.models import JSONField
 from django.conf import settings
 import random
 from django.utils import timezone
-from corecode.models import LocationGroup as CoreLocationGroup  # use corecode LocationGroup
 
-# backward compatibility alias (other modules may import agriseed.models.LocationGroup)
-LocationGroup = CoreLocationGroup
+from utils.calculation import __all__ as calculation_methods
+from utils.calculation import all_dict
+from utils.control import __all__ as control_methods
+from utils.control import all_dict as control_methods_dict
+
 
 class Facility(models.Model):
     name = models.CharField(max_length=100, default="Unknown Facility", help_text="시설 이름")
@@ -819,6 +821,130 @@ class Module(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+
+class ControlGroup(models.Model):
+    """
+    제어 그룹 모델 (프로젝트 버전 의존성 제거됨)
+    """
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    size_byte = models.PositiveIntegerField(null=True, blank=True, help_text="그룹 크기 (바이트 단위)")
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return f"ControlGroup ({self.name})"
+
+
+class ControlVariable(models.Model):
+    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_control_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_control_variable')
+    data_type = models.CharField(max_length=20, blank=True)
+    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='agriseed_applications')
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
+
+
+class CalcGroup(models.Model):
+    """
+    계산 그룹 모델 (프로젝트 버전 의존성 제거됨)
+    """
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    size_byte = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return f"CalcGroup ({self.name})"
+
+class CalcVariable(models.Model):
+    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_calc_variables_in_group') # related_name 변경
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_calc_variable') # related_name 변경
+    data_type = models.CharField(max_length=20, blank=True)
+    use_method = models.CharField(
+        max_length=40,
+        null=True,
+        blank=True,
+        choices=[(method, method) for method in calculation_methods] # control_methods 제거
+    )
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class ControlValue(models.Model):
+    control_user = models.ForeignKey('corecode.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_control_values', verbose_name="제어 사용자")
+    status = models.CharField(max_length=30, verbose_name="명령상태")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
+    command_name = models.CharField(max_length=100, verbose_name="명령이름")
+    target = models.CharField(max_length=100, verbose_name="타겟")
+    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
+    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
+    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
+
+    def __str__(self):
+        return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
+
+class ControlValueHistory(models.Model):
+    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, null=True, blank=True, related_name='histories', verbose_name="제어값")
+    status = models.CharField(max_length=30, verbose_name="명령상태")
+    command_name = models.CharField(max_length=100, verbose_name="명령이름")
+    target = models.CharField(max_length=100, verbose_name="타겟")
+    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
+    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
+    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
+
+    def __str__(self):
+        return f"{self.command_name}({self.target}) - {self.status}"
+  
+class LocationGroup(models.Model):
+    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
+    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
+    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
+    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.group_name
+    
+class LocationCode(models.Model):
+    code_id = models.AutoField(primary_key=True)
+    group = models.ForeignKey(
+        LocationGroup,
+        on_delete=models.CASCADE,
+        db_column='group_id',
+        related_name='codes',
+        help_text='FK → location_group.group_id'
+    )
+    code_type = models.CharField(max_length=50, help_text='코드 구분 (예: alarm_level, daytime_range)')
+    code_key = models.CharField(max_length=50, help_text='코드 키 값 (예: LEVEL_1, START_TIME)')
+    code_value = models.TextField(help_text='값 (예: 30, "06:00", JSON 형식도 가능)')
+    unit = models.CharField(max_length=20, help_text='단위 (예: ℃, %, HH:MM 등)')
+    description = models.TextField(blank=True, null=True, help_text='코드 설명 (예: "주의 경고 상한온도")')
+    sort_order = models.IntegerField(default=0, help_text='정렬 순서')
+    is_active = models.BooleanField(default=True, help_text='활성화 여부')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.code_type}:{self.code_key}"
+
 class DeviceInstance(models.Model):
     # 소속 모듈 (모듈을 통해 facility 역추적 가능하나 조회 최적화를 위해 facility 별도 저장)
     module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True, related_name='devices', help_text='소속 모듈')
@@ -837,11 +963,11 @@ class DeviceInstance(models.Model):
     is_active = models.BooleanField(default=True, help_text='활성 여부')
 
     # 관련 메모리 그룹 (Adapter + Device 조합으로 자동 연결)
-    memory_groups = models.ManyToManyField('corecode.MemoryGroup', blank=True, related_name='device_instances', help_text='연결된 메모리 그룹')
+    memory_groups = models.ManyToManyField('LSISsocket.MemoryGroup', blank=True, related_name='device_instances', help_text='연결된 메모리 그룹')
     # 제어 그룹
-    control_groups = models.ManyToManyField('ControlGroup', blank=True, related_name='device_instances', help_text='연결된 제어 그룹')
+    control_groups = models.ManyToManyField(ControlGroup, blank=True, related_name='device_instances', help_text='연결된 제어 그룹')
     # 계산 그룹
-    calc_groups = models.ManyToManyField('corecode.CalcGroup', blank=True, related_name='device_instances', help_text='연결된 계산 그룹')
+    calc_groups = models.ManyToManyField(CalcGroup, blank=True, related_name='device_instances', help_text='연결된 계산 그룹')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -873,43 +999,3 @@ class DeviceInstance(models.Model):
                 #     self.memory_groups.remove(mg_id)
         except Exception:
             pass
-
-class ControlGroup(models.Model):
-    # project_version 의존 제거 및 독립 그룹으로 변경
-    # ...existing code...
-    group_id = models.PositiveIntegerField(null=True, blank=True, unique=True)
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-
-    class Meta:
-        # group_id가 없을 수도 있으므로 id로 보조 정렬
-        ordering = ['group_id', 'id']
-
-    def __str__(self):
-        gid = self.group_id if self.group_id is not None else '-'
-        return f"ControlGroup {gid} ({self.name})"
-
-
-class ControlVariable(models.Model):
-    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_control_variables_in_group')
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_control_variable')
-    data_type = models.CharField(max_length=20, blank=True)
-    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='agriseed_applications')
-    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
-
-
-class CalcVariable(models.Model):
-    group = models.ForeignKey('corecode.CalcGroup', on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_calc_variables_in_group')
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_calc_variable')
-    data_type = models.CharField(max_length=20, blank=True)
-    use_method = models.CharField(max_length=40, null=True, blank=True)
-    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        return f"{self.name}"
-

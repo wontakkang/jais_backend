@@ -10,8 +10,9 @@ router.register(r'client-logs', SocketClientLogViewSet)
 router.register(r'client-commands', SocketClientCommandViewSet)
 # adapters 엔드포인트는 corecode로 이전됨
 # router.register(r'adapters', AdapterViewSet)
-# 메모리 그룹 API (코어 모델을 LSISsocket 네임스페이스에서 노출)
-router.register(r'memory-groups', MemoryGroupViewSet)
+# 메모리 그룹 및 변수 API는 LSISsocket에서 제공되어야 하므로 등록을 복구합니다.
+router.register(r'memory-groups', MemoryGroupViewSet, basename='memorygroup')
+router.register(r'memory-variables', VariableViewSet, basename='variable')
 
 urlpatterns = [
     *router.urls,

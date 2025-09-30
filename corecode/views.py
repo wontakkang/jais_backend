@@ -232,56 +232,6 @@ class DataNameViewSet(viewsets.ModelViewSet):
         data = {str(obj['id']): obj for obj in serializer.data}
         return Response(data)
 
-class ControlValueViewSet(viewsets.ModelViewSet):
-    queryset = ControlValue.objects.all()
-    serializer_class = ControlValueSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_user']
-    ordering_fields = ['id', 'created_at', 'updated_at', 'control_at']
-
-class ControlValueHistoryViewSet(viewsets.ModelViewSet):
-    queryset = ControlValueHistory.objects.all()
-    serializer_class = ControlValueHistorySerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_value']
-    ordering_fields = ['id', 'created_at', 'control_at']
-
-class VariableViewSet(viewsets.ModelViewSet):
-    """
-    변수(Variable) 모델의 CRUD API를 제공합니다.
-    각 Variable 인스턴스는 group 필드를 통해 MemoryGroup과 연결되어 있습니다.
-    """
-    queryset = Variable.objects.all()
-    serializer_class = VariableSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['group__id']
-    ordering_fields = ['id']
-    
-class MemoryGroupViewSet(viewsets.ModelViewSet):
-    """
-    메모리 그룹(MemoryGroup) 모델의 CRUD API를 제공합니다.
-    각 MemoryGroup 인스턴스는 여러 Variable과 연결되어 있습니다.
-    """
-    queryset = MemoryGroup.objects.all()
-    serializer_class = MemoryGroupSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['id', 'name', 'Device', 'Device__name']
-    ordering_fields = ['id', 'name']
-    
-class CalcVariableViewSet(viewsets.ModelViewSet):
-    queryset = CalcVariable.objects.all()
-    serializer_class = CalcVariableSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['group__id']
-    ordering_fields = ['id']
-
-class CalcGroupViewSet(viewsets.ModelViewSet):
-    queryset = CalcGroup.objects.all()
-    serializer_class = CalcGroupSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['id', 'name']
-    ordering_fields = ['id']
-
 class ControlLogicViewSet(viewsets.ModelViewSet):
     queryset = ControlLogic.objects.all()
     serializer_class = ControlLogicSerializer
@@ -303,29 +253,6 @@ class ControlLogicViewSet(viewsets.ModelViewSet):
         result = {str(item['id']): item for item in data}
         return Response(result)
 
-class ControlGroupViewSet(viewsets.ModelViewSet):
-    queryset = ControlGroup.objects.all()
-    serializer_class = ControlGroupSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['id', 'name']
-    ordering_fields = ['id']
-
-class LocationGroupViewSet(viewsets.ModelViewSet):
-    """지역 그룹(LocationGroup) 모델의 CRUD API"""
-    queryset = LocationGroup.objects.all()
-    serializer_class = LocationGroupSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['group_id', 'group_name']
-    ordering_fields = ['group_id', 'group_name']
-
-class LocationCodeViewSet(viewsets.ModelViewSet):
-    """그룹별 코드(LocationCode) 모델의 CRUD API"""
-    queryset = LocationCode.objects.all()
-    serializer_class = LocationCodeSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['group__group_id', 'code_type', 'code_key']
-    ordering_fields = ['code_id', 'code_type', 'code_key']
-
 class ModuleViewSet(viewsets.ModelViewSet):
     """Module(서브시스템) 모델 CRUD API (agriseed.models.Module)"""
     queryset = AgriseedModule.objects.all()
@@ -335,72 +262,6 @@ class ModuleViewSet(viewsets.ModelViewSet):
     ordering_fields = ['id', 'order', 'name']
     search_fields = ['name', 'description']
 
-class DeviceInstanceViewSet(viewsets.ModelViewSet):
-    """DeviceInstance(설치 장비) 모델 CRUD API (agriseed.models.DeviceInstance)
-
-    추가 기능:
-    - POST /corecode/device-instances/{pk}/ping/ : 단일 디바이스 last_seen 갱신
-      Body (선택): {"status":"active"}
-    - POST /corecode/device-instances/ping/ : serial_number 리스트로 벌크 갱신
-      Body: {"serial_numbers":["SN-001","SN-002"], "status":"active"}
-    """
-    queryset = AgriseedDeviceInstance.objects.select_related('device', 'module', 'adapter').prefetch_related('memory_groups').all()
-    serializer_class = DeviceInstanceSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['device', 'adapter', 'module', 'status', 'is_active']
-    ordering_fields = ['last_seen', 'id']
-    search_fields = ['serial_number', 'name']
-
-    @action(detail=True, methods=['post'], url_path='ping')
-    def ping(self, request, pk=None):
-        """단일 장치 ping -> last_seen(now) 및 (선택) status 갱신"""
-        inst = self.get_object()
-        now = timezone.now()
-        fields_to_update = ['last_seen']
-        inst.last_seen = now
-        new_status = request.data.get('status')
-        if isinstance(new_status, str) and new_status.strip():
-            inst.status = new_status.strip()
-            fields_to_update.append('status')
-        inst.save(update_fields=fields_to_update)
-        return Response({
-            'id': inst.id,
-            'serial_number': inst.serial_number,
-            'last_seen': inst.last_seen.isoformat(),
-            'status': inst.status,
-            'updated_fields': fields_to_update
-        })
-
-    @action(detail=False, methods=['post'], url_path='ping')
-    def ping_bulk(self, request):
-        """여러 serial_number를 한번에 ping.
-        Body 예: {"serial_numbers":["SN-001","SN-002"], "status":"active"}
-        """
-        serials = request.data.get('serial_numbers') or []
-        if not isinstance(serials, list) or not serials:
-            return Response({'detail': 'serial_numbers 리스트가 필요합니다.'}, status=400)
-        new_status = request.data.get('status')
-        now = timezone.now()
-        updated = []
-        for sn in serials:
-            try:
-                inst = AgriseedDeviceInstance.objects.get(serial_number=sn)
-                inst.last_seen = now
-                fields = ['last_seen']
-                if isinstance(new_status, str) and new_status.strip():
-                    inst.status = new_status.strip()
-                    fields.append('status')
-                inst.save(update_fields=fields)
-                updated.append({
-                    'serial_number': sn,
-                    'id': inst.id,
-                    'last_seen': inst.last_seen.isoformat(),
-                    'status': inst.status,
-                    'updated_fields': fields
-                })
-            except AgriseedDeviceInstance.DoesNotExist:
-                updated.append({'serial_number': sn, 'error': 'not found'})
-        return Response({'updated': updated, 'count': len(updated)})
 
 class AdapterViewSet(viewsets.ModelViewSet):
     queryset = Adapter.objects.all()

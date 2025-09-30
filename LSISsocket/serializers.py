@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import *
+from .models import MemoryGroup, Variable, SocketClientConfig, SocketClientStatus, SocketClientLog, SocketClientCommand
 
 # 코어 모델 참조 (MemoryGroup/Variable/DataName/ProjectVersion/Device)
-from corecode.models import MemoryGroup as CoreMemoryGroup, Variable as CoreVariable, DataName as CoreDataName, Device as CoreDevice, Adapter as CoreAdapter
+from corecode.models import DataName as CoreDataName, Device as CoreDevice, Adapter as CoreAdapter
 
 class SocketClientStatusSerializer(serializers.ModelSerializer):
     config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
@@ -54,14 +54,12 @@ class SocketClientCommandSerializer(serializers.ModelSerializer):
         model = SocketClientCommand
         exclude = ('is_deleted',)
 
-# SensorNodeConfigSerializer와 ControlNodeConfigSerializer는 MCUnode로 이전됨
-
 # -----------------------------
 # MemoryGroup/Variable 직렬화기 (코어 모델 참조)
 # -----------------------------
-class LSISVariableSerializer(serializers.ModelSerializer):
+class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
-    group = serializers.PrimaryKeyRelatedField(queryset=CoreMemoryGroup.objects.all(), required=False, allow_null=True, help_text='소속 MemoryGroup ID(선택)')
+    group = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), required=False, allow_null=True, help_text='소속 MemoryGroup ID(선택)')
     name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID')
     attributes = serializers.ListField(
         child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
@@ -75,7 +73,7 @@ class LSISVariableSerializer(serializers.ModelSerializer):
     address = serializers.FloatField(help_text='장치 내 주소(숫자). 예: 100')
 
     class Meta:
-        model = CoreVariable
+        model = Variable
         fields = [
             'id', 'group', 'name', 'device', 'address', 'data_type', 'unit', 'scale', 'offset', 'device_address', 'attributes'
         ]
@@ -89,10 +87,10 @@ class LSISVariableSerializer(serializers.ModelSerializer):
             addr_int = 0
         return f"%{obj.device}{unit_symbol}{addr_int}"
 
-class LSISMemoryGroupSerializer(serializers.ModelSerializer):
-    variables = LSISVariableSerializer(many=True, read_only=False, required=False, help_text='이 그룹에 포함된 변수 목록 (선택)')
+class MemoryGroupSerializer(serializers.ModelSerializer):
+    variables = VariableSerializer(many=True, read_only=False, required=False, help_text='이 그룹에 포함된 변수 목록 (선택)')
     # 공용 변수 기반 복제 옵션 (ProjectVersion 제거 구조에 맞게 단순 복제)
-    clone_from_group = serializers.PrimaryKeyRelatedField(queryset=CoreMemoryGroup.objects.all(), write_only=True, required=False, allow_null=True, help_text='공용 변수 템플릿으로 사용할 MemoryGroup ID(선택)')
+    clone_from_group = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), write_only=True, required=False, allow_null=True, help_text='공용 변수 템플릿으로 사용할 MemoryGroup ID(선택)')
     # 추가: Adapter/Device FK 노출 (모델 필드는 대문자이므로 source로 매핑)
     adapter = serializers.PrimaryKeyRelatedField(queryset=CoreAdapter.objects.all(), required=False, allow_null=True, source='Adapter', help_text='연결 어댑터 ID(선택)')
     device = serializers.PrimaryKeyRelatedField(queryset=CoreDevice.objects.all(), required=False, allow_null=True, source='Device', help_text='연결 장치 ID(선택)')
@@ -101,28 +99,51 @@ class LSISMemoryGroupSerializer(serializers.ModelSerializer):
     deviceName = serializers.CharField(source='Device.name', read_only=True)
 
     class Meta:
-        model = CoreMemoryGroup
+        model = MemoryGroup
         fields = [
             'id', 'name', 'description', 'size_byte', 'adapter', 'adapterName', 'device', 'deviceName', 'variables',
             'clone_from_group'
         ]
 
+    def _resolve_dataname(self, name_val):
+        # name_val은 PK(int) 또는 객체일 수 있음
+        if name_val is None:
+            return None
+        if isinstance(name_val, CoreDataName):
+            return name_val
+        try:
+            return CoreDataName.objects.get(pk=name_val)
+        except Exception:
+            raise serializers.ValidationError({ 'name': f"DataName (id={name_val})을(를) 찾을 수 없습니다." })
+
     def create(self, validated_data):
         variables_data = validated_data.pop('variables', [])
         template_group = validated_data.pop('clone_from_group', None)
-        group = CoreMemoryGroup.objects.create(**validated_data)
+        group = MemoryGroup.objects.create(**validated_data)
 
         # 1) 명시 변수가 오면 그대로 생성
         if variables_data:
             for var_data in variables_data:
-                CoreVariable.objects.create(group=group, **var_data)
+                name_val = var_data.get('name')
+                name_obj = self._resolve_dataname(name_val)
+                Variable.objects.create(
+                    group=group,
+                    name=name_obj,
+                    device=var_data.get('device'),
+                    address=var_data.get('address'),
+                    data_type=var_data.get('data_type'),
+                    unit=var_data.get('unit'),
+                    scale=var_data.get('scale', 1),
+                    offset=var_data.get('offset', 0),
+                    attributes=var_data.get('attributes', []),
+                )
             return group
 
         # 2) 템플릿 그룹이 있으면 복제
         if template_group:
             try:
                 for v in template_group.variables.all():
-                    CoreVariable.objects.create(
+                    Variable.objects.create(
                         group=group,
                         name=v.name,
                         device=v.device,
@@ -148,6 +169,18 @@ class LSISMemoryGroupSerializer(serializers.ModelSerializer):
         if variables_data is not None:
             instance.variables.all().delete()
             for var_data in variables_data:
-                CoreVariable.objects.create(group=instance, **var_data)
+                name_val = var_data.get('name')
+                name_obj = self._resolve_dataname(name_val)
+                Variable.objects.create(
+                    group=instance,
+                    name=name_obj,
+                    device=var_data.get('device'),
+                    address=var_data.get('address'),
+                    data_type=var_data.get('data_type'),
+                    unit=var_data.get('unit'),
+                    scale=var_data.get('scale', 1),
+                    offset=var_data.get('offset', 0),
+                    attributes=var_data.get('attributes', []),
+                )
         return instance
 

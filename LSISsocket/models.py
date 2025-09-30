@@ -2,8 +2,6 @@ from sqlite3 import IntegrityError
 from django.db import models
 from django.db.models import JSONField
 from django.utils import timezone
-# 코어 MemoryGroup을 이 앱에서 다루기 위한 Proxy 모델
-from corecode.models import MemoryGroup as CoreMemoryGroup
 
 class ActiveManager(models.Manager):
     def get_queryset(self):
@@ -183,8 +181,45 @@ class ControlNodeConfig(models.Model):
     def __str__(self):
         return self.name
 
-class MemoryGroup(CoreMemoryGroup):
+
+class MemoryGroup(models.Model):
+    """
+    메모리 그룹 모델 (프로젝트 버전 의존성 제거됨)
+    각 그룹은 여러 Variable(변수)과 1:N 관계
+    """
+    # corecode 앱의 Adapter 모델을 명시적으로 참조하고 related_name을 고유하게 변경하여 충돌 방지
+    Adapter = models.ForeignKey('corecode.Adapter', on_delete=models.SET_NULL, null=True, blank=True, related_name='lsissocket_memory_groups', help_text="이 그룹이 속한 어댑터")
+    # corecode.Device와의 reverse accessor 이름이 corecode 앱과 충돌하므로 고유한 related_name 사용
+    Device = models.ForeignKey('corecode.Device', on_delete=models.SET_NULL, null=True, blank=True, related_name='lsissocket_memory_groups')
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    size_byte = models.PositiveIntegerField()
+
     class Meta:
-        proxy = True
-        verbose_name = 'Memory Group'
-        verbose_name_plural = 'Memory Groups'
+        ordering = ['id']
+
+    def __str__(self):
+        return f"Group {self.name}({self.size_byte})"
+
+class Variable(models.Model):
+    """
+    메모리 그룹(MemoryGroup)에 속한 개별 변수 정보를 관리하는 모델
+    """
+    group = models.ForeignKey(MemoryGroup, on_delete=models.CASCADE, related_name='variables') # 기존 유지
+    # corecode.DataName의 physical_variables 관련명이 corecode 앱과 충돌하므로 고유한 이름 사용
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_physical_variables')
+    device = models.CharField(max_length=2)
+    address = models.FloatField()
+    data_type = models.CharField(max_length=10, choices=[
+        ('bool', 'bool'), ('sint', 'sint'), ('usint', 'usint'), ('int', 'int'),
+        ('uint', 'uint'), ('dint', 'dint'), ('udint', 'udint'), ('float', 'float'),
+    ])
+    unit = models.CharField(max_length=10, choices=[
+        ('bit', 'bit'), ('byte', 'byte'), ('word', 'word'), ('dword', 'dword'),
+    ])
+    scale = models.FloatField(default=1)
+    offset = models.FloatField(default=0)
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name} ({self.device}{self.address})"

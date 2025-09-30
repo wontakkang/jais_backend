@@ -1,13 +1,11 @@
 from rest_framework import serializers
 from .models import *
-from corecode.models import DataName, CalcGroup, ControlLogic, LocationGroup as CoreLocationGroup
+from corecode.models import DataName, ControlLogic
 # Core Device/Adapter 참조 추가
 from corecode.models import Device as CoreDevice, Adapter as CoreAdapter
-# 추가: MemoryGroup 모델 임포트
-from corecode.models import MemoryGroup as CoreMemoryGroup
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-
+from LSISsocket.models import MemoryGroup as LSISMemoryGroup
 User = get_user_model()
 
 # corecode 별칭 재사용 로직 제거 (역참조 유발 방지)
@@ -503,60 +501,10 @@ class ModuleSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
-class DeviceInstanceSerializer(serializers.ModelSerializer):
-    from corecode.serializers import DeviceSerializer as CoreDeviceSerializer  # 안전한 단방향 참조
-    device = serializers.PrimaryKeyRelatedField(queryset=CoreDevice.objects.all(), required=False, allow_null=True, help_text='장비 Device ID (선택)')
-    device_detail = CoreDeviceSerializer(source='device', read_only=True)
-    adapter = serializers.PrimaryKeyRelatedField(queryset=CoreAdapter.objects.all(), required=False, allow_null=True, help_text='어댑터 Adapter ID (선택)')
-    module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
-    # memory_groups 쓰기 가능하게 변경
-    memory_groups = serializers.PrimaryKeyRelatedField(queryset=CoreMemoryGroup.objects.all(), many=True, required=False, help_text='연결된 MemoryGroup ID 목록(선택)')
-    # 제어/계산 그룹 연결 추가
-    control_groups = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), many=True, required=False, help_text='연결된 ControlGroup ID 목록(선택)')
-    calc_groups = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), many=True, required=False, help_text='연결된 CalcGroup ID 목록(선택)')
-
-    class Meta:
-        model = DeviceInstance
-        fields = [
-            'id', 'name', 'device', 'device_detail', 'adapter', 'module',
-            'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
-            'memory_groups', 'control_groups', 'calc_groups',
-            'created_at', 'updated_at'
-        ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail']
-
-    def create(self, validated_data):
-        mgs = validated_data.pop('memory_groups', []) if 'memory_groups' in validated_data else []
-        cgs = validated_data.pop('control_groups', []) if 'control_groups' in validated_data else []
-        ags = validated_data.pop('calc_groups', []) if 'calc_groups' in validated_data else []
-        instance = DeviceInstance.objects.create(**validated_data)
-        if mgs:
-            instance.memory_groups.set(mgs)
-        if cgs:
-            instance.control_groups.set(cgs)
-        if ags:
-            instance.calc_groups.set(ags)
-        return instance
-
-    def update(self, instance, validated_data):
-        mgs = validated_data.pop('memory_groups', None)
-        cgs = validated_data.pop('control_groups', None)
-        ags = validated_data.pop('calc_groups', None)
-        for attr, val in validated_data.items():
-            setattr(instance, attr, val)
-        instance.save()
-        if mgs is not None:
-            instance.memory_groups.set(mgs)
-        if cgs is not None:
-            instance.control_groups.set(cgs)
-        if ags is not None:
-            instance.calc_groups.set(ags)
-        return instance
-
 # Core MemoryGroup용 간단 직렬화기 추가
 class MemoryGroupSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CoreMemoryGroup
+        model = LSISMemoryGroup
         fields = '__all__'
 
 class VarietyImageSerializer(serializers.ModelSerializer):
@@ -1178,3 +1126,158 @@ class RecipeByZoneSerializer(serializers.ModelSerializer):
         elapsed = self.get_elapsedDays(obj)
         ctx = {'elapsedDays': elapsed}
         return RecipeByZoneSerializer._RecipeProfileNestedSerializer(profile, context=ctx).data
+
+# corecode.ControlGroup은 현재 변수 중첩이 없고 project_version/group_id 필드도 없음
+class ControlGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlGroup
+        fields = [
+            'id', 'name', 'description', 'size_byte'
+        ]
+
+class CalcVariableSerializer(serializers.ModelSerializer):
+    group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False, allow_null=True, help_text='소속 CalcGroup ID(선택). 예: 4', style={'example': 4})
+    name = serializers.PrimaryKeyRelatedField(queryset=DataName.objects.all(), help_text='연결된 DataName ID. 예: 8', style={'example': 8})
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        allow_empty=True,
+        required=False,
+        default=list,
+        help_text='변수 속성 목록(선택). 예: ["감시"]',
+        style={'example': ['감시']}
+    )
+    # use_method는 models.py의 choices를 따름 (calculation_methods)
+    class Meta:
+        model = CalcVariable
+        fields = [
+            'id', 'group', 'name', 'data_type', 'use_method', 'args', 'attributes'
+        ]
+
+class CalcGroupSerializer(serializers.ModelSerializer):
+    # corecode.CalcGroup의 related_name은 calc_variables_in_group
+    calc_variables_in_group = CalcVariableSerializer(
+        many=True,
+        read_only=False,
+        required=False
+    )
+
+    class Meta:
+        model = CalcGroup
+        fields = [
+            'id', 'name', 'description', 'size_byte', 'calc_variables_in_group'
+        ]
+
+    def create(self, validated_data):
+        calc_variables_data = validated_data.pop('calc_variables_in_group', [])
+        group = CalcGroup.objects.create(**validated_data)
+        for var_data in calc_variables_data:
+            CalcVariable.objects.create(group=group, **var_data)
+        return group
+    
+    def update(self, instance, validated_data):
+        calc_variables_data = validated_data.pop('calc_variables_in_group', None)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.size_byte = validated_data.get('size_byte', instance.size_byte)
+        instance.save()
+        if calc_variables_data is not None:
+            instance.calc_variables_in_group.all().delete()
+            for var_data in calc_variables_data:
+                CalcVariable.objects.create(group=instance, **var_data)
+        return instance
+
+
+class ControlValueSerializer(serializers.ModelSerializer):
+    control_user = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = ControlValue
+        fields = '__all__'
+
+class ControlValueHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlValueHistory
+        fields = '__all__'
+
+class LocationCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LocationCode
+        fields = '__all__'
+
+class LocationGroupSerializer(serializers.ModelSerializer):
+    codes = LocationCodeSerializer(many=True, required=False)
+
+    class Meta:
+        model = LocationGroup
+        fields = [
+            'group_id', 'group_name', 'description', 'timezone',
+            'created_at', 'updated_at', 'codes'
+        ]
+
+    def create(self, validated_data):
+        codes_data = validated_data.pop('codes', [])
+        group = LocationGroup.objects.create(**validated_data)
+        for code in codes_data:
+            LocationCode.objects.create(group=group, **code)
+        return group
+
+    def update(self, instance, validated_data):
+        codes_data = validated_data.pop('codes', None)
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        instance.save()
+        if codes_data is not None:
+            instance.codes.all().delete()
+            for code in codes_data:
+                LocationCode.objects.create(group=instance, **code)
+        return instance
+
+    
+class DeviceInstanceSerializer(serializers.ModelSerializer):
+    device = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), required=False, allow_null=True, help_text='장비(Device) ID (선택)')
+    device_detail = DeviceSerializer(source='device', read_only=True)
+    adapter = serializers.PrimaryKeyRelatedField(queryset=CoreAdapter.objects.all(), required=False, allow_null=True, help_text='어댑터(Adapter) ID (선택)')
+    module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
+    # memory_groups를 쓰기 가능하게 변경 (PK 리스트)
+    memory_groups = serializers.PrimaryKeyRelatedField(queryset=LSISMemoryGroup.objects.all(), many=True, required=False, help_text='연결된 MemoryGroup ID 목록(선택)')
+    # 제어/계산 그룹 연결 추가
+    control_groups = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), many=True, required=False, help_text='연결된 ControlGroup ID 목록(선택)')
+    calc_groups = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), many=True, required=False, help_text='연결된 CalcGroup ID 목록(선택)')
+
+    class Meta:
+        model = DeviceInstance
+        fields = [
+            'id', 'name', 'device', 'device_detail', 'adapter', 'module',
+            'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
+            'memory_groups', 'control_groups', 'calc_groups',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail']
+
+    # ModelSerializer가 M2M 필드를 자동 처리하지만, 명시적으로 set 동작을 보장하기 위해 오버라이드(선택)
+    def create(self, validated_data):
+        mgs = validated_data.pop('memory_groups', []) if 'memory_groups' in validated_data else []
+        cgs = validated_data.pop('control_groups', []) if 'control_groups' in validated_data else []
+        ags = validated_data.pop('calc_groups', []) if 'calc_groups' in validated_data else []
+        instance = DeviceInstance.objects.create(**validated_data)
+        if mgs:
+            instance.memory_groups.set(mgs)
+        if cgs:
+            instance.control_groups.set(cgs)
+        if ags:
+            instance.calc_groups.set(ags)
+        return instance
+
+    def update(self, instance, validated_data):
+        mgs = validated_data.pop('memory_groups', None)
+        cgs = validated_data.pop('control_groups', None)
+        ags = validated_data.pop('calc_groups', None)
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        instance.save()
+        if mgs is not None:
+            instance.memory_groups.set(mgs)
+        if cgs is not None:
+            instance.control_groups.set(cgs)
+        if ags is not None:
+            instance.calc_groups.set(ags)
+        return instance
