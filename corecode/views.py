@@ -9,7 +9,10 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.renderers import JSONRenderer
 import logging
-from rest_framework_simplejwt.tokens import RefreshToken
+try:
+    from rest_framework_simplejwt.tokens import RefreshToken  # type: ignore
+except Exception:
+    RefreshToken = None
 from django.conf import settings
 from .models import *
 from .serializers import *
@@ -105,7 +108,8 @@ class SignupView(APIView):
                     with transaction.atomic():
                         user = serializer.save()
                         # Ensure token creation happens after DB commit
-                        transaction.on_commit(lambda: _make_tokens(user))
+                        if RefreshToken:
+                            transaction.on_commit(lambda: _make_tokens(user))
                 except serializers.ValidationError as ve:
                     logger.warning('Signup validation failed at create: %s', ve.detail)
                     return Response(ve.detail, status=status.HTTP_400_BAD_REQUEST)
@@ -324,10 +328,10 @@ class LocationCodeViewSet(viewsets.ModelViewSet):
 
 class ModuleViewSet(viewsets.ModelViewSet):
     """Module(서브시스템) 모델 CRUD API (agriseed.models.Module)"""
-    queryset = AgriseedModule.objects.select_related('facility', 'location_group').all()
+    queryset = AgriseedModule.objects.all()
     serializer_class = AgriseedModuleSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['facility', 'location_group', 'is_enabled']
+    filterset_fields = ['is_enabled']
     ordering_fields = ['id', 'order', 'name']
     search_fields = ['name', 'description']
 

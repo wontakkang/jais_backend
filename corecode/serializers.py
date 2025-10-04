@@ -8,6 +8,9 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError, transaction
 
+# 추가: agriseed.ControlGroup 별칭 임포트 (corecode.ControlGroup과 구분)
+from agriseed.models import ControlGroup as AgriseedControlGroup
+
 User = get_user_model()
 
 class UserPreferenceSerializer(serializers.ModelSerializer):
@@ -233,16 +236,50 @@ class DeviceInstanceSerializer(serializers.ModelSerializer):
     device_detail = DeviceSerializer(source='device', read_only=True)
     adapter = serializers.PrimaryKeyRelatedField(queryset=Adapter.objects.all(), required=False, allow_null=True, help_text='어댑터(Adapter) ID (선택)')
     module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
-    memory_groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # memory_groups를 쓰기 가능하게 변경 (PK 리스트)
+    memory_groups = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), many=True, required=False, help_text='연결된 MemoryGroup ID 목록(선택)')
+    # 제어/계산 그룹 연결 추가
+    control_groups = serializers.PrimaryKeyRelatedField(queryset=AgriseedControlGroup.objects.all(), many=True, required=False, help_text='연결된 ControlGroup ID 목록(선택)')
+    calc_groups = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), many=True, required=False, help_text='연결된 CalcGroup ID 목록(선택)')
 
     class Meta:
         model = DeviceInstance
         fields = [
             'id', 'name', 'device', 'device_detail', 'adapter', 'module',
             'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
-            'memory_groups', 'created_at', 'updated_at'
+            'memory_groups', 'control_groups', 'calc_groups',
+            'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail', 'memory_groups']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail']
+
+    # ModelSerializer가 M2M 필드를 자동 처리하지만, 명시적으로 set 동작을 보장하기 위해 오버라이드(선택)
+    def create(self, validated_data):
+        mgs = validated_data.pop('memory_groups', []) if 'memory_groups' in validated_data else []
+        cgs = validated_data.pop('control_groups', []) if 'control_groups' in validated_data else []
+        ags = validated_data.pop('calc_groups', []) if 'calc_groups' in validated_data else []
+        instance = DeviceInstance.objects.create(**validated_data)
+        if mgs:
+            instance.memory_groups.set(mgs)
+        if cgs:
+            instance.control_groups.set(cgs)
+        if ags:
+            instance.calc_groups.set(ags)
+        return instance
+
+    def update(self, instance, validated_data):
+        mgs = validated_data.pop('memory_groups', None)
+        cgs = validated_data.pop('control_groups', None)
+        ags = validated_data.pop('calc_groups', None)
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        instance.save()
+        if mgs is not None:
+            instance.memory_groups.set(mgs)
+        if cgs is not None:
+            instance.control_groups.set(cgs)
+        if ags is not None:
+            instance.calc_groups.set(ags)
+        return instance
 
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:

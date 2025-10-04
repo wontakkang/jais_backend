@@ -17,7 +17,7 @@ class Facility(models.Model):
     zone_count = models.IntegerField(default=1, help_text="구역 수 (기본값: 1)")
     manager = models.CharField(max_length=100, default="Unknown Manager", help_text="시설 관리자")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-    LSIS = JSONField(null=True, blank=True, help_text="토양 조건")
+    module = models.ManyToManyField('Module', blank=True, related_name='facilities', help_text="연결된 모듈")
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None
@@ -804,10 +804,6 @@ class SpecimenAttachment(models.Model):
 
 # --- 이전된 모델들 (corecode에서 agriseed로 이동) ---
 class Module(models.Model):
-    facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='agriseed_modules', help_text='소속 시설(Facility)')
-    # use unique related_name to avoid clash with corecode.Module.location_group
-    location_group = models.ForeignKey('corecode.LocationGroup', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_modules', help_text='지역 그룹 연결 (선택)')
-
     name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
     description = models.TextField(blank=True, null=True, help_text='모듈 설명')
     
@@ -815,7 +811,7 @@ class Module(models.Model):
     is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    # DeviceInstance는 FK(module)로 연결되며, 역참조로 module.devices 를 통해 접근합니다. (M2M 제거)
     class Meta:
         indexes = [models.Index(fields=['is_enabled'])]
         ordering = ['order', 'id']
@@ -826,8 +822,6 @@ class Module(models.Model):
 class DeviceInstance(models.Model):
     # 소속 모듈 (모듈을 통해 facility 역추적 가능하나 조회 최적화를 위해 facility 별도 저장)
     module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True, related_name='devices', help_text='소속 모듈')
-    facility = models.ForeignKey('Facility', on_delete=models.SET_NULL, null=True, blank=True, related_name='device_instances', help_text='모듈 기반 시설(자동 동기화)', editable=False)
-
     # 단일 물리 디바이스 FK (Option A) - 기존 M2M 제거
     device = models.ForeignKey('corecode.Device', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_device_instances', help_text='연결된 코어 디바이스')
     # 어댑터 (필드명 Adapter -> adapter 로 표준화)
@@ -844,7 +838,10 @@ class DeviceInstance(models.Model):
 
     # 관련 메모리 그룹 (Adapter + Device 조합으로 자동 연결)
     memory_groups = models.ManyToManyField('corecode.MemoryGroup', blank=True, related_name='device_instances', help_text='연결된 메모리 그룹')
-
+    # 제어 그룹
+    control_groups = models.ManyToManyField('ControlGroup', blank=True, related_name='device_instances', help_text='연결된 제어 그룹')
+    # 계산 그룹
+    calc_groups = models.ManyToManyField('corecode.CalcGroup', blank=True, related_name='device_instances', help_text='연결된 계산 그룹')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -861,9 +858,8 @@ class DeviceInstance(models.Model):
         return f"{label} [{self.serial_number}]"
 
     def save(self, *args, **kwargs):
-        # facility 자동 동기화 (module 변경 시)
-        if self.module and self.module.facility:
-            self.facility = self.module.facility
+        # 제거: module.facility 및 self.facility 는 모델에 존재하지 않음
+        # facility 자동 동기화 (module 변경 시) 로직은 미사용 처리
         super().save(*args, **kwargs)
         # 메모리 그룹 자동 연결 로직
         try:
@@ -871,10 +867,8 @@ class DeviceInstance(models.Model):
                 qs = self.adapter.memory_groups.filter(Device=self.device)
                 current_ids = set(self.memory_groups.values_list('id', flat=True))
                 target_ids = set(qs.values_list('id', flat=True))
-                # 추가
                 for mg_id in target_ids - current_ids:
                     self.memory_groups.add(mg_id)
-                # 제거(동기화를 엄격히 원할 경우 주석 해제)
                 # for mg_id in current_ids - target_ids:
                 #     self.memory_groups.remove(mg_id)
         except Exception:
