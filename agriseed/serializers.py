@@ -11,6 +11,9 @@ User = get_user_model()
 # corecode 별칭 재사용 로직 제거 (역참조 유발 방지)
 # 기존: corecode.serializers에서 직렬화기를 재노출하던 블록 삭제
 
+# Core Device serializer import: use corecode's DeviceSerializer under alias to avoid name collision
+from corecode.serializers import DeviceSerializer as CoreDeviceSerializer
+
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
@@ -497,7 +500,7 @@ class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
         fields = [
-            'id', 'name', 'description', 'order', 'is_enabled', 'created_at', 'updated_at'
+            'id', 'name', 'facilitys', 'description', 'order', 'is_enabled', 'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
@@ -1233,8 +1236,12 @@ class LocationGroupSerializer(serializers.ModelSerializer):
 
     
 class DeviceInstanceSerializer(serializers.ModelSerializer):
-    device = serializers.PrimaryKeyRelatedField(queryset=Device.objects.all(), required=False, allow_null=True, help_text='장비(Device) ID (선택)')
-    device_detail = DeviceSerializer(source='device', read_only=True)
+    device = serializers.PrimaryKeyRelatedField(queryset=CoreDevice.objects.all(), required=False, allow_null=True, help_text='장비(Device) ID (선택)')
+    device_detail = CoreDeviceSerializer(source='device', read_only=True)
+    # model의 편의 속성(device_id, facility)을 serializer로 제공
+    device_id = serializers.SerializerMethodField(read_only=True, help_text='연결된 코어 장비의 고유 코드(device_code) 또는 시리얼 대체값')
+    facilityId = serializers.SerializerMethodField(read_only=True, help_text='연결된 Facility ID (module을 통해 역추적된 첫 번째 Facility)')
+    facility_detail = serializers.SerializerMethodField(read_only=True, help_text='연결된 Facility의 직렬화된 상세 정보 (module을 통해 역추적된 첫 번째 Facility)')
     adapter = serializers.PrimaryKeyRelatedField(queryset=CoreAdapter.objects.all(), required=False, allow_null=True, help_text='어댑터(Adapter) ID (선택)')
     module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
     # memory_groups를 쓰기 가능하게 변경 (PK 리스트)
@@ -1246,12 +1253,45 @@ class DeviceInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = DeviceInstance
         fields = [
-            'id', 'name', 'device', 'device_detail', 'adapter', 'module',
+            'id', 'name', 'device', 'device_detail', 'device_id', 'adapter', 'module', 'facilityId', 'facility_detail',
             'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
             'memory_groups', 'control_groups', 'calc_groups',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail', 'device_id', 'facilityId', 'facility_detail']
+
+    def get_device_id(self, obj):
+        # 우선 연결된 core Device의 device_code, device_id, pk 순으로 반환
+        try:
+            dev = getattr(obj, 'device', None)
+            if dev:
+                return getattr(dev, 'device_code', None) or getattr(dev, 'device_id', None) or str(getattr(dev, 'pk', None))
+        except Exception:
+            pass
+        # fallback: DeviceInstance.serial_number
+        return getattr(obj, 'serial_number', None)
+
+    def _module_first_facility(self, obj):
+        try:
+            mod = getattr(obj, 'module', None)
+            if not mod:
+                return None
+            fac_qs = getattr(mod, 'facilities', None)
+            if fac_qs is None:
+                return None
+            return fac_qs.first()
+        except Exception:
+            return None
+
+    def get_facilityId(self, obj):
+        fac = self._module_first_facility(obj)
+        return fac.pk if fac is not None else None
+
+    def get_facility_detail(self, obj):
+        fac = self._module_first_facility(obj)
+        if not fac:
+            return None
+        return FacilitySerializer(fac, context=self.context).data
 
     # ModelSerializer가 M2M 필드를 자동 처리하지만, 명시적으로 set 동작을 보장하기 위해 오버라이드(선택)
     def create(self, validated_data):

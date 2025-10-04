@@ -19,9 +19,7 @@ from .serializers import *
 from utils.custom_permission import LocalhostBypassPermission
 from django.contrib.auth import get_user_model
 from django.apps import apps
-from agriseed.models import Module as AgriseedModule, DeviceInstance as AgriseedDeviceInstance
 from django.utils import timezone
-from agriseed.serializers import ModuleSerializer as AgriseedModuleSerializer
 
 logger = logging.getLogger('corecode')
 
@@ -252,15 +250,6 @@ class ControlLogicViewSet(viewsets.ModelViewSet):
         # default: return dict keyed by id
         result = {str(item['id']): item for item in data}
         return Response(result)
-
-class ModuleViewSet(viewsets.ModelViewSet):
-    """Module(서브시스템) 모델 CRUD API (agriseed.models.Module)"""
-    queryset = AgriseedModule.objects.all()
-    serializer_class = AgriseedModuleSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['is_enabled']
-    ordering_fields = ['id', 'order', 'name']
-    search_fields = ['name', 'description']
 
 
 class AdapterViewSet(viewsets.ModelViewSet):

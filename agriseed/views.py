@@ -886,6 +886,26 @@ class LocationCodeViewSet(viewsets.ModelViewSet):
     ordering_fields = ['code_id', 'code_type', 'code_key']
     
 
+class ModuleFilter(df_filters.FilterSet):
+    # allow API clients to filter by ?facility=<id> while model field is 'facilitys'
+    facility = df_filters.NumberFilter(field_name='facilitys')
+
+    class Meta:
+        model = Module
+        fields = ['facility', 'is_enabled']
+
+class ModuleViewSet(viewsets.ModelViewSet):
+    """Module(서브시스템) 모델 CRUD API (agriseed.models.Module)"""
+    # facilitys(FK)가 모델에 추가되어 select_related로 조인하여 조회 최적화
+    queryset = Module.objects.select_related('facilitys').all()
+    serializer_class = ModuleSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    # expose friendly API filter 'facility' mapped by ModuleFilter
+    filterset_class = ModuleFilter
+    ordering_fields = ['id', 'order', 'name']
+    # facilitys__name 으로 검색 가능하게 확장
+    search_fields = ['name', 'description', 'facilitys__name']
+    
 class DeviceInstanceViewSet(viewsets.ModelViewSet):
     """DeviceInstance(설치 장비) 모델 CRUD API (agriseed.models.DeviceInstance)
 

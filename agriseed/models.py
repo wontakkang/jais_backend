@@ -808,7 +808,7 @@ class SpecimenAttachment(models.Model):
 class Module(models.Model):
     name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
     description = models.TextField(blank=True, null=True, help_text='모듈 설명')
-    
+    facilitys = models.ForeignKey(Facility, blank=True, null=True, on_delete=models.CASCADE, related_name='modules', help_text='소속된 시설')
     order = models.PositiveIntegerField(default=0, help_text='모듈 정렬 순서')
     is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -820,7 +820,6 @@ class Module(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-
 
 class ControlGroup(models.Model):
     """
