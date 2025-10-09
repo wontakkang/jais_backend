@@ -13,10 +13,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-# 코어 MemoryGroup 모델 참조 및 전용 직렬화기 임포트
-from corecode.models import MemoryGroup as CoreMemoryGroup
-from .serializers import LSISMemoryGroupSerializer
-
 # -------------------
 # 이 ViewSet들은 소켓 클라이언트, 센서/제어 노드 등 설비 통신 및 상태 관리의 CRUD API를 제공합니다.
 # 주요 기능:
@@ -33,14 +29,30 @@ from .serializers import LSISMemoryGroupSerializer
 #   POST /lsisrun/ {"host": "1.2.3.4", "port": 1234} (실행 명령)
 # -------------------
 
-# MemoryGroupViewSet: 메모리 그룹(MemoryGroup) API를 LSISsocket 네임스페이스에서 제공
-class MemoryGroupViewSet(viewsets.ModelViewSet):
-    queryset = CoreMemoryGroup.objects.all()
-    serializer_class = LSISMemoryGroupSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['id', 'name']
-    ordering_fields = ['id']
 
+class VariableViewSet(viewsets.ModelViewSet):
+    """
+    변수(Variable) 모델의 CRUD API를 제공합니다.
+    각 Variable 인스턴스는 group 필드를 통해 MemoryGroup과 연결되어 있습니다.
+    """
+    queryset = Variable.objects.all()
+    serializer_class = VariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__id']
+    ordering_fields = ['id']
+    
+class MemoryGroupViewSet(viewsets.ModelViewSet):
+    """
+    메모리 그룹(MemoryGroup) 모델의 CRUD API를 제공합니다.
+    각 MemoryGroup 인스턴스는 여러 Variable과 연결되어 있습니다.
+    """
+    queryset = MemoryGroup.objects.all()
+    serializer_class = MemoryGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['id', 'name', 'Device', 'Device__name']
+    ordering_fields = ['id', 'name']
+    
+    
 # SocketClientConfigViewSet: 소켓 클라이언트 설정 모델의 CRUD API를 제공합니다.
 class SocketClientConfigViewSet(viewsets.ModelViewSet):
     queryset = SocketClientConfig.objects.all()

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
 from utils.calculation import __all__ as calculation_methods
 from utils.calculation import all_dict
 from utils.control import __all__ as control_methods
@@ -33,8 +34,6 @@ class UserPreference(models.Model):
 
     def __str__(self):
         return f"{self.user.username}의 환경설정"
-
-
 
 
 #데이터 명칭, 단위
@@ -188,141 +187,6 @@ class Device(models.Model):
 
     def __str__(self):
         return self.name
-        
-class ControlValue(models.Model):
-    control_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='control_values', verbose_name="제어 사용자")
-    status = models.CharField(max_length=30, verbose_name="명령상태")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
-    command_name = models.CharField(max_length=100, verbose_name="명령이름")
-    target = models.CharField(max_length=100, verbose_name="타겟")
-    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
-    value = models.JSONField(verbose_name="명령값")
-    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
-    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
-    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
-
-    def __str__(self):
-        return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
-
-class ControlValueHistory(models.Model):
-    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, null=True, blank=True, related_name='histories', verbose_name="제어값")
-    status = models.CharField(max_length=30, verbose_name="명령상태")
-    command_name = models.CharField(max_length=100, verbose_name="명령이름")
-    target = models.CharField(max_length=100, verbose_name="타겟")
-    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
-    value = models.JSONField(verbose_name="명령값")
-    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
-    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
-    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
-
-    def __str__(self):
-        return f"{self.command_name}({self.target}) - {self.status}"
-  
-class ControlGroup(models.Model):
-    """
-    제어 그룹 모델 (프로젝트 버전 의존성 제거됨)
-    """
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-    size_byte = models.PositiveIntegerField()
-
-    class Meta:
-        ordering = ['id']
-
-    def __str__(self):
-        return f"ControlGroup ({self.name})"
-
-
-class LocationGroup(models.Model):
-    group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')
-    group_name = models.TextField(help_text='그룹명 (예: 제주 동부 지역)')
-    description = models.TextField(blank=True, null=True, help_text='그룹 설명 (선택 사항)')
-    timezone = models.CharField(max_length=50, help_text='시간대 (예: Asia/Seoul)')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
-    def __str__(self):
-        return self.group_name
-   
-
-class CalcGroup(models.Model):
-    """
-    계산 그룹 모델 (프로젝트 버전 의존성 제거됨)
-    """
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-    size_byte = models.PositiveIntegerField()
-
-    class Meta:
-        ordering = ['id']
-
-    def __str__(self):
-        return f"CalcGroup ({self.name})"
-    
-class MemoryGroup(models.Model):
-    """
-    메모리 그룹 모델 (프로젝트 버전 의존성 제거됨)
-    각 그룹은 여러 Variable(변수)과 1:N 관계
-    """
-    Adapter = models.ForeignKey('Adapter', on_delete=models.SET_NULL, null=True, blank=True, related_name='memory_groups', help_text="이 그룹이 속한 어댑터")
-    Device = models.ForeignKey(Device, on_delete=models.SET_NULL, null=True, blank=True, related_name='memory_groups')
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-    size_byte = models.PositiveIntegerField()
-
-    class Meta:
-        ordering = ['id']
-
-    def __str__(self):
-        return f"Group {self.name}({self.size_byte})"
-
-
-class Variable(models.Model):
-    """
-    메모리 그룹(MemoryGroup)에 속한 개별 변수 정보를 관리하는 모델
-    """
-    group = models.ForeignKey(MemoryGroup, on_delete=models.CASCADE, related_name='variables') # 기존 유지
-    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='physical_variables') # related_name 변경
-    device = models.CharField(max_length=2)
-    address = models.FloatField()
-    data_type = models.CharField(max_length=10, choices=[
-        ('bool', 'bool'), ('sint', 'sint'), ('usint', 'usint'), ('int', 'int'),
-        ('uint', 'uint'), ('dint', 'dint'), ('udint', 'udint'), ('float', 'float'),
-    ])
-    unit = models.CharField(max_length=10, choices=[
-        ('bit', 'bit'), ('byte', 'byte'), ('word', 'word'), ('dword', 'dword'),
-    ])
-    scale = models.FloatField(default=1)
-    offset = models.FloatField(default=0)
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        return f"{self.name} ({self.device}{self.address})"
-
-
-
-
-class CalcVariable(models.Model):
-    """
-    계산식에 사용되는 변수 정보를 관리하는 모델
-    """
-    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='calc_variables_in_group') # related_name 변경
-    name = models.ForeignKey(DataName, on_delete=models.CASCADE, related_name='as_calc_variable') # related_name 변경
-    data_type = models.CharField(max_length=20, blank=True)
-    use_method = models.CharField(
-        max_length=40,
-        null=True,
-        blank=True,
-        choices=[(method, method) for method in calculation_methods] # control_methods 제거
-    )
-    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        return f"{self.name}"
 
 
 class ControlLogic(models.Model):
@@ -410,30 +274,6 @@ class ControlLogic(models.Model):
             self.method_result_type = None
         super().save(*args, **kwargs)
     
-
-
-class LocationCode(models.Model):
-    code_id = models.AutoField(primary_key=True)
-    group = models.ForeignKey(
-        LocationGroup,
-        on_delete=models.CASCADE,
-        db_column='group_id',
-        related_name='codes',
-        help_text='FK → location_group.group_id'
-    )
-    code_type = models.CharField(max_length=50, help_text='코드 구분 (예: alarm_level, daytime_range)')
-    code_key = models.CharField(max_length=50, help_text='코드 키 값 (예: LEVEL_1, START_TIME)')
-    code_value = models.TextField(help_text='값 (예: 30, "06:00", JSON 형식도 가능)')
-    unit = models.CharField(max_length=20, help_text='단위 (예: ℃, %, HH:MM 등)')
-    description = models.TextField(blank=True, null=True, help_text='코드 설명 (예: "주의 경고 상한온도")')
-    sort_order = models.IntegerField(default=0, help_text='정렬 순서')
-    is_active = models.BooleanField(default=True, help_text='활성화 여부')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.code_type}:{self.code_key}"
-
 # 어댑터 모델을 corecode로 이동
 class ActiveAdapterManager(models.Manager):
     def get_queryset(self):

@@ -46,6 +46,18 @@ router.register(r'calendar-events', CalendarEventViewSet)
 router.register(r'calendar-schedules', CalendarScheduleViewSet)
 router.register(r'todos', TodoItemViewSet)
 
+router.register(r'control-values', ControlValueViewSet)
+router.register(r'control-value-histories', ControlValueHistoryViewSet)
+router.register(r'calc-variables', CalcVariableViewSet)
+router.register(r'calc-groups', CalcGroupViewSet)
+router.register(r'control-groups', ControlGroupViewSet)
+router.register(r'location-groups', LocationGroupViewSet)
+router.register(r'location-codes', LocationCodeViewSet)
+router.register(r'modules', ModuleViewSet)
+
+
+router.register(r'device-instances', DeviceInstanceViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('agriseed/qr/<str:identifier>/', qr_image, name='agriseed-qr'),

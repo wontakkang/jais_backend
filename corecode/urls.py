@@ -9,17 +9,7 @@ router.register(r'devices', DeviceViewSet)
 router.register(r'companies', DeviceCompanyViewSet)
 router.register(r'user-manuals', UserManualViewSet)
 router.register(r'data-names', DataNameViewSet)
-router.register(r'control-values', ControlValueViewSet)
-router.register(r'control-value-histories', ControlValueHistoryViewSet)
-router.register(r'variables', VariableViewSet)
-router.register(r'calc-variables', CalcVariableViewSet)
-router.register(r'calc-groups', CalcGroupViewSet)
 router.register(r'control-logics', ControlLogicViewSet)
-router.register(r'control-groups', ControlGroupViewSet)
-router.register(r'location-groups', LocationGroupViewSet)
-router.register(r'location-codes', LocationCodeViewSet)
-router.register(r'modules', ModuleViewSet)
-router.register(r'device-instances', DeviceInstanceViewSet)
 
 urlpatterns = router.urls
 
