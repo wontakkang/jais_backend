@@ -2,6 +2,9 @@ from sqlite3 import IntegrityError
 from django.db import models
 from django.db.models import JSONField
 from django.utils import timezone
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.apps import apps
 
 class ActiveManager(models.Manager):
     def get_queryset(self):
@@ -18,6 +21,7 @@ class SocketClientConfig(models.Model):
     is_used = models.BooleanField(default=True, help_text="사용 여부")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
     zone_style = models.JSONField(null=True, blank=True, help_text="존 스타일 정보")
+    
 
     objects = ActiveManager()  # 기본 매니저: 삭제되지 않은 것만
     all_objects = models.Manager()  # 전체(삭제 포함) 매니저
@@ -194,22 +198,118 @@ class MemoryGroup(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     size_byte = models.PositiveIntegerField()
-
+    start_address = models.FloatField(default=0, help_text="메모리 그룹의 시작 주소")
     class Meta:
         ordering = ['id']
 
     def __str__(self):
         return f"Group {self.name}({self.size_byte})"
 
+@receiver(post_save, sender=MemoryGroup)
+def _create_or_sync_device_instance_for_memory_group(sender, instance, created, **kwargs):
+    """MemoryGroup 생성 또는 수정 시 agriseed.DeviceInstance 동기화.
+
+    동작:
+      - 생성(created=True): 기존과 동일하게 DeviceInstance가 없으면 하나 생성.
+      - 수정(created=False): 해당 MemoryGroup을 참조하는 모든 DeviceInstance에 대해 device/adapter/name 필드를 MemoryGroup의 값으로 복사하여 동기화.
+        만약 수정 시 연결된 DeviceInstance가 하나도 없으면 자동으로 하나 생성합니다.
+    """
+    try:
+        DeviceInstance = apps.get_model('agriseed', 'DeviceInstance')
+        if DeviceInstance is None:
+            return
+        # 생성 시: 없으면 새 DeviceInstance 생성
+        if created:
+            if DeviceInstance.objects.filter(memory_groups=instance).exists():
+                return
+            name = instance.name or (getattr(instance, 'Device').name if getattr(instance, 'Device', None) else None)
+            # create without setting memory_groups via kwarg (FK assignment works)
+            di = DeviceInstance.objects.create(
+                device=getattr(instance, 'Device', None),
+                adapter=getattr(instance, 'Adapter', None),
+                memory_groups=instance,
+                name=name,
+                status='idle',
+                is_active=True
+            )
+            return
+
+        # 수정 시: 존재하는 DeviceInstance들에 대해 필드 복사
+        qs = DeviceInstance.objects.filter(memory_groups=instance)
+        # 연결된 DeviceInstance가 없으면 자동 생성
+        if not qs.exists():
+            try:
+                name = instance.name or (getattr(instance, 'Device').name if getattr(instance, 'Device', None) else None)
+                DeviceInstance.objects.create(
+                    device=getattr(instance, 'Device', None),
+                    adapter=getattr(instance, 'Adapter', None),
+                    memory_groups=instance,
+                    name=name,
+                    status='idle',
+                    is_active=True
+                )
+                # refresh qs after creation
+                qs = DeviceInstance.objects.filter(memory_groups=instance)
+            except Exception:
+                qs = DeviceInstance.objects.filter(memory_groups=instance)
+
+        for di in qs:
+            changed = False
+            try:
+                if di.device != getattr(instance, 'Device', None):
+                    di.device = getattr(instance, 'Device', None)
+                    changed = True
+            except Exception:
+                pass
+            try:
+                if di.adapter != getattr(instance, 'Adapter', None):
+                    di.adapter = getattr(instance, 'Adapter', None)
+                    changed = True
+            except Exception:
+                pass
+            try:
+                target_name = instance.name or (getattr(instance, 'Device').name if getattr(instance, 'Device', None) else None)
+                if di.name != target_name:
+                    di.name = target_name
+                    changed = True
+            except Exception:
+                pass
+            if changed:
+                try:
+                    di.save()
+                except Exception:
+                    pass
+    except Exception:
+        # 안전하게 무시
+        pass
+
+@receiver(post_delete, sender=MemoryGroup)
+def _unlink_device_instances_on_memorygroup_delete(sender, instance, **kwargs):
+    """MemoryGroup 삭제 시 해당 DeviceInstance들의 memory_groups FK를 null로 설정합니다."""
+    try:
+        DeviceInstance = apps.get_model('agriseed', 'DeviceInstance')
+        if DeviceInstance is None:
+            return
+        qs = DeviceInstance.objects.filter(memory_groups=instance)
+        for di in qs:
+            try:
+                di.memory_groups = None
+                di.save()
+            except Exception:
+                pass
+    except Exception:
+        pass
+
 class Variable(models.Model):
     """
     메모리 그룹(MemoryGroup)에 속한 개별 변수 정보를 관리하는 모델
     """
     group = models.ForeignKey(MemoryGroup, on_delete=models.CASCADE, related_name='variables') # 기존 유지
-    # corecode.DataName의 physical_variables 관련명이 corecode 앱과 충돌하므로 고유한 이름 사용
     name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_physical_variables')
     device = models.CharField(max_length=2)
     address = models.FloatField()
+    # 그룹의 start_address를 사용해 주소를 해석할지 여부
+    use_group_base_address = models.BooleanField(default=False, help_text='이 변수의 주소가 그룹의 start_address 기준인지 여부')
     data_type = models.CharField(max_length=10, choices=[
         ('bool', 'bool'), ('sint', 'sint'), ('usint', 'usint'), ('int', 'int'),
         ('uint', 'uint'), ('dint', 'dint'), ('udint', 'udint'), ('float', 'float'),
@@ -220,6 +320,5 @@ class Variable(models.Model):
     scale = models.FloatField(default=1)
     offset = models.FloatField(default=0)
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
     def __str__(self):
         return f"{self.name} ({self.device}{self.address})"

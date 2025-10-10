@@ -59,6 +59,8 @@ class SocketClientCommandSerializer(serializers.ModelSerializer):
 # -----------------------------
 class VariableSerializer(serializers.ModelSerializer):
     device_address = serializers.SerializerMethodField(read_only=True)
+    # 그룹 기준 주소 사용 여부 노출
+    use_group_base_address = serializers.BooleanField(required=False, default=False, help_text='True이면 변수 주소가 그룹의 start_address를 기준으로 해석됩니다.')
     group = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), required=False, allow_null=True, help_text='소속 MemoryGroup ID(선택)')
     name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID')
     attributes = serializers.ListField(
@@ -75,16 +77,34 @@ class VariableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Variable
         fields = [
-            'id', 'group', 'name', 'device', 'address', 'data_type', 'unit', 'scale', 'offset', 'device_address', 'attributes'
+            'id', 'group', 'name', 'device', 'address', 'use_group_base_address', 'data_type', 'unit', 'scale', 'offset', 'device_address', 'attributes'
         ]
-
+        
     def get_device_address(self, obj):
-        unit_map = {'bit': 'X', 'byte': 'B', 'word': 'W', 'dword': 'D'}
-        unit_symbol = unit_map.get(obj.unit, '')
+        unit_map = {
+            'bit': ('X', 16),
+            'byte': ('B', 2),
+            'word': ('W', 1),
+            'dword': ('D', 0.5),
+        }
+        unit_key = (obj.unit or '').lower()
+        unit_symbol, multiplier = unit_map.get(unit_key, ('', 1))
+
         try:
-            addr_int = int(float(obj.address)) if obj.address is not None else 0
+            offset_val = float(obj.offset) if obj.offset is not None else 0.0
         except Exception:
-            addr_int = 0
+            offset_val = 0.0
+
+        # 그룹 기준 주소 사용이면 그룹의 start_address를 더해서 실제 주소 계산
+        base = 0.0
+        try:
+            if getattr(obj, 'use_group_base_address', False) and getattr(obj, 'group', None) is not None:
+                base = float(getattr(obj.group, 'start_address', 0) or 0)
+        except Exception:
+            base = 0.0
+
+        physical_addr = float(obj.address or 0) + base + offset_val
+        addr_int = int(physical_addr * multiplier)
         return f"%{obj.device}{unit_symbol}{addr_int}"
 
 class MemoryGroupSerializer(serializers.ModelSerializer):
@@ -101,7 +121,7 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = MemoryGroup
         fields = [
-            'id', 'name', 'description', 'size_byte', 'adapter', 'adapterName', 'device', 'deviceName', 'variables',
+            'id', 'name', 'description', 'size_byte', 'start_address', 'adapter', 'adapterName', 'device', 'deviceName', 'variables',
             'clone_from_group'
         ]
 
@@ -131,6 +151,7 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
                     name=name_obj,
                     device=var_data.get('device'),
                     address=var_data.get('address'),
+                    use_group_base_address=var_data.get('use_group_base_address', False),
                     data_type=var_data.get('data_type'),
                     unit=var_data.get('unit'),
                     scale=var_data.get('scale', 1),
@@ -148,6 +169,7 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
                         name=v.name,
                         device=v.device,
                         address=v.address,
+                        use_group_base_address=v.use_group_base_address if hasattr(v, 'use_group_base_address') else False,
                         data_type=v.data_type,
                         unit=v.unit,
                         scale=v.scale,
@@ -176,6 +198,7 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
                     name=name_obj,
                     device=var_data.get('device'),
                     address=var_data.get('address'),
+                    use_group_base_address=var_data.get('use_group_base_address', False),
                     data_type=var_data.get('data_type'),
                     unit=var_data.get('unit'),
                     scale=var_data.get('scale', 1),

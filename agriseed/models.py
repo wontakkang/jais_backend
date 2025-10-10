@@ -9,6 +9,11 @@ from utils.calculation import __all__ as calculation_methods
 from utils.calculation import all_dict
 from utils.control import __all__ as control_methods
 from utils.control import all_dict as control_methods_dict
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Facility(models.Model):
@@ -804,22 +809,6 @@ class SpecimenAttachment(models.Model):
     def __str__(self):
         return f"{self.specimen.specimen_code} - {self.filename or self.file.name}"
 
-# --- 이전된 모델들 (corecode에서 agriseed로 이동) ---
-class Module(models.Model):
-    name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
-    description = models.TextField(blank=True, null=True, help_text='모듈 설명')
-    facilitys = models.ForeignKey(Facility, blank=True, null=True, on_delete=models.CASCADE, related_name='modules', help_text='소속된 시설')
-    order = models.PositiveIntegerField(default=0, help_text='모듈 정렬 순서')
-    is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    # DeviceInstance는 FK(module)로 연결되며, 역참조로 module.devices 를 통해 접근합니다. (M2M 제거)
-    class Meta:
-        indexes = [models.Index(fields=['is_enabled'])]
-        ordering = ['order', 'id']
-
-    def __str__(self):
-        return f"{self.name}"
 
 class ControlGroup(models.Model):
     """
@@ -944,29 +933,42 @@ class LocationCode(models.Model):
     def __str__(self):
         return f"{self.code_type}:{self.code_key}"
 
+class Module(models.Model):
+    name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
+    description = models.TextField(blank=True, null=True, help_text='모듈 설명')
+    facilitys = models.ForeignKey(Facility, blank=True, null=True, on_delete=models.CASCADE, related_name='modules', help_text='소속된 시설')
+    # 제어 그룹
+    control_groups = models.ManyToManyField(ControlGroup, blank=True, related_name='device_instances', help_text='연결된 제어 그룹')
+    # 계산 그룹
+    calc_groups = models.ManyToManyField(CalcGroup, blank=True, related_name='device_instances', help_text='연결된 계산 그룹')
+    order = models.PositiveIntegerField(default=0, help_text='모듈 정렬 순서')
+    is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # DeviceInstance는 FK(module)로 연결되며, 역참조로 module.devices 를 통해 접근합니다. (M2M 제거)
+    class Meta:
+        indexes = [models.Index(fields=['is_enabled'])]
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return f"{self.name}"
+    
 class DeviceInstance(models.Model):
-    # 소속 모듈 (모듈을 통해 facility 역추적 가능하나 조회 최적화를 위해 facility 별도 저장)
     module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True, related_name='devices', help_text='소속 모듈')
-    # 단일 물리 디바이스 FK (Option A) - 기존 M2M 제거
+    # 단일 물리 디바이스 FK (Option A)
     device = models.ForeignKey('corecode.Device', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_device_instances', help_text='연결된 코어 디바이스')
     # 어댑터 (필드명 Adapter -> adapter 로 표준화)
     adapter = models.ForeignKey('corecode.Adapter', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_device_instances', help_text='연결된 어댑터')
-
-    # 인스턴스 식별자
-    serial_number = models.CharField(max_length=100, unique=True, help_text='장치 고유 시리얼 번호')
+    # 메모리 그룹 (Option A)
+    memory_groups = models.ForeignKey('LSISsocket.MemoryGroup', on_delete=models.SET_NULL, null=True, blank=True, related_name='device_instances', help_text='연결된 메모리 그룹')
+    # 고유 시리얼 번호 (물리 디바이스 식별용)
+    serial_number = models.CharField(max_length=100, null=True, blank=True, unique=True, help_text='장치 고유 시리얼 번호')
     name = models.CharField(max_length=150, blank=True, null=True, help_text='인스턴스별 표시명 (선택)')
     status = models.CharField(max_length=30, default='idle', help_text='상태 (예: idle, active, fault)')
     last_seen = models.DateTimeField(null=True, blank=True, help_text='마지막 응답 시각')
     location_within_module = models.CharField(max_length=200, blank=True, null=True, help_text='모듈 내 설치 위치(예: 구역A-포인트3)')
     install_date = models.DateField(null=True, blank=True, help_text='설치 일자')
     is_active = models.BooleanField(default=True, help_text='활성 여부')
-
-    # 관련 메모리 그룹 (Adapter + Device 조합으로 자동 연결)
-    memory_groups = models.ManyToManyField('LSISsocket.MemoryGroup', blank=True, related_name='device_instances', help_text='연결된 메모리 그룹')
-    # 제어 그룹
-    control_groups = models.ManyToManyField(ControlGroup, blank=True, related_name='device_instances', help_text='연결된 제어 그룹')
-    # 계산 그룹
-    calc_groups = models.ManyToManyField(CalcGroup, blank=True, related_name='device_instances', help_text='연결된 계산 그룹')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -983,18 +985,72 @@ class DeviceInstance(models.Model):
         return f"{label} [{self.serial_number}]"
 
     def save(self, *args, **kwargs):
-        # 제거: module.facility 및 self.facility 는 모델에 존재하지 않음
-        # facility 자동 동기화 (module 변경 시) 로직은 미사용 처리
+        # 이전에는 memory_groups가 M2M일 때 자동 동기화 로직이 있었음
+        # 단순 저장만 수행합니다. memory_groups는 현재 FK이므로 추가 M2M 조작이 필요 없습니다.
         super().save(*args, **kwargs)
-        # 메모리 그룹 자동 연결 로직
-        try:
-            if self.adapter and self.device:
-                qs = self.adapter.memory_groups.filter(Device=self.device)
-                current_ids = set(self.memory_groups.values_list('id', flat=True))
-                target_ids = set(qs.values_list('id', flat=True))
-                for mg_id in target_ids - current_ids:
-                    self.memory_groups.add(mg_id)
-                # for mg_id in current_ids - target_ids:
-                #     self.memory_groups.remove(mg_id)
-        except Exception:
-            pass
+
+# 재사용 가능한 접두사 생성 헬퍼
+def generate_serial_prefix_for_deviceinstance(instance):
+    """DeviceInstance 인스턴스 기반으로 2글자 접두사를 생성합니다.
+    우선순위:
+      1) device.manufacturer.name
+      2) device.device_code
+      3) adapter.name
+      4) module.name
+      5) 날짜 fallback (YYMMDD 마지막 2자리)
+    실패 시 'ZZ' 반환.
+    """
+    def _candidate_prefix_from_string(s):
+        if not s:
+            return None
+        cleaned = ''.join(c for c in str(s) if c.isalnum())
+        if not cleaned:
+            return None
+        return cleaned.upper()[:2]
+
+    try:
+        dev = getattr(instance, 'device', None)
+        if dev:
+            manu = getattr(getattr(dev, 'manufacturer', None), 'name', None)
+            p = _candidate_prefix_from_string(manu)
+            if p:
+                return p
+            p = _candidate_prefix_from_string(getattr(dev, 'device_code', None))
+            if p:
+                return p
+        p = _candidate_prefix_from_string(getattr(instance, 'adapter', None) and getattr(instance.adapter, 'name', None))
+        if p:
+            return p
+        p = _candidate_prefix_from_string(getattr(instance, 'module', None) and getattr(instance.module, 'name', None))
+        if p:
+            return p
+        from django.utils import timezone as _tz
+        now = _tz.localtime(_tz.now())
+        cand = now.strftime('%y%m%d')
+        p = _candidate_prefix_from_string(cand[-2:])
+        if p:
+            return p
+        return 'ZZ'
+    except Exception:
+        return 'ZZ'
+
+@receiver(post_save, sender=DeviceInstance)
+def _ensure_deviceinstance_serial_number(sender, instance, created, **kwargs):
+    """DeviceInstance 생성 후 serial_number가 비어있으면 자동으로 생성하여 저장합니다.
+
+    규칙: <PREFIX>-<zero-padded 6자리 id>
+    접두사는 generate_serial_prefix_for_deviceinstance에서 생성합니다.
+    """
+    try:
+        if instance.serial_number:
+            return
+        if not getattr(instance, 'id', None):
+            return
+
+        prefix = generate_serial_prefix_for_deviceinstance(instance)
+        generated = f"{prefix}-{instance.id:06d}"
+        updated = DeviceInstance.objects.filter(pk=instance.pk, serial_number__isnull=True).update(serial_number=generated)
+        if updated:
+            instance.serial_number = generated
+    except Exception:
+        logger.exception('Failed to auto-generate serial_number for DeviceInstance id=%s', getattr(instance, 'id', None))

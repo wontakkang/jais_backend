@@ -8,8 +8,8 @@ from django.utils import timezone
 from LSISsocket.models import MemoryGroup as LSISMemoryGroup
 User = get_user_model()
 
-# corecode 별칭 재사용 로직 제거 (역참조 유발 방지)
-# 기존: corecode.serializers에서 직렬화기를 재노출하던 블록 삭제
+# generate_serial_prefix_for_deviceinstance는 agriseed.models에 구현되어 있으므로 재사용합니다.
+from .models import generate_serial_prefix_for_deviceinstance
 
 # Core Device serializer import: use corecode's DeviceSerializer under alias to avoid name collision
 from corecode.serializers import DeviceSerializer as CoreDeviceSerializer
@@ -495,14 +495,38 @@ class CalcGroupSerializer(serializers.ModelSerializer):
                 CalcVariable.objects.create(group=instance, **var_data)
         return instance
 
+
+
 class ModuleSerializer(serializers.ModelSerializer):
     # agriseed.models.Module 스키마에 맞게 단순화
+    # 연결된 DeviceInstance 목록을 읽기전용으로 노출 (SerializerMethodField 사용하여 forward reference 안전 처리)
+    deviceInstances = serializers.SerializerMethodField(read_only=True, help_text='모듈에 연결된 DeviceInstance 목록 (읽기전용)')
     class Meta:
         model = Module
         fields = [
-            'id', 'name', 'facilitys', 'description', 'order', 'is_enabled', 'created_at', 'updated_at'
+            'id', 'name', 'facilitys', 'description', 'order', 'is_enabled', 'created_at', 'updated_at', 'deviceInstances'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def get_deviceInstances(self, obj):
+        """
+        모듈에 연결된 DeviceInstance 쿼리셋을 직렬화하여 반환합니다.
+        모듈 직렬화기가 DeviceInstanceSerializer보다 먼저 정의될 수 있으므로 globals()를 사용해 런타임에 검색합니다.
+        """
+        try:
+            # ViewSet에서 Prefetch로 'devices'를 미리 가져오면 obj.devices.all()의 캐시를 사용합니다.
+            rel = getattr(obj, 'devices', None)
+            if rel is not None:
+                qs = rel.all()
+            else:
+                qs = DeviceInstance.objects.filter(module=obj)
+            serializer_cls = globals().get('DeviceInstanceSerializer')
+            if serializer_cls:
+                return serializer_cls(qs, many=True, context=self.context).data
+            # DeviceInstanceSerializer가 없으면 PK 목록 반환
+            return list(qs.values_list('id', flat=True))
+        except Exception:
+            return []
 
 # Core MemoryGroup용 간단 직렬화기 추가
 class MemoryGroupSerializer(serializers.ModelSerializer):
@@ -561,7 +585,7 @@ class RecipeItemValueSerializer(serializers.ModelSerializer):
 
 class RecipeStepSerializer(serializers.ModelSerializer):
     item_values = RecipeItemValueSerializer(many=True, required=False, help_text='이 스텝에 포함된 항목값 목록 (선택)')
-    name = serializers.CharField(help_text='스텝 이름. 예: "발아 단계"', style={'example': '발아 단계'})
+    name = serializers.CharField(help_text='스텥 이름. 예: "발아 단계"', style={'example': '발아 단계'})
     duration_days = serializers.IntegerField(required=False, allow_null=True, help_text='지속 일수 (선택). 예: 7', style={})
     class Meta:
         model = RecipeStep
@@ -1244,18 +1268,15 @@ class DeviceInstanceSerializer(serializers.ModelSerializer):
     facility_detail = serializers.SerializerMethodField(read_only=True, help_text='연결된 Facility의 직렬화된 상세 정보 (module을 통해 역추적된 첫 번째 Facility)')
     adapter = serializers.PrimaryKeyRelatedField(queryset=CoreAdapter.objects.all(), required=False, allow_null=True, help_text='어댑터(Adapter) ID (선택)')
     module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
-    # memory_groups를 쓰기 가능하게 변경 (PK 리스트)
-    memory_groups = serializers.PrimaryKeyRelatedField(queryset=LSISMemoryGroup.objects.all(), many=True, required=False, help_text='연결된 MemoryGroup ID 목록(선택)')
-    # 제어/계산 그룹 연결 추가
-    control_groups = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), many=True, required=False, help_text='연결된 ControlGroup ID 목록(선택)')
-    calc_groups = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), many=True, required=False, help_text='연결된 CalcGroup ID 목록(선택)')
+    # 모델 변경: memory_groups는 이제 FK입니다 (단일 값)
+    memory_groups = serializers.PrimaryKeyRelatedField(queryset=LSISMemoryGroup.objects.all(), required=False, allow_null=True, help_text='연결된 MemoryGroup ID(선택)')
 
     class Meta:
         model = DeviceInstance
         fields = [
             'id', 'name', 'device', 'device_detail', 'device_id', 'adapter', 'module', 'facilityId', 'facility_detail',
             'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
-            'memory_groups', 'control_groups', 'calc_groups',
+            'memory_groups',
             'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail', 'device_id', 'facilityId', 'facility_detail']
@@ -1295,29 +1316,72 @@ class DeviceInstanceSerializer(serializers.ModelSerializer):
 
     # ModelSerializer가 M2M 필드를 자동 처리하지만, 명시적으로 set 동작을 보장하기 위해 오버라이드(선택)
     def create(self, validated_data):
-        mgs = validated_data.pop('memory_groups', []) if 'memory_groups' in validated_data else []
-        cgs = validated_data.pop('control_groups', []) if 'control_groups' in validated_data else []
-        ags = validated_data.pop('calc_groups', []) if 'calc_groups' in validated_data else []
-        instance = DeviceInstance.objects.create(**validated_data)
-        if mgs:
-            instance.memory_groups.set(mgs)
-        if cgs:
-            instance.control_groups.set(cgs)
-        if ags:
-            instance.calc_groups.set(ags)
+        # serial_number가 빈 문자열('')로 들어오면 시그널에 의해 자동 생성되도록 제거
+        if 'serial_number' in validated_data and (validated_data.get('serial_number') in (None, '') or str(validated_data.get('serial_number')).strip() == ''):
+            validated_data.pop('serial_number', None)
+
+        mg = validated_data.pop('memory_groups', None) if 'memory_groups' in validated_data else None
+        instance = DeviceInstance.objects.create(memory_groups=mg, **validated_data) if mg is not None else DeviceInstance.objects.create(**validated_data)
+
+        # 동기적으로 serial_number 생성: 인스턴스에 값이 없으면 즉시 생성하여 DB에 반영
+        try:
+            if not instance.serial_number:
+                prefix = generate_serial_prefix_for_deviceinstance(instance)
+                generated = f"{prefix}-{instance.id:06d}"
+                DeviceInstance.objects.filter(pk=instance.pk, serial_number__isnull=True).update(serial_number=generated)
+                instance.refresh_from_db()
+        except Exception:
+            # 실패해도 시그널에 의해 생성될 수 있으므로 무시
+            pass
         return instance
 
     def update(self, instance, validated_data):
-        mgs = validated_data.pop('memory_groups', None)
-        cgs = validated_data.pop('control_groups', None)
-        ags = validated_data.pop('calc_groups', None)
+        # serial_number 빈값 처리: 빈 문자열로 덮어쓰지 않도록 제거
+        if 'serial_number' in validated_data and (validated_data.get('serial_number') in (None, '') or str(validated_data.get('serial_number')).strip() == ''):
+            validated_data.pop('serial_number', None)
+        # 변경 전 식별자 저장
+        old_device_id = getattr(instance, 'device_id', None)
+        old_adapter_id = getattr(getattr(instance, 'adapter', None), 'id', None)
+        old_module_id = getattr(getattr(instance, 'module', None), 'id', None)
+
+        mg = validated_data.pop('memory_groups', None) if 'memory_groups' in validated_data else None
+        # allow client to force regeneration with regenerate_serial flag (internal use)
+        force_regen = bool(validated_data.pop('regenerate_serial', False))
+
         for attr, val in validated_data.items():
             setattr(instance, attr, val)
+        if mg is not None:
+            instance.memory_groups = mg
         instance.save()
-        if mgs is not None:
-            instance.memory_groups.set(mgs)
-        if cgs is not None:
-            instance.control_groups.set(cgs)
-        if ags is not None:
-            instance.calc_groups.set(ags)
+
+        # 변경 후 식별자
+        new_device_id = getattr(instance, 'device_id', None)
+        new_adapter_id = getattr(getattr(instance, 'adapter', None), 'id', None)
+        new_module_id = getattr(getattr(instance, 'module', None), 'id', None)
+
+        try:
+            # 필요시 serial 생성/재생성 판단
+            need_regen = False
+            # 빈 값이면 생성
+            if not instance.serial_number:
+                need_regen = True
+            # 강제 재생성 요청이 있으면 생성
+            if force_regen:
+                need_regen = True
+            # device/adapter/module 변경으로 접두사가 달라질 가능성이 있으면 접두사 비교
+            if not need_regen and (old_device_id != new_device_id or old_adapter_id != new_adapter_id or old_module_id != new_module_id):
+                new_prefix = generate_serial_prefix_for_deviceinstance(instance)
+                cur_sn = getattr(instance, 'serial_number', '') or ''
+                cur_prefix = cur_sn.split('-')[0] if '-' in cur_sn else cur_sn
+                if cur_prefix.upper() != (new_prefix or '').upper():
+                    need_regen = True
+
+            if need_regen:
+                prefix = generate_serial_prefix_for_deviceinstance(instance)
+                generated = f"{prefix}-{instance.id:06d}"
+                DeviceInstance.objects.filter(pk=instance.pk).update(serial_number=generated)
+                instance.refresh_from_db()
+        except Exception:
+            # 실패해도 무시(기존 시그널로 대체될 수 있음)
+            pass
         return instance

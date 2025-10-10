@@ -35,10 +35,12 @@ class VariableViewSet(viewsets.ModelViewSet):
     변수(Variable) 모델의 CRUD API를 제공합니다.
     각 Variable 인스턴스는 group 필드를 통해 MemoryGroup과 연결되어 있습니다.
     """
-    queryset = Variable.objects.all()
+    # group과 name(DataName)을 미리 조인하여 device_address 계산시 추가 쿼리를 방지
+    queryset = Variable.objects.select_related('group', 'name').all()
     serializer_class = VariableSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['group__id']
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    # 그룹의 start_address 기준 사용 여부 및 그룹 시작 주소로 필터 가능
+    filterset_fields = ['group__id', 'group__start_address', 'use_group_base_address', 'device', 'name']
     ordering_fields = ['id']
     
 class MemoryGroupViewSet(viewsets.ModelViewSet):
@@ -46,10 +48,12 @@ class MemoryGroupViewSet(viewsets.ModelViewSet):
     메모리 그룹(MemoryGroup) 모델의 CRUD API를 제공합니다.
     각 MemoryGroup 인스턴스는 여러 Variable과 연결되어 있습니다.
     """
-    queryset = MemoryGroup.objects.all()
+    queryset = MemoryGroup.objects.prefetch_related('variables').select_related('Adapter', 'Device').all()
     serializer_class = MemoryGroupSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['id', 'name', 'Device', 'Device__name']
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    # start_address로 필터링/검색 가능
+    filterset_fields = ['id', 'name', 'Device', 'Device__name', 'start_address']
+    search_fields = ['name']
     ordering_fields = ['id', 'name']
     
     

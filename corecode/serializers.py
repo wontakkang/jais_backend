@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import *
-from agriseed.models import Module, DeviceInstance, Facility  # 필요한 agriseed 모델만 사용
 from utils.control import __all__ as control_methods_list  # ControlLogic use_method choices
 from utils.calculation import all_dict  # DataNameSerializer choices에 사용
 from django.contrib.auth import get_user_model
@@ -98,12 +97,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
         fields = '__all__'
-
-class ModuleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Module
-        fields = '__all__'
-
+        
 class AdapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Adapter

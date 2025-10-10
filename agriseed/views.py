@@ -7,7 +7,7 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
-from django.db.models import Count, Avg, Q
+from django.db.models import Count, Avg, Q, Prefetch
 from django.db import IntegrityError
 from rest_framework.pagination import PageNumberPagination
 from django_filters import rest_framework as df_filters
@@ -816,21 +816,6 @@ class RecipeByZoneViewSet(viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
 
-# Try to reuse viewsets from corecode when available to avoid duplication.
-try:
-    from corecode import views as core_views
-    # copy selected viewset classes from corecode to agriseed module namespace when present
-    for _name in [
-        'ModuleViewSet','DeviceInstanceViewSet','ControlGroupViewSet','ControlVariableViewSet',
-        'CalcVariableViewSet','CalcGroupViewSet','ProjectViewSet','ProjectVersionViewSet',
-        'MemoryGroupViewSet','VariableViewSet','DataNameViewSet','ControlLogicViewSet',
-        'ControlValueViewSet','ControlValueHistoryViewSet'
-    ]:
-        if hasattr(core_views, _name):
-            globals()[_name] = getattr(core_views, _name)
-except Exception:
-    # corecode may not be importable in some environments; ignore gracefully
-    pass
 
 
 class ControlValueViewSet(viewsets.ModelViewSet):
@@ -860,13 +845,24 @@ class CalcGroupViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['id', 'name']
     ordering_fields = ['id']
-    
 
 class ControlGroupViewSet(viewsets.ModelViewSet):
     queryset = ControlGroup.objects.all()
     serializer_class = ControlGroupSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['id', 'name']
+    ordering_fields = ['id']
+
+# ControlVariableViewSet: agriseed.models.ControlVariable을 위한 CRUD API
+class ControlVariableViewSet(BaseViewSet):
+    """ControlVariable 모델의 CRUD API
+    - agriseed.models.ControlVariable과 agriseed.serializers.ControlVariableSerializer 사용
+    """
+    queryset = ControlVariable.objects.select_related('group', 'applied_logic', 'name').all()
+    serializer_class = ControlVariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['group__id', 'name__id', 'applied_logic__id']
+    search_fields = []
     ordering_fields = ['id']
 
 class LocationGroupViewSet(viewsets.ModelViewSet):
@@ -897,7 +893,13 @@ class ModuleFilter(df_filters.FilterSet):
 class ModuleViewSet(viewsets.ModelViewSet):
     """Module(서브시스템) 모델 CRUD API (agriseed.models.Module)"""
     # facilitys(FK)가 모델에 추가되어 select_related로 조인하여 조회 최적화
-    queryset = Module.objects.select_related('facilitys').all()
+    # devices 역참조(DeviceInstance)를 미리 가져오도록 Prefetch 설정
+    queryset = Module.objects.select_related('facilitys').prefetch_related(
+        Prefetch(
+            'devices',
+            queryset=DeviceInstance.objects.select_related('device', 'adapter', 'memory_groups')
+        )
+    ).all()
     serializer_class = ModuleSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     # expose friendly API filter 'facility' mapped by ModuleFilter
@@ -910,12 +912,13 @@ class DeviceInstanceViewSet(viewsets.ModelViewSet):
     """DeviceInstance(설치 장비) 모델 CRUD API (agriseed.models.DeviceInstance)
 
     추가 기능:
-    - POST /corecode/device-instances/{pk}/ping/ : 단일 디바이스 last_seen 갱신
+    - POST /agriseed/device-instances/{pk}/ping/ : 단일 디바이스 last_seen 갱신
       Body (선택): {"status":"active"}
-    - POST /corecode/device-instances/ping/ : serial_number 리스트로 벌크 갱신
+    - POST /agriseed/device-instances/ping/ : serial_number 리스트로 벌크 갱신
       Body: {"serial_numbers":["SN-001","SN-002"], "status":"active"}
     """
-    queryset = DeviceInstance.objects.select_related('device', 'module', 'adapter').prefetch_related('memory_groups').all()
+    # memory_groups is a FK -> use select_related; control_groups/calc_groups are M2M so prefetch
+    queryset = DeviceInstance.objects.select_related('device', 'module', 'adapter', 'memory_groups').all()
     serializer_class = DeviceInstanceSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_fields = ['device', 'adapter', 'module', 'status', 'is_active']
