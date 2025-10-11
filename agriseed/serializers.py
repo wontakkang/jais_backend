@@ -1270,14 +1270,13 @@ class DeviceInstanceSerializer(serializers.ModelSerializer):
     module = serializers.PrimaryKeyRelatedField(queryset=Module.objects.all(), required=False, allow_null=True, help_text='소속 Module ID (선택)')
     # 모델 변경: memory_groups는 이제 FK입니다 (단일 값)
     memory_groups = serializers.PrimaryKeyRelatedField(queryset=LSISMemoryGroup.objects.all(), required=False, allow_null=True, help_text='연결된 MemoryGroup ID(선택)')
-
+    
     class Meta:
         model = DeviceInstance
         fields = [
             'id', 'name', 'device', 'device_detail', 'device_id', 'adapter', 'module', 'facilityId', 'facility_detail',
             'serial_number', 'status', 'last_seen', 'location_within_module', 'install_date', 'is_active',
-            'memory_groups',
-            'created_at', 'updated_at'
+            'memory_groups','created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at', 'device_detail', 'device_id', 'facilityId', 'facility_detail']
 

@@ -812,7 +812,7 @@ class SpecimenAttachment(models.Model):
 
 class ControlGroup(models.Model):
     """
-    제어 그룹 모델 (프로젝트 버전 의존성 제거됨)
+    제어 그룹 모델
     """
     name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
@@ -937,10 +937,6 @@ class Module(models.Model):
     name = models.CharField(max_length=120, help_text='모듈 이름 (예: 관수 모듈 A)')
     description = models.TextField(blank=True, null=True, help_text='모듈 설명')
     facilitys = models.ForeignKey(Facility, blank=True, null=True, on_delete=models.CASCADE, related_name='modules', help_text='소속된 시설')
-    # 제어 그룹
-    control_groups = models.ManyToManyField(ControlGroup, blank=True, related_name='device_instances', help_text='연결된 제어 그룹')
-    # 계산 그룹
-    calc_groups = models.ManyToManyField(CalcGroup, blank=True, related_name='device_instances', help_text='연결된 계산 그룹')
     order = models.PositiveIntegerField(default=0, help_text='모듈 정렬 순서')
     is_enabled = models.BooleanField(default=True, help_text='모듈 활성화 여부')
     created_at = models.DateTimeField(auto_now_add=True)

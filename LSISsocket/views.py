@@ -185,12 +185,18 @@ class LSISInitResetView(APIView):
         data = request.data
         host = data.get("host")
         port = data.get("port")
-        logger.info(f"lsis_init_reset_view called: host={host}, port={port}")
-        if not host or not port:
+        logger.info(f"lsis_init_reset_view called: host={host!r}, port={port!r}, data={data!r}")
+        # 빈 문자열과 None만 누락으로 처리
+        if host in (None, '') or port in (None, ''):
             logger.warning("host, port 파라미터가 필요합니다.")
             return JsonResponse({"detail": "host, port 파라미터가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
+        # port는 정수여야 함
         try:
             port = int(port)
+        except (TypeError, ValueError):
+            logger.warning(f"잘못된 port 값: {port!r}")
+            return JsonResponse({"detail": "port는 정수여야 합니다."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
             result = lsis_init_and_reset(host, port)
             logger.info(f"lsis_init_and_reset result: {result}")
             return JsonResponse(result)
@@ -204,12 +210,16 @@ class LSISStopView(APIView):
         data = request.data
         host = data.get("host")
         port = data.get("port")
-        logger.info(f"lsis_stop_view called: host={host}, port={port}")
-        if not host or not port:
+        logger.info(f"lsis_stop_view called: host={host!r}, port={port!r}, data={data!r}")
+        if host in (None, '') or port in (None, ''):
             logger.warning("host, port 파라미터가 필요합니다.")
             return JsonResponse({"detail": "host, port 파라미터가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             port = int(port)
+        except (TypeError, ValueError):
+            logger.warning(f"잘못된 port 값: {port!r}")
+            return JsonResponse({"detail": "port는 정수여야 합니다."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
             result = lsis_stop(host, port)
             logger.info(f"lsis_stop result: {result}")
             return JsonResponse(result)
@@ -223,12 +233,16 @@ class LSISRunView(APIView):
         data = request.data
         host = data.get("host")
         port = data.get("port")
-        logger.info(f"lsis_run_view called: host={host}, port={port}")
-        if not host or not port:
+        logger.info(f"lsis_run_view called: host={host!r}, port={port!r}, data={data!r}")
+        if host in (None, '') or port in (None, ''):
             logger.warning("host, port 파라미터가 필요합니다.")
             return JsonResponse({"detail": "host, port 파라미터가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             port = int(port)
+        except (TypeError, ValueError):
+            logger.warning(f"잘못된 port 값: {port!r}")
+            return JsonResponse({"detail": "port는 정수여야 합니다."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
             result = lsis_run(host, port)
             logger.info(f"lsis_run result: {result}")
             return JsonResponse(result)

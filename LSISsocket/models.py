@@ -14,15 +14,16 @@ class SocketClientConfig(models.Model):
     name = models.CharField(max_length=100, unique=True)
     host = models.CharField(max_length=100, help_text="클라이언트 IP", null=True, blank=True)
     port = models.IntegerField(help_text="클라이언트 포트", null=True, blank=True)
-    blocks = models.JSONField(help_text='[{"count": 700, "memory": "%MB", "address": "0", "func_name": "continuous_read_bytes"}]', null=True, blank=True)
+    blocks = models.JSONField(help_text='[{"address":"0","id":1,"count":700,"func_name":"continuous_read_bytes","memory":"%MB"},{"address":"700","id":2,"count":700,"func_name":"continuous_read_bytes","memory":"%MB"}]', null=True, blank=True)
     cron = models.JSONField(help_text="cron 설정값", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_used = models.BooleanField(default=True, help_text="사용 여부")
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
     zone_style = models.JSONField(null=True, blank=True, help_text="존 스타일 정보")
-    
-
+    control_groups = models.ManyToManyField('agriseed.ControlGroup', blank=True, related_name='lsissocket_control_groups', help_text='연결된 제어 그룹')
+    calc_groups = models.ManyToManyField('agriseed.CalcGroup', blank=True, related_name='lsissocket_calc_groups', help_text='연결된 계산 그룹')
+    memory_groups = models.ManyToManyField('LSISsocket.MemoryGroup', blank=True, related_name='lsissocket_memory_groups', help_text='연결된 메모리 그룹')
     objects = ActiveManager()  # 기본 매니저: 삭제되지 않은 것만
     all_objects = models.Manager()  # 전체(삭제 포함) 매니저
 
