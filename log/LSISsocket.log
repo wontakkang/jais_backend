@@ -24453,3 +24453,4 @@ NameError: name 'load_most_recent' is not defined
 [2025-10-21 20:53:23.267] [DEBUG] LSISsocket service read block partial => 1400, read_count: 700)
 [2025-10-21 20:53:26.523] [DEBUG] LSISsocket service read block => {'address': '0', 'id': 0, 'count': 20000, 'func_name': 'continuous_read_bytes', 'memory': '%MB'})
 [2025-10-21 20:53:38.268] [ERROR] Error reading block {'address': '0', 'id': 0, 'count': 20000, 'func_name': 'continuous_read_bytes', 'memory': '%MB'}: 'LSIS_IOException' object has no attribute 'values'
+[2025-10-21 20:53:53.284] [ERROR] Error reading block {'address': '0', 'id': 0, 'count': 20000, 'func_name': 'continuous_read_bytes', 'memory': '%MB'}: 'LSIS_IOException' object has no attribute 'values'
