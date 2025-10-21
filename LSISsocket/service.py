@@ -37,7 +37,6 @@ def tcp_client_servive(client):
     global sockets
     is_existed = False
     connect_sock = None
-    logger.debug(f'LSISsocket service start for client => {client.host}:{client.port}')
     
     if len(sockets) > 0:
         for sock in sockets:
@@ -63,26 +62,26 @@ def tcp_client_servive(client):
             logger.info(f'Persisted slave context for {client.host}:{client.port} to state.json')
         except Exception:
             logger.exception(f'Failed to persist slave context for {client.host}:{client.port}')
-    # logger.debug('BaseSlaveContext : ', BaseSlaveContext().create_ls_xgt_tcp_memory(count=20000, use_json=True))
-    # logger.debug('BaseSlaveContext : ', CONTEXT_REGISTRY)
-    # for block in client.blocks:
-    #     logger.debug(f'LSISsocket service read block => {block})')
-    #     response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{0}", 700)
-    #     logger.debug(f'LSISsocket service read response => {CONTEXT_REGISTRY[app_name].__dict__}')
-    #     logger.debug(f'LSISsocket service read CONTEXT_REGISTRY => {CONTEXT_REGISTRY[app_name].setValues(memory=block["memory"], address=int(0), values=response.values)}')
-    #     time.sleep(0.1)  # 짧은 지연 추가
-        
-        # if block['count'] <= 700:
-        #     response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{block['address']}", block['count'])
-        # elif block['count'] > 700:
-        #     total_count = block['count']
-        #     read_count = 0
-        #     response = None
-        #     while read_count < total_count:
-        #         current_count = min(700, total_count - read_count)
-        #         partial_response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{int(block['address']) + read_count}", current_count)
-        #         logger.debug(f"partial_response: {partial_response.__dict__}")
-        #         time.sleep(0.1)  # 짧은 지연 추가   
+    for block in client.blocks:
+        try:
+            logger.debug(f'LSISsocket service read block => {block})')
+            response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{0}", 700)
+            CONTEXT_REGISTRY[app_name].setValues(memory=block["memory"], address=int(0), values=response.values)
+            
+            if block['count'] <= 700:
+                response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{block['address']}", block['count'])
+            elif block['count'] > 700:
+                total_count = block['count']
+                read_count = 0
+                response = []
+                while read_count < total_count:
+                    current_count = min(700, total_count - read_count)
+                    logger.debug(f'LSISsocket service read block partial => {int(block['address']) + read_count}, read_count: {current_count})')
+                    partial_response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{int(block['address']) + read_count}", current_count)
+                    response.extend(partial_response.values)
+                    read_count += current_count
+        except Exception as e:
+            logger.error(f'Error reading block {block}: {e}')
                 
                 
     #             if response is None:

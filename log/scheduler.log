@@ -5459,3 +5459,183 @@ Traceback (most recent call last):
   File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
     raise SchedulerNotRunningError
 apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:38:29.209] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:38:29.230] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:38:29.235] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:38:29.236] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:38:29.236] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:38:29.237] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:38:29.353] [INFO] Scheduler started.
+[2025-10-21 20:39:40.662] [INFO] APScheduler 종료 중
+[2025-10-21 20:39:40.662] [INFO] Closing sockets...
+[2025-10-21 20:39:40.662] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:39:52.083] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:39:52.102] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:39:52.106] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:39:52.106] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:39:52.108] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:39:52.108] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:39:52.223] [INFO] Scheduler started.
+[2025-10-21 20:39:56.481] [INFO] APScheduler 종료 중
+[2025-10-21 20:39:56.481] [INFO] Closing sockets...
+[2025-10-21 20:39:56.481] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:40:02.097] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:40:02.116] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:40:02.119] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:40:02.119] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:40:02.121] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:40:02.121] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:40:02.236] [INFO] Scheduler started.
+[2025-10-21 20:43:14.667] [INFO] APScheduler 종료 중
+[2025-10-21 20:43:14.667] [INFO] Closing sockets...
+[2025-10-21 20:43:14.667] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:43:20.294] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:43:20.312] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:43:20.315] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:43:20.315] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:43:20.316] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:43:20.316] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:43:20.432] [INFO] Scheduler started.
+[2025-10-21 20:43:36.737] [INFO] APScheduler 종료 중
+[2025-10-21 20:43:36.737] [INFO] Closing sockets...
+[2025-10-21 20:43:36.737] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "C:\Python\Python312\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:44:14.508] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:44:14.528] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:44:14.532] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:44:14.532] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:44:14.533] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:44:14.533] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:44:14.648] [INFO] Scheduler started.
+[2025-10-21 20:46:19.232] [INFO] APScheduler 종료 중
+[2025-10-21 20:46:19.232] [INFO] Closing sockets...
+[2025-10-21 20:46:19.232] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:47:22.451] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:47:22.471] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:47:22.475] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:47:22.475] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:47:22.476] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:47:22.476] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:47:22.591] [INFO] Scheduler started.
+[2025-10-21 20:47:35.006] [INFO] APScheduler 종료 중
+[2025-10-21 20:47:35.006] [INFO] Closing sockets...
+[2025-10-21 20:47:35.006] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:47:59.948] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:47:59.967] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:47:59.970] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:47:59.970] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:47:59.971] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:47:59.971] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:48:00.087] [INFO] Scheduler started.
+[2025-10-21 20:50:09.422] [INFO] APScheduler 종료 중
+[2025-10-21 20:50:09.422] [INFO] Closing sockets...
+[2025-10-21 20:50:09.422] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:51:08.686] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:51:08.705] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:51:08.710] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:51:08.710] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:51:08.710] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:51:08.710] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:51:08.827] [INFO] Scheduler started.
+[2025-10-21 20:51:51.717] [INFO] APScheduler 종료 중
+[2025-10-21 20:51:51.717] [INFO] Closing sockets...
+[2025-10-21 20:51:51.717] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
+[2025-10-21 20:53:01.474] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-21 20:53:01.493] [INFO] Restored contexts for 4 apps, total blocks: 3
+[2025-10-21 20:53:01.497] [INFO] MCUnode registry restored from aggregated state.json at startup
+[2025-10-21 20:53:01.497] [INFO] Context registry stats: 4 apps loaded: ['LSISsocket', 'corecode', 'MCUnode', 'agriseed']
+[2025-10-21 20:53:01.497] [INFO] 자동저장 작업 등록됨 (interval=60s, job_id=context_autosave)
+[2025-10-21 20:53:01.498] [INFO] 컨텍스트 백업 작업 등록됨 (interval=3600s, job_id=context_backup)
+[2025-10-21 20:53:01.614] [INFO] Scheduler started.
+[2025-10-21 20:53:27.465] [INFO] APScheduler 종료 중
+[2025-10-21 20:53:27.465] [INFO] Closing sockets...
+[2025-10-21 20:53:27.465] [ERROR] APScheduler 완전 종료 중 오류 발생
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\main.py", line 260, in lifespan
+    scheduler.shutdown(wait=True)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\background.py", line 40, in shutdown
+    super().shutdown(*args, **kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\blocking.py", line 22, in shutdown
+    super().shutdown(wait)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\schedulers\base.py", line 232, in shutdown
+    raise SchedulerNotRunningError
+apscheduler.schedulers.SchedulerNotRunningError: Scheduler is not running
