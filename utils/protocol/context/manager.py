@@ -78,30 +78,28 @@ def _file_lock(path: Union[str, Path]):
         lock_dir = file_path.with_suffix('.lockdir')
         start = time.time()
         acquired = False
-        try:
-            for attempt in range(1, max_attempts + 1):
-                try:
-                    os.mkdir(str(lock_dir))
-                    acquired = True
-                    break
-                except FileExistsError:
-                    # Check timeout
-                    if (time.time() - start) >= lock_timeout:
-                        break
-                    # exponential backoff
-                    time.sleep(0.05 * (2 ** (attempt - 1)))
-            if not acquired:
-                raise PermissionError(f"Failed to acquire dir-lock for {file_path} within timeout={lock_timeout}s")
+        # 시도 루프는 try/finally로 감싸지 않고 단순화합니다
+        for attempt in range(1, max_attempts + 1):
             try:
-                yield
-            finally:
-                try:
-                    os.rmdir(str(lock_dir))
-                except Exception:
-                    # best-effort cleanup; leave stale lock for manual inspection
-                    pass
+                os.mkdir(str(lock_dir))
+                acquired = True
+                break
+            except FileExistsError:
+                # Check timeout
+                if (time.time() - start) >= lock_timeout:
+                    break
+                # exponential backoff
+                time.sleep(0.05 * (2 ** (attempt - 1)))
+        if not acquired:
+            raise PermissionError(f"Failed to acquire dir-lock for {file_path} within timeout={lock_timeout}s")
+        try:
+            yield
         finally:
-            return
+            try:
+                os.rmdir(str(lock_dir))
+            except Exception:
+                # best-effort cleanup; leave stale lock for manual inspection
+                pass
 
     # POSIX or other: try portalocker on the target file
     try:
