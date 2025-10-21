@@ -1,0 +1,9 @@
+/* Minimal local shim for a few remixicon classes used in the UI.
+   Uses emoji/SVG fallback so no external font files are required. */
+.ri-refresh-line::before { content: "⟳"; display:inline-block; margin-right:.35rem; }
+.ri-wifi-line::before { content: "📶"; display:inline-block; margin-right:.35rem; }
+.ri-wifi-off-line::before { content: "✖"; display:inline-block; margin-right:.35rem; }
+.ri-pause-line::before { content: "⏸"; display:inline-block; margin-right:.35rem; }
+.ri-play-line::before { content: "▶"; display:inline-block; margin-right:.35rem; }
+/* ensure ri-* elements show the pseudo element */
+[class^="ri-"]::before { font-style: normal; font-variant: normal; text-transform: none; line-height: 1; }

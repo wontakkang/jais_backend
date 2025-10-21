@@ -1,0 +1,258 @@
+{
+  "4653500D004C0047": {
+    "STATUS": {
+      "Voltage": {
+        "AV1": {
+          "Id": 1,
+          "Value": 2490,
+          "Unit": "mV"
+        },
+        "AV2": {
+          "Id": 2,
+          "Value": 2500,
+          "Unit": "mV"
+        },
+        "AV3": {
+          "Id": 3,
+          "Value": 2480,
+          "Unit": "mV"
+        },
+        "AV4": {
+          "Id": 4,
+          "Value": 2480,
+          "Unit": "mV"
+        },
+        "Id": 1,
+        "Value": 2490,
+        "Unit": "mV"
+      },
+      "Current": {
+        "AI1": {
+          "Id": 1,
+          "Value": 0,
+          "Unit": "uA"
+        },
+        "AI2": {
+          "Id": 2,
+          "Value": 0,
+          "Unit": "uA"
+        },
+        "AI3": {
+          "Id": 3,
+          "Value": 0,
+          "Unit": "uA"
+        },
+        "AI4": {
+          "Id": 4,
+          "Value": 0,
+          "Unit": "uA"
+        },
+        "Id": 1,
+        "Value": 0.0,
+        "Unit": "mA"
+      },
+      "Position": {
+        "Roll": {
+          "Value": 3.126190662384033,
+          "Unit": "°"
+        },
+        "Pitch": {
+          "Value": 1.598860502243042,
+          "Unit": "°"
+        }
+      },
+      "Firmware": {
+        "Version": "1.1.8"
+      },
+      "Serial_Setup": {
+        "Channel": 1,
+        "Type": "SDI",
+        "Baudrate": "1200",
+        "Data_Bit": "7 Bit",
+        "Parity": "EVEN",
+        "Stop_Bit": "1 Bit",
+        "Flow_Control": "NONE"
+      }
+    },
+    "Meta": {
+      "last_updated": "2025-10-21T09:58:26Z",
+      "ANALOG_READ_ALL": "2025-10-20T15:05:53.205259+09:00",
+      "ACCEL_READ": "2025-10-21T18:58:26.164547+09:00",
+      "FIRMWARE_VERSION_READ": "2025-10-20T19:00:39.798277+09:00",
+      "GPS_READ": "2025-10-19T16:53:11.796710+09:00",
+      "SERIAL_SETUP_READ": "2025-10-20T20:59:43.798530+09:00",
+      "SERIAL_SETUP": "2025-10-20T21:07:38.820648+09:00",
+      "SERIAL_WRITE": "2025-10-20T21:08:35.137012+09:00",
+      "ANALOG_READ": "2025-10-20T15:03:14.459785+09:00",
+      "FIRMWARE_VERSION_UPDATE": "2025-10-20T18:59:06.521855+09:00"
+    },
+    "Job": {
+      "ANALOG_READ_ALL": {
+        "cron": "*/2 * * * *",
+        "Enabled": true,
+        "Last_Executed": "2025-10-19T07:50:48.923913+09:00",
+        "Next_Execution": "2025-10-19T07:52:48.923913+09:00",
+        "Last_Failed": null,
+        "Error_Message": null
+      },
+      "ACCEL_READ": {
+        "cron": "0 * * * *",
+        "Enabled": true,
+        "Last_Executed": "2025-10-19T07:53:47.923913+09:00",
+        "Next_Execution": "2025-10-19T07:52:48.923913+09:00",
+        "Last_Failed": null,
+        "Error_Message": null
+      }
+    }
+  },
+  "4653500D004D0011": {
+    "STATUS": {
+      "Digital_Input": {
+        "DI1": {
+          "Id": 1,
+          "Value": 0
+        },
+        "DI2": {
+          "Id": 2,
+          "Value": 0
+        },
+        "DI3": {
+          "Id": 3,
+          "Value": 0
+        },
+        "DI4": {
+          "Id": 4,
+          "Value": 0
+        },
+        "DI5": {
+          "Id": 5,
+          "Value": 0
+        },
+        "DI6": {
+          "Id": 6,
+          "Value": 0
+        },
+        "DI7": {
+          "Id": 7,
+          "Value": 0
+        },
+        "DI8": {
+          "Id": 8,
+          "Value": 0
+        }
+      },
+      "Digital_Output": {
+        "DO1": {
+          "Id": 1,
+          "Value": 0,
+          "Current": 0
+        },
+        "DO2": {
+          "Id": 2,
+          "Value": 0,
+          "Current": 0
+        },
+        "DO3": {
+          "Id": 3,
+          "Value": 0,
+          "Current": 0
+        },
+        "DO4": {
+          "Id": 4,
+          "Value": 0,
+          "Current": 0
+        },
+        "DO5": {
+          "Id": 5,
+          "Value": 0,
+          "Current": 0
+        },
+        "DO6": {
+          "Id": 6,
+          "Value": 0,
+          "Current": 0
+        },
+        "DO7": {
+          "Id": 7,
+          "Value": 0,
+          "Current": 0
+        },
+        "DO8": {
+          "Id": 8,
+          "Value": 0,
+          "Current": 0
+        }
+      },
+      "Firmware": {
+        "Version": "1.1.7"
+      },
+      "Position": {
+        "Roll": {
+          "Value": 3.2586934566497803,
+          "Unit": "°"
+        },
+        "Pitch": {
+          "Value": 2.5916287899017334,
+          "Unit": "°"
+        }
+      }
+    },
+    "Meta": {
+      "last_updated": "2025-10-21T09:58:07Z",
+      "DIO_READ_ALL": "2025-10-20T15:01:20.856841+09:00",
+      "DI_THRESHOLD_WRITE": "2025-10-20T15:14:17.186777+09:00",
+      "FIRMWARE_VERSION_READ": "2025-10-18T16:45:46.557674+09:00",
+      "GPS_READ": "2025-10-18T16:47:22.573992+09:00",
+      "DO_WRITE": "2025-10-20T16:09:53.387705+09:00",
+      "ACCEL_READ": "2025-10-21T18:58:07.670628+09:00",
+      "DO_WRITE_ALL": "2025-10-20T16:08:53.620915+09:00",
+      "SERIAL_WRITE": "2025-10-18T17:43:34.320588+09:00",
+      "DI_READ": "2025-10-20T15:10:41.336014+09:00",
+      "DO_READ": "2025-10-20T15:36:05.979903+09:00",
+      "FIRMWARE_VERSION_UPDATE": "2025-10-20T19:03:57.973517+09:00"
+    },
+    "SETUP": {
+      "Digital_Input_Threshold": {
+        "Threshold": "18V"
+      },
+      "Digital_Output": {
+        "DO1": {
+          "Id": 1,
+          "Value": 0
+        },
+        "DO0": {
+          "Id": 0,
+          "Value": 0
+        },
+        "DO2": {
+          "Id": 2,
+          "Value": 1
+        },
+        "DO3": {
+          "Id": 3,
+          "Value": 1
+        },
+        "DO4": {
+          "Id": 4,
+          "Value": 1
+        },
+        "DO5": {
+          "Id": 5,
+          "Value": 0
+        },
+        "DO6": {
+          "Id": 6,
+          "Value": 0
+        },
+        "DO7": {
+          "Id": 7,
+          "Value": 0
+        },
+        "DO8": {
+          "Id": 8,
+          "Value": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+[2025-10-21 16:10:04.148] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.148] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.149] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.149] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.149] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.150] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.150] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.150] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.150] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.150] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.150] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.160] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.582] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.582] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.582] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.582] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.583] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.583] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.583] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.583] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.584] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.584] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.584] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.584] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.613] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:04.613] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:04.613] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:04.613] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:04.613] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.613] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.613] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.614] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.614] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.614] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.614] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.615] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.615] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.615] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.615] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.616] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:04.616] [DEBUG] SlaveContext 초기화됨
+[2025-10-21 16:10:04.616] [INFO] 메모리 생성 완료
+[2025-10-21 16:10:04.616] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-21 16:10:04.618] [INFO] Restored 'state' into slave_context from state.json
+[2025-10-21 16:10:05.195] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:05.195] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:05.195] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:05.196] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:05.209] [INFO] autosave saved state for LSISsocket -> D:\project\projects\jais\py_backend\LSISsocket\context_store\state.json
+[2025-10-21 16:10:05.212] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:05.212] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:05.212] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:05.212] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:05.217] [INFO] autosave saved state for corecode -> D:\project\projects\jais\py_backend\corecode\context_store\state.json
+[2025-10-21 16:10:05.219] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:05.219] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:05.219] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:05.219] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:05.223] [INFO] autosave saved state for MCUnode -> D:\project\projects\jais\py_backend\MCUnode\context_store\state.json
+[2025-10-21 16:10:05.226] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:05.226] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:05.226] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:05.226] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:05.232] [INFO] autosave saved state for agriseed -> D:\project\projects\jais\py_backend\agriseed\context_store\state.json
+[2025-10-21 16:10:05.234] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:05.234] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:05.234] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:05.234] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:05.239] [INFO] Persisted registry state for LSISsocket -> D:\project\projects\jais\py_backend\LSISsocket\context_store\state.json
+[2025-10-21 16:10:05.241] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:05.241] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:05.241] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:05.241] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:05.246] [INFO] Persisted registry state for corecode -> D:\project\projects\jais\py_backend\corecode\context_store\state.json
+[2025-10-21 16:10:05.248] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:05.248] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:05.249] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:05.249] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:05.250] [INFO] Persist skipped for MCUnode: new state empty, keeping existing state.json (keys=['4653500D004C0047', '4653500D004D0011'])
+[2025-10-21 16:10:05.252] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\agriseed\context_store
+[2025-10-21 16:10:05.252] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\corecode\context_store
+[2025-10-21 16:10:05.252] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\LSISsocket\context_store
+[2025-10-21 16:10:05.252] [DEBUG] context_store exists: D:\project\projects\jais\py_backend\MCUnode\context_store
+[2025-10-21 16:10:05.256] [INFO] Persisted registry state for agriseed -> D:\project\projects\jais\py_backend\agriseed\context_store\state.json

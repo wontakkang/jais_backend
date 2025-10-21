@@ -2,7 +2,7 @@ import logging
 import logging.handlers
 import os, sys
 
-def setup_logger(name="sql_logger", log_file="sql_queries.log", level=logging.DEBUG, backup_days=7):
+def setup_logger(name="sql_logger", log_file="log/sql_queries.log", level=logging.DEBUG, backup_days=7):
     """
     설정된 로거를 반환합니다.
     
@@ -17,21 +17,39 @@ def setup_logger(name="sql_logger", log_file="sql_queries.log", level=logging.DE
     """
     # 로거 생성
     logger = logging.getLogger(name)
+    # 문자열로 "INFO", "DEBUG" 등 전달 가능하도록 처리
+    if isinstance(level, str):
+        level = getattr(logging, level.upper(), logging.DEBUG)
     logger.setLevel(level)
 
-    # 파일 핸들러 (기간별 롤링)
+    # 이미 핸들러가 있으면 중복 추가를 방지하고 레벨만 갱신하여 반환
+    if logger.handlers:
+        for h in logger.handlers:
+            h.setLevel(level)
+        return logger
+
+        # 파일 핸들러 (기간별 롤링)
     file_handler = logging.handlers.TimedRotatingFileHandler(
         log_file, when="midnight", interval=1, backupCount=backup_days, encoding="utf-8"
     )
+    
+    # 문자열로 "INFO", "DEBUG" 등 전달 가능하도록 처리
+    if isinstance(level, str):
+        level = getattr(logging, level.upper(), logging.DEBUG)
     file_handler.setLevel(level)
 
     # 콘솔 핸들러 생성
     console_handler = logging.StreamHandler()
     console_handler.setLevel(level)
 
-    # 포매터 생성
+    
+    # 문자열로 "INFO", "DEBUG" 등 전달 가능하도록 처리
+    if isinstance(level, str):
+        level = getattr(logging, level.upper(), logging.DEBUG)
+    console_handler.setLevel(level)
+    
     formatter = logging.Formatter(
-        "[%(asctime)s] [%(levelname)s] %(message)s",
+        "[%(asctime)s.%(msecs)03d] [%(levelname)s] %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S"
     )
     file_handler.setFormatter(formatter)

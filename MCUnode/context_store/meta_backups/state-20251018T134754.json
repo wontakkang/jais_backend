@@ -1,0 +1,55 @@
+{
+  "4653500D004C0047": {
+    "STATUS": {
+      "Voltage": {
+        "AV1": {
+          "Index": 1,
+          "Value": 2490,
+          "Unit": "mV"
+        },
+        "AV2": {
+          "Index": 2,
+          "Value": 2500,
+          "Unit": "mV"
+        },
+        "AV3": {
+          "Index": 3,
+          "Value": 2490,
+          "Unit": "mV"
+        },
+        "AV4": {
+          "Index": 4,
+          "Value": 2490,
+          "Unit": "mV"
+        }
+      },
+      "Current": {
+        "AI1": {
+          "Index": 1,
+          "Value": 0,
+          "Unit": "uA"
+        },
+        "AI2": {
+          "Index": 2,
+          "Value": 0,
+          "Unit": "uA"
+        },
+        "AI3": {
+          "Index": 3,
+          "Value": 0,
+          "Unit": "uA"
+        },
+        "AI4": {
+          "Index": 4,
+          "Value": 0,
+          "Unit": "uA"
+        }
+      }
+    },
+    "Meta": {
+      "last_updated": "2025-10-18T13:46:11.801046+09:00",
+      "ANALOG_READ_ALL": "2025-10-18T13:46:11.801046+09:00",
+      "ACCEL_READ": "2025-10-18T13:39:52.952473+09:00"
+    }
+  }
+}
