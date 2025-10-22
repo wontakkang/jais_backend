@@ -362,17 +362,17 @@ def discover_apps(project_root: Optional[Union[str, Path]] = None) -> List[Path]
 
 
 def ensure_context_store_for_apps(project_root: Optional[Union[str, Path]] = None) -> Dict[str, Path]:
-    """모든 앱 폴더에 context_store 디렉터리가 존재하는지 확인하고 없으면 생성한다.
+    """앱 목록을 반환하되 context_store 디렉터리는 생성하지 않습니다.
 
-    반환값: {app_name: Path_to_context_store}
+    반환값: {app_name: Path_to_expected_context_store}
 
-    주의: DB 전용 모드(_WRITE_FILES == False)인 경우 실제 디렉터리나 대용 파일을 생성하지 않고
-    중앙 sqlite DB를 사용하도록 동작합니다. 이 모드에서는 tools나 운영자가 파일 기반 state.json 존재를
-    기대할 수 없으므로 주의해야 합니다.
+    SQLite 단일 구조 사용으로 개별 앱의 context_store 폴더 생성을 중단합니다.
+    반환되는 경로는 호환성을 위해 유지하지만 실제 디렉터리는 생성되지 않습니다.
     """
     root = Path(project_root) if project_root is not None else _infer_project_root()
     apps = discover_apps(root)
     result = {}
+    
     # Determine apps to INCLUDE from environment variable (comma-separated).
     # If CONTEXT_STORE_APP_LIST is set, only apps in that list will have context_store handling.
     # Otherwise default to these four apps only (as requested): agriseed, LSISsocket, corecode, MCUnode
@@ -384,28 +384,21 @@ def ensure_context_store_for_apps(project_root: Optional[Union[str, Path]] = Non
             allowed_apps = {'agriseed', 'LSISsocket', 'corecode', 'MCUnode'}
     except Exception:
         allowed_apps = {'agriseed', 'LSISsocket', 'corecode', 'MCUnode'}
+    
     for app in apps:
         # Only operate on apps explicitly allowed
         if app.name not in allowed_apps:
             logger.debug(f"Skipping context_store for app not in allowed list: {app.name}")
             continue
+        
         cs_path = app / CONTEXT_STORE_DIR_NAME
-        # In DB-only mode we avoid creating per-app context_store directories to reduce
-        # filesystem contention on Windows and centralize storage into the sqlite DB.
-        if _WRITE_FILES:
-            if not cs_path.exists():
-                cs_path.mkdir(parents=True, exist_ok=True)
-                logger.info(f"Created context_store: {cs_path}")
-            else:
-                logger.debug(f"context_store exists: {cs_path}")
-        else:
-            # DB-only: do not create directory, but still return the expected path so callers
-            # that compute app path from cs_path.parent keep working.
-            if cs_path.exists():
-                logger.debug(f"context_store exists (files enabled): {cs_path}")
-            else:
-                logger.debug(f"DB-only mode: not creating context_store dir for app: {app.name}; using centralized sqlite storage")
+        
+        # SQLite 전용 모드: 디렉터리 생성하지 않음
+        logger.debug(f"SQLite-only mode: using centralized storage for app: {app.name}")
+        
+        # 호환성을 위해 경로는 반환하되 실제 생성은 하지 않음
         result[app.name] = cs_path
+    
     return result
 
 
@@ -434,28 +427,14 @@ def create_or_update_file_for_app(
 ) -> Path:
     """지정된 앱의 context_store에 파일을 생성하거나 업데이트한다.
 
-    DB 전용 모드에서는 실제 파일을 쓰지 않고 sqlite에 content를 upsert 합니다.
+    SQLite 전용 모드에서는 실제 파일이나 디렉터리를 생성하지 않고 sqlite에 content를 upsert 합니다.
     """
     app_p = Path(app_path)
     if not app_p.exists() or not app_p.is_dir():
         raise FileNotFoundError(f"앱 경로를 찾을 수 없습니다: {app_path}")
 
     cs_dir = app_p / CONTEXT_STORE_DIR_NAME
-    # In DB-only mode we avoid creating on-disk context_store markers to reduce
-    # filesystem noise on Windows. Only create the directory and marker file when
-    # file-writing is explicitly enabled via CONTEXT_STORE_WRITE_FILES.
-    if _WRITE_FILES:
-        cs_dir.mkdir(parents=True, exist_ok=True)
-    else:
-        # do not create the directory on disk; callers still receive the expected Path
-        # so higher-level logic that computes app path keeps working.
-        pass
-
     file_path = cs_dir / filename
-    # 통합 meta.json 사용
-    meta_path = cs_dir / META_FILE_NAME
-
-    # In DB-only mode we do not create physical files; always ensure DB entry exists
 
     formatted_date = _format_date(created_date, date_format)
 
@@ -463,18 +442,8 @@ def create_or_update_file_for_app(
         content = ""
 
     try:
-        if _WRITE_FILES:
-            # Only write a tiny marker file when explicit file writes are enabled.
-            try:
-                # Ensure parent exists before writing
-                file_path.parent.mkdir(parents=True, exist_ok=True)
-                with file_path.open("w", encoding="utf-8") as f:
-                    f.write('{}')
-            except Exception:
-                logger.exception(f"Failed to write marker json file: {file_path}")
-        else:
-            # DB-only mode: skip creating any on-disk marker
-            logger.debug(f"DB-only mode: skipping physical marker for {file_path}")
+        # SQLite 전용: 파일이나 디렉터리 생성하지 않음
+        logger.debug(f"SQLite-only mode: storing content for {file_path} in database")
 
         # Persist into DB instead of writing full file
         key = filename
@@ -492,9 +461,9 @@ def create_or_update_file_for_app(
         except Exception:
             logger.exception(f"Failed to store meta into DB for {app_p.name}/{filename}")
 
-        logger.info(f"Created/Updated sqlite-backed content: {app_p.name}/{filename} (files disabled)")
+        logger.info(f"Created/Updated sqlite-backed content: {app_p.name}/{filename}")
     except Exception:
-        logger.exception(f"Failed to create ensured json file: {file_path}")
+        logger.exception(f"Failed to create sqlite-backed content: {app_p.name}/{filename}")
         raise
 
     return file_path
@@ -510,28 +479,14 @@ def ensure_json_file_for_app(
 ) -> Path:
     """앱의 context_store 안에 filename이 없으면 기본 JSON 파일과 메타를 생성한다.
 
-    DB 전용 모드에서는 파일을 실제로 생성하지 않고 sqlite에 빈 객체를 저장합니다.
+    SQLite 전용 모드에서는 파일이나 디렉터리를 생성하지 않고 sqlite에 객체를 저장합니다.
     """
     app_p = Path(app_path)
     if not app_p.exists() or not app_p.is_dir():
         raise FileNotFoundError(f"앱 경로를 찾을 수 없습니다: {app_path}")
 
     cs_dir = app_p / CONTEXT_STORE_DIR_NAME
-    # In DB-only mode we avoid creating on-disk context_store markers to reduce
-    # filesystem noise on Windows. Only create the directory and marker file when
-    # file-writing is explicitly enabled via CONTEXT_STORE_WRITE_FILES.
-    if _WRITE_FILES:
-        cs_dir.mkdir(parents=True, exist_ok=True)
-    else:
-        # do not create the directory on disk; callers still receive the expected Path
-        # so higher-level logic that computes app path keeps working.
-        pass
-
     file_path = cs_dir / filename
-    # 통합 meta.json 사용
-    meta_path = cs_dir / META_FILE_NAME
-
-    # In DB-only mode we do not create physical files; always ensure DB entry exists
 
     formatted_date = _format_date(created_date, date_format)
 
@@ -539,18 +494,8 @@ def ensure_json_file_for_app(
         payload = {}
 
     try:
-        if _WRITE_FILES:
-            # Only write a tiny marker file when explicit file writes are enabled.
-            try:
-                # Ensure parent exists before writing
-                file_path.parent.mkdir(parents=True, exist_ok=True)
-                with file_path.open("w", encoding="utf-8") as f:
-                    f.write('{}')
-            except Exception:
-                logger.exception(f"Failed to write marker json file: {file_path}")
-        else:
-            # DB-only mode: skip creating any on-disk marker
-            logger.debug(f"DB-only mode: skipping physical marker for {file_path}")
+        # SQLite 전용: 파일이나 디렉터리 생성하지 않음
+        logger.debug(f"SQLite-only mode: storing JSON for {file_path} in database")
 
         # Persist into DB instead of writing full file
         key = filename
@@ -568,9 +513,9 @@ def ensure_json_file_for_app(
         except Exception:
             logger.exception(f"Failed to store meta into DB for {app_p.name}/{filename}")
 
-        logger.info(f"Ensured JSON file marker created (DB-backed): {file_path} (meta in DB)")
+        logger.info(f"Ensured JSON file created (SQLite-backed): {file_path}")
     except Exception:
-        logger.exception(f"Failed to create ensured json file: {file_path}")
+        logger.exception(f"Failed to create sqlite-backed JSON: {app_p.name}/{filename}")
         raise
 
     return file_path
@@ -689,50 +634,33 @@ def load_all_json_blocks_for_app(app_path: Union[str, Path]) -> Dict[str, object
 
 
 def load_most_recent_json_block_for_app(app_path: Union[str, Path]):
-    """context_store에서 가장 최근에 수정된 .json 파일을 로드하여 반환한다.
+    """SQLite DB에서 앱의 상태를 로드하여 반환한다.
 
     반환: (filename_stem, obj) 또는 (None, None) if not found
     """
     app_p = Path(app_path)
-    cs_dir = app_p / CONTEXT_STORE_DIR_NAME
-    if not cs_dir.exists():
-        return None, None
-
-    # meta.json은 데이터 파일이 아니므로 제외
-    candidates = [p for p in cs_dir.glob("*.json") if p.name != META_FILE_NAME]
-    if not candidates:
-        # .json 파일이 하나도 없을 경우 기본 state.json을 생성하고 이를 반환
-        try:
-            created = ensure_json_file_for_app(app_p, filename=STATE_FILE_NAME, payload={})
-            with _file_lock(created):
-                with created.open("r", encoding="utf-8") as f:
-                    obj = json.load(f)
-            return created.stem, obj
-        except Exception:
-            logger.exception(f"Failed to create or load default json in {cs_dir}")
-            return None, None
-
-    # Try DB first for most recent
+    
+    # SQLite DB에서 직접 로드 시도
     try:
-        app_name = Path(app_path).name
+        app_name = app_p.name
         db_objs = list_app_states(app_name)
         if isinstance(db_objs, dict) and db_objs:
-            # pick the most recently updated via DB is not tracked here; return arbitrary one
-            # return first item
+            # 첫 번째 항목 반환 (가장 최근 업데이트는 DB에서 추적되지 않으므로)
             for k, v in db_objs.items():
                 return k, v
     except Exception:
-        pass
+        logger.exception(f"Failed to load states from sqlite for {app_name}")
 
-    # 최신 수정시간 기준으로 가장 최근 파일 선택
-    latest = max(candidates, key=lambda p: p.stat().st_mtime)
+    # DB에서 로드 실패 시 기본 빈 상태 반환
     try:
-        with _file_lock(latest):
-            with latest.open("r", encoding="utf-8") as f:
-                obj = json.load(f)
-        return latest.stem, obj
+        # 기본 빈 상태를 DB에 생성
+        app_name = app_p.name
+        default_payload = {}
+        upsert_state(app_name, STATE_FILE_NAME.replace('.json', ''), default_payload)
+        logger.info(f"Created default empty state in sqlite for {app_name}")
+        return STATE_FILE_NAME.replace('.json', ''), default_payload
     except Exception:
-        logger.exception(f"Failed to load most recent json block: {latest}")
+        logger.exception(f"Failed to create default state in sqlite for {app_name}")
         return None, None
 
 
@@ -777,70 +705,78 @@ def restore_json_blocks_to_slave_context(
     load_most_recent: bool = False,
     use_key_as_memory_name: bool = True,
 ):
-    """앱의 context_store에서 JSON 블록을 읽어주어 slave_context.store에 복원한다.
+    """SQLite DB에서 JSON 블록을 읽어서 slave_context.store에 복원한다.
 
-    - load_most_recent: True이면 가장 최근 파일 하나만 로드
-    - use_key_as_memory_name: 파일 stem을 memory key로 사용 (예: "%MB"), False면 파일명을 그대로 사용
+    - load_most_recent: True이면 가장 최근 항목 하나만 로드 (SQLite에서는 첫 번째 항목)
+    - use_key_as_memory_name: DB key를 memory key로 사용 (예: "%MB"), False면 key를 그대로 사용
     """
     app_p = Path(app_path)
     if not app_p.exists() or not app_p.is_dir():
-        raise FileNotFoundError(f"앱 경로를 찾을 수 없습니다: {app_path}")
+        logger.warning(f"앱 경로를 찾을 수 없지만 SQLite에서 복원 시도: {app_path}")
 
-    # container for restored blocks (used by both single and all-file paths)
+    # container for restored blocks (used by both single and all-state paths)
     restored = {}
+    app_name = app_p.name
+
+    # SQLite DB에서 직접 로드
+    try:
+        db_objs = list_app_states(app_name)
+        if not isinstance(db_objs, dict) or not db_objs:
+            logger.info(f"No states found in sqlite for app {app_name}")
+            return {}
+    except Exception:
+        logger.exception(f"Failed to load states from sqlite for {app_name}")
+        return {}
 
     if load_most_recent:
-        stem, obj = load_most_recent_json_block_for_app(app_p)
-        if not stem:
-            return {}
-        # If the most recent file is the aggregated state.json containing MEMORY maps, handle it specially
-        if stem == STATE_FILE_NAME.replace('.json', '') and isinstance(obj, dict):
+        # 첫 번째 항목만 로드
+        for stem, obj in db_objs.items():
+            # If this is the aggregated state containing MEMORY maps, handle it specially
+            if stem == STATE_FILE_NAME.replace('.json', '') and isinstance(obj, dict):
+                try:
+                    # iterate keys in state (e.g. '192.168.0.198:2004') and their MEMORY maps
+                    for serial_key, entry in obj.items():
+                        if not isinstance(entry, dict):
+                            continue
+                        mem_map = entry.get('MEMORY') if isinstance(entry.get('MEMORY'), dict) else None
+                        if not mem_map:
+                            continue
+                        for mem_name, mem_obj in mem_map.items():
+                            try:
+                                norm = _normalize_json_block_for_restore(mem_obj)
+                                block = JSONRegistersDataBlock.from_json(norm) if isinstance(norm, dict) and 'values' in norm else norm
+                                _set_memory_on_slave_context(slave_context, mem_name, block)
+                                restored[mem_name] = block
+                            except Exception:
+                                logger.exception(f"Failed to restore memory {mem_name} from state entry {serial_key}")
+                    logger.info(f"Restored {len(restored)} MEMORY blocks from sqlite state into slave_context for app {app_name}")
+                    return restored
+                except Exception:
+                    logger.exception('Failed to process aggregated state from sqlite for restore')
+                    # fallback to normal single-item handling below
+            
+            # 기존 처리 - 단일 항목
+            mem_name = stem if use_key_as_memory_name else (stem + ".json")
             try:
-                # iterate keys in state.json (e.g. '192.168.0.198:2004') and their MEMORY maps
-                for serial_key, entry in obj.items():
-                    if not isinstance(entry, dict):
-                        continue
-                    mem_map = entry.get('MEMORY') if isinstance(entry.get('MEMORY'), dict) else None
-                    if not mem_map:
-                        continue
-                    for mem_name, mem_obj in mem_map.items():
-                        try:
-                            norm = _normalize_json_block_for_restore(mem_obj)
-                            block = JSONRegistersDataBlock.from_json(norm) if isinstance(norm, dict) and 'values' in norm else norm
-                            _set_memory_on_slave_context(slave_context, mem_name, block)
-                            restored[mem_name] = block
-                        except Exception:
-                            logger.exception(f"Failed to restore memory {mem_name} from state.json entry {serial_key}")
-                logger.info(f"Restored {len(restored)} MEMORY blocks from state.json into slave_context for app {app_p.name}")
-                return restored
+                # Normalize list values -> dict for backward compatibility
+                obj = _normalize_json_block_for_restore(obj)
+                # JSONRegistersDataBlock 형태라면 from_json 사용
+                if isinstance(obj, dict) and "values" in obj:
+                    block = JSONRegistersDataBlock.from_json(obj)
+                else:
+                    block = obj
+                if not _set_memory_on_slave_context(slave_context, mem_name, block):
+                    raise AttributeError("slave_context does not support .store or set_state to assign memory blocks")
+                restored[mem_name] = block
+                logger.info(f"Restored '{mem_name}' into slave_context from sqlite {stem}")
+                return {mem_name: block}
             except Exception:
-                logger.exception('Failed to process aggregated state.json for restore')
-                # fallback to normal single-file handling below
-        # 기존 처리
-        # 메모리 이름 결정
-        mem_name = stem if use_key_as_memory_name else (stem + ".json")
-        try:
-            # Normalize list values -> dict for backward compatibility
-            obj = _normalize_json_block_for_restore(obj)
-            # JSONRegistersDataBlock 형태라면 from_json 사용
-            if isinstance(obj, dict) and "values" in obj:
-                block = JSONRegistersDataBlock.from_json(obj)
-            else:
-                block = obj
-            if not _set_memory_on_slave_context(slave_context, mem_name, block):
-                raise AttributeError("slave_context does not support .store or set_state to assign memory blocks")
-            restored[mem_name] = block
-            logger.info(f"Restored '{mem_name}' into slave_context from {stem}.json")
-            return {mem_name: block}
-        except Exception:
-            logger.exception(f"Failed to restore most recent json block: {stem}")
-            return {}
+                logger.exception(f"Failed to restore sqlite block: {stem}")
+                return {}
 
-    # load all
-    objs = load_all_json_blocks_for_app(app_p)
-    restored = {}
-    for stem, obj in objs.items():
-        # If this file is the aggregated state.json, extract MEMORY entries and restore them
+    # load all - 모든 항목 로드
+    for stem, obj in db_objs.items():
+        # If this is the aggregated state, extract MEMORY entries and restore them
         if stem == STATE_FILE_NAME.replace('.json', '') and isinstance(obj, dict):
             try:
                 for serial_key, entry in obj.items():
@@ -856,10 +792,11 @@ def restore_json_blocks_to_slave_context(
                             if _set_memory_on_slave_context(slave_context, mem_name, block):
                                 restored[mem_name] = block
                         except Exception:
-                            logger.exception(f"Failed to restore memory {mem_name} from state.json entry {serial_key}")
+                            logger.exception(f"Failed to restore memory {mem_name} from sqlite state entry {serial_key}")
             except Exception:
-                logger.exception('Failed to process aggregated state.json during load_all')
+                logger.exception('Failed to process aggregated state from sqlite during load_all')
             continue
+            
         mem_name = stem if use_key_as_memory_name else (stem + ".json")
         try:
             # Normalize list values -> dict for backward compatibility
@@ -873,8 +810,9 @@ def restore_json_blocks_to_slave_context(
             else:
                 restored[mem_name] = block
         except Exception:
-            logger.exception(f"Failed to restore json block: {stem}")
-    logger.info(f"Restored {len(restored)} blocks into slave_context for app {app_p.name}")
+            logger.exception(f"Failed to restore sqlite block: {stem}")
+            
+    logger.info(f"앱 '{app_name}'에 대해 {len(restored)}개 블록 복원됨")
     return restored
 
 
@@ -1333,81 +1271,108 @@ def upsert_processed_data_into_state(app_path_or_name: Union[str, Path], serial:
 from copy import deepcopy
 
 def autosave_all_contexts(project_root: Optional[Union[str, Path]] = None):
-    """현재 CONTEXT_REGISTRY에 존재하는 모든 앱의 상태를 저장합니다.
+    """현재 CONTEXT_REGISTRY에 존재하는 모든 앱의 상태를 sqlite DB에 저장합니다.
+    
+    C:\project\jais\jais_backend\jais_backend\context_store.sqlite3 파일에 상태를 중앙 집중식으로 저장합니다.
     - project_root: 앱 탐색에 사용할 루트(없으면 자동 추론)
+    
+    반환: 성공한 앱 수와 전체 앱 수 튜플 (success_count, total_count)
     """
+    if not CONTEXT_REGISTRY:
+        logger.info("No contexts in CONTEXT_REGISTRY to autosave")
+        return 0, 0
+    
+    # sqlite DB 초기화 확인
+    try:
+        init_db()
+    except Exception:
+        logger.exception("Failed to initialize sqlite DB for autosave")
+        return 0, 0
+    
+    success_count = 0
+    total_count = len(CONTEXT_REGISTRY)
+    
+    logger.info(f"Starting autosave for {total_count} apps in CONTEXT_REGISTRY")
+    
     for app_name in list(CONTEXT_REGISTRY.keys()):
         try:
             entry = CONTEXT_REGISTRY.get(app_name)
-            # 상태 추출 (get_all_state 우선, 그 외 dict 형태에서 추출)
-            if hasattr(entry, 'get_all_state') and callable(getattr(entry, 'get_all_state')):
-                state = entry.get_all_state()
-            elif isinstance(entry, dict):
-                state = entry.get('store', {}).get('state', {})
-            else:
-                store_attr = getattr(entry, 'store', None)
-                state = store_attr.get('state', {}) if isinstance(store_attr, dict) else {}
+            if entry is None:
+                logger.warning(f"Registry entry for {app_name} became None during iteration")
+                continue
+            
+            # 상태 추출 (다양한 형태의 context 객체 지원)
+            state = {}
+            try:
+                if hasattr(entry, 'get_all_state') and callable(getattr(entry, 'get_all_state')):
+                    state = entry.get_all_state()
+                elif isinstance(entry, dict):
+                    state = entry.get('store', {}).get('state', {})
+                else:
+                    store_attr = getattr(entry, 'store', None)
+                    if isinstance(store_attr, dict):
+                        state = store_attr.get('state', {})
+                    else:
+                        logger.warning(f"Unable to extract state from {app_name} registry entry")
+                        continue
+            except Exception:
+                logger.exception(f"Failed to extract state from registry entry for {app_name}")
+                continue
 
+            # 상태가 dict가 아닌 경우 변환 시도
             if not isinstance(state, dict):
                 try:
-                    state = dict(state)
+                    state = dict(state) if state else {}
                 except Exception:
-                    state = {}
+                    logger.warning(f"State for {app_name} is not dict-convertible, skipping")
+                    continue
 
-            # 앱의 context_store 경로 결정
-            app_stores = ensure_context_store_for_apps(project_root)
-            cs_path = app_stores.get(app_name)
-            if cs_path is None:
-                root = Path(project_root) if project_root else _infer_project_root()
-                app_path = root / app_name
-            else:
-                app_path = Path(cs_path).parent
+            if not state:
+                logger.debug(f"No state to save for {app_name}")
+                success_count += 1  # 빈 상태도 성공으로 간주
+                continue
 
-            cs_dir = Path(app_path) / CONTEXT_STORE_DIR_NAME
-            cs_dir.mkdir(parents=True, exist_ok=True)
-            state_path = cs_dir / STATE_FILE_NAME
-
-            # 기존 state 로드 및 병합(기존 보존, 새 값으로 덮어쓰기)
-            existing_state = {}
-            if state_path.exists():
-                try:
-                    with state_path.open('r', encoding='utf-8') as f:
-                        existing_state = json.load(f)
-                except Exception:
-                    logger.exception(f'Failed to load existing state.json for {app_name} during autosave')
-                    existing_state = {}
-
-            payload = state
-            try:
-                if isinstance(existing_state, dict) and isinstance(state, dict) and existing_state:
-                    merged = dict(existing_state)
-                    merged.update(state)
-                    payload = merged
-            except Exception:
-                payload = state
-
-            # Persist per-serial into sqlite to avoid heavy file IO on Windows
-            try:
-                lock = _get_app_lock(app_name)
-                with lock:
-                    # payload expected to be dict of serial -> entry
-                    if isinstance(payload, dict):
-                        for serial_k, entry_v in payload.items():
-                            try:
-                                upsert_state(app_name, str(serial_k), entry_v)
-                            except Exception:
-                                logger.exception(f"Failed to upsert state into sqlite for {app_name}/{serial_k}")
-                    else:
-                        # fallback: write entire payload as single serial '_ALL'
+            # 앱별 락으로 동기화하여 sqlite에 저장
+            lock = _get_app_lock(app_name)
+            with lock:
+                saved_entries = 0
+                failed_entries = 0
+                
+                # 각 시리얼(또는 키)별로 개별 저장
+                for serial_key, entry_data in state.items():
+                    try:
+                        # 시리얼 키 정규화
+                        normalized_serial = str(serial_key).upper() if serial_key else 'UNKNOWN'
+                        
+                        # sqlite에 상태 저장
+                        upsert_state(app_name, normalized_serial, entry_data)
+                        saved_entries += 1
+                        
+                        # 메모리 레지스트리와 동기화
                         try:
-                            upsert_state(app_name, '_ALL', payload)
+                            _sync_registry_state(app_name, normalized_serial, entry_data)
                         except Exception:
-                            logger.exception(f"Failed to upsert fallback state for {app_name}")
-                logger.info(f"autosave persisted state for {app_name} -> sqlite")
-            except Exception:
-                logger.exception(f"autosave failed for {app_name}")
+                            logger.exception(f"Failed to sync registry state for {app_name}/{normalized_serial}")
+                        
+                    except Exception:
+                        logger.exception(f"Failed to save state entry for {app_name}/{serial_key}")
+                        failed_entries += 1
+                
+                if saved_entries > 0:
+                    logger.info(f"Autosaved {saved_entries} entries for {app_name} to sqlite (failed: {failed_entries})")
+                    success_count += 1
+                elif failed_entries > 0:
+                    logger.error(f"Failed to save any entries for {app_name} ({failed_entries} failures)")
+                else:
+                    logger.debug(f"No entries processed for {app_name}")
+                    success_count += 1
+                    
         except Exception:
-            logger.exception(f"autosave failed for {app_name}")
+            logger.exception(f"Autosave failed for app: {app_name}")
+            continue
+    
+    logger.info(f"Autosave completed: {success_count}/{total_count} apps successfully saved to sqlite")
+    return success_count, total_count
 
 
 def persist_registry_state(app_name: str, project_root: Optional[Union[str, Path]] = None):
@@ -1788,7 +1753,7 @@ def save_status_with_meta(app_path_or_name: Union[str, Path], serial_input, comm
                     existing_state = json.load(f)
             except Exception:
                 logger.exception(f"Failed to load existing state.json for save_status_with_meta: {state_path}")
-                existing_state = {}
+                existing_state = json.load(f)
 
         if not isinstance(existing_state, dict):
             existing_state = {}
@@ -2024,7 +1989,17 @@ def save_status_nested(app_path_or_name: Union[str, Path], serial_input, mid_cat
                     existing_val = mid.get(matching_key)
                     try:
                         if existing_val != kv:
-                            mid[matching_key] = kv  # 변경 감지 시에만 덮어쓰기
+                            # If both existing and incoming are dicts, merge at subkey level
+                            if isinstance(existing_val, dict) and isinstance(kv, dict):
+                                for subk, subv in kv.items():
+                                    if subk in existing_val:
+                                        if existing_val.get(subk) != subv:
+                                            existing_val[subk] = subv
+                                    else:
+                                        existing_val[subk] = subv
+                                mid[matching_key] = existing_val
+                            else:
+                                mid[matching_key] = kv
                         else:
                             # 값 동일하면 아무 변경 없음
                             pass

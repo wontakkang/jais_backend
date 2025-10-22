@@ -199,7 +199,7 @@ def build_precision_features(*,
         "WSI_7": wsi_7,
         "WSI_14": wsi_14,
         "Irrigation_3": irrigation_3,
-        "Irrigation_7": irrigation_7,
+        "Irration_7": irrigation_7,
         "HighVPD_hours_7": high_vpd_hours_7,
     })
     return features
@@ -547,6 +547,6 @@ if __name__ == "__main__":
     # SSC 희석 지표
     dilution = ssc_dilution_indicator(weight_growth_g=35.0, irrigation_event=True, soil_vwc_change=dvwc3)
 
-    print("Minimal:", minimal)
-    print("Precision:", precision)
-    print("SSC_dilution_indicator:", dilution)
+    print("최소 피처:", minimal)
+    print("정밀 피처:", precision)
+    print("SSC 희석 지표:", dilution)

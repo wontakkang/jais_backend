@@ -11,7 +11,7 @@ from utils.protocol.context.scheduler import autosave_job, cleanup_contexts, get
 from utils.ws_log import static_file_app, websocket_app
 from utils.protocol.context import manager as context_manager
 from utils.protocol.context.sqlite_store import migrate_from_state_json
-# .env 파일에서 환경변수 로드
+# .env 파일에서 환경 변수 로드
 load_dotenv()
 pythonpath = os.getenv("PYTHONPATH")
 if (pythonpath and pythonpath not in sys.path):
@@ -20,7 +20,7 @@ if (pythonpath and pythonpath not in sys.path):
 import django
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-# ⬇️ Django 설정 초기화
+# Django 설정 초기화
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "py_backend.settings")
 django.setup()
 from LSISsocket.models import SocketClientConfig, SocketClientLog
@@ -45,77 +45,77 @@ logger = setup_logger(
     backup_days=7,
 )
 
-# 전역 이벤트: 스레드/잡에 종료 신호를 전달
+# 전역 이벤트: 스레드/작업에게 종료 신호를 보냄
 STOP_EVENT = threading.Event()
 
-# 환경변수로 동작 제어 (중복 실행 방지, autosave 주기, 로그 레벨, job id)
+# 환경 변수로 동작 제어 (중복 실행 방지, 자동저장 간격, 로그 레벨, 작업 ID)
 SCHEDULER_LOG_LEVEL = os.getenv("SCHEDULER_LOG_LEVEL", "INFO").upper()
 AUTOSAVE_INTERVAL_SECONDS = int(os.getenv("AUTOSAVE_INTERVAL_SECONDS", "60"))
 CONTEXT_AUTOSAVE_JOB_ID = os.getenv("CONTEXT_AUTOSAVE_JOB_ID", "context_autosave")
 START_MAIN_PROCESS = os.getenv("START_MAIN_PROCESS", "1")
 
-# NOTE: CONTEXT_REGISTRY는 utils.protocol.context 모듈의 전역 레지스트리를 사용합니다.
-# (정의는 utils/protocol/context/__init__.py 에서 이루어집니다)
+# 참고: CONTEXT_REGISTRY는 utils.protocol.context 모듈의 전역 레지스트리를 사용합니다.
+# (utils/protocol/context/__init__.py에 정의됨)
 AUTOSAVE_FAILURES = {}
 APP_LIST = ['corecode', 'MCUnode', 'LSISsocket']
 scheduler = None
 
-# 전역 시그널 핸들러: SIGINT/SIGTERM 수신 시 안전하게 스케줄러 종료 및 컨텍스트 정리 수행
+# 전역 시그널 핸들러: SIGINT/SIGTERM 수신 시 스케줄러를 안전하게 종료하고 컨텍스트를 정리
 def _graceful_shutdown(signum, frame=None):
     try:
-        logger.info(f"Signal received ({signum}), performing graceful shutdown")
+        logger.info(f"시그널 수신됨 ({signum}), 안전한 종료 수행 중")
     except Exception:
         pass
     try:
         global scheduler
-        # 먼저 워커들에게 종료 이벤트를 알립니다.
+        # 먼저 워커 스레드에게 종료 이벤트를 알립니다.
         try:
             STOP_EVENT.set()
-            logger.info('Signal handler: STOP_EVENT set to notify worker threads')
+            logger.info('시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨')
         except Exception:
-            logger.exception('Signal handler: failed to set STOP_EVENT')
+            logger.exception('시그널 핸들러: STOP_EVENT 설정 실패')
 
         if scheduler is not None:
             try:
-                logger.info('Signal handler: shutting down APScheduler (wait=False)')
-                # 시그널 처리 시에는 긴 대기를 피하기 위해 wait=False로 즉시 반환 요청
-                scheduler.shutdown(wait=False)
-                logger.info('Signal handler: APScheduler shutdown requested (wait=False)')
+                logger.info('시그널 핸들러: APScheduler 종료 중 (wait=True)')
+                # 시그널 처리 시, 긴 대기를 피하기 위해 wait=False로 즉시 반환 요청
+                scheduler.shutdown(wait=True)
+                logger.info('시그널 핸들러: APScheduler 종료 요청됨 (wait=True)')
             except Exception:
-                logger.exception('Signal handler: APScheduler shutdown failed, attempting force shutdown')
+                logger.exception('시그널 핸들러: APScheduler 종료 실패, 강제 종료 시도')
                 try:
                     scheduler.shutdown(wait=False)
-                    logger.info('Signal handler: APScheduler forced shutdown attempted')
+                    logger.info('시그널 핸들러: APScheduler 강제 종료 시도됨')
                 except Exception:
-                    logger.exception('Signal handler: APScheduler forced shutdown also failed')
+                    logger.exception('시그널 핸들러: APScheduler 강제 종료도 실패')
         else:
-            logger.info('Signal handler: no scheduler to shutdown')
+            logger.info('시그널 핸들러: 종료할 스케줄러 없음')
 
-        # 짧게 대기한 뒤(잡들이 정리될 시간을 주기 위해) 아직 종료가 느리면 스레드 스택을 덤프하여 원인 진단
+        # 짧게 대기한 뒤(작업들이 정리될 시간을 주기 위해) 아직 종료가 느리면 스레드 스택을 덤프하여 원인 진단
         try:
             time.sleep(2)
             try:
-                logger.warning('Signal handler: dumping thread stacks for diagnosis (if any)')
+                logger.warning('시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)')
                 frames = sys._current_frames()
                 for tid, frame_obj in frames.items():
                     stack = ''.join(traceback.format_stack(frame_obj))
-                    logger.warning(f'Thread id: {tid}\n{stack}')
+                    logger.warning(f'스레드 id: {tid}\n{stack}')
             except Exception:
-                logger.exception('Signal handler: failed to dump thread stacks')
+                logger.exception('시그널 핸들러: 스레드 스택 덤프 실패')
         except Exception:
             pass
     except Exception:
-        logger.exception('Exception during scheduler shutdown in signal handler')
+        logger.exception('시그널 핸들러에서 스케줄러 종료 중 예외 발생')
 
     try:
-        # cleanup_contexts는 안전한 최종 정리(autosave/persist 등)를 수행
+        # cleanup_contexts는 안전한 최종 정리(자동저장/지속화 등)를 수행
         try:
             cleanup_contexts()
-            logger.info('Signal handler: cleanup_contexts completed')
+            logger.info('시그널 핸들러: cleanup_contexts 완료됨')
         except Exception:
-            logger.exception('Signal handler: cleanup_contexts failed')
+            logger.exception('시그널 핸들러: cleanup_contexts 실패')
     except Exception:
-        logger.exception('Unexpected exception in signal handler cleanup')
+        logger.exception('시그널 핸들러 정리 중 예상치 못한 예외')
 
     # 이벤트 루프가 실행 중이면 중지 시도
     try:
@@ -141,12 +141,12 @@ def _graceful_shutdown(signum, frame=None):
 try:
     signal.signal(signal.SIGINT, _graceful_shutdown)
 except Exception:
-    logger.exception('Failed to register SIGINT handler')
+    logger.exception('SIGINT 핸들러 등록 실패')
 try:
     signal.signal(signal.SIGTERM, _graceful_shutdown)
 except Exception:
     # 일부 Windows 환경에서는 SIGTERM이 제한될 수 있지만 등록 시도는 함
-    logger.exception('Failed to register SIGTERM handler')
+    logger.exception('SIGTERM 핸들러 등록 실패')
 
 @log_exceptions(logger)
 @asynccontextmanager
@@ -157,34 +157,34 @@ async def lifespan(app: FastAPI):
         scheduler = BackgroundScheduler(timezone=ZoneInfo(TIME_ZONE))
         scheduler.add_executor(ThreadPoolExecutor(max_workers=os.cpu_count()), "default")
         scheduler.add_executor(ProcessPoolExecutor(max_workers=os.cpu_count()), "processpool")
-        # Initialize SQLite persistent store and migrate existing state.json into DB (if present)
+        # SQLite 지속 저장소 초기화 및 기존 state.json을 DB로 마이그레이션 (있는 경우)
         try:
-            # configure centralized sqlite DB (defaults to project/root/context_store.sqlite3 or env CONTEXT_STORE_DB_PATH)
+            # 중앙집중식 sqlite DB 구성 (기본값: project/root/context_store.sqlite3 또는 env CONTEXT_STORE_DB_PATH)
             context_manager.configure_context_store()
-            # migrate each app's aggregated state.json into the DB (non-destructive)
+            # 각 앱의 통합된 state.json을 DB로 마이그레이션 (비파괴적)
             try:
                 app_stores = context_manager.ensure_context_store_for_apps()
                 for app_name, cs_path in app_stores.items():
                     try:
                         migrate_from_state_json(Path(cs_path).parent, app_name)
                     except Exception:
-                        logger.exception(f"Migration failed for {app_name}")
+                        logger.exception(f"{app_name} 마이그레이션 실패")
             except Exception:
-                logger.exception('Failed to enumerate apps for migration')
+                logger.exception('마이그레이션을 위한 앱 열거 실패')
         except Exception:
-            logger.exception('Failed to configure centralized context_store')
+            logger.exception('중앙집중식 context_store 구성 실패')
         # 모듈화된 restore_contexts 함수 사용
         try:
             restore_results = restore_contexts()
             total_restored = sum(restore_results.values())
-            logger.info(f"Restored contexts for {len(restore_results)} apps, total blocks: {total_restored}")
+            logger.info(f"{len(restore_results)}개 앱의 컨텍스트 복원됨, 총 블록 수: {total_restored}")
 
-            # Start-up: ensure MCUnode registry entry is populated from disk if empty
+            # 시작 시: MCUnode 레지스트리 항목이 비어있으면 디스크에서 채우기
             try:
                 from utils.protocol.context.manager import get_or_create_registry_entry, restore_json_blocks_to_slave_context, ensure_context_store_for_apps
                 entry = get_or_create_registry_entry('MCUnode', create_slave=True)
                 try:
-                    # Check existing in-memory state
+                    # 기존 메모리 내 상태 확인
                     state_ok = False
                     if entry is not None:
                         try:
@@ -195,18 +195,18 @@ async def lifespan(app: FastAPI):
                         except Exception:
                             state_ok = False
                     if not state_ok:
-                        # locate app path and attempt restore of most recent JSON blocks into the slave context
+                        # 앱 경로 찾고 가장 최근 JSON 블록을 슬레이브 컨텍스트로 복원 시도
                         app_stores = ensure_context_store_for_apps()
                         cs = app_stores.get('MCUnode')
                         app_path = Path(cs).parent if cs else Path(__file__).resolve().parents[1]
 
-                        # 1) Try existing block-based restore (preserves MEMORY-style blocks)
+                        # 1) 기존 블록 기반 복원 시도 (MEMORY 스타일 블록 보존)
                         try:
                             restore_json_blocks_to_slave_context(app_path, entry, load_most_recent=True, use_key_as_memory_name=True)
                         except Exception:
-                            logger.exception('MCUnode startup restore failed during restore_json_blocks_to_slave_context')
+                            logger.exception('restore_json_blocks_to_slave_context 중 MCUnode 시작 복원 실패')
 
-                        # 2) If still empty, attempt aggregated state.json restore (top-level serial -> STATUS/Meta)
+                        # 2) 여전히 비어있으면 통합된 state.json 복원 시도 (최상위 시리얼 -> STATUS/Meta)
                         try:
                             still_empty = True
                             try:
@@ -218,7 +218,7 @@ async def lifespan(app: FastAPI):
                                 still_empty = True
 
                             if still_empty:
-                                # prefer the discovered context_store path (cs) which points at the context_store directory
+                                # 발견된 context_store 경로(cs)를 우선시 (context_store 디렉토리를 가리킴)
                                 if cs:
                                     cs_dir = Path(cs)
                                 else:
@@ -251,7 +251,7 @@ async def lifespan(app: FastAPI):
                                                         setattr(entry, 'store', {'state': disk_state})
                                                     except Exception:
                                                         pass
-                                            # Fallback: ensure CONTEXT_REGISTRY contains a dict form pointing at this aggregated state
+                                            # 대안: CONTEXT_REGISTRY가 이 통합된 상태를 가리키는 dict 형태를 포함하도록 보장
                                             try:
                                                 from utils.protocol.context import CONTEXT_REGISTRY
                                                 if not isinstance(CONTEXT_REGISTRY.get('MCUnode'), dict):
@@ -263,22 +263,22 @@ async def lifespan(app: FastAPI):
                                                         CONTEXT_REGISTRY['MCUnode'] = {'store': {'state': dict(disk_state)}}
                                             except Exception:
                                                 pass
-                                            logger.info('MCUnode registry restored from aggregated state.json at startup')
+                                            logger.info('시작 시 통합된 state.json에서 MCUnode 레지스트리 복원됨')
                                         except Exception:
-                                            logger.exception('MCUnode startup aggregated-state apply failed')
+                                            logger.exception('MCUnode 시작 통합상태 적용 실패')
                         except Exception:
-                            logger.exception('MCUnode startup aggregated-state restore failed')
+                            logger.exception('MCUnode 시작 통합상태 복원 실패')
                 except Exception:
-                    logger.exception('MCUnode startup restore check failed')
+                    logger.exception('MCUnode 시작 복원 확인 실패')
             except Exception:
-                logger.exception('MCUnode startup restore import failed')
+                logger.exception('MCUnode 시작 복원 임포트 실패')
 
             # 시작 시 컨텍스트 통계 로깅
             try:
                 stats = get_context_stats()
-                logger.info(f"Context registry stats: {stats['total_apps']} apps loaded: {stats['app_names']}")
+                logger.info(f"컨텍스트 레지스트리 통계: {stats['total_apps']}개 앱 로드됨: {stats['app_names']}")
             except Exception:
-                logger.exception("Failed to log context stats")
+                logger.exception("컨텍스트 통계 로깅 실패")
 
         except Exception:
             logger.exception("컨텍스트 복원 실패")
@@ -286,27 +286,27 @@ async def lifespan(app: FastAPI):
         # 주기적 자동 저장 작업 등록: scheduler.autosave_job을 직접 사용
         # --reload 등의 리로더로 인한 중복 실행을 방지하기 위해 START_MAIN_PROCESS 환경변수를 확인합니다.
         if START_MAIN_PROCESS == '1':
-            # 등록: 이미 같은 id의 job이 존재하면 제거 후 등록
+            # 등록: 이미 같은 id의 작업이 존재하면 제거 후 등록
             try:
                 if scheduler.get_job(CONTEXT_AUTOSAVE_JOB_ID):
                     scheduler.remove_job(CONTEXT_AUTOSAVE_JOB_ID)
             except Exception:
                 pass
             try:
-                # seconds 기반으로 유연하게 설정
+                # 초 단위로 유연하게 설정
                 scheduler.add_job(autosave_job, 'interval', seconds=AUTOSAVE_INTERVAL_SECONDS, id=CONTEXT_AUTOSAVE_JOB_ID)
-                logger.info(f'자동저장 작업 등록됨 (interval={AUTOSAVE_INTERVAL_SECONDS}s, job_id={CONTEXT_AUTOSAVE_JOB_ID})')
+                logger.info(f'자동저장 작업 등록됨 (간격={AUTOSAVE_INTERVAL_SECONDS}초, job_id={CONTEXT_AUTOSAVE_JOB_ID})')
             except Exception:
                 logger.exception('자동저장 작업 등록 실패')
 
             try:
-                # 기존 자동 백업 등록은 scheduler 모듈의 전역 백업(job)으로 단일화했습니다.
+                # 기존 자동 백업 등록은 scheduler 모듈의 전역 백업(작업)으로 단일화했습니다.
                 # 중복 실행 방지를 위해 여기서는 backup_all_states 등록을 생략합니다.
-                logger.info('Skipped main-level backup_all_states registration to avoid duplicate backups; scheduler module handles backups')
+                logger.info('중복 백업 방지를 위해 메인 레벨 backup_all_states 등록 생략; scheduler 모듈이 백업 처리')
             except Exception:
                 logger.exception('컨텍스트 백업 작업 등록(생략) 중 예외 발생')
         else:
-            logger.info('START_MAIN_PROCESS != 1 이므로 autosave 및 복원 작업을 건너뜁니다 (중복 실행 방지)')
+            logger.info('START_MAIN_PROCESS != 1 이므로 자동저장 및 복원 작업을 건너뜀 (중복 실행 방지)')
 
         clients = await sync_to_async(list)(SocketClientConfig.objects.filter(is_used=True).all())
         for client in clients:
@@ -323,42 +323,42 @@ async def lifespan(app: FastAPI):
             )
             time.sleep(0.111)
         scheduler.start()
-        print("Scheduler started.")
-        logger.info("Scheduler started.")
+        print("스케줄러 시작됨.")
+        logger.info("스케줄러 시작됨.")
         yield
     finally:
         # 종료 시점: scheduler가 존재하면 한 번만 완전 종료(wait=True) 시도하고, 그 다음에 컨텍스트 정리 수행
         try:
             if scheduler is not None:
                 try:
-                    logger.info('Shutting down APScheduler (waiting for jobs to finish)')
+                    logger.info('APScheduler 종료 중 (작업 완료 대기)')
                     scheduler.shutdown(wait=False)
-                    logger.info('APScheduler fully shutdown (wait=True)')
+                    logger.info('APScheduler 완전 종료됨 (wait=True)')
                 except Exception:
                     # 강제/빠른 종료가 필요한 경우 로그를 남기고 계속 진행
-                    logger.exception('APScheduler shutdown with wait=True failed, attempting force shutdown')
+                    logger.exception('wait=True로 APScheduler 종료 실패, 강제 종료 시도')
                     try:
                         scheduler.shutdown(wait=False)
-                        logger.info('APScheduler shutdown attempted with wait=False')
+                        logger.info('wait=False로 APScheduler 종료 시도됨')
                     except Exception:
-                        logger.exception('APScheduler forced shutdown failed')
+                        logger.exception('APScheduler 강제 종료 실패')
             else:
-                logger.info('No scheduler instance to shutdown')
+                logger.info('종료할 스케줄러 인스턴스 없음')
         except Exception:
-            logger.exception('Exception while shutting down scheduler')
+            logger.exception('스케줄러 종료 중 예외 발생')
 
         # START_MAIN_PROCESS == '1' 일 때만 컨텍스트 정리 수행
         try:
             if START_MAIN_PROCESS == '1':
                 try:
                     cleanup_contexts()
-                    logger.info('cleanup_contexts completed')
+                    logger.info('cleanup_contexts 완료됨')
                 except Exception:
-                    logger.exception('cleanup_contexts failed')
+                    logger.exception('cleanup_contexts 실패')
             else:
-                logger.info('START_MAIN_PROCESS != 1 이므로 종료 시 autosave/persist를 건너뜁니다')
+                logger.info('START_MAIN_PROCESS != 1 이므로 종료 시 자동저장/지속화를 건너뜀')
         except Exception:
-            logger.exception('Exception during final cleanup')
+            logger.exception('최종 정리 중 예외 발생')
 
 app = FastAPI(title="FastAPI 스케쥴러", version="1.0", lifespan=lifespan)
 

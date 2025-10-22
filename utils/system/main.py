@@ -89,7 +89,7 @@ class BatchFileExecutor:
         try:
             result = subprocess.run(
                 [self.batch_file_path, *self.args],
-                shell=False,  # Avoid security risks with shell=True
+                shell=False,  # shell=True 사용 시 보안 위험 방지
                 check=True,
                 text=True,
                 stdout=subprocess.PIPE,

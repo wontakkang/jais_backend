@@ -557,15 +557,15 @@ async def websocket_app(scope, receive, send):
                     continue
             payload = format_group_entry(entry)
             if not await _safe_send({'type': 'websocket.send', 'text': json.dumps(payload)}):
-                logger.debug('websocket_app: failed to send initial tail payload, closing')
+                logger.debug('websocket_app: 초기 테일 페이로드 전송 실패, 연결 종료')
                 return
     except Exception:
-        logger.exception('websocket_app: exception while sending initial tail')
+        logger.exception('websocket_app: 초기 테일 전송 중 예외 발생')
 
-    # main loop: respond to client commands and tail file changes
+    # 메인 루프: 클라이언트 명령에 응답하고 파일 변경사항을 테일링
     try:
         while True:
-            # check for incoming client messages with timeout so we can also poll file
+            # 파일 폴링도 할 수 있도록 타임아웃과 함께 클라이언트 메시지 확인
             event = None
             try:
                 event = await asyncio.wait_for(_safe_receive(), timeout=poll_interval)
@@ -574,7 +574,7 @@ async def websocket_app(scope, receive, send):
 
             if event:
                 if event.get('type') == 'websocket.disconnect':
-                    logger.debug('websocket_app: client disconnected')
+                    logger.debug('websocket_app: 클라이언트 연결 해제됨')
                     return
                 if event.get('type') == 'websocket.receive':
                     text = event.get('text')
@@ -665,43 +665,43 @@ async def websocket_app(scope, receive, send):
                                         continue
                                     payload = format_group_entry(entry)
                                     if not await _safe_send({'type': 'websocket.send', 'text': json.dumps(payload)}):
-                                        logger.debug('websocket_app: failed to send tail payload, closing')
+                                        logger.debug('websocket_app: 테일 페이로드 전송 실패, 연결 종료')
                                         return
                             except Exception:
-                                logger.exception('websocket_app: exception while sending tail on reload command')
-            # detect if the current log file has been rotated/changed
+                                logger.exception('websocket_app: 리로드 명령에서 테일 전송 중 예외 발생')
+            # 현재 로그 파일이 회전/변경되었는지 감지
             latest = find_latest_log_file()
             if latest != current_path and latest is not None:
-                logger.debug('websocket_app: log file switched from %s to %s', current_path, latest)
+                logger.debug('websocket_app: 로그 파일이 %s에서 %s로 전환됨', current_path, latest)
                 current_path = latest
                 last_size = await asyncio.to_thread(init_file_pos, current_path)
 
-            # read new bytes since last_size
+            # last_size 이후의 새로운 바이트 읽기
             data, new_pos = await read_new_bytes(current_path, last_size)
             if new_pos < last_size:
-                # file truncated/rotated: reset position
+                # 파일이 잘리거나 회전됨: 위치 재설정
                 last_size = await asyncio.to_thread(init_file_pos, current_path)
             elif data:
                 try:
                     text = data.decode('utf-8', errors='replace')
                     lines = text.splitlines()
-                    # group incoming lines so multi-line messages are combined
+                    # 멀티라인 메시지가 결합되도록 들어오는 라인들을 그룹화
                     grouped = group_logs_by_timestamp(lines)
                     for entry in grouped:
                         if not entry or not entry.get('msg'):
                             continue
-                        # apply connection filters if any
+                        # 연결 필터가 있으면 적용
                         if not _group_matches_filters(entry, conn_levels, conn_keyword, conn_keyword_regex, conn_start_ms, conn_end_ms):
                             continue
                         payload = format_group_entry(entry)
                         if not await _safe_send({'type': 'websocket.send', 'text': json.dumps(payload)}):
-                            logger.debug('websocket_app: failed to send payload, closing')
+                            logger.debug('websocket_app: 페이로드 전송 실패, 연결 종료')
                             return
                 except Exception:
-                    logger.exception('websocket_app: error processing new bytes')
+                    logger.exception('websocket_app: 새로운 바이트 처리 중 오류')
                 last_size = new_pos
     except Exception:
-        logger.exception('websocket_app: unexpected exception')
+        logger.exception('websocket_app: 예상치 못한 예외 발생')
     finally:
         try:
             await _safe_send({'type': 'websocket.close'})

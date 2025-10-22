@@ -177,7 +177,7 @@ class NmapScanner:
     def run(self):
         self.scan()
         if 'runtime' in self.fields:
-            print(f"Total Scan Runtime: {self.runtime} seconds\n")
+            print(f"총 스캔 런타임: {self.runtime}초\n")
         return self.results
 
     def show_available_fields(self):

@@ -12,38 +12,81 @@ _db_path: Optional[Path] = None
 _writer_lock = threading.Lock()
 
 
+def _get_django_project_root():
+    """Django 프로젝트 루트 경로를 동적으로 탐지합니다.
+    
+    현재 파일의 위치를 기준으로 Django 프로젝트 루트를 찾습니다.
+    manage.py, settings.py 등의 Django 관련 파일이 있는 디렉터리를 찾습니다.
+    """
+    try:
+        # 현재 파일의 경로에서 시작
+        current_path = Path(__file__).resolve()
+        
+        # Django 프로젝트의 특징적인 파일들
+        django_markers = ['manage.py', 'settings.py', 'wsgi.py', 'asgi.py']
+        
+        # 상위 디렉터리로 올라가면서 Django 프로젝트 루트 찾기
+        for parent in current_path.parents:
+            # manage.py가 있는 디렉터리를 Django 프로젝트 루트로 판단
+            if (parent / 'manage.py').exists():
+                return parent
+            
+            # 또는 Django 설정 파일들이 있는 패키지 구조 확인
+            for child in parent.iterdir():
+                if child.is_dir() and any((child / marker).exists() for marker in django_markers[1:]):
+                    return parent
+        
+        # 찾지 못한 경우 현재 파일 기준으로 추정 (utils/protocol/context -> 상위 3단계)
+        fallback_root = current_path.parents[3]
+        return fallback_root
+        
+    except Exception:
+        # 예외 발생 시 현재 파일 기준으로 추정
+        return Path(__file__).resolve().parents[3]
+
+
 def init_db(db_path: Optional[Path] = None):
     global _db_path
     try:
-        if db_path is None:
-            # Allow override via environment variable for centralized DB path
-            env_path = os.getenv('CONTEXT_STORE_DB_PATH')
-            if env_path:
-                try:
-                    candidate = Path(env_path).expanduser()
-                    # If relative, resolve against project root
-                    if not candidate.is_absolute():
-                        candidate = Path(__file__).resolve().parents[3] / candidate
-                    db_path = candidate
-                except Exception:
-                    db_path = None
-            # Fallback default: 프로젝트 루트의 context_store.sqlite3
-            if db_path is None:
-                base = Path(__file__).resolve().parents[3]
-                db_path = base / 'context_store.sqlite3'
-        else:
-            # normalize provided db_path
+        # Django 프로젝트 루트를 동적으로 탐지
+        django_root = _get_django_project_root()
+        default_db_path = django_root / 'context_store.sqlite3'
+        
+        # 환경변수에서 데이터베이스 경로 확인 (선택사항)
+        env_path = os.getenv('CONTEXT_STORE_DB_PATH')
+        
+        # 경로 우선순위: 함수 인자 > 환경변수 > Django 프로젝트 루트의 기본 경로
+        if db_path is not None:
             try:
-                db_path = Path(db_path).expanduser()
-                if not db_path.is_absolute():
-                    db_path = Path(__file__).resolve().parents[3] / db_path
+                candidate = Path(db_path).expanduser()
+                if candidate.is_absolute():
+                    db_path = candidate
+                else:
+                    # 상대 경로인 경우 Django 프로젝트 루트 기준으로 해석
+                    db_path = django_root / candidate
             except Exception:
-                pass
+                db_path = default_db_path
+        elif env_path:
+            try:
+                candidate = Path(env_path).expanduser()
+                if candidate.is_absolute():
+                    db_path = candidate
+                else:
+                    # 환경변수가 상대 경로인 경우 Django 프로젝트 루트 기준
+                    db_path = django_root / candidate
+            except Exception:
+                db_path = default_db_path
+        else:
+            # 기본값: Django 프로젝트 루트의 context_store.sqlite3
+            db_path = default_db_path
+            
         # Log the chosen DB path for diagnostics
         try:
+            print(f"Django project root detected: {django_root}")
             print(f"Initializing context sqlite DB at: {db_path}")
         except Exception:
             pass
+            
         _db_path = Path(db_path)
         _db_path.parent.mkdir(parents=True, exist_ok=True)
         # Create DB and table if not exists

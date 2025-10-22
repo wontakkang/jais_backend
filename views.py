@@ -1,3 +1,3 @@
 from django.shortcuts import render
 
-# Create your views here.
+# 여기에 뷰를 생성하세요.

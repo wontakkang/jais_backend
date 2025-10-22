@@ -11,12 +11,12 @@ class LocalhostBypassPermission(BasePermission):
 
 class CustomIPAuthentication(BaseAuthentication):
     def authenticate(self, request):
-        """Development helper: authenticate any request as a user.
-        Priority for username source:
-          1. X-Auth-Username header
-          2. REMOTE_USER env
-          3. REMOTE_ADDR (IP) as fallback username
-        If the user does not exist, create it with unusable password.
+        """개발 도우미: 모든 요청을 사용자로 인증합니다.
+        사용자명 소스 우선순위:
+          1. X-Auth-Username 헤더
+          2. REMOTE_USER 환경변수
+          3. REMOTE_ADDR (IP)를 대체 사용자명으로 사용
+        사용자가 존재하지 않으면 사용 불가능한 패스워드로 생성합니다.
         """
         ip = request.META.get('HTTP_X_FORWARDED_FOR')
         if ip:
@@ -30,7 +30,7 @@ class CustomIPAuthentication(BaseAuthentication):
         try:
             user, created = User.objects.get_or_create(username=username, defaults={'email': ''})
             if created:
-                # ensure no usable password
+                # 사용 가능한 패스워드가 없도록 보장
                 user.set_unusable_password()
                 user.is_active = True
                 user.save(update_fields=['password', 'is_active', 'email'])
@@ -39,16 +39,16 @@ class CustomIPAuthentication(BaseAuthentication):
             return (AnonymousUser(), None)
 
 class CreatedByOrStaffPermission(BasePermission):
-    """Object-level permission: allow safe methods for anyone; for unsafe methods,
-    allow only when request.user is staff or when obj.created_by is None or equals the user.
-    This mirrors previous ad-hoc checks in CalendarEventViewSet.perform_update/destroy.
+    """객체 레벨 권한: 모든 사람에게 안전한 메서드 허용; 안전하지 않은 메서드의 경우,
+    request.user가 스태프이거나 obj.created_by가 None이거나 사용자와 같을 때만 허용합니다.
+    이는 CalendarEventViewSet.perform_update/destroy의 이전 임시 검사를 반영합니다.
     """
     def has_permission(self, request, view):
-        # Allow view-level access; object-level checks will enforce creator/staff rules.
+        # 뷰 레벨 접근 허용; 객체 레벨 검사가 생성자/스태프 규칙을 강제합니다.
         return True
 
     def has_object_permission(self, request, view, obj):
-        # Allow read-only methods for everyone
+        # 모든 사람에게 읽기 전용 메서드 허용
         if request.method in SAFE_METHODS:
             return True
         user = request.user
@@ -57,7 +57,7 @@ class CreatedByOrStaffPermission(BasePermission):
         if getattr(user, 'is_staff', False):
             return True
         creator = getattr(obj, 'created_by', None)
-        # If creator is None (e.g. anonymous-created), allow modification
+        # 생성자가 None인 경우 (예: 익명으로 생성된 경우) 수정 허용
         if creator is None or creator == user:
             return True
         return False

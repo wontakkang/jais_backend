@@ -4291,3 +4291,162 @@
 2025-10-22 20:53:46,590 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
 2025-10-22 20:53:46,591 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
 2025-10-22 20:53:46,591 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 22:42:24,440 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 22:42:24,493 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 0개 블록 복원됨
+2025-10-22 22:42:24,513 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 0개 블록 복원됨
+2025-10-22 22:42:24,530 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 0개 블록 복원됨
+2025-10-22 22:42:24,547 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 0개 블록 복원됨
+2025-10-22 22:42:40,470 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-22 22:42:40,489 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-22 22:42:40,489 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 22:42:40,492 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-22 22:42:40,497 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-22 22:42:40,501 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-22 22:42:40,505 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-22 22:42:40,505 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-22 22:42:40,505 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 23:22:38,114 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:22:38,150 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 0개 블록 복원됨
+2025-10-22 23:22:38,172 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 0개 블록 복원됨
+2025-10-22 23:22:38,194 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 0개 블록 복원됨
+2025-10-22 23:22:38,212 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 0개 블록 복원됨
+2025-10-22 23:23:38,253 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:24:38,252 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:25:38,254 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:26:38,258 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:27:38,248 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:28:38,256 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:29:38,250 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:30:38,256 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:31:38,256 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:32:11,115 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-22 23:32:11,141 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-22 23:32:11,141 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:32:11,160 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-22 23:32:11,175 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-22 23:32:11,191 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-22 23:32:11,200 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-22 23:32:11,200 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-22 23:32:11,200 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 23:32:13,051 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:32:13,062 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 1개 블록 복원됨
+2025-10-22 23:32:13,066 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 1개 블록 복원됨
+2025-10-22 23:32:13,071 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 1개 블록 복원됨
+2025-10-22 23:32:13,076 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 1개 블록 복원됨
+2025-10-22 23:33:13,107 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:34:13,106 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:35:13,115 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:36:13,108 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:37:13,106 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:38:13,104 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:39:08,335 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-22 23:39:08,346 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-22 23:39:08,346 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:39:08,351 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-22 23:39:08,355 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-22 23:39:08,359 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-22 23:39:08,363 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-22 23:39:08,363 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-22 23:39:08,363 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 23:39:09,945 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:39:09,955 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 1개 블록 복원됨
+2025-10-22 23:39:09,959 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 1개 블록 복원됨
+2025-10-22 23:39:09,964 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 1개 블록 복원됨
+2025-10-22 23:39:09,968 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 1개 블록 복원됨
+2025-10-22 23:39:55,380 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-22 23:39:55,390 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-22 23:39:55,390 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:39:55,395 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-22 23:39:55,399 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-22 23:39:55,404 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-22 23:39:55,408 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-22 23:39:55,408 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-22 23:39:55,408 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 23:39:58,477 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:39:58,483 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 1개 블록 복원됨
+2025-10-22 23:39:58,485 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 1개 블록 복원됨
+2025-10-22 23:39:58,489 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 1개 블록 복원됨
+2025-10-22 23:39:58,492 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 1개 블록 복원됨
+2025-10-22 23:40:33,087 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-22 23:40:33,098 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-22 23:40:33,098 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:40:33,102 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-22 23:40:33,105 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-22 23:40:33,109 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-22 23:40:33,113 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-22 23:40:33,113 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-22 23:40:33,113 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 23:40:39,928 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:40:39,935 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 1개 블록 복원됨
+2025-10-22 23:40:39,938 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 1개 블록 복원됨
+2025-10-22 23:40:39,941 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 1개 블록 복원됨
+2025-10-22 23:40:39,944 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 1개 블록 복원됨
+2025-10-22 23:40:46,591 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-22 23:40:46,601 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-22 23:40:46,602 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:40:46,605 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-22 23:40:46,609 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-22 23:40:46,614 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-22 23:40:46,618 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-22 23:40:46,618 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-22 23:40:46,618 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 23:40:47,866 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:40:47,874 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 1개 블록 복원됨
+2025-10-22 23:40:47,879 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 1개 블록 복원됨
+2025-10-22 23:40:47,883 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 1개 블록 복원됨
+2025-10-22 23:40:47,886 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 1개 블록 복원됨
+2025-10-22 23:41:47,913 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:42:47,920 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:43:47,907 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:44:47,913 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:45:47,919 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:46:47,918 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:47:47,914 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:48:47,917 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:49:47,923 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:50:43,609 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-22 23:50:43,618 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-22 23:50:43,618 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:50:43,623 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-22 23:50:43,629 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-22 23:50:43,634 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-22 23:50:43,640 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-22 23:50:43,640 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-22 23:50:43,640 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 23:50:45,388 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:50:45,398 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 1개 블록 복원됨
+2025-10-22 23:50:45,404 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 1개 블록 복원됨
+2025-10-22 23:50:45,409 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 1개 블록 복원됨
+2025-10-22 23:50:45,413 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 1개 블록 복원됨
+2025-10-22 23:51:45,443 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:52:45,448 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:53:45,487 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:54:45,442 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:55:45,443 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:56:45,435 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:57:45,441 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:58:45,449 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:59:45,438 INFO [utils.protocol.context.scheduler]: autosave_job 완료
+2025-10-22 23:59:53,645 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-22 23:59:53,654 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-22 23:59:53,654 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:59:53,659 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-22 23:59:53,664 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-22 23:59:53,667 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-22 23:59:53,672 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-22 23:59:53,672 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-22 23:59:53,672 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료
+2025-10-22 23:59:55,241 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-22 23:59:55,251 INFO [utils.protocol.context.scheduler]: 앱 'agriseed'에 대해 1개 블록 복원됨
+2025-10-22 23:59:55,256 INFO [utils.protocol.context.scheduler]: 앱 'corecode'에 대해 1개 블록 복원됨
+2025-10-22 23:59:55,262 INFO [utils.protocol.context.scheduler]: 앱 'LSISsocket'에 대해 1개 블록 복원됨
+2025-10-22 23:59:55,267 INFO [utils.protocol.context.scheduler]: 앱 'MCUnode'에 대해 1개 블록 복원됨
+2025-10-23 00:00:15,449 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 시작
+2025-10-23 00:00:15,460 INFO [utils.protocol.context.scheduler]: 정리 중 즉시 자동저장 완료
+2025-10-23 00:00:15,460 INFO [utils.protocol.context.scheduler]: ContextScheduler 초기화 완료 (autosave_interval=300.0s)
+2025-10-23 00:00:15,463 WARNING [utils.protocol.context.scheduler]: 앱 'agriseed' 레지스트리 상태 영속화 실패
+2025-10-23 00:00:15,466 WARNING [utils.protocol.context.scheduler]: 앱 'LSISsocket' 레지스트리 상태 영속화 실패
+2025-10-23 00:00:15,469 WARNING [utils.protocol.context.scheduler]: 앱 'corecode' 레지스트리 상태 영속화 실패
+2025-10-23 00:00:15,473 WARNING [utils.protocol.context.scheduler]: 앱 'MCUnode' 레지스트리 상태 영속화 실패
+2025-10-23 00:00:15,473 INFO [utils.protocol.context.scheduler]: 레지스트리 상태 영속화: 0/4개 앱 성공
+2025-10-23 00:00:15,473 INFO [utils.protocol.context.scheduler]: 컨텍스트 정리 완료

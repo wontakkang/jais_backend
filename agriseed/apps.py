@@ -18,10 +18,10 @@ class AgriseedConfig(AppConfig):
             cs_path = app_path / 'context_store'
             cs_path.mkdir(parents=True, exist_ok=True)
 
-            # Create or ensure a RegistersSlaveContext
+            # RegistersSlaveContext 생성 또는 확인
             slave_ctx = RegistersSlaveContext(createMemory=None)
 
-            # Try to load blocks from sqlite first (DB-backed store)
+            # 먼저 sqlite에서 블록 로드 시도 (DB 기반 저장소)
             restored = {}
             try:
                 from utils.protocol.context.sqlite_store import list_app_states
@@ -39,7 +39,7 @@ class AgriseedConfig(AppConfig):
                             else:
                                 block = mem_obj
 
-                            # assign into slave_ctx using supported APIs
+                            # 지원되는 API를 사용하여 slave_ctx에 할당
                             try:
                                 if hasattr(slave_ctx, 'set_state') and callable(getattr(slave_ctx, 'set_state')):
                                     slave_ctx.set_state(mem_name, block)
@@ -57,18 +57,18 @@ class AgriseedConfig(AppConfig):
             except Exception:
                 restored = {}
 
-            # If DB returned nothing, fallback to existing file/DB-aware restore helper
+            # DB에서 아무것도 반환하지 않으면 기존 파일/DB 인식 복원 도우미로 대체
             try:
                 if not restored:
                     restored = restore_json_blocks_to_slave_context(app_path, slave_ctx, load_most_recent=False)
             except Exception:
-                logger.exception(f"[{self.name}] Fallback restore_json_blocks_to_slave_context failed")
+                logger.exception(f"[{self.name}] 대체 restore_json_blocks_to_slave_context 실패")
 
-            # Register into global registry
+            # 전역 레지스트리에 등록
             CONTEXT_REGISTRY[self.name] = slave_ctx
-            logger.info(f"[{self.name}] Restored {{len(restored)}} blocks in App.ready() (sqlite first)")
+            logger.info(f"[{self.name}] App.ready()에서 {len(restored)}개 블록 복원됨 (sqlite 우선)")
         except Exception:
-            logger.exception(f"[{self.name}] Failed to restore context in App.ready()")
+            logger.exception(f"[{self.name}] App.ready()에서 컨텍스트 복원 실패")
 
 
     # SQLITE_FIRST_RESTORE_APPLIED
