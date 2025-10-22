@@ -5,7 +5,6 @@ from .views import *
 router = DefaultRouter()
 router.register(r'devices', DeviceViewSet)
 router.register(r'activities', ActivityViewSet)
-router.register(r'control-histories', ControlHistoryViewSet)
 router.register(r'control-roles', ControlRoleViewSet)
 router.register(r'issues', IssueViewSet)
 router.register(r'resolved-issues', ResolvedIssueViewSet)
@@ -45,13 +44,6 @@ router.register(r'quality-events', QualityEventViewSet)
 router.register(r'calendar-events', CalendarEventViewSet)
 router.register(r'calendar-schedules', CalendarScheduleViewSet)
 router.register(r'todos', TodoItemViewSet)
-
-router.register(r'control-values', ControlValueViewSet)
-router.register(r'control-value-histories', ControlValueHistoryViewSet)
-router.register(r'calc-variables', CalcVariableViewSet)
-router.register(r'calc-groups', CalcGroupViewSet)
-router.register(r'control-groups', ControlGroupViewSet)
-router.register(r'control-variables', ControlVariableViewSet)
 
 
 router.register(r'location-groups', LocationGroupViewSet)

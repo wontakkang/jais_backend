@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from .models import MemoryGroup, Variable, SocketClientConfig, SocketClientStatus, SocketClientLog, SocketClientCommand
-
+from .models import *
 # 코어 모델 참조 (MemoryGroup/Variable/DataName/ProjectVersion/Device)
-from corecode.models import DataName as CoreDataName, Device as CoreDevice, Adapter as CoreAdapter
+from corecode.models import DataName as CoreDataName, Device as CoreDevice, Adapter as CoreAdapter, ControlLogic as CoreControlLogic
 
 class SocketClientStatusSerializer(serializers.ModelSerializer):
     config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
@@ -207,3 +206,126 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
                 )
         return instance
 
+
+
+class ControlHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlValueHistory
+        exclude = ('is_deleted',)
+        
+class ControlVariableSerializer(serializers.ModelSerializer):
+    group = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), required=False, allow_null=True, help_text='속한 ControlGroup ID(선택). 예: 3', style={'example': 3})
+    name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID. 예: 12', style={'example': 12})
+    applied_logic = serializers.PrimaryKeyRelatedField(queryset=CoreControlLogic.objects.all(), help_text='적용할 ControlLogic ID. 예: 2', style={'example': 2})
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        allow_empty=True,
+        required=False,
+        default=list,
+        help_text='변수 속성 목록(예: ["감시","기록"])',
+        style={'example': ['감시', '기록']}
+    )
+
+    class Meta:
+        model = ControlVariable
+        fields = [
+            'id', 'group', 'name', 'data_type', 'applied_logic', 'args', 'attributes'
+        ]
+
+class ControlGroupSerializer(serializers.ModelSerializer):
+    control_variables_in_group = ControlVariableSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+        help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)',
+        source='agriseed_control_variables_in_group'
+    )
+    
+    class Meta:
+        model = ControlGroup
+        fields = [
+            'id', 'group_id', 'name', 'description', 'control_variables_in_group'
+        ]
+
+    def create(self, validated_data):
+        control_variables_data = validated_data.pop('agriseed_control_variables_in_group', [])
+        group = ControlGroup.objects.create(**validated_data)
+        for var_data in control_variables_data:
+            ControlVariable.objects.create(group=group, **var_data)
+        return group
+    
+    def update(self, instance, validated_data):
+        control_variables_data = validated_data.pop('agriseed_control_variables_in_group', None)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        # group_id 업데이트 허용
+        if 'group_id' in validated_data:
+            instance.group_id = validated_data['group_id']
+        instance.save()
+        if control_variables_data is not None:
+            instance.agriseed_control_variables_in_group.all().delete()
+            for var_data in control_variables_data:
+                ControlVariable.objects.create(group=instance, **var_data)
+        return instance
+
+class CalcVariableSerializer(serializers.ModelSerializer):
+    group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False, allow_null=True, help_text='소속 CalcGroup ID(선택). 예: 4', style={'example': 4})
+    name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID. 예: 8', style={'example': 8})
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        allow_empty=True,
+        required=False,
+        default=list,
+        help_text='변수 속성 목록(선택). 예: ["감시"]',
+        style={'example': ['감시']}
+    )
+    class Meta:
+        model = CalcVariable
+        fields = [
+            'id', 'group', 'name', 'data_type', 'use_method', 'args', 'attributes'
+        ]
+
+class CalcGroupSerializer(serializers.ModelSerializer):
+    # corecode.CalcGroup의 related_name은 calc_variables_in_group
+    calc_variables_in_group = CalcVariableSerializer(
+        many=True,
+        read_only=False,
+        required=False
+    )
+
+    class Meta:
+        model = CalcGroup
+        fields = [
+            'id', 'name', 'description', 'size_byte', 'calc_variables_in_group'
+        ]
+
+    def create(self, validated_data):
+        calc_variables_data = validated_data.pop('calc_variables_in_group', [])
+        group = CalcGroup.objects.create(**validated_data)
+        for var_data in calc_variables_data:
+            CalcVariable.objects.create(group=group, **var_data)
+        return group
+    
+    def update(self, instance, validated_data):
+        calc_variables_data = validated_data.pop('calc_variables_in_group', None)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.size_byte = validated_data.get('size_byte', instance.size_byte)
+        instance.save()
+        if calc_variables_data is not None:
+            instance.calc_variables_in_group.all().delete()
+            for var_data in calc_variables_data:
+                CalcVariable.objects.create(group=instance, **var_data)
+        return instance
+
+
+class ControlValueSerializer(serializers.ModelSerializer):
+    control_user = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = ControlValue
+        fields = '__all__'
+
+class ControlValueHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ControlValueHistory
+        fields = '__all__'

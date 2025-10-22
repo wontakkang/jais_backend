@@ -7,9 +7,6 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError, transaction
 
-# 추가: agriseed.ControlGroup 별칭 임포트 (corecode.ControlGroup과 구분)
-from agriseed.models import ControlGroup as AgriseedControlGroup
-
 User = get_user_model()
 
 class UserPreferenceSerializer(serializers.ModelSerializer):

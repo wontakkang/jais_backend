@@ -1,11 +1,16 @@
 import asyncio
 from dotenv import load_dotenv
 import sys, os, time, datetime
+import signal
+import threading
+import faulthandler
+import traceback
 
 from utils.protocol.LSIS.client.tcp import LSIS_TcpClient
-from utils.protocol.context.manager import backup_all_states
 from utils.protocol.context.scheduler import autosave_job, cleanup_contexts, get_context_stats, restore_contexts
 from utils.ws_log import static_file_app, websocket_app
+from utils.protocol.context import manager as context_manager
+from utils.protocol.context.sqlite_store import migrate_from_state_json
 # .env 파일에서 환경변수 로드
 load_dotenv()
 pythonpath = os.getenv("PYTHONPATH")
@@ -39,6 +44,10 @@ logger = setup_logger(
     level="DEBUG",
     backup_days=7,
 )
+
+# 전역 이벤트: 스레드/잡에 종료 신호를 전달
+STOP_EVENT = threading.Event()
+
 # 환경변수로 동작 제어 (중복 실행 방지, autosave 주기, 로그 레벨, job id)
 SCHEDULER_LOG_LEVEL = os.getenv("SCHEDULER_LOG_LEVEL", "INFO").upper()
 AUTOSAVE_INTERVAL_SECONDS = int(os.getenv("AUTOSAVE_INTERVAL_SECONDS", "60"))
@@ -48,17 +57,122 @@ START_MAIN_PROCESS = os.getenv("START_MAIN_PROCESS", "1")
 # NOTE: CONTEXT_REGISTRY는 utils.protocol.context 모듈의 전역 레지스트리를 사용합니다.
 # (정의는 utils/protocol/context/__init__.py 에서 이루어집니다)
 AUTOSAVE_FAILURES = {}
-
+APP_LIST = ['corecode', 'MCUnode', 'LSISsocket']
 scheduler = None
+
+# 전역 시그널 핸들러: SIGINT/SIGTERM 수신 시 안전하게 스케줄러 종료 및 컨텍스트 정리 수행
+def _graceful_shutdown(signum, frame=None):
+    try:
+        logger.info(f"Signal received ({signum}), performing graceful shutdown")
+    except Exception:
+        pass
+    try:
+        global scheduler
+        # 먼저 워커들에게 종료 이벤트를 알립니다.
+        try:
+            STOP_EVENT.set()
+            logger.info('Signal handler: STOP_EVENT set to notify worker threads')
+        except Exception:
+            logger.exception('Signal handler: failed to set STOP_EVENT')
+
+        if scheduler is not None:
+            try:
+                logger.info('Signal handler: shutting down APScheduler (wait=False)')
+                # 시그널 처리 시에는 긴 대기를 피하기 위해 wait=False로 즉시 반환 요청
+                scheduler.shutdown(wait=False)
+                logger.info('Signal handler: APScheduler shutdown requested (wait=False)')
+            except Exception:
+                logger.exception('Signal handler: APScheduler shutdown failed, attempting force shutdown')
+                try:
+                    scheduler.shutdown(wait=False)
+                    logger.info('Signal handler: APScheduler forced shutdown attempted')
+                except Exception:
+                    logger.exception('Signal handler: APScheduler forced shutdown also failed')
+        else:
+            logger.info('Signal handler: no scheduler to shutdown')
+
+        # 짧게 대기한 뒤(잡들이 정리될 시간을 주기 위해) 아직 종료가 느리면 스레드 스택을 덤프하여 원인 진단
+        try:
+            time.sleep(2)
+            try:
+                logger.warning('Signal handler: dumping thread stacks for diagnosis (if any)')
+                frames = sys._current_frames()
+                for tid, frame_obj in frames.items():
+                    stack = ''.join(traceback.format_stack(frame_obj))
+                    logger.warning(f'Thread id: {tid}\n{stack}')
+            except Exception:
+                logger.exception('Signal handler: failed to dump thread stacks')
+        except Exception:
+            pass
+    except Exception:
+        logger.exception('Exception during scheduler shutdown in signal handler')
+
+    try:
+        # cleanup_contexts는 안전한 최종 정리(autosave/persist 등)를 수행
+        try:
+            cleanup_contexts()
+            logger.info('Signal handler: cleanup_contexts completed')
+        except Exception:
+            logger.exception('Signal handler: cleanup_contexts failed')
+    except Exception:
+        logger.exception('Unexpected exception in signal handler cleanup')
+
+    # 이벤트 루프가 실행 중이면 중지 시도
+    try:
+        loop = asyncio.get_event_loop()
+        if loop.is_running():
+            try:
+                loop.call_soon_threadsafe(loop.stop)
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+    # 안전하게 프로세스 종료
+    try:
+        sys.exit(0)
+    except SystemExit:
+        try:
+            os._exit(0)
+        except Exception:
+            pass
+
+# 시그널 핸들러 등록 (Windows 포함)
+try:
+    signal.signal(signal.SIGINT, _graceful_shutdown)
+except Exception:
+    logger.exception('Failed to register SIGINT handler')
+try:
+    signal.signal(signal.SIGTERM, _graceful_shutdown)
+except Exception:
+    # 일부 Windows 환경에서는 SIGTERM이 제한될 수 있지만 등록 시도는 함
+    logger.exception('Failed to register SIGTERM handler')
+
 @log_exceptions(logger)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    global scheduler
     logger.info("FastAPI 수명주기 및 스케줄러 시작")
     try:
-        global scheduler
         scheduler = BackgroundScheduler(timezone=ZoneInfo(TIME_ZONE))
         scheduler.add_executor(ThreadPoolExecutor(max_workers=os.cpu_count()), "default")
-        scheduler.add_executor(ProcessPoolExecutor(max_workers=4), "processpool")
+        scheduler.add_executor(ProcessPoolExecutor(max_workers=os.cpu_count()), "processpool")
+        # Initialize SQLite persistent store and migrate existing state.json into DB (if present)
+        try:
+            # configure centralized sqlite DB (defaults to project/root/context_store.sqlite3 or env CONTEXT_STORE_DB_PATH)
+            context_manager.configure_context_store()
+            # migrate each app's aggregated state.json into the DB (non-destructive)
+            try:
+                app_stores = context_manager.ensure_context_store_for_apps()
+                for app_name, cs_path in app_stores.items():
+                    try:
+                        migrate_from_state_json(Path(cs_path).parent, app_name)
+                    except Exception:
+                        logger.exception(f"Migration failed for {app_name}")
+            except Exception:
+                logger.exception('Failed to enumerate apps for migration')
+        except Exception:
+            logger.exception('Failed to configure centralized context_store')
         # 모듈화된 restore_contexts 함수 사용
         try:
             restore_results = restore_contexts()
@@ -186,42 +300,11 @@ async def lifespan(app: FastAPI):
                 logger.exception('자동저장 작업 등록 실패')
 
             try:
-                # 정기 백업 작업 등록: context_store 백업을 주기적으로 실행
-                try:
-                    CONTEXT_BACKUP_INTERVAL_SECONDS = int(os.getenv('CONTEXT_BACKUP_INTERVAL_SECONDS', '3600'))
-                except Exception:
-                    CONTEXT_BACKUP_INTERVAL_SECONDS = 3600
-                CONTEXT_BACKUP_JOB_ID = os.getenv('CONTEXT_BACKUP_JOB_ID', 'context_backup')
-
-                # 기존에 동일한 ID의 잡이 있으면 제거
-                try:
-                    if scheduler.get_job(CONTEXT_BACKUP_JOB_ID):
-                        scheduler.remove_job(CONTEXT_BACKUP_JOB_ID)
-                except Exception:
-                    pass
-
-                def backup_contexts_wrapper():
-                    try:
-                        # env에서 보관 정책값 읽기(없으면 manager의 기본값 사용)
-                        keep_days_env = os.getenv('CONTEXT_BACKUP_KEEP_DAYS')
-                        max_files_env = os.getenv('CONTEXT_BACKUP_MAX_FILES')
-                        try:
-                            keep_days_val = int(keep_days_env) if keep_days_env and keep_days_env.strip().lstrip('-').isdigit() else None
-                        except Exception:
-                            keep_days_val = None
-                        try:
-                            max_files_val = int(max_files_env) if max_files_env and max_files_env.strip().lstrip('-').isdigit() else None
-                        except Exception:
-                            max_files_val = None
-
-                        backup_all_states(keep_days=keep_days_val, max_backups=max_files_val)
-                    except Exception:
-                        logger.exception('backup_all_states 실행 실패')
-
-                scheduler.add_job(backup_contexts_wrapper, 'interval', seconds=CONTEXT_BACKUP_INTERVAL_SECONDS, id=CONTEXT_BACKUP_JOB_ID)
-                logger.info(f'컨텍스트 백업 작업 등록됨 (interval={CONTEXT_BACKUP_INTERVAL_SECONDS}s, job_id={CONTEXT_BACKUP_JOB_ID})')
+                # 기존 자동 백업 등록은 scheduler 모듈의 전역 백업(job)으로 단일화했습니다.
+                # 중복 실행 방지를 위해 여기서는 backup_all_states 등록을 생략합니다.
+                logger.info('Skipped main-level backup_all_states registration to avoid duplicate backups; scheduler module handles backups')
             except Exception:
-                logger.exception('컨텍스트 백업 작업 등록 실패')
+                logger.exception('컨텍스트 백업 작업 등록(생략) 중 예외 발생')
         else:
             logger.info('START_MAIN_PROCESS != 1 이므로 autosave 및 복원 작업을 건너뜁니다 (중복 실행 방지)')
 
@@ -244,38 +327,38 @@ async def lifespan(app: FastAPI):
         logger.info("Scheduler started.")
         yield
     finally:
+        # 종료 시점: scheduler가 존재하면 한 번만 완전 종료(wait=True) 시도하고, 그 다음에 컨텍스트 정리 수행
         try:
-            scheduler.shutdown(wait=False)
-            logger.info('APScheduler 종료 중')
-            logger.info("Closing sockets...")
+            if scheduler is not None:
+                try:
+                    logger.info('Shutting down APScheduler (waiting for jobs to finish)')
+                    scheduler.shutdown(wait=False)
+                    logger.info('APScheduler fully shutdown (wait=True)')
+                except Exception:
+                    # 강제/빠른 종료가 필요한 경우 로그를 남기고 계속 진행
+                    logger.exception('APScheduler shutdown with wait=True failed, attempting force shutdown')
+                    try:
+                        scheduler.shutdown(wait=False)
+                        logger.info('APScheduler shutdown attempted with wait=False')
+                    except Exception:
+                        logger.exception('APScheduler forced shutdown failed')
+            else:
+                logger.info('No scheduler instance to shutdown')
         except Exception:
-            pass
-        # 앱 종료 시: START_MAIN_PROCESS가 1일 때 스케줄러를 완전 종료(wait=True)한 뒤
-        # 모듈화된 cleanup_contexts 함수를 사용합니다.
+            logger.exception('Exception while shutting down scheduler')
+
+        # START_MAIN_PROCESS == '1' 일 때만 컨텍스트 정리 수행
         try:
             if START_MAIN_PROCESS == '1':
                 try:
-                    # scheduler를 먼저 완전 종료하여 주기 작업이 더 이상 실행되지 않게 함
-                    try:
-                        scheduler.shutdown(wait=True)
-                        logger.info('APScheduler 완전 종료됨 (wait=True)')
-                    except Exception:
-                        logger.exception('APScheduler 완전 종료 중 오류 발생')
-
-                    # 모듈화된 cleanup_contexts 함수 사용
                     cleanup_contexts()
-
+                    logger.info('cleanup_contexts completed')
                 except Exception:
-                    logger.exception('종료 시 cleanup 실패')
+                    logger.exception('cleanup_contexts failed')
             else:
                 logger.info('START_MAIN_PROCESS != 1 이므로 종료 시 autosave/persist를 건너뜁니다')
-                try:
-                    scheduler.shutdown(wait=True)
-                    logger.info('APScheduler 완전 종료됨 (wait=True)')
-                except Exception:
-                    logger.exception('APScheduler 완전 종료 중 오류 발생')
         except Exception:
-            logger.exception('종료 루틴에서 예외 발생')
+            logger.exception('Exception during final cleanup')
 
 app = FastAPI(title="FastAPI 스케쥴러", version="1.0", lifespan=lifespan)
 

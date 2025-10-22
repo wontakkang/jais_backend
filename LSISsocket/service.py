@@ -13,7 +13,7 @@ from pathlib import Path
 
 from utils.protocol.context import BaseSlaveContext, CONTEXT_REGISTRY, RegistersSlaveContext
 from LSISsocket.apps import LSISsocketConfig
-from utils.protocol.context.manager import restore_json_blocks_to_slave_context
+from utils.protocol.context.manager import _sync_registry_state, restore_json_blocks_to_slave_context
 from utils.protocol.context.manager import create_or_update_slave_context
 try:
     app_name = getattr(LSISsocketConfig, 'name', 'LSISsocket')
@@ -25,21 +25,27 @@ logger = setup_logger('LSISsocket', './log/LSISsocket.log')
 sockets = []
 
 @log_exceptions(logger)
-def tcp_client_servive(client):
-    
-    app_path = Path(r'D:\project\projects\jais\py_backend\LSISsocket')
-    cs_path = app_path / 'context_store'
-    cs_path.mkdir(parents=True, exist_ok=True)
-    slave_ctx = RegistersSlaveContext(create_memory='create_ls_xgt_tcp_memory', count=20000, use_json=True)
-    restored = restore_json_blocks_to_slave_context(app_path, slave_ctx, load_most_recent=True)
-    CONTEXT_REGISTRY[app_name] = slave_ctx
-    
+async def tcp_client_servive(client):
     global sockets
-    is_existed = False
+    # Try to import STOP_EVENT lazily to avoid circular import at module import time
+    try:
+        from main import STOP_EVENT as _STOP_EVENT
+    except Exception:
+        _STOP_EVENT = None
+
+    # If shutdown already requested, skip work
+    try:
+        if _STOP_EVENT is not None and _STOP_EVENT.is_set():
+            logger.info(f'tcp_client_servive: shutdown requested, skipping client {client.host}:{client.port}')
+            return
+    except Exception:
+        pass
+
     connect_sock = None
-    
+    is_existed = False
     if len(sockets) > 0:
         for sock in sockets:
+            is_existed = False
             if sock.params.host == client.host and sock.params.port == client.port:
                 is_existed = True
                 connect_sock = sock
@@ -49,6 +55,19 @@ def tcp_client_servive(client):
         connect_sock = LSIS_TcpClient(client.host, client.port, timeout=60)
         connect_sock.connect(retry_forever=False)
         sockets.append(connect_sock)
+
+        # If shutdown requested immediately after connect, close and exit quickly
+        try:
+            if _STOP_EVENT is not None and _STOP_EVENT.is_set():
+                logger.info(f'tcp_client_servive: shutdown detected after connect; closing socket {client.host}:{client.port}')
+                try:
+                    connect_sock.close()
+                except Exception:
+                    pass
+                return
+        except Exception:
+            pass
+
         # Persist a SlaveContext entry for this client into context_store/state.json
         try:
             create_or_update_slave_context(
@@ -57,38 +76,137 @@ def tcp_client_servive(client):
                 client.port,
                 memory_creator="LS_XGT_TCP",
                 memory_kwargs={"count": 20000, "use_json": True},
-                persist=True,
+                persist=False,
             )
-            logger.info(f'Persisted slave context for {client.host}:{client.port} to state.json')
-        except Exception:
-            logger.exception(f'Failed to persist slave context for {client.host}:{client.port}')
-    for block in client.blocks:
-        try:
-            logger.debug(f'LSISsocket service read block => {block})')
-            response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{0}", 700)
-            CONTEXT_REGISTRY[app_name].setValues(memory=block["memory"], address=int(0), values=response.values)
-            
-            if block['count'] <= 700:
-                response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{block['address']}", block['count'])
-            elif block['count'] > 700:
-                total_count = block['count']
-                read_count = 0
+            # CONTEXT_REGISTRY[app_name]에 SlaveContext에 key=f"{client.host}:{client.port}"인 상태에서 blocks이라는 하위 키 생성하고 client.blocks 할당
+                     
+            memory = CONTEXT_REGISTRY[app_name].get_state(f"{client.host}:{client.port}")
+            memory['blocks'] = client.blocks
+            response = []
+            # _sync_registry_state(app_name=app_name, serial=f"{client.host}:{client.port}", entry_obj=memory)  
+            for block in client.blocks:
+                logger.debug(f"LSISsocket service read block => {block}")
+                try:
+                    total_count = int(block.get('count', 0))
+                except Exception:
+                    total_count = 0
+                try:
+                    read_count = int(block.get('address', 0))
+                except Exception:
+                    read_count = 0
                 response = []
                 while read_count < total_count:
                     current_count = min(700, total_count - read_count)
-                    logger.debug(f'LSISsocket service read block partial => {int(block['address']) + read_count}, read_count: {current_count})')
-                    partial_response = getattr(connect_sock, block['func_name'])(f"{block['memory']}{int(block['address']) + read_count}", current_count)
-                    response.extend(partial_response.values)
+                    args = [
+                        f"{block.get('memory','')}{read_count}",
+                        current_count
+                    ]
+                    try:
+                        func_name = block.get('func_name')
+                        func = getattr(connect_sock, func_name, None)
+                        if func is None:
+                            logger.error(f"LSISsocket: connect_sock has no attribute '{func_name}'")
+                            break
+                        partial_response = func(*args)
+                    except Exception:
+                        logger.exception('Error calling read function on connect_sock, aborting this block')
+                        break
+
+                    # 방어적 주소 표시 및 로깅
+                    try:
+                        try:
+                            addr_display = int(block.get('address', 0)) + read_count
+                        except Exception:
+                            addr_display = read_count
+                        logger.debug(f"LSISsocket service read block partial done => {addr_display}, read_count: {read_count}, current_count: {current_count}")
+                    except Exception:
+                        # 로깅 실패는 치명적이지 않으므로 무시
+                        pass
+
+                    # partial_response.values 안전하게 확장
+                    try:
+                        vals = getattr(partial_response, 'values', None)
+                        if vals is None:
+                            logger.warning('partial_response has no attribute values or it is None')
+                        elif not isinstance(vals, (list, tuple)):
+                            logger.warning('partial_response.values is not a list/tuple, skipping extend')
+                        else:
+                            try:
+                                logger.debug(f"LSISsocket partial response values => {vals[:5]}... (total {len(vals)})")
+                            except Exception:
+                                # 길이 파악이나 슬라이싱이 실패할 경우에도 값을 확장
+                                logger.debug('LSISsocket partial response values => (unable to display sample)')
+                            response.extend(vals)
+                    except Exception as e:
+                        logger.error(f'Error extending response values: {e}')
+
                     read_count += current_count
-        except Exception as e:
-            logger.error(f'Error reading block {block}: {e}')
-                
-                
-    #             if response is None:
-    #                 response = partial_response
+        
+            logger.info(f'Persisted slave context for {client.host}:{client.port} {CONTEXT_REGISTRY[app_name].get_state(f"{client.host}:{client.port}").keys()} to state.json')
+        except Exception:
+            logger.exception(f'Failed to persist slave context for {client.host}:{client.port}')
+            
+    for sock in sockets:
+        logger.debug(f'LSISsocket CONTEXT_REGISTRY => {sock}') 
+        
+    # for block in client.blocks:
+    #     logger.debug(f"LSISsocket service read block => {block}")
+    #     try:
+    #         total_count = int(block.get('count', 0))
+    #     except Exception:
+    #         total_count = 0
+    #     try:
+    #         read_count = int(block.get('address', 0))
+    #     except Exception:
+    #         read_count = 0
+    #     response = []
+    #     while read_count < total_count:
+    #         current_count = min(700, total_count - read_count)
+    #         args = [
+    #             f"{block.get('memory','')}{read_count}",
+    #             current_count
+    #         ]
+    #         try:
+    #             func_name = block.get('func_name')
+    #             func = getattr(connect_sock, func_name, None)
+    #             if func is None:
+    #                 logger.error(f"LSISsocket: connect_sock has no attribute '{func_name}'")
+    #                 break
+    #             partial_response = func(*args)
+    #         except Exception:
+    #             logger.exception('Error calling read function on connect_sock, aborting this block')
+    #             break
+
+    #         # 방어적 주소 표시 및 로깅
+    #         try:
+    #             try:
+    #                 addr_display = int(block.get('address', 0)) + read_count
+    #             except Exception:
+    #                 addr_display = read_count
+    #             logger.debug(f"LSISsocket service read block partial done => {addr_display}, read_count: {read_count}, current_count: {current_count}")
+    #         except Exception:
+    #             # 로깅 실패는 치명적이지 않으므로 무시
+    #             pass
+
+    #         # partial_response.values 안전하게 확장
+    #         try:
+    #             vals = getattr(partial_response, 'values', None)
+    #             if vals is None:
+    #                 logger.warning('partial_response has no attribute values or it is None')
+    #             elif not isinstance(vals, (list, tuple)):
+    #                 logger.warning('partial_response.values is not a list/tuple, skipping extend')
     #             else:
-    #                 response.values.extend(partial_response.values)
-    #             read_count += current_count
+    #                 try:
+    #                     logger.debug(f"LSISsocket partial response values => {vals[:5]}... (total {len(vals)})")
+    #                 except Exception:
+    #                     # 길이 파악이나 슬라이싱이 실패할 경우에도 값을 확장
+    #                     logger.debug('LSISsocket partial response values => (unable to display sample)')
+    #                 response.extend(vals)
+    #         except Exception as e:
+    #             logger.error(f'Error extending response values: {e}')
+
+    #         read_count += current_count
+    
         
     from LSISsocket.models import SocketClientStatus  # django.setup() 이후 import
     socketValue = {}

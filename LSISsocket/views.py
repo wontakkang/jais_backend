@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
+from agriseed.views import BaseViewSet
 from utils.protocol.LSIS.client.tcp import LSIS_TcpClient
 from .models import *
 from .serializers import *
@@ -249,3 +250,57 @@ class LSISRunView(APIView):
         except Exception as e:
             logger.exception(f"lsis_run_view error: {e}")
             return JsonResponse({"detail": str(e)}, status=500)
+
+
+# ControlHistoryViewSet: 제어 이력(ControlHistory) 모델의 CRUD API를 제공합니다.
+class ControlHistoryViewSet(viewsets.ModelViewSet):
+    queryset = ControlValueHistory.objects.all()
+    serializer_class = ControlHistorySerializer
+
+
+class ControlValueViewSet(viewsets.ModelViewSet):
+    queryset = ControlValue.objects.all()
+    serializer_class = ControlValueSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_user']
+    ordering_fields = ['id', 'created_at', 'updated_at', 'control_at']
+
+class ControlValueHistoryViewSet(viewsets.ModelViewSet):
+    queryset = ControlValueHistory.objects.all()
+    serializer_class = ControlValueHistorySerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_value']
+    ordering_fields = ['id', 'created_at', 'control_at']
+
+class CalcVariableViewSet(viewsets.ModelViewSet):
+    queryset = CalcVariable.objects.all()
+    serializer_class = CalcVariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__id']
+    ordering_fields = ['id']
+
+class CalcGroupViewSet(viewsets.ModelViewSet):
+    queryset = CalcGroup.objects.all()
+    serializer_class = CalcGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['id', 'name']
+    ordering_fields = ['id']
+
+class ControlGroupViewSet(viewsets.ModelViewSet):
+    queryset = ControlGroup.objects.all()
+    serializer_class = ControlGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['id', 'name']
+    ordering_fields = ['id']
+
+# ControlVariableViewSet: agriseed.models.ControlVariable을 위한 CRUD API
+class ControlVariableViewSet(BaseViewSet):
+    """ControlVariable 모델의 CRUD API
+    - agriseed.models.ControlVariable과 agriseed.serializers.ControlVariableSerializer 사용
+    """
+    queryset = ControlVariable.objects.select_related('group', 'applied_logic', 'name').all()
+    serializer_class = ControlVariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['group__id', 'name__id', 'applied_logic__id']
+    search_fields = []
+    ordering_fields = ['id']

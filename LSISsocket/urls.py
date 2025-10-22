@@ -13,6 +13,12 @@ router.register(r'client-commands', SocketClientCommandViewSet)
 # 메모리 그룹 및 변수 API는 LSISsocket에서 제공되어야 하므로 등록을 복구합니다.
 router.register(r'memory-groups', MemoryGroupViewSet, basename='memorygroup')
 router.register(r'memory-variables', VariableViewSet, basename='variable')
+router.register(r'control-values', ControlValueViewSet)
+router.register(r'control-value-histories', ControlValueHistoryViewSet)
+router.register(r'calc-variables', CalcVariableViewSet)
+router.register(r'calc-groups', CalcGroupViewSet)
+router.register(r'control-groups', ControlGroupViewSet)
+router.register(r'control-variables', ControlVariableViewSet)
 
 urlpatterns = [
     *router.urls,

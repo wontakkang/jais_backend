@@ -76,15 +76,7 @@ class Activity(models.Model):
     icon = models.CharField(max_length=100)
     icon_class = models.CharField(max_length=100)
     is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-
-class ControlHistory(models.Model):
-    time = models.DateTimeField()
-    device = models.ForeignKey(Device, null=True, blank=True, on_delete=models.CASCADE, related_name='control_histories')
-    action = models.CharField(max_length=200)
-    trigger = models.CharField(max_length=200)
-    status = models.CharField(max_length=50)
-    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-
+    
 class ControlRole(models.Model):
     title = models.CharField(max_length=200)
     icon = models.CharField(max_length=100)
@@ -809,95 +801,6 @@ class SpecimenAttachment(models.Model):
     def __str__(self):
         return f"{self.specimen.specimen_code} - {self.filename or self.file.name}"
 
-
-class ControlGroup(models.Model):
-    """
-    제어 그룹 모델
-    """
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-    size_byte = models.PositiveIntegerField(null=True, blank=True, help_text="그룹 크기 (바이트 단위)")
-
-    class Meta:
-        ordering = ['id']
-
-    def __str__(self):
-        return f"ControlGroup ({self.name})"
-
-
-class ControlVariable(models.Model):
-    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_control_variables_in_group')
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_control_variable')
-    data_type = models.CharField(max_length=20, blank=True)
-    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='agriseed_applications')
-    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
-
-
-class CalcGroup(models.Model):
-    """
-    계산 그룹 모델 (프로젝트 버전 의존성 제거됨)
-    """
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-    size_byte = models.PositiveIntegerField()
-
-    class Meta:
-        ordering = ['id']
-
-    def __str__(self):
-        return f"CalcGroup ({self.name})"
-
-class CalcVariable(models.Model):
-    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_calc_variables_in_group') # related_name 변경
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_calc_variable') # related_name 변경
-    data_type = models.CharField(max_length=20, blank=True)
-    use_method = models.CharField(
-        max_length=40,
-        null=True,
-        blank=True,
-        choices=[(method, method) for method in calculation_methods] # control_methods 제거
-    )
-    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class ControlValue(models.Model):
-    control_user = models.ForeignKey('corecode.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_control_values', verbose_name="제어 사용자")
-    status = models.CharField(max_length=30, verbose_name="명령상태")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
-    command_name = models.CharField(max_length=100, verbose_name="명령이름")
-    target = models.CharField(max_length=100, verbose_name="타겟")
-    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
-    value = models.JSONField(verbose_name="명령값")
-    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
-    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
-    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
-
-    def __str__(self):
-        return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
-
-class ControlValueHistory(models.Model):
-    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, null=True, blank=True, related_name='histories', verbose_name="제어값")
-    status = models.CharField(max_length=30, verbose_name="명령상태")
-    command_name = models.CharField(max_length=100, verbose_name="명령이름")
-    target = models.CharField(max_length=100, verbose_name="타겟")
-    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
-    value = models.JSONField(verbose_name="명령값")
-    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
-    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
-    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
-
-    def __str__(self):
-        return f"{self.command_name}({self.target}) - {self.status}"
   
 class LocationGroup(models.Model):
     group_id = models.CharField(max_length=50, primary_key=True, help_text='그룹 고유 ID (예: GRP_JEJU_EAST)')

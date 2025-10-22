@@ -6,104 +6,23 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.apps import apps
 
+from utils.calculation import __all__ as calculation_methods
+from utils.calculation import all_dict
+from utils.control import __all__ as control_methods
+from utils.control import all_dict as control_methods_dict
+
 class ActiveManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)
 
-class SocketClientConfig(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    host = models.CharField(max_length=100, help_text="클라이언트 IP", null=True, blank=True)
-    port = models.IntegerField(help_text="클라이언트 포트", null=True, blank=True)
-    blocks = models.JSONField(help_text='[{"address":"0","id":1,"count":700,"func_name":"continuous_read_bytes","memory":"%MB"},{"address":"700","id":2,"count":700,"func_name":"continuous_read_bytes","memory":"%MB"}]', null=True, blank=True)
-    cron = models.JSONField(help_text="cron 설정값", null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_used = models.BooleanField(default=True, help_text="사용 여부")
-    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-    zone_style = models.JSONField(null=True, blank=True, help_text="존 스타일 정보")
-    control_groups = models.ManyToManyField('agriseed.ControlGroup', blank=True, related_name='lsissocket_control_groups', help_text='연결된 제어 그룹')
-    calc_groups = models.ManyToManyField('agriseed.CalcGroup', blank=True, related_name='lsissocket_calc_groups', help_text='연결된 계산 그룹')
-    memory_groups = models.ManyToManyField('LSISsocket.MemoryGroup', blank=True, related_name='lsissocket_memory_groups', help_text='연결된 메모리 그룹')
-    objects = ActiveManager()  # 기본 매니저: 삭제되지 않은 것만
-    all_objects = models.Manager()  # 전체(삭제 포함) 매니저
-
-    def __str__(self):
-        return self.name
-
-    def delete(self, using=None, keep_parents=False):
-        self.is_deleted = True
-        self.save()
-
-    def restore(self):
-        self.is_deleted = False
-        self.save()
-        
 class ActiveLogManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)
 
-class SocketClientStatus(models.Model):
-    config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='status_logs')
-    updated_at = models.DateTimeField(auto_now=True)
-    detailedStatus = models.JSONField(null=True, blank=True)
-    error_code = models.IntegerField(default=0)
-    message = models.TextField(null=True, blank=True)
-    values= models.JSONField(null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.system_status} (code: {self.error_code}) @ {self.updated_at}"
-
-class SocketClientLog(models.Model):
-    config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='logs')
-    detailedStatus = models.JSONField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    message = models.TextField(null=True, blank=True)
-    error_code = models.IntegerField(null=True, blank=True)
-    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-
-    objects = ActiveLogManager()  # 삭제되지 않은 것만 조회
-    all_objects = models.Manager()  # 전체(삭제 포함) 조회
-
-    def delete(self, using=None, keep_parents=False):
-        self.is_deleted = True
-        self.save()
-
-    def restore(self):
-        self.is_deleted = False
-        self.save()
-
-    def __str__(self):
-        return f"{self.config.name} - {self.created_at}"
-
 class ActiveCommandLogManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)
-
-class SocketClientCommand(models.Model):
-    config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='command_logs')
-    user = models.CharField(max_length=40, null=True, blank=True, verbose_name='보낸 유저')
-    command = models.CharField(max_length=100, help_text="제어항목 또는 명령 이름")
-    value = models.CharField(max_length=255, null=True, blank=True, help_text="제어값")
-    control_time = models.DateTimeField(auto_now_add=True, verbose_name='제어시각')
-    payload = models.JSONField(null=True, blank=True, help_text="보낸 명령의 상세 데이터(바이트 등)")
-    response = models.JSONField(null=True, blank=True, help_text="기기로부터 받은 응답(있다면)")
-    message = models.TextField(null=True, blank=True)
-    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
-
-    objects = ActiveCommandLogManager()  # 삭제되지 않은 것만 조회
-    all_objects = models.Manager()       # 전체(삭제 포함) 조회
-
-    def delete(self, using=None, keep_parents=False):
-        self.is_deleted = True
-        self.save()
-
-    def restore(self):
-        self.is_deleted = False
-        self.save()
-
-    def __str__(self):
-        return f"{self.config.name} - {self.command} - {self.control_time}"
-
+    
 class ActiveSensorNodeManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)
@@ -186,6 +105,95 @@ class ControlNodeConfig(models.Model):
     def __str__(self):
         return self.name
 
+
+class ControlGroup(models.Model):
+    """
+    제어 그룹 모델
+    """
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    size_byte = models.PositiveIntegerField(null=True, blank=True, help_text="그룹 크기 (바이트 단위)")
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return f"ControlGroup ({self.name})"
+
+
+class ControlVariable(models.Model):
+    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_control_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_control_variable')
+    data_type = models.CharField(max_length=20, blank=True)
+    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='agriseed_applications')
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
+
+
+class CalcGroup(models.Model):
+    """
+    계산 그룹 모델 (프로젝트 버전 의존성 제거됨)
+    """
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    size_byte = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return f"CalcGroup ({self.name})"
+
+class CalcVariable(models.Model):
+    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_calc_variables_in_group') # related_name 변경
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_calc_variable') # related_name 변경
+    data_type = models.CharField(max_length=20, blank=True)
+    use_method = models.CharField(
+        max_length=40,
+        null=True,
+        blank=True,
+        choices=[(method, method) for method in calculation_methods] # control_methods 제거
+    )
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class ControlValue(models.Model):
+    control_user = models.ForeignKey('corecode.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_control_values', verbose_name="제어 사용자")
+    status = models.CharField(max_length=30, verbose_name="명령상태")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
+    command_name = models.CharField(max_length=100, verbose_name="명령이름")
+    target = models.CharField(max_length=100, verbose_name="타겟")
+    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
+    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
+    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
+
+    def __str__(self):
+        return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
+
+class ControlValueHistory(models.Model):
+    control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, null=True, blank=True, related_name='histories', verbose_name="제어값")
+    status = models.CharField(max_length=30, verbose_name="명령상태")
+    command_name = models.CharField(max_length=100, verbose_name="명령이름")
+    target = models.CharField(max_length=100, verbose_name="타겟")
+    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
+    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
+    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
+
+    def __str__(self):
+        return f"{self.command_name}({self.target}) - {self.status}"
 
 class MemoryGroup(models.Model):
     """
@@ -323,3 +331,91 @@ class Variable(models.Model):
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
     def __str__(self):
         return f"{self.name} ({self.device}{self.address})"
+
+
+class SocketClientConfig(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    host = models.CharField(max_length=100, help_text="클라이언트 IP", null=True, blank=True)
+    port = models.IntegerField(help_text="클라이언트 포트", null=True, blank=True)
+    blocks = models.JSONField(help_text='[{"address":"0","id":1,"count":700,"func_name":"continuous_read_bytes","memory":"%MB"},{"address":"700","id":2,"count":700,"func_name":"continuous_read_bytes","memory":"%MB"}]', null=True, blank=True)
+    cron = models.JSONField(help_text="cron 설정값", null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_used = models.BooleanField(default=True, help_text="사용 여부")
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+    zone_style = models.JSONField(null=True, blank=True, help_text="존 스타일 정보")
+    control_groups = models.ManyToManyField(ControlGroup, blank=True, related_name='lsissocket_control_groups', help_text='연결된 제어 그룹')
+    calc_groups = models.ManyToManyField(CalcGroup, blank=True, related_name='lsissocket_calc_groups', help_text='연결된 계산 그룹')
+    memory_groups = models.ManyToManyField(MemoryGroup, blank=True, related_name='lsissocket_memory_groups', help_text='연결된 메모리 그룹')
+    objects = ActiveManager()  # 기본 매니저: 삭제되지 않은 것만
+    all_objects = models.Manager()  # 전체(삭제 포함) 매니저
+
+    def __str__(self):
+        return self.name
+
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save()
+
+    def restore(self):
+        self.is_deleted = False
+        self.save()
+        
+
+class SocketClientStatus(models.Model):
+    config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='status_logs')
+    updated_at = models.DateTimeField(auto_now=True)
+    detailedStatus = models.JSONField(null=True, blank=True)
+    error_code = models.IntegerField(default=0)
+    message = models.TextField(null=True, blank=True)
+    values= models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.system_status} (code: {self.error_code}) @ {self.updated_at}"
+
+class SocketClientLog(models.Model):
+    config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='logs')
+    detailedStatus = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    message = models.TextField(null=True, blank=True)
+    error_code = models.IntegerField(null=True, blank=True)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
+    objects = ActiveLogManager()  # 삭제되지 않은 것만 조회
+    all_objects = models.Manager()  # 전체(삭제 포함) 조회
+
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save()
+
+    def restore(self):
+        self.is_deleted = False
+        self.save()
+
+    def __str__(self):
+        return f"{self.config.name} - {self.created_at}"
+
+class SocketClientCommand(models.Model):
+    config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='command_logs')
+    user = models.CharField(max_length=40, null=True, blank=True, verbose_name='보낸 유저')
+    command = models.CharField(max_length=100, help_text="제어항목 또는 명령 이름")
+    value = models.CharField(max_length=255, null=True, blank=True, help_text="제어값")
+    control_time = models.DateTimeField(auto_now_add=True, verbose_name='제어시각')
+    payload = models.JSONField(null=True, blank=True, help_text="보낸 명령의 상세 데이터(바이트 등)")
+    response = models.JSONField(null=True, blank=True, help_text="기기로부터 받은 응답(있다면)")
+    message = models.TextField(null=True, blank=True)
+    is_deleted = models.BooleanField(default=False, help_text="삭제 여부")
+
+    objects = ActiveCommandLogManager()  # 삭제되지 않은 것만 조회
+    all_objects = models.Manager()       # 전체(삭제 포함) 조회
+
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save()
+
+    def restore(self):
+        self.is_deleted = False
+        self.save()
+
+    def __str__(self):
+        return f"{self.config.name} - {self.command} - {self.control_time}"

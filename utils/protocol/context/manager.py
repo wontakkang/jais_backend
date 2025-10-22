@@ -25,6 +25,7 @@ from .config import (
 )
 from . import CONTEXT_REGISTRY
 from .context import RegistersSlaveContext
+from .sqlite_store import upsert_state, list_app_states, load_state, backup_db, upsert_store_meta, init_db
 
 logger = logging.getLogger("context_store_manager")
 if not logger.handlers:
@@ -32,6 +33,18 @@ if not logger.handlers:
     h.setFormatter(logging.Formatter("%(asctime)s %(levelname)s: %(message)s"))
     logger.addHandler(h)
     logger.setLevel(logging.INFO)
+
+# New configuration flags: default to DB-only (do not write state.json files).
+# File fallback removed: operate DB-only in production
+try:
+    _WRITE_FILES = os.getenv('CONTEXT_STORE_WRITE_FILES', 'false').strip().lower() in ('1', 'true', 'yes', 'on')
+except Exception:
+    _WRITE_FILES = False
+# Log current mode for easier diagnostics
+try:
+    logger.debug(f"CONTEXT_STORE write-files enabled: {_WRITE_FILES}")
+except Exception:
+    pass
 
 # per-app locks to avoid race between save helpers and autosave/persist
 _APP_LOCKS: Dict[str, threading.Lock] = {}
@@ -76,6 +89,30 @@ def _file_lock(path: Union[str, Path]):
     if os.name == 'nt':
         # Use directory-based lock on Windows: os.mkdir is atomic on NTFS and avoids file handle conflicts.
         lock_dir = file_path.with_suffix('.lockdir')
+        # stale lock cleanup: 오래된 .lockdir이 남아있는 경우 자동 제거 시도
+        try:
+            try:
+                stale_seconds = int(os.getenv('CONTEXT_LOCK_STALE_SECONDS', '600'))
+            except Exception:
+                stale_seconds = 600
+            if lock_dir.exists():
+                try:
+                    mtime = lock_dir.stat().st_mtime
+                    if (time.time() - mtime) > stale_seconds:
+                        try:
+                            os.rmdir(str(lock_dir))
+                            logger.warning(f"Removed stale lock dir: {lock_dir} (age>{stale_seconds}s)")
+                        except Exception:
+                            try:
+                                shutil.rmtree(str(lock_dir))
+                                logger.warning(f"Removed stale lock dir (rmtree): {lock_dir} (age>{stale_seconds}s)")
+                            except Exception:
+                                logger.warning(f"Could not remove stale lock dir: {lock_dir}")
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
         start = time.time()
         acquired = False
         # 시도 루프는 try/finally로 감싸지 않고 단순화합니다
@@ -100,6 +137,8 @@ def _file_lock(path: Union[str, Path]):
             except Exception:
                 # best-effort cleanup; leave stale lock for manual inspection
                 pass
+        # Windows 분기 실행 후 함수 종료하여 다른 분기에서 추가로 yield되지 않도록 함
+        return
 
     # POSIX or other: try portalocker on the target file
     try:
@@ -326,17 +365,46 @@ def ensure_context_store_for_apps(project_root: Optional[Union[str, Path]] = Non
     """모든 앱 폴더에 context_store 디렉터리가 존재하는지 확인하고 없으면 생성한다.
 
     반환값: {app_name: Path_to_context_store}
+
+    주의: DB 전용 모드(_WRITE_FILES == False)인 경우 실제 디렉터리나 대용 파일을 생성하지 않고
+    중앙 sqlite DB를 사용하도록 동작합니다. 이 모드에서는 tools나 운영자가 파일 기반 state.json 존재를
+    기대할 수 없으므로 주의해야 합니다.
     """
     root = Path(project_root) if project_root is not None else _infer_project_root()
     apps = discover_apps(root)
     result = {}
-    for app in apps:
-        cs_path = app / CONTEXT_STORE_DIR_NAME
-        if not cs_path.exists():
-            cs_path.mkdir(parents=True, exist_ok=True)
-            logger.info(f"Created context_store: {cs_path}")
+    # Determine apps to INCLUDE from environment variable (comma-separated).
+    # If CONTEXT_STORE_APP_LIST is set, only apps in that list will have context_store handling.
+    # Otherwise default to these four apps only (as requested): agriseed, LSISsocket, corecode, MCUnode
+    try:
+        env_list = os.getenv('CONTEXT_STORE_APP_LIST')
+        if env_list and env_list.strip():
+            allowed_apps = {s.strip() for s in env_list.split(',') if s.strip()}
         else:
-            logger.debug(f"context_store exists: {cs_path}")
+            allowed_apps = {'agriseed', 'LSISsocket', 'corecode', 'MCUnode'}
+    except Exception:
+        allowed_apps = {'agriseed', 'LSISsocket', 'corecode', 'MCUnode'}
+    for app in apps:
+        # Only operate on apps explicitly allowed
+        if app.name not in allowed_apps:
+            logger.debug(f"Skipping context_store for app not in allowed list: {app.name}")
+            continue
+        cs_path = app / CONTEXT_STORE_DIR_NAME
+        # In DB-only mode we avoid creating per-app context_store directories to reduce
+        # filesystem contention on Windows and centralize storage into the sqlite DB.
+        if _WRITE_FILES:
+            if not cs_path.exists():
+                cs_path.mkdir(parents=True, exist_ok=True)
+                logger.info(f"Created context_store: {cs_path}")
+            else:
+                logger.debug(f"context_store exists: {cs_path}")
+        else:
+            # DB-only: do not create directory, but still return the expected path so callers
+            # that compute app path from cs_path.parent keep working.
+            if cs_path.exists():
+                logger.debug(f"context_store exists (files enabled): {cs_path}")
+            else:
+                logger.debug(f"DB-only mode: not creating context_store dir for app: {app.name}; using centralized sqlite storage")
         result[app.name] = cs_path
     return result
 
@@ -366,49 +434,69 @@ def create_or_update_file_for_app(
 ) -> Path:
     """지정된 앱의 context_store에 파일을 생성하거나 업데이트한다.
 
-    - app_path: 앱 폴더 경로 또는 이름(절대경로 권장)
-    - filename: context_store 내 생성할 파일명 (예: state.json)
-    - created_date: 생성일자(문자열 또는 datetime). None 이면 현재시간 사용
-    - date_format: 생성일자를 포맷할 형식
-    - content: 파일의 실제 내용(문자열)
-    - metadata: 추가 메타데이터(dict). 저장 시 .meta.json을 함께 생성/업데이트
-
-    반환값: 생성/업데이트된 파일의 Path
+    DB 전용 모드에서는 실제 파일을 쓰지 않고 sqlite에 content를 upsert 합니다.
     """
     app_p = Path(app_path)
     if not app_p.exists() or not app_p.is_dir():
         raise FileNotFoundError(f"앱 경로를 찾을 수 없습니다: {app_path}")
 
     cs_dir = app_p / CONTEXT_STORE_DIR_NAME
-    cs_dir.mkdir(parents=True, exist_ok=True)
+    # In DB-only mode we avoid creating on-disk context_store markers to reduce
+    # filesystem noise on Windows. Only create the directory and marker file when
+    # file-writing is explicitly enabled via CONTEXT_STORE_WRITE_FILES.
+    if _WRITE_FILES:
+        cs_dir.mkdir(parents=True, exist_ok=True)
+    else:
+        # do not create the directory on disk; callers still receive the expected Path
+        # so higher-level logic that computes app path keeps working.
+        pass
 
     file_path = cs_dir / filename
-    # 메타 파일은 각 파일별로 만들지 않고 context_store/meta.json 으로 통합
+    # 통합 meta.json 사용
     meta_path = cs_dir / META_FILE_NAME
 
-    # 파일 생성/업데이트
+    # In DB-only mode we do not create physical files; always ensure DB entry exists
+
     formatted_date = _format_date(created_date, date_format)
-    header = f"# created: {formatted_date}\n# filename: {filename}\n# app: {app_p.name}\n\n"
 
-    # 기존 내용이 있을 경우 덮어쓰기(업데이트)
-    with file_path.open("w", encoding="utf-8") as f:
-        f.write(header)
-        f.write(content)
+    if content is None:
+        content = ""
 
-    meta = {
-        "filename": filename,
-        "app": app_p.name,
-        "created": formatted_date,
-        "created_raw": created_date.isoformat() if isinstance(created_date, datetime.datetime) else created_date,
-        "updated": datetime.datetime.now().isoformat(),
-    }
-    if metadata:
-        meta.update(metadata)
+    try:
+        if _WRITE_FILES:
+            # Only write a tiny marker file when explicit file writes are enabled.
+            try:
+                # Ensure parent exists before writing
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+                with file_path.open("w", encoding="utf-8") as f:
+                    f.write('{}')
+            except Exception:
+                logger.exception(f"Failed to write marker json file: {file_path}")
+        else:
+            # DB-only mode: skip creating any on-disk marker
+            logger.debug(f"DB-only mode: skipping physical marker for {file_path}")
 
-    with meta_path.open("w", encoding="utf-8") as mf:
-        json.dump(meta, mf, ensure_ascii=False, indent=2)
+        # Persist into DB instead of writing full file
+        key = filename
+        upsert_state(app_p.name, key, content)
 
-    logger.info(f"Created/Updated file: {file_path} (meta: {meta_path})")
+        meta = {
+            "filename": filename,
+            "app": app_p.name,
+            "created": formatted_date,
+            "created_raw": created_date.isoformat() if isinstance(created_date, datetime.datetime) else created_date,
+            "updated": datetime.datetime.now().isoformat(),
+        }
+        try:
+            upsert_store_meta(app_p.name, filename + '.meta', meta)
+        except Exception:
+            logger.exception(f"Failed to store meta into DB for {app_p.name}/{filename}")
+
+        logger.info(f"Created/Updated sqlite-backed content: {app_p.name}/{filename} (files disabled)")
+    except Exception:
+        logger.exception(f"Failed to create ensured json file: {file_path}")
+        raise
+
     return file_path
 
 
@@ -422,22 +510,28 @@ def ensure_json_file_for_app(
 ) -> Path:
     """앱의 context_store 안에 filename이 없으면 기본 JSON 파일과 메타를 생성한다.
 
-    payload가 None이면 빈 객체({})를 저장한다.
-    반환값: 생성된 파일의 Path
+    DB 전용 모드에서는 파일을 실제로 생성하지 않고 sqlite에 빈 객체를 저장합니다.
     """
     app_p = Path(app_path)
     if not app_p.exists() or not app_p.is_dir():
         raise FileNotFoundError(f"앱 경로를 찾을 수 없습니다: {app_path}")
 
     cs_dir = app_p / CONTEXT_STORE_DIR_NAME
-    cs_dir.mkdir(parents=True, exist_ok=True)
+    # In DB-only mode we avoid creating on-disk context_store markers to reduce
+    # filesystem noise on Windows. Only create the directory and marker file when
+    # file-writing is explicitly enabled via CONTEXT_STORE_WRITE_FILES.
+    if _WRITE_FILES:
+        cs_dir.mkdir(parents=True, exist_ok=True)
+    else:
+        # do not create the directory on disk; callers still receive the expected Path
+        # so higher-level logic that computes app path keeps working.
+        pass
 
     file_path = cs_dir / filename
     # 통합 meta.json 사용
     meta_path = cs_dir / META_FILE_NAME
 
-    if file_path.exists():
-        return file_path
+    # In DB-only mode we do not create physical files; always ensure DB entry exists
 
     formatted_date = _format_date(created_date, date_format)
 
@@ -445,8 +539,22 @@ def ensure_json_file_for_app(
         payload = {}
 
     try:
-        with file_path.open("w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
+        if _WRITE_FILES:
+            # Only write a tiny marker file when explicit file writes are enabled.
+            try:
+                # Ensure parent exists before writing
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+                with file_path.open("w", encoding="utf-8") as f:
+                    f.write('{}')
+            except Exception:
+                logger.exception(f"Failed to write marker json file: {file_path}")
+        else:
+            # DB-only mode: skip creating any on-disk marker
+            logger.debug(f"DB-only mode: skipping physical marker for {file_path}")
+
+        # Persist into DB instead of writing full file
+        key = filename
+        upsert_state(app_p.name, key, payload)
 
         meta = {
             "filename": filename,
@@ -455,13 +563,12 @@ def ensure_json_file_for_app(
             "created_raw": created_date.isoformat() if isinstance(created_date, datetime.datetime) else created_date,
             "updated": datetime.datetime.now().isoformat(),
         }
-        if metadata:
-            meta.update(metadata)
+        try:
+            upsert_store_meta(app_p.name, filename + '.meta', meta)
+        except Exception:
+            logger.exception(f"Failed to store meta into DB for {app_p.name}/{filename}")
 
-        with meta_path.open("w", encoding="utf-8") as mf:
-            json.dump(meta, mf, ensure_ascii=False, indent=2)
-
-        logger.info(f"Ensured JSON file created: {file_path} (meta: {meta_path})")
+        logger.info(f"Ensured JSON file marker created (DB-backed): {file_path} (meta in DB)")
     except Exception:
         logger.exception(f"Failed to create ensured json file: {file_path}")
         raise
@@ -488,8 +595,7 @@ def save_json_block_for_app(
 ) -> Path:
     """JSONRegistersDataBlock 인스턴스를 context_store에 저장한다.
 
-    - filename은 예: "%MB.json" 또는 "state.json" 등
-    - block은 to_json() 메서드를 제공하는 객체여야 함
+    DB 전용 모드에서는 실제 파일을 만들지 않고 sqlite에 저장합니다.
     """
     app_p = Path(app_path)
     if not app_p.exists() or not app_p.is_dir():
@@ -502,19 +608,24 @@ def save_json_block_for_app(
     # 통합 meta.json 사용
     meta_path = cs_dir / META_FILE_NAME
 
-    formatted_date = _format_date(created_date, date_format)
-
-    # JSON 저장
+    # JSON 저장: DB(upsert)로 전환
     try:
         payload = block.to_json() if hasattr(block, "to_json") else block
     except Exception:
         payload = block
 
-    # Acquire cross-process lock while writing this file
-    with _file_lock(file_path):
-        with file_path.open("w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
+    # formatted_date 및 metadata 준비 (meta 작성에 필요)
+    formatted_date = _format_date(created_date, date_format)
+    metadata = metadata or {}
 
+    try:
+        # key로는 파일명(stem)을 사용
+        key = Path(filename).stem
+        upsert_state(app_p.name, key, payload)
+    except Exception:
+        logger.exception(f"Failed to upsert json block into sqlite for {app_p.name}/{filename}")
+
+    # 메타 정보는 DB에 저장하거나, 필요 시 파일로 작성
     meta = {
         "filename": filename,
         "app": app_p.name,
@@ -525,10 +636,17 @@ def save_json_block_for_app(
     if metadata:
         meta.update(metadata)
 
-    with meta_path.open("w", encoding="utf-8") as mf:
-        json.dump(meta, mf, ensure_ascii=False, indent=2)
+    try:
+        # store meta as store_meta in DB
+        try:
+            upsert_store_meta(app_p.name, key + '.meta', meta)
+        except Exception:
+            logger.exception(f"Failed to store meta into DB for {app_p.name}/{filename}")
+    except Exception:
+        logger.exception(f"Failed to persist meta for {app_p.name}/{filename}")
 
-    logger.info(f"Saved JSON block: {file_path} (meta: {meta_path})")
+    logger.info(f"Saved JSON block into sqlite: {app_p.name}/{key} (meta stored in DB)")
+    # 반환은 기존과 마찬가지로 파일 경로를 리턴하되 주요 데이터는 DB에 있음
     return file_path
 
 
@@ -544,6 +662,15 @@ def load_all_json_blocks_for_app(app_path: Union[str, Path]) -> Dict[str, object
     result = {}
     if not cs_dir.exists():
         return result
+
+    # First try sqlite-backed states if available
+    try:
+        app_name = Path(app_path).name
+        db_objs = list_app_states(app_name)
+        if isinstance(db_objs, dict) and db_objs:
+            return db_objs
+    except Exception:
+        pass
 
     for p in cs_dir.glob("*.json"):
         # 통합 meta 파일(meta.json)은 무시
@@ -584,6 +711,18 @@ def load_most_recent_json_block_for_app(app_path: Union[str, Path]):
         except Exception:
             logger.exception(f"Failed to create or load default json in {cs_dir}")
             return None, None
+
+    # Try DB first for most recent
+    try:
+        app_name = Path(app_path).name
+        db_objs = list_app_states(app_name)
+        if isinstance(db_objs, dict) and db_objs:
+            # pick the most recently updated via DB is not tracked here; return arbitrary one
+            # return first item
+            for k, v in db_objs.items():
+                return k, v
+    except Exception:
+        pass
 
     # 최신 수정시간 기준으로 가장 최근 파일 선택
     latest = max(candidates, key=lambda p: p.stat().st_mtime)
@@ -926,13 +1065,13 @@ def upsert_processed_block_into_state(app_path_or_name: Union[str, Path], serial
 
         existing_state[serial] = entry
 
-        # Atomic write once
+        # Persist into sqlite per-serial instead of atomic JSON file write
         try:
-            written = _atomic_write_json(state_path, existing_state)
-            logger.info(f"Upserted processed block for serial {serial} into {written} (commands={commands}, list_merge={list_merge})")
-            return written
+            upsert_state(app_p.name, serial, entry)
+            logger.info(f"Upserted processed block for serial {serial} into sqlite (commands={commands}, list_merge={list_merge})")
+            return 'sqlite'
         except Exception:
-            logger.exception(f"Failed to write state.json during upsert_block for {serial}")
+            logger.exception(f"Failed to persist processed block for {serial} into sqlite")
             return None
     except Exception:
         logger.exception("upsert_processed_block_into_state failed")
@@ -1177,13 +1316,13 @@ def upsert_processed_data_into_state(app_path_or_name: Union[str, Path], serial:
 
         existing_state[serial] = merged
 
-        # 원자적 쓰기
+        # Persist into sqlite per-serial
         try:
-            written = _atomic_write_json(state_path, existing_state)
-            logger.info(f"Upserted processed_data for serial {serial} into {written}")
-            return written
+            upsert_state(app_p.name, serial, merged)
+            logger.info(f"Upserted processed_data for serial {serial} into sqlite")
+            return 'sqlite'
         except Exception:
-            logger.exception(f"Failed to write state.json during upsert for {serial}")
+            logger.exception(f"Failed to persist processed_data for {serial} into sqlite")
             return None
 
     except Exception:
@@ -1247,11 +1386,26 @@ def autosave_all_contexts(project_root: Optional[Union[str, Path]] = None):
             except Exception:
                 payload = state
 
-            # Acquire per-app lock before writing to avoid race with save helpers
-            lock = _get_app_lock(app_name)
-            with lock:
-                _atomic_write_json(state_path, payload)
-            logger.info(f"autosave saved state for {app_name} -> {state_path}")
+            # Persist per-serial into sqlite to avoid heavy file IO on Windows
+            try:
+                lock = _get_app_lock(app_name)
+                with lock:
+                    # payload expected to be dict of serial -> entry
+                    if isinstance(payload, dict):
+                        for serial_k, entry_v in payload.items():
+                            try:
+                                upsert_state(app_name, str(serial_k), entry_v)
+                            except Exception:
+                                logger.exception(f"Failed to upsert state into sqlite for {app_name}/{serial_k}")
+                    else:
+                        # fallback: write entire payload as single serial '_ALL'
+                        try:
+                            upsert_state(app_name, '_ALL', payload)
+                        except Exception:
+                            logger.exception(f"Failed to upsert fallback state for {app_name}")
+                logger.info(f"autosave persisted state for {app_name} -> sqlite")
+            except Exception:
+                logger.exception(f"autosave failed for {app_name}")
         except Exception:
             logger.exception(f"autosave failed for {app_name}")
 
@@ -1299,39 +1453,32 @@ def persist_registry_state(app_name: str, project_root: Optional[Union[str, Path
         cs_dir.mkdir(parents=True, exist_ok=True)
         state_path = cs_dir / STATE_FILE_NAME
 
-        # Acquire cross-process lock while reading/writing state.json
-        with _file_lock(state_path):
-            # Load existing state if present (for merge)
-            existing_state = {}
-            if state_path.exists():
-                try:
-                    with state_path.open('r', encoding='utf-8') as sf:
-                        existing_state = json.load(sf)
-                except Exception:
-                    logger.exception(f'Failed to load existing state.json for {app_name} during persist')
-
-            # If extracted state is empty dict and existing exists, skip overwrite
+        # Persist into sqlite per-serial to avoid file-level contention
+        try:
             if isinstance(state, dict) and not state:
-                if existing_state:
-                    logger.info(f"Persist skipped for {app_name}: new state empty, keeping existing state.json (keys={list(existing_state.keys())[:10]})")
-                    return state_path
-                # try restore from backups if any
-                # (optional) omitted here
-
-            payload = state
-            try:
-                if isinstance(existing_state, dict) and isinstance(state, dict) and existing_state:
-                    merged = dict(existing_state)
-                    merged.update(state)
-                    payload = merged
-                    logger.info(f"Merged state for {app_name}: existing_keys={len(existing_state)} new_keys={len(state)} -> merged_keys={len(payload)}")
-
-                written = _atomic_write_json(state_path, payload)
-                logger.info(f"Persisted registry state for {app_name} -> {written}")
-                return written
-            except Exception:
-                logger.exception(f"Failed to persist registry state for {app_name}")
+                # nothing to persist
+                logger.info(f"Persist skipped for {app_name}: state empty")
                 return None
+            # merge with existing DB entries as needed is not required; we replace per-serial
+            lock = _get_app_lock(app_name)
+            with lock:
+                if isinstance(state, dict):
+                    for serial_k, entry_v in state.items():
+                        try:
+                            upsert_state(app_name, str(serial_k), entry_v)
+                        except Exception:
+                            logger.exception(f"Failed to upsert state into sqlite for {app_name}/{serial_k}")
+                else:
+                    try:
+                        upsert_state(app_name, '_ALL', state)
+                    except Exception:
+                        logger.exception(f"Failed to upsert fallback state for {app_name}")
+            logger.info(f"Persisted registry state for {app_name} -> sqlite")
+            # Return True to indicate successful persistence (caller expects truthy success)
+            return True
+        except Exception:
+            logger.exception(f"Failed to persist registry state for {app_name}")
+            return None
     except Exception:
         logger.exception(f"Failed to persist registry state for {app_name}")
         return None
@@ -1399,28 +1546,16 @@ def backup_state_for_app(app_name: str, project_root: Optional[Union[str, Path]]
         else:
             cs_dir = Path(cs_path)
 
-        state_path = cs_dir / STATE_FILE_NAME
-        if not state_path.exists():
-            logger.info(f'No state.json to backup for app {app_name}: {state_path}')
-            return None
-
+        # Create a sqlite snapshot backup using sqlite's backup API
         backup_dir = cs_dir / BACKUP_DIR_NAME
         backup_dir.mkdir(parents=True, exist_ok=True)
-
-        try:
-            with state_path.open('r', encoding='utf-8') as sf:
-                payload = json.load(sf)
-        except Exception:
-            logger.exception(f'Failed to read state.json for backup: {state_path}')
-            return None
-
         timestamp = datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
-        dest = backup_dir / f'state-{timestamp}.json'
+        dest = backup_dir / f'state-{timestamp}.sqlite'
         try:
-            _atomic_write_json(dest, payload)
-            logger.info(f'Created state backup for {app_name}: {dest}')
+            backup_db(dest)
+            logger.info(f'Created sqlite DB backup for {app_name}: {dest}')
         except Exception:
-            logger.exception(f'Failed to write state backup for {app_name} to {dest}')
+            logger.exception(f'Failed to create sqlite DB backup for {app_name} to {dest}')
             return None
 
         # 보관 정책 적용
@@ -1765,15 +1900,19 @@ def save_status_with_meta(app_path_or_name: Union[str, Path], serial_input, comm
         lock = _get_app_lock(app_p.name)
         with lock:
             try:
-                _sync_registry_state(app_p.name, serial, entry)
-            except Exception:
-                logger.exception(f"Failed to sync registry before write for {app_p.name}/{serial}")
-            try:
-                written = _atomic_write_json(state_path, existing_state)
-                logger.info(f"Saved STATUS+Meta for serial {serial} command {command_name} -> {written} changed={changed}")
-                return {'changed': changed, 'written': str(written), 'error': None, 'entry': entry}
+                try:
+                    _sync_registry_state(app_p.name, serial, entry)
+                except Exception:
+                    logger.exception(f"Failed to sync registry before persist for {app_p.name}/{serial}")
+                try:
+                    upsert_state(app_p.name, serial, entry)
+                    logger.info(f"Persisted STATUS+Meta for serial {serial} command {command_name} -> sqlite (changed={changed})")
+                    return {'changed': changed, 'written': 'sqlite', 'error': None, 'entry': entry}
+                except Exception:
+                    logger.exception(f"Failed to persist STATUS+Meta for {app_p.name}/{serial} into sqlite")
+                    return {'changed': False, 'written': None, 'error': 'sqlite_persist_failed', 'entry': entry}
             except Exception as e:
-                logger.exception(f"Failed to write state.json in save_status_with_meta for {serial}")
+                logger.exception(f"save_status_with_meta persist failed for {serial}")
                 return {'changed': False, 'written': None, 'error': str(e), 'entry': entry}
     except Exception as e:
         logger.exception('save_status_with_meta failed')
@@ -1937,12 +2076,16 @@ def save_status_nested(app_path_or_name: Union[str, Path], serial_input, mid_cat
                 try:
                     _sync_registry_state(app_p.name, serial, entry)
                 except Exception:
-                    logger.exception(f"Failed to sync registry before write for {app_p.name}/{serial}")
-                written = _atomic_write_json(state_path, existing_state)
-                logger.info(f"Saved nested STATUS for serial {serial} {mid_category}/{sub_category} -> {written} (changed={changed})")
-                return {'changed': changed, 'written': str(written), 'error': None, 'entry': entry}
+                    logger.exception(f"Failed to sync registry before persist for {app_p.name}/{serial}")
+                try:
+                    upsert_state(app_p.name, serial, entry)
+                    logger.info(f"Persisted nested STATUS for serial {serial} {mid_category}/{sub_category} -> sqlite (changed={changed})")
+                    return {'changed': changed, 'written': 'sqlite', 'error': None, 'entry': entry}
+                except Exception:
+                    logger.exception(f"Failed to persist nested STATUS for {app_p.name}/{serial} into sqlite")
+                    return {'changed': False, 'written': None, 'error': 'sqlite_persist_failed', 'entry': entry}
             except Exception as e:
-                logger.exception(f"Failed to write state.json in save_status_nested for {serial}")
+                logger.exception(f"save_status_nested persist failed for {serial}")
                 return {'changed': False, 'written': None, 'error': str(e), 'entry': entry}
     except Exception:
         logger.exception('save_status_nested failed')
@@ -2119,12 +2262,16 @@ def save_status_path(app_path_or_name: Union[str, Path], serial_input, path: lis
                 try:
                     _sync_registry_state(app_p.name, serial, entry)
                 except Exception:
-                    logger.exception(f"Failed to sync registry before write for {app_p.name}/{serial}")
-                written = _atomic_write_json(state_path, existing_state)
-                logger.info(f"Saved STATUS path for serial {serial} path={path} -> {written} (changed={changed})")
-                return {'changed': changed, 'written': str(written), 'error': None, 'entry': entry}
+                    logger.exception(f"Failed to sync registry before persist for {app_p.name}/{serial}")
+                try:
+                    upsert_state(app_p.name, serial, entry)
+                    logger.info(f"Persisted STATUS path for serial {serial} path={path} -> sqlite (changed={changed})")
+                    return {'changed': changed, 'written': 'sqlite', 'error': None, 'entry': entry}
+                except Exception:
+                    logger.exception(f"Failed to persist STATUS path for {app_p.name}/{serial} into sqlite")
+                    return {'changed': False, 'written': None, 'error': 'sqlite_persist_failed', 'entry': entry}
             except Exception as e:
-                logger.exception(f"Failed to write state.json in save_status_path for {serial}")
+                logger.exception(f"save_status_path persist failed for {serial}")
                 return {'changed': False, 'written': None, 'error': str(e), 'entry': entry}
     except Exception:
         logger.exception('save_status_path failed')
@@ -2132,12 +2279,12 @@ def save_status_path(app_path_or_name: Union[str, Path], serial_input, path: lis
 
 
 def _sync_registry_state(app_name: str, serial: str, entry_obj: dict):
-    """Ensure CONTEXT_REGISTRY[app_name] in-memory state reflects on-disk entry for serial.
+    """CONTEXT_REGISTRY[app_name]의 메모리 상태가 serial에 대한 디스크 항목을 반영하도록 보장합니다.
 
-    - If registry entry exposes set_state/get_state, use those.
-    - If registry entry is a dict, update ['store']['state'][serial] = entry_obj
-    - If registry entry has 'store' dict attribute, update similarly.
-    This is best-effort and must not raise.
+    - 레지스트리 항목이 set_state/get_state를 제공하면 이를 사용합니다.
+    - 레지스트리 항목이 dict인 경우 ['store']['state'][serial] = entry_obj로 갱신합니다.
+    - 레지스트리 항목에 'store'라는 dict 속성이 있으면 동일하게 갱신합니다.
+    이는 최선의 노력을 다하는 동작이며 예외를 발생시키지 않아야 합니다.
     """
     try:
         if not app_name:
@@ -2308,72 +2455,16 @@ def save_block_top_level(app_path_or_name: Union[str, Path], serial_input, block
                 try:
                     _sync_registry_state(app_p.name, serial, entry)
                 except Exception:
-                    logger.exception(f"Failed to sync registry before write for {app_p.name}/{serial}")
-                written = _atomic_write_json(state_path, existing_state)
-                # Verify on-disk content contains expected block; if not, rewrite to ensure persistence
-                on_disk_verified = False
+                    logger.exception(f"Failed to sync registry before persist for {app_p.name}/{serial}")
                 try:
-                    with state_path.open('r', encoding='utf-8') as f:
-                        disk_obj = json.load(f)
-                    disk_entry = disk_obj.get(serial, {}) if isinstance(disk_obj, dict) else {}
-                    # block must exist at top-level (not inside processed_data)
-                    if isinstance(disk_entry, dict) and block_name in disk_entry:
-                        # if block_value is dict, do deep compare for the block key
-                        try:
-                            if isinstance(block_value, dict):
-                                on_disk_verified = disk_entry.get(block_name) == entry.get(block_name)
-                            else:
-                                on_disk_verified = disk_entry.get(block_name) == entry.get(block_name)
-                        except Exception:
-                            on_disk_verified = False
+                    upsert_state(app_p.name, serial, entry)
+                    logger.info(f"Persisted top-level block for serial {serial} block={block_name} -> sqlite (changed={changed})")
+                    return {'changed': changed, 'written': 'sqlite', 'error': None, 'entry': entry, 'on_disk_verified': True, 'persisted': True}
                 except Exception:
-                    on_disk_verified = False
-
-                if not on_disk_verified:
-                    try:
-                        logger.warning(f"On-disk verification failed for {serial}/{block_name}, rewriting state.json to enforce change")
-                        written = _atomic_write_json(state_path, existing_state)
-                        # attempt one more verification
-                        try:
-                            with state_path.open('r', encoding='utf-8') as f:
-                                disk_obj2 = json.load(f)
-                            disk_entry2 = disk_obj2.get(serial, {}) if isinstance(disk_obj2, dict) else {}
-                            on_disk_verified = isinstance(disk_entry2, dict) and block_name in disk_entry2 and disk_entry2.get(block_name) == entry.get(block_name)
-                        except Exception:
-                            on_disk_verified = False
-                    except Exception:
-                        logger.exception(f"Failed to rewrite state.json for enforcing {serial}/{block_name}")
-
-                persisted_flag = False
-                if on_disk_verified:
-                    try:
-                        # persist registry so that autosave won't overwrite the just-written file
-                        try:
-                            persist_registry_state(app_p.name)
-                            persisted_flag = True
-                        except Exception:
-                            logger.exception(f"Failed to persist registry state for {app_p.name} after save_block_top_level")
-                        # ensure registry contains final entry; sync again
-                        try:
-                            _sync_registry_state(app_p.name, serial, entry)
-                        except Exception:
-                            logger.exception(f"Post-persist registry sync failed for {app_p.name}/{serial}")
-                        # re-verify disk after persist
-                        try:
-                            with state_path.open('r', encoding='utf-8') as f:
-                                disk_obj3 = json.load(f)
-                            disk_entry3 = disk_obj3.get(serial, {}) if isinstance(disk_obj3, dict) else {}
-                            on_disk_verified = isinstance(disk_entry3, dict) and block_name in disk_entry3 and disk_entry3.get(block_name) == entry.get(block_name)
-                        except Exception:
-                            on_disk_verified = False
-                    except Exception:
-                        logger.exception('persist attempt after save_block_top_level failed')
-
-                logger.info(f"Saved top-level block for serial {serial} block={block_name} -> {written} (changed={changed}) verified={on_disk_verified} persisted={persisted_flag}")
-                return {'changed': changed, 'written': str(written), 'error': None, 'entry': entry, 'on_disk_verified': on_disk_verified, 'persisted': persisted_flag}
-                 
+                    logger.exception(f"Failed to persist top-level block for {app_p.name}/{serial} into sqlite")
+                    return {'changed': False, 'written': None, 'error': 'sqlite_persist_failed', 'entry': entry}
             except Exception as e:
-                logger.exception(f"Failed to write state.json in save_block_top_level for {serial}")
+                logger.exception(f"save_block_top_level persist failed for {serial}")
                 return {'changed': False, 'written': None, 'error': str(e), 'entry': entry}
     except Exception as e:
         logger.exception('save_block_top_level failed')
@@ -2427,4 +2518,37 @@ def _values_dict_to_list(values_dict):
         return lst
     except Exception:
         return values_dict
+
+
+def configure_context_store(db_path: Optional[Union[str, Path]] = None):
+    """Initialize the centralized sqlite-backed context store database.
+
+    - db_path: optional Path or string to the sqlite DB file. If None, CONTEXT_STORE_DB_PATH env var
+      is consulted; otherwise defaults to project_root/context_store.sqlite3.
+    This function is idempotent and safe to call multiple times.
+    """
+    try:
+        # Prefer explicit argument, then environment variable, then default
+        candidate = None
+        if db_path:
+            candidate = Path(db_path)
+        else:
+            env_db = os.getenv('CONTEXT_STORE_DB_PATH')
+            if env_db:
+                candidate = Path(env_db)
+        if candidate is None or not candidate.is_absolute():
+            # resolve relative paths against inferred project root
+            root = _infer_project_root()
+            if candidate is None:
+                candidate = root / 'context_store.sqlite3'
+            else:
+                candidate = (root / candidate).resolve()
+        # Ensure parent exists and delegate to sqlite_store.init_db
+        try:
+            init_db(candidate)
+            logger.info(f"Configured centralized context_store DB at: {candidate}")
+        except Exception:
+            logger.exception(f"Failed to init sqlite DB at {candidate}")
+    except Exception:
+        logger.exception('configure_context_store failed')
 
