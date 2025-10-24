@@ -1,10 +1,11 @@
 from sqlite3 import IntegrityError
-from django.db import models
+from django.db import models, transaction
 from django.db.models import JSONField
 from django.utils import timezone
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.apps import apps
+import json
 
 from utils.calculation import __all__ as calculation_methods
 from utils.calculation import all_dict
@@ -316,7 +317,7 @@ class Variable(models.Model):
     group = models.ForeignKey(MemoryGroup, on_delete=models.CASCADE, related_name='variables') # 기존 유지
     name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_physical_variables')
     device = models.CharField(max_length=2)
-    address = models.FloatField()
+    address = models.FloatField(default=0)
     # 그룹의 start_address를 사용해 주소를 해석할지 여부
     use_group_base_address = models.BooleanField(default=False, help_text='이 변수의 주소가 그룹의 start_address 기준인지 여부')
     data_type = models.CharField(max_length=10, choices=[
@@ -368,10 +369,64 @@ class SocketClientStatus(models.Model):
     detailedStatus = models.JSONField(null=True, blank=True)
     error_code = models.IntegerField(default=0)
     message = models.TextField(null=True, blank=True)
-    values= models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.system_status} (code: {self.error_code}) @ {self.updated_at}"
+
+    def save(self, *args, **kwargs):
+        """저장하기 전에 이전 상태를 조회하여 error_code 또는 detailedStatus가 변경되었는지 확인.
+
+        변경되었으면 저장 완료 후 SocketClientLog 레코드를 생성한다.
+        """
+        try:
+            old = None
+            if self.pk:
+                try:
+                    old = SocketClientStatus.objects.get(pk=self.pk)
+                except SocketClientStatus.DoesNotExist:
+                    old = None
+            changed = False
+            # 신규 생성인 경우나 이전과 값이 다른 경우 변경으로 판단
+            if old is None:
+                changed = True
+            else:
+                if old.error_code != self.error_code:
+                    changed = True
+                else:
+                    # detailedStatus는 JSONField이므로 정규화된 JSON 문자열로 비교하여 키 순서 등 형식 차이에 따른 불필요한 변경 탐지를 방지
+                    try:
+                        old_json = json.dumps(old.detailedStatus or {}, sort_keys=True, ensure_ascii=False, default=str)
+                        new_json = json.dumps(self.detailedStatus or {}, sort_keys=True, ensure_ascii=False, default=str)
+                        if old_json != new_json:
+                            changed = True
+                    except Exception:
+                        # 직렬화 실패 시 폴더값 직접 비교
+                        if old.detailedStatus != self.detailedStatus:
+                            changed = True
+        except Exception:
+            # 안전하게 넘어감
+            changed = True
+
+        super().save(*args, **kwargs)
+
+        if changed:
+            try:
+                # 트랜잭션이 커밋된 이후에 로그를 생성하도록 보장
+                def _create_log():
+                    try:
+                        SocketClientLog.objects.create(
+                            config=self.config,
+                            detailedStatus=self.detailedStatus or {},
+                            error_code=self.error_code,
+                            message=f"{old.detailedStatus.get('SYSTEM STATUS', '')} -> {self.detailedStatus.get('SYSTEM STATUS', '')}"
+                        )
+                    except Exception:
+                        pass
+
+                transaction.on_commit(_create_log)
+            except Exception:
+                # 로깅 실패는 무시
+                pass
 
 class SocketClientLog(models.Model):
     config = models.ForeignKey(SocketClientConfig, on_delete=models.CASCADE, related_name='logs')

@@ -215,7 +215,7 @@
     if (payload.start) params.set('start', payload.start);
     if (payload.end) params.set('end', payload.end);
     if (payload.file) params.set('file', payload.file);
-    fetch('/api/logging-tail?' + params.toString(), {credentials: 'same-origin'})
+    fetch('/ws/logging-tail?' + params.toString(), {credentials: 'same-origin'})
       .then(function(resp){ if(!resp.ok) throw new Error('HTTP ' + resp.status); return resp.json(); })
       .then(function(data){ clearLogTable(); if (!Array.isArray(data)) return; data.forEach(function(entry){ addLogEntry(entry); }); })
       .catch(function(err){ console.error('fetchTailHttp error', err); });

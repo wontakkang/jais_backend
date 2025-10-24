@@ -21,11 +21,13 @@ logger = logging.getLogger('py_backend.asgi')
 
 django_asgi_app = get_asgi_application()
 
-# Import websocket handler directly from utils to avoid import-time side effects
+# Import websocket and HTTP handlers directly from utils to avoid import-time side effects
 try:
-    from utils.ws_log import websocket_app as ws_log_app  # type: ignore
+    from utils.ws_log import websocket_app as ws_log_app, http_app as ws_http_app, static_file_app as ws_static_app  # type: ignore
 except Exception:
     ws_log_app = None
+    ws_http_app = None
+    ws_static_app = None
 
 async def application(scope, receive, send):
     """Dispatch ASGI connections: websocket (/ws/logging-tail) -> ws_log_app, http -> Django."""
@@ -75,7 +77,20 @@ async def application(scope, receive, send):
                 pass
         return
 
+    # Route certain HTTP paths to the embedded ws_log HTTP ASGI app
     if typ == 'http':
+        try:
+            # serve the embedded log-tail API from utils.ws_log if available
+            if path.startswith('/corecode/logging-tail') and ws_http_app is not None:
+                await ws_http_app(scope, receive, send)
+                return
+            # serve the embedded UI static files under /static/ws_ui/ if available
+            if path.startswith('/static/ws_ui/') and ws_static_app is not None:
+                await ws_static_app(scope, receive, send)
+                return
+        except Exception:
+            # fall through to Django handler on any error
+            pass
         await django_asgi_app(scope, receive, send)
         return
 

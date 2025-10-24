@@ -1,26 +1,98 @@
-[2025-10-23 00:00:15.457] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
-[2025-10-23 00:00:15.459] [DEBUG] No state to save for agriseed
-[2025-10-23 00:00:15.459] [DEBUG] No state to save for LSISsocket
-[2025-10-23 00:00:15.459] [DEBUG] No state to save for corecode
-[2025-10-23 00:00:15.459] [DEBUG] No state to save for MCUnode
-[2025-10-23 00:00:15.460] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
-[2025-10-23 00:00:15.462] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
-[2025-10-23 00:00:15.462] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
-[2025-10-23 00:00:15.463] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
-[2025-10-23 00:00:15.463] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
-[2025-10-23 00:00:15.463] [INFO] Persist skipped for agriseed: state empty
-[2025-10-23 00:00:15.465] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
-[2025-10-23 00:00:15.465] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
-[2025-10-23 00:00:15.466] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
-[2025-10-23 00:00:15.466] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
-[2025-10-23 00:00:15.466] [INFO] Persist skipped for LSISsocket: state empty
-[2025-10-23 00:00:15.468] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
-[2025-10-23 00:00:15.468] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
-[2025-10-23 00:00:15.468] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
-[2025-10-23 00:00:15.469] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
-[2025-10-23 00:00:15.469] [INFO] Persist skipped for corecode: state empty
-[2025-10-23 00:00:15.472] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
-[2025-10-23 00:00:15.472] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
-[2025-10-23 00:00:15.472] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
-[2025-10-23 00:00:15.472] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
-[2025-10-23 00:00:15.473] [INFO] Persist skipped for MCUnode: state empty
+[2025-10-24 10:11:31.542] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-24 10:11:31.840] [INFO] ASGI incoming connection: type=lifespan path=
+[2025-10-24 10:11:31.840] [INFO] ASGI scope query_string: b''
+[2025-10-24 10:11:31.840] [INFO] ASGI scope headers (origin/host/upgrade): origin=None host=None upgrade=None
+[2025-10-24 10:11:57.588] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-24 10:11:57.905] [INFO] ASGI incoming connection: type=lifespan path=
+[2025-10-24 10:11:57.906] [INFO] ASGI scope query_string: b''
+[2025-10-24 10:11:57.906] [INFO] ASGI scope headers (origin/host/upgrade): origin=None host=None upgrade=None
+[2025-10-24 10:11:59.163] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-24 10:11:59.459] [INFO] ASGI incoming connection: type=lifespan path=
+[2025-10-24 10:11:59.460] [INFO] ASGI scope query_string: b''
+[2025-10-24 10:11:59.460] [INFO] ASGI scope headers (origin/host/upgrade): origin=None host=None upgrade=None
+[2025-10-24 10:12:02.965] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-24 10:12:03.261] [INFO] ASGI incoming connection: type=lifespan path=
+[2025-10-24 10:12:03.266] [INFO] ASGI scope query_string: b''
+[2025-10-24 10:12:03.266] [INFO] ASGI scope headers (origin/host/upgrade): origin=None host=None upgrade=None
+[2025-10-24 10:12:24.242] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-24 10:12:24.549] [INFO] ASGI incoming connection: type=lifespan path=
+[2025-10-24 10:12:24.550] [INFO] ASGI scope query_string: b''
+[2025-10-24 10:12:24.550] [INFO] ASGI scope headers (origin/host/upgrade): origin=None host=None upgrade=None
+[2025-10-24 10:12:39.264] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-24 10:12:39.563] [INFO] ASGI incoming connection: type=lifespan path=
+[2025-10-24 10:12:39.563] [INFO] ASGI scope query_string: b''
+[2025-10-24 10:12:39.564] [INFO] ASGI scope headers (origin/host/upgrade): origin=None host=None upgrade=None
+[2025-10-24 10:12:43.959] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-24 10:12:44.476] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-24 10:12:44.592] [INFO] 스케줄러 시작됨.
+[2025-10-24 10:12:51.502] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.020s)
+[2025-10-24 10:12:56.501] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.008s)
+[2025-10-24 10:13:01.581] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.088s)
+[2025-10-24 10:13:06.527] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.034s)
+[2025-10-24 10:13:09.994] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-24 10:13:09.994] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-24 10:13:09.994] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-24 10:13:09.994] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-24 10:13:11.501] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.020s)
+[2025-10-24 10:13:11.995] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-24 10:13:11.995] [WARNING] 스레드 id: 9160
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-24 10:13:11.995] [WARNING] 스레드 id: 3532
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-24 10:13:11.996] [WARNING] 스레드 id: 41308
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-24 10:13:11.996] [WARNING] 스레드 id: 23804
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 95, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+

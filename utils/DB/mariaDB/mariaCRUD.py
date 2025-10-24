@@ -1,8 +1,11 @@
 
 from utils import dict_to_object, setup_logger
-from utils.config import settings
-# bat 로거 초기화
-sql_logger = setup_logger(name="sql_logger", log_file=f"{settings.LOG_DIR}/sql_queries.log")
+try:
+    from utils.config import settings
+    # bat 로거 초기화
+    sql_logger = setup_logger(name="sql_logger", log_file=f"{settings.LOG_DIR}/sql_queries.log")
+except ImportError:
+    pass
 
 class SQLBuilder:
     def __init__(self, table_name, instance):

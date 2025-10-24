@@ -8,16 +8,16 @@ import logging
 import json
 from rest_framework import viewsets, filters
 
-from utils.protocol.context import CONTEXT_REGISTRY
 from .models import MCUNodeConfig, IoTControllerConfig
-from .serializers import MCUNodeConfigSerializer, IoTControllerConfigSerializer, DE_MCUSerialRequestSerializer, StateEntrySerializer
+from .serializers import MCUNodeConfigSerializer, IoTControllerConfigSerializer, DE_MCUSerialRequestSerializer
 from utils.protocol.MCU.client.base import DE_MCU_SerialClient
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
-from utils.protocol.context.manager import get_or_create_registry_entry, persist_registry_state, save_status_with_meta, save_status_nested, save_status_path, save_block_top_level, save_setup, ensure_context_store_for_apps, load_most_recent_json_block_for_app, restore_json_blocks_to_slave_context
 from pathlib import Path
 from datetime import datetime
+from . import logger, redis_instance
+import binascii
 
 def _iso_parse(s):
     """Try to parse ISO datetime strings robustly without external dependencies.
@@ -37,7 +37,6 @@ def _iso_parse(s):
             return None
     return None
 
-logger = logging.getLogger('MCUnode')
 class MCUNodeConfigViewSet(viewsets.ModelViewSet):
     # MCUNodeConfig 모델에 대한 표준 CRUD 뷰셋입니다.
     # queryset / serializer_class를 통해 기본 동작을 제공하므로 별도 커스터마이징이 필요 없을 때 사용합니다.
@@ -108,215 +107,38 @@ class DE_MCUSerialViewSet(viewsets.ViewSet):
                 kwargs['req_data'] = req_data
             # perform transact (may return object or dict). We normalize serial key separately below.
             res = client.transact(**kwargs)
-
-            # Normalize serial identifier to a consistent key (hex uppercase string) for all save_* calls
-            key = None
             try:
-                if isinstance(serial_bytes, (bytes, bytearray)):
-                    key = serial_bytes.hex().upper()
-                else:
-                    key = str(serial_bytes).upper() if serial_bytes is not None else 'UNKNOWN_SERIAL'
-            except Exception:
-                key = 'UNKNOWN_SERIAL'
-
-            # Extract processed_data preferentially from the response object/dict.
-            # res may be an object with attribute processed_data, or a dict containing 'processed_data',
-            # or an object providing to_json(). Preserve a dict form for downstream logic.
-            state_value = None
-            try:
-                if hasattr(res, 'processed_data'):
-                    state_value = res.processed_data
-                elif isinstance(res, dict) and 'processed_data' in res:
-                    state_value = res.get('processed_data')
-                elif hasattr(res, 'to_json') and callable(getattr(res, 'to_json')):
-                    state_value = res.to_json()
-                elif isinstance(res, dict):
-                    state_value = res
-                else:
-                    state_value = {'result': str(res)}
-            except Exception:
-                # fallback: use empty dict
-                state_value = {}
-
-            # If incoming HTTP payload provided processed_data and the response didn't include it,
-            # prefer the explicit payload's processed_data so clients can simulate device responses.
-            try:
-                incoming_pd = data.get('processed_data') if isinstance(data, dict) else None
-                if isinstance(incoming_pd, dict) and (not isinstance(state_value, dict) or not state_value):
-                    state_value = incoming_pd
-            except Exception:
-                pass
-
-            # ensure we have a dict for downstream logic
-            if not isinstance(state_value, dict):
-                state_value = {'result': state_value}
-
-            state_data = {command.replace('_REQ', ''): state_value}
-
-            try:
-                handled = False
-                save_results = []
-                # detect STATUS and SETUP blocks separately
-                status_block = None
-                setup_block = None
-                try:
-                    if isinstance(state_value, dict):
-                        if 'STATUS' in state_value and isinstance(state_value['STATUS'], dict):
-                            status_block = state_value['STATUS']
-                        else:
-                            for v in state_value.values():
-                                if isinstance(v, dict) and 'STATUS' in v:
-                                    status_block = v.get('STATUS')
-                                    break
-
-                        if 'SETUP' in state_value and isinstance(state_value['SETUP'], dict):
-                            setup_block = state_value['SETUP']
-                        else:
-                            for v in state_value.values():
-                                if isinstance(v, dict) and 'SETUP' in v:
-                                    setup_block = v.get('SETUP')
-                                    break
-                except Exception:
-                    status_block = None
-                    setup_block = None
-
-                # dynamic policy by depth: look for depth at top-level, or inside processed_data, or inside nested dicts
-                depth = None
-                try:
-                    if isinstance(state_value, dict) and 'depth' in state_value:
-                        depth = int(state_value.get('depth'))
-                    elif isinstance(state_value, dict) and 'processed_data' in state_value and isinstance(state_value.get('processed_data'), dict) and 'depth' in state_value.get('processed_data'):
-                        depth = int(state_value.get('processed_data').get('depth'))
-                    else:
-                        # search one level deep for a dict containing 'depth'
-                        if isinstance(state_value, dict):
-                            for v in state_value.values():
-                                if isinstance(v, dict) and 'depth' in v:
-                                    try:
-                                        depth = int(v.get('depth'))
-                                        break
-                                    except Exception:
-                                        continue
-                except Exception:
-                    depth = None
-
-                # If depth present, derive candidate top-level blocks (like SETUP) regardless of STATUS presence
-                derived_blocks = None
-                if depth is not None and isinstance(state_value, dict):
-                    # exclude common metadata keys
-                    meta_keys = {'depth', 'request', 'response', 'selected_node', 'Index', 'Status', 'Error_Code', 'Setup'}
-                    derived = {}
-                    for k, v in state_value.items():
-                        if k in meta_keys:
-                            continue
-                        if isinstance(v, dict):
-                            derived[k] = v
-                    if derived:
-                        # mark derived top-level blocks separately
-                        derived_blocks = derived
-                        # keep status_block as-is; derived_blocks will be saved as top-level sibling blocks
-
-                try:
-                    if depth is not None:
-                        # depth >=3 : save per leaf (category/subkey)
-                        if depth >= 3 and isinstance(status_block, dict):
-                            for cat, cat_v in status_block.items():
-                                if isinstance(cat_v, dict):
-                                    for subk, subv in cat_v.items():
-                                        try:
-                                            res = save_status_path('MCUnode', key, [cat, subk], subv, command_name=command.replace('_REQ',''))
-                                            save_results.append(res)
-                                        except Exception:
-                                            logger.exception(f'DE_MCUSerialViewSet: save_status_path failed for {cat}/{subk}')
-                            handled = True
-                        # depth ==2 : save per mid-category
-                        elif depth == 2 and isinstance(status_block, dict):
-                            for cat, cat_v in status_block.items():
-                                try:
-                                    res = save_status_path('MCUnode', key, [cat], cat_v, command_name=command.replace('_REQ',''))
-                                    save_results.append(res)
-                                except Exception:
-                                    logger.exception(f'DE_MCUSerialViewSet: save_status_path failed for {cat}')
-                            handled = True
-                    # If derived top-level blocks exist, save them as top-level blocks (not under STATUS)
-                    if derived_blocks and isinstance(derived_blocks, dict):
-                        for block_name, block_value in derived_blocks.items():
+                if res.get('processed_data') is not None:
+                # Redis에 STATUS 데이터 저장 (필요시 활성화)
+                    processed = res.get('processed_data')
+                    # processed가 dict인지 확인하고 STATUS 키가 있는 경우에만 처리
+                    if isinstance(processed, dict) and 'STATUS' in processed:
+                        status_data = processed.get('STATUS')
+                        if status_data:
                             try:
-                                # use normalized key (hex string) for saving
-                                if isinstance(block_name, str) and block_name.lower() == 'setup':
-                                    res = save_setup('MCUnode', key, block_value, command_name=command.replace('_REQ',''))
+                                # serial_bytes가 bytes인 경우 16진수 문자열로 변환하여 Redis 키로 사용
+                                if isinstance(serial_bytes, (bytes, bytearray)):
+                                    key = binascii.hexlify(serial_bytes).decode()
                                 else:
-                                    res = save_block_top_level('MCUnode', key, block_name, block_value, command_name=command.replace('_REQ',''))
-                                save_results.append(res)
-                            except Exception:
-                                logger.exception(f'DE_MCUSerialViewSet: save_block_top_level/save_setup failed for {block_name}')
-                        handled = True
-                except Exception:
-                    logger.exception('DE_MCUSerialViewSet: depth-based save 예외')
-
-                # If not handled by depth policy, try existing nested Roll case then fallback
-                if not handled:
-                    try:
-                        # nested Position->Roll special case
-                        if isinstance(status_block, dict) and 'Position' in status_block and isinstance(status_block['Position'], dict) and 'Roll' in status_block['Position']:
-                            roll_kv = status_block['Position']['Roll']
+                                    key = str(serial_bytes)
+                                redis_instance.hbulk_update(key, status_data)
+                            except Exception as e:
+                                logger.error(f"Redis STATUS 저장 실패: {e}")
+                    if isinstance(processed, dict) and 'SETUP' in processed:
+                        status_data = processed.get('SETUP')
+                        if status_data:
                             try:
-                                res = save_status_nested('MCUnode', key, 'Position', 'Roll', roll_kv, overwrite_sub_if_exists=True, command_name=command.replace('_REQ',''))
-                                save_results.append(res)
-                            except Exception:
-                                logger.exception('DE_MCUSerialViewSet: save_status_nested failed for Position/Roll')
-                            handled = True
-                    except Exception:
-                        logger.exception('DE_MCUSerialViewSet: nested save 검사 중 예외')
-
-                # If not handled by previous logic, and a setup_block exists, save it explicitly
-                if not handled and setup_block is not None:
-                    try:
-                        res = save_setup('MCUnode', key, setup_block, command_name=command.replace('_REQ',''))
-                        save_results.append(res)
-                        handled = True
-                    except Exception:
-                        logger.exception('DE_MCUSerialViewSet: save_setup failed')
-
-                if not handled:
-                    # fallback: 전체 STATUS+Meta 저장
-                    try:
-                        res = save_status_with_meta('MCUnode', key, command.replace('_REQ', ''), state_value)
-                        save_results.append(res)
-                    except Exception:
-                        logger.exception('DE_MCUSerialViewSet: save_status_with_meta failed')
-            except Exception:
-                logger.exception('DE_MCUSerialViewSet: 상태 저장 중 오류')
-
-            # Decide whether to persist registry to disk: only when at least one save reported a changed=True and no error
-            try:
-                should_persist = False
-                if save_results:
-                    for r in save_results:
-                        try:
-                            if r and isinstance(r, dict) and r.get('error') is None and r.get('changed'):
-                                should_persist = True
-                                break
-                        except Exception:
-                            continue
-                if should_persist:
-                    try:
-                        persist_registry_state('MCUnode')
-                    except Exception:
-                        logger.exception('DE_MCUSerialViewSet: 즉시 상태 영구화 실패')
-                else:
-                    logger.debug('DE_MCUSerialViewSet: persist_registry_state skipped (no successful change)')
-            except Exception:
-                logger.exception('DE_MCUSerialViewSet: persist decision failed')
-
-            # 간단한 로그
-            try:
-                logger.debug(f"DE_MCUSerialViewSet: serial={key} command={command} saved")
-            except Exception:
-                pass
-
-            return Response(state_value, status=status.HTTP_200_OK)
-
+                                # serial_bytes가 bytes인 경우 16진수 문자열로 변환하여 Redis 키로 사용
+                                if isinstance(serial_bytes, (bytes, bytearray)):
+                                    key = binascii.hexlify(serial_bytes).decode()
+                                else:
+                                    key = str(serial_bytes)
+                                redis_instance.hbulk_update(key, status_data)
+                            except Exception as e:
+                                logger.error(f"Redis SETUP 저장 실패: {e}")
+            except Exception as e:
+                logger.error(f"Redis 저장 실패: {e}")
+            return Response(res, status=status.HTTP_200_OK)
         except Exception as e:
             # client.last_error 우선 사용
             err_msg = None
@@ -331,207 +153,3 @@ class DE_MCUSerialViewSet(viewsets.ViewSet):
                 return Response({'detail': err_msg or str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-class StateViewSet(viewsets.ViewSet):
-    """Expose context_store/state.json entries for this app.
-
-    Supports query params:
-    - serial: exact serial match
-    - serial_contains: substring match (case-insensitive)
-    - firmware: firmware version exact match (matches STATUS->Firmware->Version)
-    - last_updated_before, last_updated_after: ISO datetime strings to filter Meta.last_updated
-    - ordering: 'serial' or '-serial' or 'last_updated' or '-last_updated'
-    - serial_number: exact serial match (case-insensitive)
-    """
-
-    serializer_class = StateEntrySerializer
-
-    def _load_state(self):
-        try:
-            # Registry 전용: 레지스트리에서 MCUnode 엔트리를 가져와 상태를 반환합니다.
-            # 엔트리가 없으면 create_slave=True로 새 RegistersSlaveContext를 생성합니다.
-            entry = get_or_create_registry_entry('MCUnode', create_slave=True)
-            if entry is None:
-                return {}
-
-            # 1) 먼저 명시적 상태 저장소(_state)를 확인
-            try:
-                if hasattr(entry, 'get_all_state') and callable(getattr(entry, 'get_all_state')):
-                    state = entry.get_all_state()
-                    if isinstance(state, dict) and state:
-                        return dict(state)
-            except Exception:
-                # continue to fallback checks
-                pass
-
-            # 1.5) 레지스트리가 비어있으면 디스크에서 복원 시도
-            try:
-                empty_state = False
-                try:
-                    empty_state = isinstance(state, dict) and not bool(state)
-                except Exception:
-                    empty_state = True
-                if empty_state:
-                    # Try to locate the app's context_store/state.json and load it directly into the registry
-                    try:
-                        app_stores = ensure_context_store_for_apps()
-                        cs_path = app_stores.get('MCUnode')
-                        if cs_path:
-                            app_path = Path(cs_path).parent
-                        else:
-                            app_path = Path(__file__).resolve().parents[1]
-
-                        state_path = Path(app_path) / 'state.json'
-                        if state_path.exists():
-                            try:
-                                with state_path.open('r', encoding='utf-8') as sf:
-                                    disk_state = json.load(sf)
-                                if isinstance(disk_state, dict) and disk_state:
-                                    # Populate registry entry in a best-effort, non-destructive way
-                                    try:
-                                        if hasattr(entry, 'set_state') and callable(getattr(entry, 'set_state')):
-                                            for serial_k, v in disk_state.items():
-                                                try:
-                                                    entry.set_state(serial_k, v)
-                                                except Exception:
-                                                    pass
-                                        elif isinstance(entry, dict):
-                                            store = entry.setdefault('store', {})
-                                            store['state'] = disk_state
-                                        else:
-                                            store_attr = getattr(entry, 'store', None)
-                                            if isinstance(store_attr, dict):
-                                                store_attr['state'] = disk_state
-                                            else:
-                                                try:
-                                                    setattr(entry, 'store', {'state': disk_state})
-                                                except Exception:
-                                                    pass
-                                    except Exception:
-                                        logger.exception('StateViewSet: failed to apply disk state into registry entry')
-
-                                    # After applying disk_state, attempt to read from registry API again
-                                    try:
-                                        if hasattr(entry, 'get_all_state') and callable(getattr(entry, 'get_all_state')):
-                                            state = entry.get_all_state()
-                                            if isinstance(state, dict) and state:
-                                                return dict(state)
-                                    except Exception:
-                                        pass
-                            except Exception:
-                                logger.exception('StateViewSet: failed to load state.json for MCUnode')
-                    except Exception:
-                        logger.exception('StateViewSet: restore attempt failed')
-            except Exception:
-                pass
-
-            # 2) _state가 비어있다면 종종 restore 로직에서 store['state']에 복원해 둡니다.
-            try:
-                store_attr = getattr(entry, 'store', None)
-                if isinstance(store_attr, dict) and 'state' in store_attr and isinstance(store_attr.get('state'), dict):
-                    return dict(store_attr.get('state'))
-            except Exception:
-                pass
-
-            # 3) 딕셔너리형 레지스트리(fallback)
-            if isinstance(entry, dict):
-                try:
-                    state = entry.get('store', {}).get('state', {})
-                    if isinstance(state, dict):
-                        return dict(state)
-                except Exception:
-                    pass
-
-            return {}
-        except Exception:
-            logger.exception('StateViewSet: failed to load state from registry')
-            return {}
-
-    def list(self, request):
-        qs = self._load_state()
-        entries = []
-        for serial, val in qs.items():
-            obj = {'serial_number': serial}
-            if isinstance(val, dict):
-                obj.update(val)
-            entries.append(obj)
-
-        # Filtering
-        serial = request.query_params.get('serial')
-        serial_contains = request.query_params.get('serial_contains')
-        serial_number = request.query_params.get('serial_number')
-        firmware = request.query_params.get('firmware')
-        lu_before = request.query_params.get('last_updated_before')
-        lu_after = request.query_params.get('last_updated_after')
-
-        def match_entry(e):
-            # New: support serial_number param (case-insensitive exact match)
-            if serial_number:
-                try:
-                    if str(e.get('serial_number', '')).upper() != str(serial_number).upper():
-                        return False
-                except Exception:
-                    return False
-            if serial and e.get('serial_number') != serial:
-                return False
-            if serial_contains and serial_contains.lower() not in e.get('serial_number', '').lower():
-                return False
-            if firmware:
-                try:
-                    fw = e.get('STATUS', {}).get('Firmware', {}).get('Version') if isinstance(e.get('STATUS'), dict) else None
-                    if fw != firmware:
-                        return False
-                except Exception:
-                    return False
-            if lu_before or lu_after:
-                try:
-                    lu = e.get('Meta', {}).get('last_updated')
-                    if not lu:
-                        return False
-                    dt = _iso_parse(lu)
-                    if lu_before:
-                        dt_before = _iso_parse(lu_before)
-                        if not (dt < dt_before):
-                            return False
-                    if lu_after:
-                        dt_after = _iso_parse(lu_after)
-                        if not (dt > dt_after):
-                            return False
-                except Exception:
-                    return False
-            return True
-
-        filtered = [e for e in entries if match_entry(e)]
-
-        # Ordering
-        ordering = request.query_params.get('ordering')
-        if ordering:
-            reverse = ordering.startswith('-')
-            key = ordering.lstrip('-')
-            if key == 'serial':
-                filtered.sort(key=lambda x: x.get('serial_number', ''), reverse=reverse)
-            elif key == 'last_updated':
-                def _lu_key(x):
-                    try:
-                        return _iso_parse(x.get('Meta', {}).get('last_updated'))
-                    except Exception:
-                        return None
-                filtered.sort(key=lambda x: (_lu_key(x) is None, _lu_key(x)), reverse=reverse)
-
-        serializer = self.serializer_class(filtered, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def retrieve(self, request, pk=None):
-        # pk is serial identifier
-        qs = self._load_state()
-        serial = pk
-        if serial is None:
-            return Response({'detail': 'serial pk required'}, status=status.HTTP_400_BAD_REQUEST)
-        entry = qs.get(serial.upper()) or qs.get(serial)  # try uppercase key then raw
-        if entry is None:
-            return Response({'detail': 'not found'}, status=status.HTTP_404_NOT_FOUND)
-        obj = {'serial_number': serial}
-        if isinstance(entry, dict):
-            obj.update(entry)
-        serializer = self.serializer_class(obj)
-        return Response(serializer.data, status=status.HTTP_200_OK)

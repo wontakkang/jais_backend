@@ -13,6 +13,13 @@ class SocketClientStatusSerializer(serializers.ModelSerializer):
     
 class SocketClientConfigSerializer(serializers.ModelSerializer):
     detailedStatus = serializers.SerializerMethodField()
+    # ManyToMany fields: accept list of PKs for write, and provide detailed nested list for read
+    control_groups = serializers.PrimaryKeyRelatedField(many=True, queryset=ControlGroup.objects.all(), required=False, allow_empty=True, help_text='연결된 ControlGroup IDs')
+    control_groups_detail = serializers.SerializerMethodField()
+    calc_groups = serializers.PrimaryKeyRelatedField(many=True, queryset=CalcGroup.objects.all(), required=False, allow_empty=True, help_text='연결된 CalcGroup IDs')
+    calc_groups_detail = serializers.SerializerMethodField()
+    memory_groups = serializers.PrimaryKeyRelatedField(many=True, queryset=MemoryGroup.objects.all(), required=False, allow_empty=True, help_text='연결된 MemoryGroup IDs')
+    memory_groups_detail = serializers.SerializerMethodField()
     class Meta:
         model = SocketClientConfig
         exclude = ('is_deleted',)
@@ -24,19 +31,83 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
             return SocketClientStatusSerializer(status).data
         return None
 
-    def validate_name(self, value):
-        if self.instance is None and SocketClientConfig.objects.filter(name=value).exists():
-            raise serializers.ValidationError("같은 이름의 게이트웨이 노드가 이미 존재합니다.")
-        return value
+    def get_control_groups_detail(self, obj):
+        try:
+            return ControlGroupSerializer(obj.control_groups.all(), many=True).data
+        except Exception:
+            return []
+
+    def get_calc_groups_detail(self, obj):
+        try:
+            return CalcGroupSerializer(obj.calc_groups.all(), many=True).data
+        except Exception:
+            return []
+
+    def get_memory_groups_detail(self, obj):
+        try:
+            return MemoryGroupSerializer(obj.memory_groups.all(), many=True).data
+        except Exception:
+            return []
 
     def create(self, validated_data):
+        # Extract ManyToMany inputs before instance creation
+        control_groups = validated_data.pop('control_groups', [])
+        calc_groups = validated_data.pop('calc_groups', [])
+        memory_groups = validated_data.pop('memory_groups', [])
+
         # ✅ force_insert 방지 → 명시적 save()
         instance = SocketClientConfig(**validated_data)
         instance.save()
-        
+
+        # assign M2M relations if provided
+        try:
+            if control_groups:
+                instance.control_groups.set(control_groups)
+        except Exception:
+            pass
+        try:
+            if calc_groups:
+                instance.calc_groups.set(calc_groups)
+        except Exception:
+            pass
+        try:
+            if memory_groups:
+                instance.memory_groups.set(memory_groups)
+        except Exception:
+            pass
+
         # SocketClientStatus 생성
         SocketClientStatus.objects.create(config=instance)
-        
+
+        return instance
+
+    def update(self, instance, validated_data):
+        # handle ManyToMany updates explicitly
+        control_groups = validated_data.pop('control_groups', None)
+        calc_groups = validated_data.pop('calc_groups', None)
+        memory_groups = validated_data.pop('memory_groups', None)
+
+        # update scalar fields
+        for attr, val in validated_data.items():
+            setattr(instance, attr, val)
+        instance.save()
+
+        try:
+            if control_groups is not None:
+                instance.control_groups.set(control_groups)
+        except Exception:
+            pass
+        try:
+            if calc_groups is not None:
+                instance.calc_groups.set(calc_groups)
+        except Exception:
+            pass
+        try:
+            if memory_groups is not None:
+                instance.memory_groups.set(memory_groups)
+        except Exception:
+            pass
+
         return instance
     
         
@@ -90,7 +161,11 @@ class VariableSerializer(serializers.ModelSerializer):
         unit_symbol, multiplier = unit_map.get(unit_key, ('', 1))
 
         try:
-            offset_val = float(obj.offset) if obj.offset is not None else 0.0
+            if obj.offset is not None:
+                offset_val = int(str(float(obj.offset)).split('.')[0]) * multiplier
+                offset_val += int(str(float(obj.offset)).split('.')[1])
+            else:
+                offset_val = 0.0
         except Exception:
             offset_val = 0.0
 
@@ -102,8 +177,8 @@ class VariableSerializer(serializers.ModelSerializer):
         except Exception:
             base = 0.0
 
-        physical_addr = float(obj.address or 0) + base + offset_val
-        addr_int = int(physical_addr * multiplier)
+        physical_addr = float(obj.address or 0) + base
+        addr_int = int(physical_addr * multiplier) + offset_val
         return f"%{obj.device}{unit_symbol}{addr_int}"
 
 class MemoryGroupSerializer(serializers.ModelSerializer):

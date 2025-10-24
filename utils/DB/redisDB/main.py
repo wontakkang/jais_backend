@@ -12,7 +12,6 @@ class RedisManager:
     """
     Redis 기본 데이터, 해시 데이터, 시계열 데이터 및 백업을 통합 관리하는 컨텍스트
     """
-
     def __init__(self, host='localhost', port=6379, db=0, max_connections=20, password=None):
         """
         Redis 연결 초기화 (비밀번호 인증 포함)

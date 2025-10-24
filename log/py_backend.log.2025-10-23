@@ -1,0 +1,567 @@
+[2025-10-23 00:00:15.457] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 00:00:15.459] [DEBUG] No state to save for agriseed
+[2025-10-23 00:00:15.459] [DEBUG] No state to save for LSISsocket
+[2025-10-23 00:00:15.459] [DEBUG] No state to save for corecode
+[2025-10-23 00:00:15.459] [DEBUG] No state to save for MCUnode
+[2025-10-23 00:00:15.460] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 00:00:15.462] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 00:00:15.462] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 00:00:15.463] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 00:00:15.463] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 00:00:15.463] [INFO] Persist skipped for agriseed: state empty
+[2025-10-23 00:00:15.465] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 00:00:15.465] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 00:00:15.466] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 00:00:15.466] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 00:00:15.466] [INFO] Persist skipped for LSISsocket: state empty
+[2025-10-23 00:00:15.468] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 00:00:15.468] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 00:00:15.468] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 00:00:15.469] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 00:00:15.469] [INFO] Persist skipped for corecode: state empty
+[2025-10-23 00:00:15.472] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 00:00:15.472] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 00:00:15.472] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 00:00:15.472] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 00:00:15.473] [INFO] Persist skipped for MCUnode: state empty
+[2025-10-23 08:24:58.031] [DEBUG] CONTEXT_STORE write-files enabled: False
+[2025-10-23 08:24:59.135] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 08:24:59.136] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 08:24:59.145] [DEBUG] 상태 설정: state.json
+[2025-10-23 08:24:59.145] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 08:24:59.145] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 08:24:59.148] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 08:24:59.149] [DEBUG] 상태 설정: state.json
+[2025-10-23 08:24:59.149] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 08:24:59.149] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 08:24:59.150] [DEBUG] 상태 설정: state.json
+[2025-10-23 08:24:59.150] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 08:24:59.150] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 08:24:59.151] [DEBUG] 상태 설정: 4653500D004C0047
+[2025-10-23 08:24:59.151] [DEBUG] 상태 설정: 4653500D004D0011
+[2025-10-23 08:24:59.151] [DEBUG] 상태 설정: state.json
+[2025-10-23 08:24:59.237] [INFO] Configured centralized context_store DB at: D:\project\projects\jais\py_backend\context_store.sqlite3
+[2025-10-23 08:24:59.239] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 08:24:59.239] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 08:24:59.240] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 08:24:59.240] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 08:24:59.242] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 08:24:59.242] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 08:24:59.242] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 08:24:59.242] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 08:24:59.242] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 08:24:59.242] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 08:24:59.243] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 08:24:59.244] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 08:24:59.244] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 08:24:59.245] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 08:24:59.245] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 08:24:59.245] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 08:24:59.247] [INFO] Restored '192.168.0.198:2004' into slave_context from sqlite 192.168.0.198:2004
+[2025-10-23 08:24:59.248] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 08:24:59.248] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 08:24:59.249] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 08:24:59.250] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 08:24:59.250] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 08:24:59.251] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 08:24:59.251] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 08:24:59.252] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 08:25:59.269] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:25:59.269] [DEBUG] No state to save for agriseed
+[2025-10-23 08:25:59.269] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:25:59.269] [DEBUG] No state to save for corecode
+[2025-10-23 08:25:59.269] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:25:59.269] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:26:59.264] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:26:59.264] [DEBUG] No state to save for agriseed
+[2025-10-23 08:26:59.264] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:26:59.265] [DEBUG] No state to save for corecode
+[2025-10-23 08:26:59.265] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:26:59.265] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:27:59.260] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:27:59.260] [DEBUG] No state to save for agriseed
+[2025-10-23 08:27:59.260] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:27:59.260] [DEBUG] No state to save for corecode
+[2025-10-23 08:27:59.260] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:27:59.260] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:28:59.264] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:28:59.264] [DEBUG] No state to save for agriseed
+[2025-10-23 08:28:59.265] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:28:59.265] [DEBUG] No state to save for corecode
+[2025-10-23 08:28:59.265] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:28:59.265] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:29:59.272] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:29:59.272] [DEBUG] No state to save for agriseed
+[2025-10-23 08:29:59.272] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:29:59.272] [DEBUG] No state to save for corecode
+[2025-10-23 08:29:59.272] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:29:59.272] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:30:59.265] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:30:59.265] [DEBUG] No state to save for agriseed
+[2025-10-23 08:30:59.266] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:30:59.266] [DEBUG] No state to save for corecode
+[2025-10-23 08:30:59.266] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:30:59.266] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:31:59.264] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:31:59.264] [DEBUG] No state to save for agriseed
+[2025-10-23 08:31:59.264] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:31:59.264] [DEBUG] No state to save for corecode
+[2025-10-23 08:31:59.265] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:31:59.265] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:32:59.271] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:32:59.271] [DEBUG] No state to save for agriseed
+[2025-10-23 08:32:59.271] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:32:59.271] [DEBUG] No state to save for corecode
+[2025-10-23 08:32:59.271] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:32:59.272] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:33:59.270] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:33:59.270] [DEBUG] No state to save for agriseed
+[2025-10-23 08:33:59.270] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:33:59.271] [DEBUG] No state to save for corecode
+[2025-10-23 08:33:59.271] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:33:59.271] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:34:59.259] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:34:59.259] [DEBUG] No state to save for agriseed
+[2025-10-23 08:34:59.260] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:34:59.260] [DEBUG] No state to save for corecode
+[2025-10-23 08:34:59.260] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:34:59.260] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:35:59.270] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:35:59.270] [DEBUG] No state to save for agriseed
+[2025-10-23 08:35:59.270] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:35:59.270] [DEBUG] No state to save for corecode
+[2025-10-23 08:35:59.271] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:35:59.271] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:36:59.269] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:36:59.269] [DEBUG] No state to save for agriseed
+[2025-10-23 08:36:59.269] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:36:59.269] [DEBUG] No state to save for corecode
+[2025-10-23 08:36:59.270] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:36:59.270] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:37:59.259] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:37:59.259] [DEBUG] No state to save for agriseed
+[2025-10-23 08:37:59.259] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:37:59.259] [DEBUG] No state to save for corecode
+[2025-10-23 08:37:59.259] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:37:59.260] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:38:59.270] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:38:59.270] [DEBUG] No state to save for agriseed
+[2025-10-23 08:38:59.270] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:38:59.270] [DEBUG] No state to save for corecode
+[2025-10-23 08:38:59.270] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:38:59.270] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:39:59.261] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:39:59.261] [DEBUG] No state to save for agriseed
+[2025-10-23 08:39:59.261] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:39:59.261] [DEBUG] No state to save for corecode
+[2025-10-23 08:39:59.261] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:39:59.261] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:40:59.271] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:40:59.271] [DEBUG] No state to save for agriseed
+[2025-10-23 08:40:59.271] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:40:59.271] [DEBUG] No state to save for corecode
+[2025-10-23 08:40:59.271] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:40:59.271] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:41:59.266] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:41:59.266] [DEBUG] No state to save for agriseed
+[2025-10-23 08:41:59.266] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:41:59.268] [DEBUG] No state to save for corecode
+[2025-10-23 08:41:59.268] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:41:59.268] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:42:59.272] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:42:59.272] [DEBUG] No state to save for agriseed
+[2025-10-23 08:42:59.272] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:42:59.272] [DEBUG] No state to save for corecode
+[2025-10-23 08:42:59.272] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:42:59.273] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:43:59.270] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:43:59.270] [DEBUG] No state to save for agriseed
+[2025-10-23 08:43:59.270] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:43:59.270] [DEBUG] No state to save for corecode
+[2025-10-23 08:43:59.270] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:43:59.271] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:44:59.271] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:44:59.271] [DEBUG] No state to save for agriseed
+[2025-10-23 08:44:59.271] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:44:59.271] [DEBUG] No state to save for corecode
+[2025-10-23 08:44:59.272] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:44:59.272] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:45:59.271] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:45:59.271] [DEBUG] No state to save for agriseed
+[2025-10-23 08:45:59.271] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:45:59.271] [DEBUG] No state to save for corecode
+[2025-10-23 08:45:59.271] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:45:59.271] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:46:59.265] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:46:59.265] [DEBUG] No state to save for agriseed
+[2025-10-23 08:46:59.266] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:46:59.266] [DEBUG] No state to save for corecode
+[2025-10-23 08:46:59.266] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:46:59.266] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:47:59.265] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:47:59.265] [DEBUG] No state to save for agriseed
+[2025-10-23 08:47:59.265] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:47:59.266] [DEBUG] No state to save for corecode
+[2025-10-23 08:47:59.266] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:47:59.266] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:48:59.268] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:48:59.268] [DEBUG] No state to save for agriseed
+[2025-10-23 08:48:59.268] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:48:59.268] [DEBUG] No state to save for corecode
+[2025-10-23 08:48:59.268] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:48:59.268] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:49:59.261] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:49:59.261] [DEBUG] No state to save for agriseed
+[2025-10-23 08:49:59.262] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:49:59.262] [DEBUG] No state to save for corecode
+[2025-10-23 08:49:59.262] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:49:59.262] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:50:59.268] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:50:59.268] [DEBUG] No state to save for agriseed
+[2025-10-23 08:50:59.268] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:50:59.268] [DEBUG] No state to save for corecode
+[2025-10-23 08:50:59.268] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:50:59.268] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:51:59.272] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:51:59.272] [DEBUG] No state to save for agriseed
+[2025-10-23 08:51:59.273] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:51:59.273] [DEBUG] No state to save for corecode
+[2025-10-23 08:51:59.273] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:51:59.273] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:52:59.260] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:52:59.260] [DEBUG] No state to save for agriseed
+[2025-10-23 08:52:59.260] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:52:59.260] [DEBUG] No state to save for corecode
+[2025-10-23 08:52:59.260] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:52:59.260] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:53:59.270] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:53:59.270] [DEBUG] No state to save for agriseed
+[2025-10-23 08:53:59.270] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:53:59.270] [DEBUG] No state to save for corecode
+[2025-10-23 08:53:59.270] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:53:59.270] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:54:59.271] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:54:59.271] [DEBUG] No state to save for agriseed
+[2025-10-23 08:54:59.271] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:54:59.271] [DEBUG] No state to save for corecode
+[2025-10-23 08:54:59.271] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:54:59.271] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:55:59.274] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:55:59.274] [DEBUG] No state to save for agriseed
+[2025-10-23 08:55:59.274] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:55:59.274] [DEBUG] No state to save for corecode
+[2025-10-23 08:55:59.274] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:55:59.275] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:56:59.270] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:56:59.270] [DEBUG] No state to save for agriseed
+[2025-10-23 08:56:59.271] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:56:59.271] [DEBUG] No state to save for corecode
+[2025-10-23 08:56:59.271] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:56:59.271] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:57:59.270] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:57:59.270] [DEBUG] No state to save for agriseed
+[2025-10-23 08:57:59.270] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:57:59.270] [DEBUG] No state to save for corecode
+[2025-10-23 08:57:59.270] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:57:59.270] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:58:59.261] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:58:59.261] [DEBUG] No state to save for agriseed
+[2025-10-23 08:58:59.261] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:58:59.261] [DEBUG] No state to save for corecode
+[2025-10-23 08:58:59.261] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:58:59.261] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:59:02.061] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 08:59:02.061] [DEBUG] No state to save for agriseed
+[2025-10-23 08:59:02.061] [DEBUG] No state to save for LSISsocket
+[2025-10-23 08:59:02.061] [DEBUG] No state to save for corecode
+[2025-10-23 08:59:02.061] [DEBUG] No state to save for MCUnode
+[2025-10-23 08:59:02.063] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 08:59:02.064] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 08:59:02.065] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 08:59:02.065] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 08:59:02.065] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 08:59:02.065] [INFO] Persist skipped for agriseed: state empty
+[2025-10-23 08:59:02.067] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 08:59:02.067] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 08:59:02.067] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 08:59:02.067] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 08:59:02.067] [INFO] Persist skipped for LSISsocket: state empty
+[2025-10-23 08:59:02.068] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 08:59:02.069] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 08:59:02.069] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 08:59:02.069] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 08:59:02.069] [INFO] Persist skipped for corecode: state empty
+[2025-10-23 08:59:02.070] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 08:59:02.071] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 08:59:02.071] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 08:59:02.071] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 08:59:02.071] [INFO] Persist skipped for MCUnode: state empty
+[2025-10-23 09:38:38.183] [DEBUG] CONTEXT_STORE write-files enabled: False
+[2025-10-23 09:38:38.601] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:38:38.601] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:38:38.614] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:38:38.614] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:38:38.614] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:38:38.618] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:38:38.618] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:38:38.618] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:38:38.618] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:38:38.619] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:38:38.619] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:38:38.619] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:38:38.620] [DEBUG] 상태 설정: 4653500D004C0047
+[2025-10-23 09:38:38.620] [DEBUG] 상태 설정: 4653500D004D0011
+[2025-10-23 09:38:38.620] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:38:38.683] [INFO] Configured centralized context_store DB at: D:\project\projects\jais\py_backend\context_store.sqlite3
+[2025-10-23 09:38:38.689] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:38:38.689] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:38:38.689] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:38:38.689] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:38:38.691] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:38:38.691] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:38:38.691] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:38:38.691] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:38:38.691] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:38:38.691] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:38:38.692] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 09:38:38.692] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:38:38.693] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:38:38.693] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 09:38:38.693] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:38:38.693] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:38:38.697] [INFO] Restored '192.168.0.198:2004' into slave_context from sqlite 192.168.0.198:2004
+[2025-10-23 09:38:38.698] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:38:38.698] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:38:38.699] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 09:38:38.700] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:38:38.700] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:38:38.700] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:38:38.700] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:38:38.702] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 09:39:25.001] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 09:39:25.002] [DEBUG] No state to save for agriseed
+[2025-10-23 09:39:25.002] [DEBUG] No state to save for LSISsocket
+[2025-10-23 09:39:25.002] [DEBUG] No state to save for corecode
+[2025-10-23 09:39:25.002] [DEBUG] No state to save for MCUnode
+[2025-10-23 09:39:25.002] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 09:39:25.003] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:39:25.003] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:39:25.004] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:39:25.004] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:39:25.004] [INFO] Persist skipped for agriseed: state empty
+[2025-10-23 09:39:25.005] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:39:25.005] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:39:25.005] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:39:25.005] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:39:25.005] [INFO] Persist skipped for LSISsocket: state empty
+[2025-10-23 09:39:25.008] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:39:25.008] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:39:25.008] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:39:25.008] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:39:25.008] [INFO] Persist skipped for corecode: state empty
+[2025-10-23 09:39:25.010] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:39:25.010] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:39:25.010] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:39:25.010] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:39:25.010] [INFO] Persist skipped for MCUnode: state empty
+[2025-10-23 09:39:25.233] [DEBUG] CONTEXT_STORE write-files enabled: False
+[2025-10-23 09:39:25.648] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:25.648] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:25.653] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:39:25.653] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:25.653] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:25.657] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:39:25.657] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:39:25.657] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:25.657] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:25.658] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:39:25.659] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:25.659] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:25.659] [DEBUG] 상태 설정: 4653500D004C0047
+[2025-10-23 09:39:25.659] [DEBUG] 상태 설정: 4653500D004D0011
+[2025-10-23 09:39:25.659] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:39:25.735] [INFO] Configured centralized context_store DB at: D:\project\projects\jais\py_backend\context_store.sqlite3
+[2025-10-23 09:39:25.737] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:39:25.737] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:39:25.737] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:39:25.737] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:39:25.739] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:39:25.739] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:39:25.739] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:39:25.739] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:39:25.739] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:25.739] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:25.740] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 09:39:25.740] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:25.740] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:25.741] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 09:39:25.741] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:25.741] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:25.742] [INFO] Restored '192.168.0.198:2004' into slave_context from sqlite 192.168.0.198:2004
+[2025-10-23 09:39:25.742] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:25.742] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:25.742] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 09:39:25.747] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:39:25.747] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:39:25.748] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:39:25.748] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:39:25.749] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 09:39:30.796] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:39:30.801] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:39:30.824] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:39:30.824] [INFO] Created/Updated slave context in registry for LSISsocket -> 192.168.0.198:2004
+[2025-10-23 09:40:25.766] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 09:40:25.766] [DEBUG] No state to save for agriseed
+[2025-10-23 09:40:25.790] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:40:25.790] [INFO] Autosaved 1 entries for LSISsocket to sqlite (failed: 0)
+[2025-10-23 09:40:25.790] [DEBUG] No state to save for corecode
+[2025-10-23 09:40:25.790] [DEBUG] No state to save for MCUnode
+[2025-10-23 09:40:25.792] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 09:41:25.769] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 09:41:25.769] [DEBUG] No state to save for agriseed
+[2025-10-23 09:41:25.792] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:41:25.792] [INFO] Autosaved 1 entries for LSISsocket to sqlite (failed: 0)
+[2025-10-23 09:41:25.792] [DEBUG] No state to save for corecode
+[2025-10-23 09:41:25.793] [DEBUG] No state to save for MCUnode
+[2025-10-23 09:41:25.793] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 09:42:48.219] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 09:42:48.219] [DEBUG] No state to save for agriseed
+[2025-10-23 09:42:48.233] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:42:48.233] [INFO] Autosaved 1 entries for LSISsocket to sqlite (failed: 0)
+[2025-10-23 09:42:48.233] [DEBUG] No state to save for corecode
+[2025-10-23 09:42:48.233] [DEBUG] No state to save for MCUnode
+[2025-10-23 09:42:48.233] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 09:42:48.234] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:48.234] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:48.234] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:48.234] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:48.236] [INFO] Persist skipped for agriseed: state empty
+[2025-10-23 09:42:48.237] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:48.237] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:48.237] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:48.237] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:48.251] [INFO] Persisted registry state for LSISsocket -> sqlite
+[2025-10-23 09:42:48.253] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:48.253] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:48.253] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:48.253] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:48.254] [INFO] Persist skipped for corecode: state empty
+[2025-10-23 09:42:48.255] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:48.255] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:48.255] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:48.255] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:48.256] [INFO] Persist skipped for MCUnode: state empty
+[2025-10-23 09:42:48.473] [DEBUG] CONTEXT_STORE write-files enabled: False
+[2025-10-23 09:42:48.898] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:48.898] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:48.903] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:42:48.903] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:48.904] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:48.906] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:42:48.906] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:42:48.907] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:48.907] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:48.907] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:42:48.907] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:48.907] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:48.909] [DEBUG] 상태 설정: 4653500D004C0047
+[2025-10-23 09:42:48.909] [DEBUG] 상태 설정: 4653500D004D0011
+[2025-10-23 09:42:48.909] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:42:48.984] [INFO] Configured centralized context_store DB at: D:\project\projects\jais\py_backend\context_store.sqlite3
+[2025-10-23 09:42:48.985] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:48.986] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:48.986] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:48.986] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:48.987] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:48.987] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:48.987] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:48.987] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:48.987] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:48.987] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:48.988] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 09:42:48.988] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:48.988] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:48.990] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 09:42:48.990] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:48.990] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:48.993] [INFO] Restored '192.168.0.198:2004' into slave_context from sqlite 192.168.0.198:2004
+[2025-10-23 09:42:48.993] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:48.993] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:48.995] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 09:42:48.997] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:48.997] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:48.997] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:48.997] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:48.998] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 09:42:49.179] [INFO] Starting autosave for 4 apps in CONTEXT_REGISTRY
+[2025-10-23 09:42:49.179] [DEBUG] No state to save for agriseed
+[2025-10-23 09:42:49.179] [DEBUG] No state to save for LSISsocket
+[2025-10-23 09:42:49.179] [DEBUG] No state to save for corecode
+[2025-10-23 09:42:49.179] [DEBUG] No state to save for MCUnode
+[2025-10-23 09:42:49.179] [INFO] Autosave completed: 4/4 apps successfully saved to sqlite
+[2025-10-23 09:42:49.180] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:49.181] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:49.181] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:49.181] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:49.181] [INFO] Persist skipped for agriseed: state empty
+[2025-10-23 09:42:49.183] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:49.183] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:49.183] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:49.183] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:49.183] [INFO] Persist skipped for LSISsocket: state empty
+[2025-10-23 09:42:49.184] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:49.184] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:49.184] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:49.185] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:49.185] [INFO] Persist skipped for corecode: state empty
+[2025-10-23 09:42:49.186] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:49.186] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:49.186] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:49.186] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:49.188] [INFO] Persist skipped for MCUnode: state empty
+[2025-10-23 09:42:49.492] [DEBUG] CONTEXT_STORE write-files enabled: False
+[2025-10-23 09:42:49.913] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:49.913] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:49.923] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:42:49.923] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:49.923] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:49.930] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:42:49.930] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:42:49.930] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:49.930] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:49.931] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:42:49.931] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:49.931] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:49.932] [DEBUG] 상태 설정: 4653500D004C0047
+[2025-10-23 09:42:49.932] [DEBUG] 상태 설정: 4653500D004D0011
+[2025-10-23 09:42:49.932] [DEBUG] 상태 설정: state.json
+[2025-10-23 09:42:49.994] [INFO] Configured centralized context_store DB at: D:\project\projects\jais\py_backend\context_store.sqlite3
+[2025-10-23 09:42:49.996] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:49.996] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:49.996] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:49.996] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:49.998] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:49.998] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:49.999] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:49.999] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:49.999] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:49.999] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:50.000] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 09:42:50.000] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:50.000] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:50.000] [INFO] Restored 'state.json' into slave_context from sqlite state.json
+[2025-10-23 09:42:50.000] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:50.000] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:50.004] [INFO] Restored '192.168.0.198:2004' into slave_context from sqlite 192.168.0.198:2004
+[2025-10-23 09:42:50.004] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:50.004] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:50.006] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 09:42:50.008] [DEBUG] SQLite-only mode: using centralized storage for app: agriseed
+[2025-10-23 09:42:50.008] [DEBUG] SQLite-only mode: using centralized storage for app: corecode
+[2025-10-23 09:42:50.008] [DEBUG] SQLite-only mode: using centralized storage for app: LSISsocket
+[2025-10-23 09:42:50.008] [DEBUG] SQLite-only mode: using centralized storage for app: MCUnode
+[2025-10-23 09:42:50.010] [INFO] Restored '4653500D004C0047' into slave_context from sqlite 4653500D004C0047
+[2025-10-23 09:42:55.041] [DEBUG] SlaveContext 초기화됨
+[2025-10-23 09:42:55.046] [DEBUG] SlaveContext 생성 완료 (zero_mode=True)
+[2025-10-23 09:42:55.071] [DEBUG] 상태 설정: 192.168.0.198:2004
+[2025-10-23 09:42:55.071] [INFO] Created/Updated slave context in registry for LSISsocket -> 192.168.0.198:2004

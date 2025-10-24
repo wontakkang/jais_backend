@@ -121,6 +121,4 @@ class Settings(BaseSettings):
             self.FEATURES.update(self.IARAW)
             self.FEATURES.update(self.NETWORK)
         
-
-# Settings 객체 생성 및 확인
-settings = Settings()
+# settings = Settings()

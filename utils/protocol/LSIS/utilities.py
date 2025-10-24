@@ -131,6 +131,7 @@ class LSIS_MappingTool:
     The class is initialized with the following parameters:
     """
     DATA_FORMAT = {
+        'bool': '?',
         'bit': '?',
         'uint8': 'B',
         'int8': 'b',
@@ -139,13 +140,16 @@ class LSIS_MappingTool:
         'uint32': 'I',
         'int32': 'i',
         'float': 'f',
+        'float32': 'f',
     }
     ADDRESS_FORMAT = {
+        '%MX': 1,
         '%MB': 1,
         '%MW': 2,
         '%MD': 4,
     }
     WRITE_SIZE = {
+        'bool': 'B',
         'bit': 'B',
         'uint8': 'B',
         'int8': 'B',
@@ -154,8 +158,10 @@ class LSIS_MappingTool:
         'uint32': 'I',
         'int32': 'I',
         'float': 'I',
+        'float32': 'I',
     }
     UNIT_SIZE = {
+        'bool': '',
         'bit': '',
         'byte': '8',
         'word': '16',
@@ -169,7 +175,10 @@ class LSIS_MappingTool:
         self.unit = kwargs.get('unit')
         self.size = self.UNIT_SIZE[self.unit]
         self.format = self.DATA_FORMAT[f'{self.type}{self.size}']
-        self.position = self.determine_base(kwargs.get('device_address', '%MX0.0')[3:])
+        if kwargs.get('data_type') == 'bool' or kwargs.get('data_type') == 'bit':
+            self.position = [int(kwargs.get('device_address', '%MB0.0')[3:])//8, int(kwargs.get('device_address', '%MB0.0')[3:])%8]
+        else:
+            self.position = self.determine_base(kwargs.get('device_address', '%MB0.0')[3:])
         self.address = kwargs.get('device', 'M') + 'B'
         self.scale = kwargs.get('scale', 1)
         
@@ -180,6 +189,9 @@ class LSIS_MappingTool:
             self.min = kwargs.get('min', -sys.maxsize - 1)
             self.max = kwargs.get('max', sys.maxsize)
         if self.type == "bool":
+            self.min = kwargs.get('min', 0)
+            self.max = kwargs.get('max', 1)
+        if self.type == "bit":
             self.min = kwargs.get('min', 0)
             self.max = kwargs.get('max', 1)
             
@@ -312,7 +324,6 @@ class LSIS_MappingTool:
     def determine_base(self, value):
         # 16진수 표현의 문자 집합 정의
         hex_chars = set('0123456789ABCDEFabcdef.')
-
         # 숫자인지 확인하고, 실수인지 판별
         try:
             # 값이 16진수 문자로만 구성되어 있는지 확인
@@ -643,14 +654,14 @@ def interpretation(header, instruction):
         message["CPU STATUS"] = "CPU 동작 정상"
     if SYSTEM_STATUS == 0x01:
         message["SYSTEM STATUS"] = "RUN"
-    elif SYSTEM_STATUS == 0x02:
+    elif SYSTEM_STATUS == 0x10:
         message["SYSTEM STATUS"] = "STOP"
-    elif SYSTEM_STATUS == 0x04:
+    elif SYSTEM_STATUS == 4352:
         message["SYSTEM STATUS"] = "ERROR"
-    elif SYSTEM_STATUS == 0x08:
+    elif SYSTEM_STATUS == 4096:
         message["SYSTEM STATUS"] = "DEBUG"
     else:
-        message["SYSTEM STATUS"] = "Exception"
+        message["SYSTEM STATUS"] = f"Exception({SYSTEM_STATUS})"
 
     text_CPU_info = hex(header["CPU_Info"])
     if text_CPU_info == '0xa0':

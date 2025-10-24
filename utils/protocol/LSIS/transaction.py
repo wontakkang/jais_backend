@@ -17,8 +17,13 @@ from .framer.socket_framer import LSIS_SocketFramer
 # from protocol.LSIS.framer.rtu_framer import LSIS_RtuFramer
 from .logger import Log
 from .utilities import LSIS_TransactionState, hexlify_packets
-from .constants import LSIS_XGT_constants
-
+from .constants import Defaults, LSIS_XGT_constants
+import socket
+import struct
+import time
+from functools import partial
+from threading import RLock
+from .framer.socket_framer import LSIS_SocketFramer
 
 # --------------------------------------------------------------------------- #
 # The Global Transaction Manager
@@ -181,7 +186,6 @@ class LSIS_TransactionManager:
                     self.client.framer.processIncomingPacket(response, addTransaction)
                     if not (response := self.getTransaction(request.transaction_id)):
                         if len(self.transactions):
-                            print("self.getTransaction(tid=0)")
                             response = self.getTransaction(tid=0)
                         else:
                             last_exception = last_exception or (
@@ -240,9 +244,8 @@ class LSIS_TransactionManager:
         try:
             self.client.connect()
             packet = self.client.framer.buildPacket(packet)
+            """Collection of transaction based abstractions."""
             size = self._send(packet)
-            Log.debug("SEND({}): {}", size, packet, ":hex")
-
             if (
                 isinstance(size, bytes)
                 and self.client.state == LSIS_TransactionState.RETRYING
@@ -275,7 +278,7 @@ class LSIS_TransactionManager:
                     return b"", "Wrong local echo"
             result = self._recv(response_length, full)
             # result2 = self._recv(response_length, full)
-            Log.debug("RECV: {}", result, ":hex")
+            # Log.debug("RECV: {}", result, ":hex")
         except (
             socket.error,
             LSIS_IOException,
@@ -338,6 +341,7 @@ class LSIS_TransactionManager:
         elif self.client.framer.instruction[1] == 88:
             expected_response_length = 30
             total = expected_response_length
+            
         # =======================================================================================
         result = self.client.framer.recvPacket(expected_response_length)
         result = read_min + result
@@ -530,8 +534,6 @@ __all__ = [
     "FifoTransactionManager",
     "DictTransactionManager",
     "LSIS_SocketFramer",
-    # "LSIS_TlsFramer",
-    # "LSIS_RtuFramer",
-    # "LSIS_AsciiFramer",
-    # "LSIS_BinaryFramer",
 ]
+
+

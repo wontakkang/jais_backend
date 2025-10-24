@@ -1,0 +1,1420 @@
+[2025-10-23 11:14:04.012] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:15:32.199] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:15:32.222] [DEBUG] []
+[2025-10-23 11:16:39.518] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:16:39.522] [ERROR] [MCUnode] Redis 연결 설정 중 오류 발생: 'RedisManager' object has no attribute 'set_data'
+[2025-10-23 11:17:09.055] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:17:09.057] [INFO] [MCUnode] Redis에 초기화 데이터가 설정되었습니다.
+[2025-10-23 11:19:45.059] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:19:47.555] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:19:57.867] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:21:22.269] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:28:35.934] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:29:03.060] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:29:16.898] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:29:23.045] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:29:23.650] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:29:23.672] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:29:23.687] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:29:23.687] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:29:23.703] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 E0 39 23 40 75 31 D3 3F F5
+[2025-10-23 11:31:29.440] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:31:40.439] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:31:44.951] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:31:44.973] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:31:44.989] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:31:44.989] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:31:45.004] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 79 0C 3F 40 B9 DE 2B 3F 9E
+[2025-10-23 11:32:10.778] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:32:10.800] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:32:10.816] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:32:10.816] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:32:10.832] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 16 BD 20 40 A6 CA 8D 3F F2
+[2025-10-23 11:37:03.806] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:37:03.808] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:37:09.118] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:37:09.140] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:37:09.155] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:37:09.155] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:37:09.171] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 75 4C 2B 40 C6 4B 51 3F 56
+[2025-10-23 11:39:10.649] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:39:10.651] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:39:14.008] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:39:14.016] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:39:14.030] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:39:14.030] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:39:14.047] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 AB 3B 5D 40 3A FE 4E 3F DF
+[2025-10-23 11:40:07.569] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:40:07.572] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:40:09.174] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:40:09.181] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:40:09.195] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:40:09.195] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:40:09.211] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 74 0D 2D 40 33 3B C0 3F 04
+[2025-10-23 11:40:30.341] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:40:30.369] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:40:37.753] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:40:37.755] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:40:39.220] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:40:39.228] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:40:39.243] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:40:39.243] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:40:39.259] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 9E 96 3A 40 C0 40 93 3F B9
+[2025-10-23 11:40:55.543] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:40:55.545] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:40:56.095] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:40:56.102] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:40:56.117] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:40:56.117] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:40:56.132] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 E8 79 23 40 89 34 90 3F 07
+[2025-10-23 11:41:06.358] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:41:06.359] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:41:06.915] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:41:06.938] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:41:06.953] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:41:06.953] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:41:06.969] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 32 10 FE 3F DE FA 4E 3F 51
+[2025-10-23 11:41:33.284] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:41:33.287] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:41:36.623] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:41:36.647] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:41:36.662] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:41:36.662] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:41:36.678] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 13 31 2C 40 EB 62 52 3F 4D
+[2025-10-23 11:41:50.459] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:41:50.465] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:41:50.481] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:41:50.481] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:41:50.497] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 30 3C 25 40 55 32 E9 3E 3E
+[2025-10-23 11:42:06.909] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:42:06.911] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:42:07.532] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:42:07.554] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:42:07.570] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:42:07.570] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:42:07.586] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 C6 8E 21 40 71 05 AB 3F 2E
+[2025-10-23 11:42:19.811] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:42:19.818] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:42:19.833] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:42:19.833] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:42:19.849] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 84 3A 25 40 93 E4 2E 3F 5A
+[2025-10-23 11:42:42.547] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:42:42.549] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:42:43.574] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:42:43.597] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:42:43.612] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:42:43.612] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:42:43.628] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 16 B7 32 40 B9 DB 4E 3F 27
+[2025-10-23 11:43:10.928] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:43:10.929] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:43:15.778] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:43:15.780] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:43:16.334] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:43:16.357] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:43:16.373] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:43:16.373] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:43:16.388] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 3C A8 37 40 01 93 54 3F FD
+[2025-10-23 11:43:19.796] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:43:19.803] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:43:19.818] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:43:19.819] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:43:19.833] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 48 5D 24 40 F2 F7 E7 3E 4A
+[2025-10-23 11:43:41.841] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:43:41.843] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:44:11.736] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:44:11.738] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:44:16.999] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:44:17.023] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:44:17.037] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:44:17.038] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:44:17.054] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 ED C6 2D 40 75 52 54 3F ED
+[2025-10-23 11:44:21.472] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:44:21.474] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:45:22.383] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:45:22.384] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:45:25.265] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:45:25.267] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:45:25.814] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:45:25.836] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:45:25.852] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:45:25.852] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:45:25.867] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 3A 3A 35 40 A7 B5 BE 3F 01
+[2025-10-23 11:46:06.724] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:46:06.729] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:46:07.303] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:46:07.326] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:46:07.341] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:46:07.342] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:46:07.358] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 3A 6D 22 40 3E 23 52 3F A2
+[2025-10-23 11:46:07.477] [DEBUG] [DE_MCUSerialViewSet] Processed Data: {
+  "depth": 3,
+  "STATUS": {
+    "Position": {
+      "Roll": {
+        "Value": 2.537916660308838,
+        "Unit": "\u00b0"
+      },
+      "Pitch": {
+        "Value": 0.8208502531051636,
+        "Unit": "\u00b0"
+      }
+    }
+  }
+}
+[2025-10-23 11:46:47.465] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:46:47.484] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:46:52.931] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:46:52.933] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:46:54.505] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:46:54.524] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:47:12.081] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:47:12.083] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:47:28.945] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:47:28.946] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:47:33.402] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:47:33.425] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:47:33.440] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:47:33.441] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:47:33.456] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 01 A0 2F 40 11 94 56 3F C5
+[2025-10-23 11:47:40.398] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 11:47:40.412] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 11:47:42.301] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 11:47:42.324] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 11:47:42.340] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 11:47:42.340] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 11:47:42.355] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 07 7E 32 40 F2 08 29 3F 00
+[2025-10-23 12:07:04.216] [INFO] [MCUnode] Redis 연결이 성공적으로 설정되었습니다.
+[2025-10-23 12:07:04.233] [INFO] [MCUnode] Redis에 초기화 데이터가 없습니다.
+[2025-10-23 12:14:14.042] [ERROR] Redis 연결 실패: 'McunodeConfig' object has no attribute 'REIDS_DID'
+[2025-10-23 12:14:45.968] [ERROR] Redis 연결 실패: 'McunodeConfig' object has no attribute 'REIDS_DID'
+[2025-10-23 12:15:25.445] [ERROR] Redis 연결 실패: 'McunodeConfig' object has no attribute 'REIDS_DID'
+[2025-10-23 12:16:04.909] [ERROR] Redis 연결 실패: 'McunodeConfig' object has no attribute 'REIDS_DID'
+[2025-10-23 12:16:41.336] [ERROR] Redis 연결 실패: 'McunodeConfig' object has no attribute 'REIDS_DID'
+[2025-10-23 12:16:51.795] [ERROR] Redis 연결 실패: 'McunodeConfig' object has no attribute 'REIDS_DID'
+[2025-10-23 12:17:38.640] [ERROR] Redis 연결 실패: 'McunodeConfig' object has no attribute 'REIDS_DID'
+[2025-10-23 12:17:57.193] [ERROR] Redis 연결 실패: 'McunodeConfig' object has no attribute 'REIDS_DID'
+[2025-10-23 12:18:12.076] [ERROR] Redis 연결 실패: cannot access local variable 'redis_instance' where it is not associated with a value
+[2025-10-23 12:18:16.894] [ERROR] Redis 연결 실패: cannot access local variable 'redis_instance' where it is not associated with a value
+[2025-10-23 12:18:19.764] [ERROR] Redis 연결 실패: cannot access local variable 'redis_instance' where it is not associated with a value
+[2025-10-23 12:18:26.500] [ERROR] Redis 연결 실패: cannot access local variable 'redis_instance' where it is not associated with a value
+[2025-10-23 12:18:49.308] [ERROR] Redis 연결 실패: cannot access local variable 'redis_instance' where it is not associated with a value
+[2025-10-23 12:19:34.873] [ERROR] Redis 연결 실패: cannot access local variable 'redis_instance' where it is not associated with a value
+[2025-10-23 12:19:43.634] [ERROR] Redis 연결 실패: cannot access local variable 'redis_instance' where it is not associated with a value
+[2025-10-23 12:19:52.966] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:19:52.988] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:19:53.003] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:19:53.004] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:19:53.020] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 F3 89 26 40 BA A1 7E 3F A1
+[2025-10-23 12:19:53.138] [ERROR] Redis STATUS 저장 실패: type object 'McunodeConfig' has no attribute 'redis_instance'
+[2025-10-23 12:21:40.525] [ERROR] Redis 연결 실패: type object 'McunodeConfig' has no attribute 'REDIS_DID'
+[2025-10-23 12:22:00.177] [ERROR] Redis 연결 실패: type object 'McunodeConfig' has no attribute 'REDIS_DID'
+[2025-10-23 12:22:22.296] [ERROR] Redis 연결 실패: type object 'McunodeConfig' has no attribute 'REDIS_DID'
+[2025-10-23 12:22:23.907] [ERROR] Redis 연결 실패: type object 'McunodeConfig' has no attribute 'REDIS_DID'
+[2025-10-23 12:22:26.396] [ERROR] Redis 연결 실패: type object 'McunodeConfig' has no attribute 'REDIS_DID'
+[2025-10-23 12:22:35.096] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:22:41.728] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:22:41.750] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:22:41.767] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:22:41.767] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:22:41.782] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 FB EF 26 40 49 FE D7 3F CA
+[2025-10-23 12:22:41.903] [ERROR] Redis STATUS 저장 실패: type object 'McunodeConfig' has no attribute 'redis_instance'
+[2025-10-23 12:22:57.013] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:23:48.147] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:23:58.520] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:24:01.786] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:24:01.808] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:24:01.823] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:24:01.823] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:24:01.839] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 BF DC 4C 40 16 DA 81 3F FA
+[2025-10-23 12:24:01.971] [ERROR] Redis STATUS 저장 실패: list indices must be integers or slices, not str
+[2025-10-23 12:25:55.212] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:25:57.548] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:25:57.572] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:25:57.587] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:25:57.587] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:25:57.603] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 13 9B 3A 40 00 FC 57 3F 81
+[2025-10-23 12:25:57.725] [ERROR] Redis STATUS 저장 실패: list indices must be integers or slices, not str
+[2025-10-23 12:26:34.689] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:26:49.370] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:26:49.377] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:26:49.392] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:26:49.392] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:26:49.408] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 7F 31 25 40 35 DE AE 3F B6
+[2025-10-23 12:26:49.536] [ERROR] Redis STATUS 저장 실패: list indices must be integers or slices, not str
+[2025-10-23 12:30:46.599] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:31:39.927] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:31:41.749] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:31:47.607] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:31:47.614] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:31:47.628] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:31:47.628] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:31:47.644] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 5A B0 4F 40 4E A4 83 3F 54
+[2025-10-23 12:32:41.348] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:32:42.154] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:32:42.176] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:32:42.191] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:32:42.191] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:32:42.207] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 4A C6 26 40 3A 87 30 3F BF
+[2025-10-23 12:32:49.067] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:32:50.559] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:32:50.567] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:32:50.581] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:32:50.581] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:32:50.598] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 47 6D 37 40 87 1A 60 3F 78
+[2025-10-23 12:35:13.125] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:35:25.678] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:35:26.631] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:35:31.371] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:35:31.379] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:35:31.393] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:35:31.393] [DEBUG] ACCEL_READ_REQ : TX -> 7E 90 00 EE
+[2025-10-23 12:35:31.410] [DEBUG] ACCEL_READ_RES : RX <- 7E 91 08 19 DA 25 40 9A 90 AF 3F DB
+[2025-10-23 12:35:49.032] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:35:49.039] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:35:49.054] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:35:49.054] [DEBUG] ANALOG_READ_ALL_REQ : TX -> 7E 51 00 2F
+[2025-10-23 12:35:49.071] [DEBUG] ANALOG_READ_ALL_RES : RX <- 7E 61 10 BA 09 C4 09 B0 09 BA 09 00 00 00 00 00 00 00 00 7B
+[2025-10-23 12:36:03.130] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:36:03.153] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:36:03.168] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:36:03.168] [DEBUG] ANALOG_READ_ALL_REQ : TX -> 7E 51 00 2F
+[2025-10-23 12:36:03.185] [DEBUG] ANALOG_READ_ALL_RES : RX <- 7E 61 10 BA 09 C4 09 B0 09 BA 09 00 00 00 00 00 00 00 00 7B
+[2025-10-23 12:36:23.164] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:36:23.186] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:36:23.202] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:36:23.203] [ERROR] DE_MCU_Exception: Internal error
+Caused by:
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\mixin.py", line 328, in ANALOG_READ_REQ
+    raise ValueError("req_data 매개변수가 필요합니다.")
+ValueError: req_data 매개변수가 필요합니다.
+
+[2025-10-23 12:36:23.327] [ERROR] Unexpected error during connect: Internal error
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\mixin.py", line 328, in ANALOG_READ_REQ
+    raise ValueError("req_data 매개변수가 필요합니다.")
+ValueError: req_data 매개변수가 필요합니다.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\base.py", line 311, in transact
+    req_bytes = getattr(self, command)(
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\mixin.py", line 339, in ANALOG_READ_REQ
+    raise DE_MCU_Exception(INTERNAL_ERROR, exc=e)
+utils.protocol.MCU.exceptions.DE_MCU_Exception: Internal error
+[2025-10-23 12:36:23.328] [ERROR] DE_MCU_Exception: Internal error (endpoint=COM8, retryable=False)
+Caused by:
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\mixin.py", line 328, in ANALOG_READ_REQ
+    raise ValueError("req_data 매개변수가 필요합니다.")
+ValueError: req_data 매개변수가 필요합니다.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\base.py", line 311, in transact
+    req_bytes = getattr(self, command)(
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\mixin.py", line 339, in ANALOG_READ_REQ
+    raise DE_MCU_Exception(INTERNAL_ERROR, exc=e)
+utils.protocol.MCU.exceptions.DE_MCU_Exception: Internal error
+
+[2025-10-23 12:36:33.354] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:36:33.377] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:36:33.393] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:36:33.393] [DEBUG] ANALOG_READ_REQ : TX -> 7E 50 01 01 2E
+[2025-10-23 12:36:33.408] [DEBUG] ANALOG_READ_RES : RX <- 7E 60 04 BA 09 00 00 A9
+[2025-10-23 12:38:21.195] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:38:21.217] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:38:21.233] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:38:21.233] [DEBUG] ANALOG_READ_REQ : TX -> 7E 50 01 02 2D
+[2025-10-23 12:38:21.249] [DEBUG] ANALOG_READ_RES : RX <- 7E 60 04 C4 09 00 00 D7
+[2025-10-23 12:38:55.020] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:38:55.028] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:38:55.044] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:38:55.044] [ERROR] Serialization failed: 'Serial_Setup_Read_Request' object has no attribute 'data'
+[2025-10-23 12:38:55.169] [ERROR] Unexpected error during connect: SERIAL_SETUP_READ_REQ : Command/DataLength 직렬화 실패: 'Serial_Setup_Read_Request' object has no attribute 'data'
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\serial_setup_read.py", line 55, in serialize
+    for char in self.data:
+                ^^^^^^^^^
+AttributeError: 'Serial_Setup_Read_Request' object has no attribute 'data'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\base.py", line 313, in transact
+    ).serialize()  # Validate command existence
+      ^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\serial_setup_read.py", line 76, in serialize
+    super().serialize()
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\serial_setup_read.py", line 59, in serialize
+    raise ValueError(
+ValueError: SERIAL_SETUP_READ_REQ : Command/DataLength 직렬화 실패: 'Serial_Setup_Read_Request' object has no attribute 'data'
+[2025-10-23 12:38:55.170] [ERROR] DE_MCU_Exception: SERIAL_SETUP_READ_REQ : Command/DataLength 직렬화 실패: 'Serial_Setup_Read_Request' object has no attribute 'data' (endpoint=COM8, retryable=False)
+Caused by:
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\serial_setup_read.py", line 55, in serialize
+    for char in self.data:
+                ^^^^^^^^^
+AttributeError: 'Serial_Setup_Read_Request' object has no attribute 'data'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\client\base.py", line 313, in transact
+    ).serialize()  # Validate command existence
+      ^^^^^^^^^^^
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\serial_setup_read.py", line 76, in serialize
+    super().serialize()
+  File "D:\project\projects\jais\py_backend\utils\protocol\MCU\serial_setup_read.py", line 59, in serialize
+    raise ValueError(
+ValueError: SERIAL_SETUP_READ_REQ : Command/DataLength 직렬화 실패: 'Serial_Setup_Read_Request' object has no attribute 'data'
+
+[2025-10-23 12:39:07.158] [INFO] DE-MCU Client initialized with port: COM8, baudrate: 19200, environment: development
+[2025-10-23 12:39:07.166] [DEBUG] NODE_SELECT_REQ : TX -> 7E 20 08 47 00 4C 00 0D 50 53 46 15
+[2025-10-23 12:39:07.180] [DEBUG] NODE_SELECT_RES : RX <- 7E 21 01 01 5F
+[2025-10-23 12:39:07.180] [DEBUG] SERIAL_SETUP_READ_REQ : TX -> 7E 71 01 01 0F
+[2025-10-23 12:39:07.197] [DEBUG] SERIAL_SETUP_READ_RES : RX <- 7E 82 0A 01 01 80 25 00 00 08 00 01 00 5A
+[2025-10-23 12:40:22.430] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:40:29.235] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:40:34.607] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:40:40.065] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:41:18.633] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:41:38.478] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:42:10.335] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-23 12:42:10.337] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:42:35.992] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-23 12:42:35.995] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:43:57.393] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:44:11.709] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:44:16.217] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:44:21.775] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:44:31.535] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:44:37.832] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:45:11.948] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:46:11.767] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:46:15.252] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:46:55.515] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:47:08.460] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:47:19.197] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:47:48.454] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:48:20.680] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:48:50.818] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:49:17.722] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:50:14.970] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:50:19.848] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:51:44.196] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:51:44.659] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:51:53.341] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:51:55.062] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:52:43.542] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:52:58.088] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:53:04.184] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:57:59.453] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:58:05.564] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 12:59:15.331] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:00:13.814] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:01:23.861] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:01:27.406] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:02:11.005] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:02:48.966] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:02:59.685] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:03:09.167] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:03:49.841] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:03:56.765] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:04:44.870] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:04:47.034] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:04:55.748] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:05:56.292] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:06:11.492] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:06:29.342] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:08:28.367] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:08:32.491] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:08:43.543] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:08:48.565] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:10:15.891] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:10:40.601] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:10:55.203] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:11:00.074] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:11:11.829] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:11:15.998] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:11:53.201] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:12:14.943] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:12:33.446] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:12:36.977] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:12:45.367] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:13:26.231] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:13:28.249] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:13:38.561] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:13:40.482] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:14:09.325] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:14:21.577] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:14:23.747] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:14:41.312] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:15:24.059] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:15:25.226] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:15:26.067] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:15:44.531] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:15:46.125] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:18:49.550] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:20:09.074] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:20:12.292] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:20:20.513] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:21:19.289] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:21:19.577] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:33:47.448] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:33:52.788] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:36:47.720] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:37:59.636] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:43:32.466] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:44:17.314] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:44:19.200] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:44:21.845] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:44:23.939] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:45:13.556] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:45:15.541] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:46:14.851] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:46:16.923] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:47:47.026] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:47:48.985] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:48:35.937] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:48:37.635] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:49:17.564] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:49:19.500] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:49:23.782] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:49:25.821] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:49:58.187] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:49:59.973] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:51:01.530] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:55:33.596] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:55:36.121] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:55:39.651] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:55:48.870] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:56:05.791] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:56:31.479] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 13:58:28.748] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:00:31.356] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:02:59.485] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:03:01.398] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:25:56.812] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:26:01.268] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:26:17.242] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:26:22.166] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:26:28.024] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:26:33.814] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:26:41.070] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:28:21.031] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:28:22.874] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:29:23.011] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:29:43.173] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:30:12.122] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:30:29.584] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:30:33.394] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:30:49.122] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:31:48.304] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:32:48.183] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:33:03.433] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:35:58.520] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:36:15.963] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:38:18.337] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:39:21.624] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:40:12.423] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:40:14.290] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:42:40.002] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:43:27.624] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:46:40.665] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:47:11.248] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:49:04.156] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:49:22.508] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:49:30.216] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:49:39.133] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:53:23.398] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:54:53.079] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:57:32.752] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:58:32.716] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 14:58:43.978] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:00:58.431] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:01:00.376] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:02:45.990] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:03:06.919] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:04:17.034] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:05:38.259] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:05:45.274] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:08:41.023] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:08:46.753] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:09:45.491] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:09:49.036] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:10:47.078] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:14:59.871] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:15:02.678] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:15:09.228] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:19:57.868] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:20:03.733] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:20:11.997] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:22:49.535] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:22:53.654] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:23:03.834] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:24:14.960] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:24:16.237] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:24:18.213] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:24:53.911] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:24:58.720] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:26:16.482] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:26:26.863] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:26:29.703] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:27:09.619] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:27:22.207] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:27:25.963] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:27:27.214] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:27:28.671] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:30:01.858] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:30:03.791] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:30:51.268] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:30:53.373] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:30:53.518] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:30:55.026] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:30:57.139] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:31:11.046] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:31:25.182] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:31:27.118] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:31:29.699] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:31:31.435] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:32:43.797] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:32:45.492] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:33:05.027] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:33:06.884] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:35:12.827] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:35:35.470] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:35:55.039] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:35:55.959] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:36:02.433] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:36:03.790] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:36:57.242] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:36:59.203] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:37:17.152] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:37:18.176] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:37:21.681] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:37:27.148] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:38:09.992] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:38:19.995] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:38:29.191] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:38:45.632] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:38:53.714] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:38:58.257] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:39:55.809] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:40:00.913] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:42:41.640] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:42:43.715] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:42:59.336] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:43:01.311] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:44:01.318] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:44:02.490] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:44:03.241] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:45:12.000] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:45:13.792] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:45:38.953] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:45:40.786] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:45:46.694] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:45:48.457] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:46:16.472] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:46:18.398] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:46:52.739] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:46:54.456] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:47:16.256] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:47:18.180] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:47:20.098] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:47:20.142] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:47:28.934] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:47:29.146] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:47:56.975] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:47:59.307] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:48:22.126] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:48:23.842] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:49:24.379] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:49:26.377] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:49:27.898] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:49:29.724] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:49:48.558] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:49:50.774] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:50:00.062] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:50:02.134] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:50:58.255] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:51:59.261] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:52:01.116] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:52:12.281] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:52:14.245] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:58:00.017] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:58:02.011] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:59:21.385] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:59:23.318] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:59:38.715] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 15:59:40.460] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:02:12.034] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:02:13.839] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:03:01.710] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:03:03.690] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:03:40.232] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:03:42.324] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:04:45.252] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:04:47.122] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:05:53.419] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:05:55.117] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:06:31.680] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:06:33.811] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:11:03.424] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:11:05.258] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:11:19.959] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:11:21.722] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:12:12.447] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:12:14.334] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:14:37.240] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:14:39.179] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:14:52.492] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:14:54.647] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:15:00.901] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:15:02.872] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:15:12.314] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:15:14.135] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:15:59.570] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:16:01.589] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:16:03.148] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:16:04.927] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:16:08.128] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:16:10.206] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:16:21.148] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:16:34.139] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:16:34.143] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:18:19.022] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:18:21.020] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:18:34.677] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:18:36.488] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:19:42.403] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:19:44.453] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:26:54.330] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:26:56.270] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:27:03.370] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:27:05.295] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:27:40.837] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:27:42.907] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:37:58.029] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:38:01.202] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:38:03.114] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:38:25.349] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:38:27.062] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:40:25.332] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:41:26.585] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:41:53.433] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:41:59.544] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:41:59.783] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:42:34.915] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:42:36.788] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:43:16.397] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:43:18.428] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:43:44.507] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:43:46.383] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:44:10.964] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:44:12.948] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:44:42.847] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:44:44.661] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:45:15.441] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:45:17.461] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:48:08.051] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:48:09.986] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:48:38.750] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:48:40.443] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:49:14.441] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:49:15.993] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:49:16.431] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:49:42.955] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:49:44.847] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:50:01.852] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:50:03.590] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:50:56.335] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:50:58.341] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:51:36.687] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:51:38.459] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:52:20.906] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:52:22.845] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:52:46.966] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:52:49.082] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:52:51.620] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:52:53.480] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:55:04.870] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:55:06.768] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:55:27.070] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:55:29.099] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:55:58.169] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:55:59.882] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:56:48.885] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:56:50.792] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:57:50.358] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:57:52.591] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:59:26.501] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:59:28.239] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:59:47.153] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:59:49.125] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:59:50.434] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 16:59:50.457] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:00:08.896] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:00:11.056] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:00:32.220] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:01:00.218] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:01:01.992] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:01:58.421] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:02:00.365] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:02:27.415] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:02:29.578] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:04:48.387] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:04:50.379] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:04:59.923] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:05:01.563] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:05:13.588] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:05:15.638] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:06:11.518] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:06:13.457] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:07:32.628] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:07:34.621] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:08:19.580] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:08:21.531] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:08:23.813] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:08:25.851] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:08:45.097] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:08:46.879] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:08:58.207] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:09:00.179] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:09:14.629] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:09:26.660] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:09:28.750] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:09:31.111] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:09:33.080] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:09:35.042] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:09:37.070] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:10:04.125] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:10:06.041] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:10:25.559] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:10:27.427] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:10:43.893] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:10:45.112] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:10:45.820] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:11:11.136] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:11:33.493] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:11:35.320] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:11:50.484] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:11:52.213] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:11:54.007] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:11:55.927] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:12:33.105] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:12:35.078] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:13:07.914] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:13:09.891] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:13:10.117] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:13:35.651] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:13:37.660] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:09.037] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:10.990] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:21.382] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:23.508] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:41.150] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:43.049] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:51.943] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:53.946] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:54.898] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:14:55.257] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:15:37.099] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:15:38.889] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:16:09.998] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:16:12.027] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:17:04.178] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:17:06.085] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:17:47.739] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:17:49.683] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:17:58.781] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:18:00.619] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:21:40.639] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:21:42.392] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:22:04.774] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:22:06.735] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:23:46.534] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:23:48.478] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:24:09.343] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:24:11.439] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:24:30.459] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:24:32.178] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:55:27.147] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:55:29.071] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:55:56.131] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 17:55:58.193] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:00:20.897] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:00:22.810] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:04:38.972] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:04:40.956] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:06:20.134] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:06:22.093] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:06:25.621] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:06:27.818] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:06:50.101] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:06:52.145] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:07:22.915] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:07:24.917] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:07:30.437] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:07:32.177] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:08:04.457] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:08:06.348] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:08:20.790] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:08:22.880] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:09:08.923] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:09:10.744] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:10:09.179] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:10:15.989] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:11:22.527] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:11:24.464] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:13:16.840] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:13:18.510] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:13:36.453] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:13:38.279] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:14:32.779] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:14:34.631] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:14:37.903] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:14:39.704] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:15:03.821] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:15:05.639] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:19:18.996] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:19:20.918] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:23:21.332] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:23:21.376] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:23:35.630] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:23:36.655] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:23:37.498] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:24:04.270] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:24:06.163] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:24:16.022] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:24:16.059] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:24:25.060] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:24:26.868] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:24:58.060] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:24:59.988] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:25:21.158] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:25:23.021] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:25:23.310] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:25:46.588] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:25:48.605] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:29:05.825] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:29:07.742] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:30:33.857] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:30:35.832] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:32:27.585] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:32:29.426] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:33:20.206] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:33:22.355] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:33:24.392] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:33:25.482] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:33:26.209] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:34:02.605] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:34:04.238] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:35:10.688] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:35:12.499] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:35:35.541] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:35:36.732] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:35:37.421] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:36:32.021] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:36:34.133] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:36:38.248] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:36:40.113] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:41:17.179] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:41:19.345] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:41:20.805] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:41:22.601] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:41:34.096] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:41:35.984] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:41:41.497] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:41:43.269] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:45:22.969] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:45:24.929] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:47:41.687] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:47:43.432] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:47:54.206] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:47:56.147] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:48:45.690] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:48:47.620] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:49:07.553] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:49:09.576] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:49:44.597] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:49:46.491] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:50:41.513] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:50:43.656] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:51:49.679] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:51:51.635] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:56:50.874] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:56:52.906] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:56:59.987] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:57:01.812] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:57:58.570] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:58:00.442] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:59:18.502] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:59:20.404] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:59:50.986] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 18:59:52.807] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:00:52.699] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:07:14.287] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:07:16.026] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:08:35.786] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:08:37.727] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:08:38.391] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:08:52.067] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:08:55.320] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:08:58.160] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:09:01.707] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:11:28.002] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:11:29.825] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:11:42.647] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:11:44.630] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:13:52.016] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:13:54.116] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:13:54.193] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:14:17.846] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:14:19.742] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:14:24.313] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:14:25.263] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:14:26.000] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:19:24.343] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:19:26.322] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:19:55.160] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:19:57.084] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:21:57.821] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:21:59.754] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:24:39.213] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:24:41.160] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:29:07.021] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:29:08.914] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:29:23.326] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:29:25.317] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:29:34.411] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:29:36.340] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:29:51.404] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:29:53.483] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:30:29.546] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:30:31.562] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:30:32.486] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:30:32.846] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:32:38.998] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:32:41.060] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:37:35.372] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:37:37.356] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:37:41.175] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:37:42.215] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:37:43.129] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:42:34.511] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:42:36.555] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:42:42.720] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:42:44.695] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:42:45.608] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:42:46.039] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:42:46.651] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:42:47.357] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:45:37.099] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:45:38.812] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:45:58.094] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:46:00.022] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:46:30.358] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:46:32.386] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:49:12.891] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:49:14.708] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:50:14.176] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:50:15.974] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:50:52.310] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:50:54.054] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:51:27.549] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:51:29.433] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:52:05.122] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:52:07.139] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:59:15.865] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 19:59:17.817] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:00:04.572] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:00:06.628] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:01:52.969] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:01:54.903] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:03:42.424] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:03:44.342] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:11:06.795] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:11:08.626] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:14:25.773] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:14:27.695] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:15:01.660] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:15:03.550] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:15:25.767] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:15:27.700] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:20:54.770] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:23:11.162] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:23:12.388] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:23:13.243] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:27:11.718] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:27:13.230] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:27:13.722] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:27:38.395] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:27:40.422] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:28:13.986] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:28:15.754] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:28:18.516] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:28:20.478] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:29:14.768] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:29:16.823] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:31:43.687] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:31:45.585] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:31:49.979] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:31:51.893] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:31:52.942] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:31:53.222] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:32:10.878] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:32:12.880] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:32:15.066] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:32:16.897] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:05.167] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:07.355] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:15.469] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:17.229] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:35.714] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:37.510] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:50.391] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:52.233] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:53.601] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:33:55.633] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:34:23.648] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:34:25.509] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:34:31.542] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:34:33.513] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:34:58.605] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:00.371] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:02.325] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:04.407] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:14.309] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:32.892] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:34.844] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:39.555] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:41.536] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:48.695] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:35:50.414] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:37:30.894] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:37:32.958] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:37:36.781] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:37:38.557] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:39:22.320] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:39:24.214] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:39:25.543] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:39:25.636] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:39:29.836] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:39:31.815] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:40:10.648] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:40:12.774] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:40:27.189] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:40:27.377] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:40:34.311] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:40:34.404] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:40:37.221] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:40:39.281] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:42:48.253] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:42:50.250] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:43:25.050] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:43:27.114] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:44:21.143] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:44:23.056] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:44:36.596] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:44:38.478] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:44:42.772] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:44:44.164] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:44:45.730] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:44:47.590] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:45:31.751] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:45:33.640] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:46:36.463] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:46:38.638] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:48:24.452] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:48:26.391] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:55:15.369] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:55:17.323] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:55:29.639] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:55:31.427] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:56:04.674] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:56:06.577] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:56:17.064] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:56:17.149] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:56:43.148] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:56:43.218] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:57:22.790] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:57:22.818] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:57:23.867] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:57:24.461] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:57:54.781] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:57:56.569] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:57:59.411] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:58:01.314] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:58:07.063] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:58:07.127] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:59:34.965] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:59:36.960] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:59:39.201] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 20:59:41.343] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:01:12.107] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:01:14.031] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:01:15.711] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:01:17.746] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:02:01.607] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:02:03.719] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:02:55.365] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:02:57.338] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:02:58.715] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:02:59.125] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:03.904] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:05.800] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:06.502] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:06.977] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:08.188] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:08.204] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:15.713] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:15.742] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:42.470] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:03:44.306] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:04:19.304] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:04:21.229] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:04:35.605] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:04:37.460] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:04:53.973] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:04:55.941] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:05:46.788] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:05:48.622] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:06:00.451] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:06:02.293] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:06:45.538] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:06:47.687] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:07:06.589] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:07:08.465] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:07:11.460] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:07:13.484] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:09:38.094] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:09:40.180] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:09:43.730] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:09:45.781] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:10:04.391] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:10:05.923] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:10:06.343] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:10:24.742] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:10:50.673] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:10:52.573] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:11:40.167] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:11:42.010] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:11:50.903] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:11:51.072] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:12:07.727] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:12:25.481] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:12:25.915] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:12:34.054] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:12:34.298] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:13:14.416] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:13:16.383] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:13:50.367] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:13:52.191] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:07.201] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:09.109] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:10.768] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:10.778] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:25.908] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:27.117] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:27.849] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:29.739] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:31.283] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:31.616] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:40.754] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:15:42.566] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:14.558] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:16.417] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:22.351] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:24.381] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:26.242] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:28.003] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:45.288] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:47.302] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:48.279] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:16:48.986] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:05.570] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:07.528] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:09.756] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:11.900] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:28.076] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:30.019] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:41.731] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:43.810] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:45.351] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:18:47.272] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:19:39.314] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:19:41.041] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:20:16.451] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:20:18.411] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:21:15.201] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:21:17.345] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:21:38.781] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:21:40.674] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:22:29.310] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:22:30.965] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:22:36.509] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:22:38.570] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:23:20.505] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:23:22.450] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:23:40.449] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:23:42.429] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:24:00.676] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:24:02.386] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:24:33.284] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:24:35.154] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:25:09.891] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:25:11.815] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:26:34.434] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:26:36.115] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:27:18.283] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:27:20.026] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:27:56.278] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:27:58.134] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:28:00.802] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:28:00.847] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:28:23.632] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:28:25.682] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:28:47.804] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:28:49.766] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:29:02.779] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:29:04.511] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:29:20.229] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:29:22.186] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:29:24.463] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:29:26.149] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:30:06.911] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:30:08.843] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:30:11.459] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:30:13.582] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:30:27.464] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:30:29.389] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:30:57.168] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:30:58.912] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:31:09.948] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:31:11.766] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:31:23.527] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:31:25.380] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:31:47.290] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:31:49.372] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:32:07.180] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:32:09.122] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:32:11.068] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:32:11.134] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:32:14.972] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:32:17.028] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:33:08.349] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:33:10.299] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:33:18.736] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:33:20.555] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:33:41.503] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:33:43.450] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:34:08.023] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:34:10.072] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:34:13.486] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:34:15.444] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:34:16.426] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:34:17.193] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:34:43.493] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:34:45.211] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:35:22.145] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:35:24.033] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:35:47.274] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:35:49.340] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:35:49.887] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:36:09.379] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:36:11.357] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:36:50.549] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:36:52.335] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:37:00.312] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:37:02.185] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:39:19.889] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:39:20.951] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:39:21.633] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:39:38.395] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:39:40.418] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:39:53.100] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:39:55.216] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:40:34.442] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:40:36.504] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:41:49.509] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:41:49.843] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:42:20.732] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:42:20.995] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:42:59.845] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:43:00.149] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:45:02.422] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:45:02.555] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:45:51.489] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:45:53.501] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:46:51.827] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:46:52.777] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:46:53.772] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:47:01.975] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:47:04.128] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:47:07.039] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:47:08.859] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:48:18.008] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:48:19.677] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:48:38.482] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:48:40.420] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:49:54.128] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:49:56.292] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:50:07.832] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:50:09.847] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:51:07.804] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:51:09.717] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:51:23.818] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:51:25.590] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:51:39.596] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:51:41.544] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:52:03.486] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:52:05.508] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:52:40.378] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:52:42.227] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:53:40.936] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:53:42.869] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:54:48.668] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:54:50.686] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:55:01.475] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:55:03.393] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:55:19.718] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:55:21.462] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:56:31.483] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:56:33.504] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:56:55.667] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:56:57.409] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:13.594] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:15.542] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:29.964] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:31.748] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:41.735] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:43.760] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:46.607] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:48.534] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:50.593] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:52.560] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:53.883] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:54.241] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:57.501] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:57:59.286] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:58:01.392] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:58:03.720] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:58:27.024] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:58:28.829] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:59:08.814] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:59:10.849] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:59:11.351] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:59:12.450] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:59:22.482] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 21:59:24.444] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 22:01:29.577] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 22:01:31.595] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 22:01:40.787] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 22:01:41.082] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 22:04:37.375] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-23 22:05:00.029] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0

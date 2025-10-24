@@ -10,9 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import logging
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+
+from utils.DB.redisDB.main import AsyncRedisManager, RedisManager
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,9 +31,17 @@ SECRET_KEY = 'django-insecure-v8!q%w9s+^x70(w(p21#s62tjse6qi75oigk=oke+&6qfuhngx
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+logger = logging.getLogger(__name__)    
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 EXCLUDE_AUTH_IP = os.environ.get('EXCLUDE_AUTH_IP', '*')
+
+# REDIS 설정을 .env에서 불러오기
+REDIS_HOST = os.environ.get('REDIS_HOST', '127.0.0.1')
+# 포트와 DB 인덱스는 정수로 변환
+REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
+REDIS_DID = int(os.environ.get('REDIS_DID', 0))
+REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', None)
+
 
 # ASGI 설정
 ASGI_APPLICATION = 'py_backend.asgi.application'
@@ -42,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
+    'channels_redis',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -112,6 +125,18 @@ TEMPLATES = [
         },
     },
 ]
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379),],
+        },
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
+}
 
 WSGI_APPLICATION = 'py_backend.wsgi.application'
 

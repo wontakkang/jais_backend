@@ -123,7 +123,7 @@ class ClientDecoder:
             for f in self.__sub_function_table:
                 self.__sub_lookup[f.command[1]][f.command[1]] = f
         except Exception as err:
-            print('factory.py :: ClientDecoder : ', err)
+            Log.error('factory.py :: ClientDecoder : ', err)
 
     def lookupPduClass(self, command):
         """Use `function_code` to determine the class of the PDU.
@@ -134,13 +134,12 @@ class ClientDecoder:
         return self.__lookup.get(command)
 
     def decode(self, message):
-        return self._helper(message)
         try:
             return self._helper(message)
         except LSIS_Exception as exc:
-            Log.error("Unable to decode response {}", exc)
+            Log.error("Factory.py :: Unable to decode response {}", exc)
         except Exception as exc:  # pylint: disable=broad-except
-            Log.error("General exception: {}", exc)
+            Log.error(f"{__name__} :: General exception: {exc} : {message}, byte_count={len(message)}")
         return None
 
     def _helper(self, data):
@@ -159,7 +158,7 @@ class ClientDecoder:
         except:
             response = None
         if code[0] == 65535:
-            Log.debug("Exception Code[{}]", hex(code[1]))
+            Log.error("Factory.py :: Exception Code[{}]", hex(code[1]))
             raise LSIS_Exception(f"Unknown response {hex(code[1])}")
         if not response:
             raise LSIS_Exception(f"Unknown response")

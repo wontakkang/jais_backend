@@ -132,9 +132,8 @@ class LSIS_SocketFramer(LSIS_Framer):
     def _process(self, callback, error=False):
         """Process incoming packets irrespective error condition."""
         data = self.getRawFrame() if error else self.getFrame()
+        result = self.decoder.decode(data)
         try:
-            result = self.decoder.decode(data)
-
             if result is None:
                 raise LSIS_IOException("Unable to decode request")
             if result._decode[0] == 89:

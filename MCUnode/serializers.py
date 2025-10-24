@@ -102,29 +102,3 @@ class DE_MCUSerialRequestSerializer(serializers.Serializer):
         attrs['serial_number'] = b
         return attrs
 
-
-# 새로 추가: context_store 상태를 반환하는 직렬화기
-class StateEntrySerializer(serializers.Serializer):
-    """Context store의 단일 장치 항목을 직렬화합니다.
-    필드:
-    - serial_number: 장치 식별자 (키)
-    - status: STATUS 블록 (dict)
-    - meta: Meta 블록 (dict)
-    - job: Job 블록 (dict, 선택)
-    - setup: SETUP 블록 (dict, 선택)
-    """
-    serial_number = serializers.CharField()
-    status = serializers.JSONField(allow_null=True)
-    meta = serializers.JSONField(allow_null=True)
-    job = serializers.JSONField(allow_null=True, required=False)
-    setup = serializers.JSONField(allow_null=True, required=False)
-
-    def to_representation(self, instance):
-        # instance는 dict 형태: {'serial_number':..., 'STATUS':..., 'Meta':..., 'Job':..., 'SETUP':...}
-        return {
-            'serial_number': instance.get('serial_number'),
-            'status': instance.get('STATUS'),
-            'meta': instance.get('Meta'),
-            'job': instance.get('Job'),
-            'setup': instance.get('SETUP'),
-        }

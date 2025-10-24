@@ -1,7 +1,7 @@
 import struct
 from .constants import LSIS_XGT_constants
 from .pdu import LSIS_XGT_Request, LSIS_XGT_Response
-
+from .logger import Log
 
 class Continuous_Read_RequestBase(LSIS_XGT_Request):
     instruction = [""]
@@ -12,8 +12,13 @@ class Continuous_Read_RequestBase(LSIS_XGT_Request):
         super().__init__(**kwargs)
         self.dataType = LSIS_XGT_constants.ContinuousDataType
         self.block_CNT = ["H", 0x01]
-        self.var_Length = ["H", len(address)]
-        self.var = [str(len(address)) + "s", address.encode()]
+        # Ensure even length for var
+        length = len(address)
+        if length % 2 != 0:
+            length += 1
+        address_bytes = address.encode().ljust(length, b'\x00')
+        self.var_Length = ["H", length]
+        self.var = [f"{length}s", address_bytes]
         self.data_Cnt = ["H", count]
         self.instruction = [""]
 

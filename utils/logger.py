@@ -1,6 +1,10 @@
 import logging
 import logging.handlers
 import os, sys
+import time
+import asyncio
+import functools
+from contextlib import contextmanager
 
 def setup_logger(name="sql_logger", log_file="log/sql_queries.log", level=logging.DEBUG, backup_days=7):
     """
@@ -80,6 +84,7 @@ def log_exceptions(logger):
         print("⚠️ 오류 발생, 로그를 확인하세요.")
     """
     def decorator(func):
+        @functools.wraps(func)
         def wrapper(*args, **kwargs):
             try:
                 return func(*args, **kwargs)
@@ -93,4 +98,135 @@ def log_exceptions(logger):
                 logger.error(error_message, exc_info=True)
                 raise  # 예외를 다시 발생시켜 호출자가 처리할 수 있도록 함
         return wrapper
+    return decorator
+
+
+# 📌 실행 시간 측정용 데코레이터
+def log_execution_time(logger, level=logging.INFO, msg_prefix=None):
+    """함수 실행 시간을 측정하여 시작/종료 로그(및 소요시간)를 남기는 데코레이터를 반환합니다.
+
+    :param logger: logging.Logger 인스턴스
+    :param level: 로깅 레벨 (logging.INFO 등)
+    :param msg_prefix: 로그 메시지 앞에 붙일 접두사 문자열
+    사용 예:
+        @log_execution_time(logger)
+        def task(...):
+            ...
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            name = f"{func.__module__}.{func.__qualname__}"
+            prefix = f"{msg_prefix} " if msg_prefix else ""
+            try:
+                logger.log(level, f"{prefix}START {name}")
+            except Exception:
+                pass
+            start = time.time()
+            try:
+                result = func(*args, **kwargs)
+                return result
+            finally:
+                elapsed = time.time() - start
+                try:
+                    logger.log(level, f"{prefix}END   {name} (elapsed: {elapsed:.3f}s)")
+                except Exception:
+                    pass
+        return wrapper
+    return decorator
+
+
+# 📌 실행 시간 측정용 컨텍스트 매니저
+@contextmanager
+def measure_time(logger, name=None, level=logging.INFO, msg_prefix=None):
+    """with 블록의 실행 시간을 측정하여 로그를 남깁니다.
+
+    사용 예:
+        with measure_time(logger, 'mytask'):
+            do_work()
+    """
+    prefix = f"{msg_prefix} " if msg_prefix else ""
+    name = name or 'block'
+    try:
+        logger.log(level, f"{prefix}START {name}")
+    except Exception:
+        pass
+    start = time.time()
+    try:
+        yield
+    finally:
+        elapsed = time.time() - start
+        try:
+            logger.log(level, f"{prefix}END   {name} (elapsed: {elapsed:.3f}s)")
+        except Exception:
+            pass
+
+
+# 📌 잡 런타임 전용 데코레이터 (동기/비동기 함수 지원)
+def log_job_runtime(logger, level=logging.INFO, msg_prefix=None):
+    """스케줄러 잡 실행 시 START/END/ERROR 로그를 남기는 데코레이터.
+
+    - 동기 및 비동기 함수 모두 지원
+    - 예외 발생 시 예외와 경과시간을 로깅하고 예외를 재발생시킵니다.
+    사용 예:
+        @log_job_runtime(logger, level=logging.WARNING, msg_prefix='JOB')
+        def scheduled_task(...):
+            ...
+    """
+    def decorator(func):
+        name_template = lambda f: f"{f.__module__}.{f.__qualname__}"
+        prefix = f"{msg_prefix} " if msg_prefix else ""
+
+        if asyncio.iscoroutinefunction(func):
+            @functools.wraps(func)
+            async def async_wrapper(*args, **kwargs):
+                name = name_template(func)
+                # try:
+                #     logger.log(level, f"{prefix}JOB START {name}")
+                # except Exception:
+                #     pass
+                start = time.time()
+                try:
+                    return await func(*args, **kwargs)
+                except Exception as e:
+                    elapsed = time.time() - start
+                    try:
+                        logger.exception(f"{prefix}JOB ERROR {name} (elapsed: {elapsed:.3f}s): {e}")
+                    except Exception:
+                        pass
+                    raise
+                finally:
+                    elapsed = time.time() - start
+                    try:
+                        logger.log(level, f"{prefix}JOB END   {name} (elapsed: {elapsed:.3f}s)")
+                    except Exception:
+                        pass
+            return async_wrapper
+
+        else:
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                name = name_template(func)
+                # try:
+                #     logger.log(level, f"{prefix}JOB START {name}")
+                # except Exception:
+                #     pass
+                start = time.time()
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    elapsed = time.time() - start
+                    try:
+                        logger.exception(f"{prefix}JOB ERROR {name} (elapsed: {elapsed:.3f}s): {e}")
+                    except Exception:
+                        pass
+                    raise
+                finally:
+                    elapsed = time.time() - start
+                    try:
+                        logger.log(level, f"{prefix}JOB END   {name} (elapsed: {elapsed:.3f}s)")
+                    except Exception:
+                        pass
+            return wrapper
+
     return decorator

@@ -420,7 +420,7 @@ class LoggerTailView(APIView):
     LINE_RE = LoggingView.LINE_RE
 
     def find_latest_log_file(self):
-        p_fixed = os.path.join(LOG_DIR, 'de_mcu.log')
+        p_fixed = os.path.join(LOG_DIR, 'scheduler.log')
         if os.path.exists(p_fixed):
             return p_fixed
         files = glob.glob(LOG_GLOB)

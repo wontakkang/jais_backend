@@ -19,5 +19,5 @@ urlpatterns += [
     path('users-admin/', UsersAdminListView.as_view()),
     path('users-debug/', UsersListView.as_view()),
     path('logging/', logging_view),
-    path('logging/tail/', LoggerTailView.as_view()),
+    path('logging-tail', LoggerTailView.as_view()),
 ]
