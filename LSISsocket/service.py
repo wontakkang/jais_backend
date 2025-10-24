@@ -182,6 +182,7 @@ def reids_to_memory_mapping(client):
             serializer = SocketClientConfigSerializer(client)
             configs = serializer.data
         memory_groups = configs.get('memory_groups_detail', [])
+        bulk_data = {}
         for group in memory_groups:
             for key in group:
                 if key == 'variables':
@@ -194,17 +195,15 @@ def reids_to_memory_mapping(client):
 
                             # Redis에 변수별 속성(JSON 배열) 저장
                             try:
-                                bulk_data = {}
                                 for attribute in mem.get('attributes', []):
-                                    key = f"{attribute}:{configs.get('id', None)}:{mem.get('group', None)}:{mem.get('id', None)}:{mem.get('data_type', None)}"
-                                    bulk_data[key] = _value
-                                corecode_redis_instance.bulk_update(bulk_data)
+                                    attr_str = ":".join(attribute)
+                                key = f"{configs.get('id', None)}:{mem.get('group', None)}:{mem.get('id', None)}:{mem.get('data_type', None)}:{attr_str}"
+                                bulk_data[key] = _value
                             except Exception as _e:
                                 logger.debug(f'Attribute save failed for var {mem.get("id")}: {_e}')
                         except Exception as e:
                             logger.error(f'Error creating LSIS_MappingTool for memory variable {mem}: {e}')
-        
-            
+        corecode_redis_instance.bulk_update(bulk_data)
     except Exception as err:
         logger.error(f'Error fetching memory-groups serializer data: {err}')
         configs = []

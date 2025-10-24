@@ -134,7 +134,7 @@ class VariableSerializer(serializers.ModelSerializer):
     group = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), required=False, allow_null=True, help_text='소속 MemoryGroup ID(선택)')
     name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID')
     attributes = serializers.ListField(
-        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
         allow_empty=True,
         required=False,
         default=list,
@@ -162,8 +162,8 @@ class VariableSerializer(serializers.ModelSerializer):
 
         try:
             if obj.offset is not None:
-                offset_val = int(str(float(obj.offset)).split('.')[0]) * multiplier
-                offset_val += int(str(float(obj.offset)).split('.')[1])
+                offset_val = int(str(obj.offset).split('.')[0]) * multiplier
+                offset_val += int(str(obj.offset).split('.')[1])
             else:
                 offset_val = 0.0
         except Exception:
@@ -183,8 +183,6 @@ class VariableSerializer(serializers.ModelSerializer):
 
 class MemoryGroupSerializer(serializers.ModelSerializer):
     variables = VariableSerializer(many=True, read_only=False, required=False, help_text='이 그룹에 포함된 변수 목록 (선택)')
-    # 공용 변수 기반 복제 옵션 (ProjectVersion 제거 구조에 맞게 단순 복제)
-    clone_from_group = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), write_only=True, required=False, allow_null=True, help_text='공용 변수 템플릿으로 사용할 MemoryGroup ID(선택)')
     # 추가: Adapter/Device FK 노출 (모델 필드는 대문자이므로 source로 매핑)
     adapter = serializers.PrimaryKeyRelatedField(queryset=CoreAdapter.objects.all(), required=False, allow_null=True, source='Adapter', help_text='연결 어댑터 ID(선택)')
     device = serializers.PrimaryKeyRelatedField(queryset=CoreDevice.objects.all(), required=False, allow_null=True, source='Device', help_text='연결 장치 ID(선택)')
@@ -195,8 +193,7 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = MemoryGroup
         fields = [
-            'id', 'name', 'description', 'size_byte', 'start_address', 'adapter', 'adapterName', 'device', 'deviceName', 'variables',
-            'clone_from_group'
+            'id', 'name', 'description', 'size_byte', 'start_address', 'adapter', 'adapterName', 'device', 'deviceName', 'variables'
         ]
 
     def _resolve_dataname(self, name_val):
@@ -212,7 +209,6 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         variables_data = validated_data.pop('variables', [])
-        template_group = validated_data.pop('clone_from_group', None)
         group = MemoryGroup.objects.create(**validated_data)
 
         # 1) 명시 변수가 오면 그대로 생성
@@ -229,34 +225,13 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
                     data_type=var_data.get('data_type'),
                     unit=var_data.get('unit'),
                     scale=var_data.get('scale', 1),
-                    offset=var_data.get('offset', 0),
+                    offset=var_data.get('offset', '0'),
                     attributes=var_data.get('attributes', []),
                 )
             return group
 
-        # 2) 템플릿 그룹이 있으면 복제
-        if template_group:
-            try:
-                for v in template_group.variables.all():
-                    Variable.objects.create(
-                        group=group,
-                        name=v.name,
-                        device=v.device,
-                        address=v.address,
-                        use_group_base_address=v.use_group_base_address if hasattr(v, 'use_group_base_address') else False,
-                        data_type=v.data_type,
-                        unit=v.unit,
-                        scale=v.scale,
-                        offset=v.offset,
-                        attributes=v.attributes,
-                    )
-            except Exception as e:
-                raise serializers.ValidationError({"clone_from_group": f"변수 복제 실패: {str(e)}"})
-        return group
 
     def update(self, instance, validated_data):
-        # 복제 관련 필드는 업데이트에서 무시
-        validated_data.pop('clone_from_group', None)
         variables_data = validated_data.pop('variables', None)
         # 기본 필드 업데이트
         for attr, val in validated_data.items():
@@ -276,7 +251,7 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
                     data_type=var_data.get('data_type'),
                     unit=var_data.get('unit'),
                     scale=var_data.get('scale', 1),
-                    offset=var_data.get('offset', 0),
+                    offset=var_data.get('offset', '0'),
                     attributes=var_data.get('attributes', []),
                 )
         return instance
@@ -293,7 +268,7 @@ class ControlVariableSerializer(serializers.ModelSerializer):
     name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID. 예: 12', style={'example': 12})
     applied_logic = serializers.PrimaryKeyRelatedField(queryset=CoreControlLogic.objects.all(), help_text='적용할 ControlLogic ID. 예: 2', style={'example': 2})
     attributes = serializers.ListField(
-        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
         allow_empty=True,
         required=False,
         default=list,
@@ -318,8 +293,9 @@ class ControlGroupSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = ControlGroup
+        # 'group_id' is not a model field — remove it from serializer fields
         fields = [
-            'id', 'group_id', 'name', 'description', 'control_variables_in_group'
+            'id', 'name', 'description', 'control_variables_in_group'
         ]
 
     def create(self, validated_data):
@@ -333,9 +309,7 @@ class ControlGroupSerializer(serializers.ModelSerializer):
         control_variables_data = validated_data.pop('agriseed_control_variables_in_group', None)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
-        # group_id 업데이트 허용
-        if 'group_id' in validated_data:
-            instance.group_id = validated_data['group_id']
+        # removed unsupported 'group_id' handling
         instance.save()
         if control_variables_data is not None:
             instance.agriseed_control_variables_in_group.all().delete()
@@ -347,7 +321,7 @@ class CalcVariableSerializer(serializers.ModelSerializer):
     group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False, allow_null=True, help_text='소속 CalcGroup ID(선택). 예: 4', style={'example': 4})
     name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID. 예: 8', style={'example': 8})
     attributes = serializers.ListField(
-        child=serializers.ChoiceField(choices=['감시','제어','기록','경보']),
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
         allow_empty=True,
         required=False,
         default=list,

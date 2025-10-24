@@ -20775,3 +20775,121 @@ NameError: name 'SocketClientStatus' is not defined
 [2025-10-23 22:01:46.315] [INFO] try to connect LSIS client => 192.168.0.198:2004
 [2025-10-23 22:04:37.373] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-23 22:05:00.027] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 18:52:12.234] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 18:52:20.224] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 18:52:25.962] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-24 18:52:25.999] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 73, 'group': 61, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16320', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.000] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 74, 'group': 61, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD514.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.001] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 75, 'group': 61, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD515.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.001] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 67, 'group': 62, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16000', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.002] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 68, 'group': 62, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD504.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.002] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 69, 'group': 62, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD505.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.002] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 76, 'group': 68, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16640', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.003] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 77, 'group': 68, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD524.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.003] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 78, 'group': 68, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD525.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.004] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 82, 'group': 69, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16960', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.004] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 83, 'group': 69, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD534.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:52:26.004] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 84, 'group': 69, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD535.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 18:55:14.711] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 18:58:52.145] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 18:59:08.329] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 18:59:45.150] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 18:59:48.090] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 18:59:56.852] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 19:00:02.552] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-24 19:00:02.573] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 73, 'group': 61, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16320', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.574] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 74, 'group': 61, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD514.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.574] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 75, 'group': 61, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD515.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.575] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 67, 'group': 62, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16000', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.575] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 68, 'group': 62, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD504.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.575] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 69, 'group': 62, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD505.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.576] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 76, 'group': 68, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16640', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.576] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 77, 'group': 68, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD524.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.576] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 78, 'group': 68, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD525.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.577] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 82, 'group': 69, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16960', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.577] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 83, 'group': 69, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD534.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:02.577] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 84, 'group': 69, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD535.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.565] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 73, 'group': 61, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16320', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.566] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 74, 'group': 61, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD514.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.566] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 75, 'group': 61, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD515.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.567] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 67, 'group': 62, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16000', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.567] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 68, 'group': 62, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD504.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.567] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 69, 'group': 62, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD505.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.568] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 76, 'group': 68, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16640', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+2025-10-24 19:00:07,568 ERROR logger	[logger.py :error]:118 Connection to 192.168.0.198:2004 failed: timed out
+[2025-10-24 19:00:07.569] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 77, 'group': 68, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD524.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.570] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 78, 'group': 68, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD525.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.570] [ERROR] LSISsocket.service : 응답없음 발생 : cannot access local variable 'partial_response' where it is not associated with a value
+[2025-10-24 19:00:07.571] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 82, 'group': 69, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16960', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.572] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 83, 'group': 69, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD534.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.573] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 84, 'group': 69, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD535.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:07.587] [ERROR] 🚨 [ERROR] tcp_client_to_redis()에서 예외 발생 🚨
+📌 파일: C:\project\jais\jais_backend\jais_backend\utils\logger.py, 라인: 90
+📍 오류 메시지: LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+Traceback (most recent call last):
+  File "C:\project\jais\jais_backend\jais_backend\utils\protocol\LSIS\client\tcp.py", line 83, in connect
+    self.socket = socket.create_connection(
+                  ~~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.params.host, self.params.port),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        timeout=self.params.timeout,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        source_address=self.params.source_address,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "C:\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\project\jais\jais_backend\jais_backend\utils\logger.py", line 90, in wrapper
+    return func(*args, **kwargs)
+  File "C:\project\jais\jais_backend\jais_backend\LSISsocket\service.py", line 46, in tcp_client_to_redis
+    is_connected = connect_sock.connect(retry_forever=False)
+  File "C:\project\jais\jais_backend\jais_backend\utils\protocol\LSIS\client\tcp.py", line 100, in connect
+    raise ConnectionException(
+        f"Failed to connect to {self.params.host}:{self.params.port}"
+    )
+utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-10-24 19:00:12.543] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-24 19:00:12.556] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 73, 'group': 61, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16320', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.556] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 74, 'group': 61, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD514.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.557] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 75, 'group': 61, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD515.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.557] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 67, 'group': 62, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16000', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.558] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 68, 'group': 62, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD504.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.558] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 69, 'group': 62, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD505.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.558] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 76, 'group': 68, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16640', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.559] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 77, 'group': 68, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD524.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.559] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 78, 'group': 68, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD525.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.559] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 82, 'group': 69, 'name': 109, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'bool', 'unit': 'bit', 'scale': 1.0, 'offset': 0.0, 'device_address': '%MX16960', 'attributes': ['감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.560] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 83, 'group': 69, 'name': 1, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 8.0, 'device_address': '%MD534.0', 'attributes': ['감시', '기록', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:12.560] [ERROR] Error creating LSIS_MappingTool for memory variable {'id': 84, 'group': 69, 'name': 8, 'device': 'M', 'address': 0.0, 'use_group_base_address': True, 'data_type': 'float', 'unit': 'dword', 'scale': 0.1, 'offset': 10.0, 'device_address': '%MD535.0', 'attributes': ['기록', '감시', '경보']}: 'NoneType' object is not subscriptable
+[2025-10-24 19:00:29.356] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 19:04:02.298] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 19:04:11.823] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 19:39:27.387] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:00:48.872] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:01:23.816] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:01:43.934] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:01:52.120] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:01:57.184] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:13:51.409] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:18:20.034] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:18:39.112] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:41:00.342] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:42:12.702] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 20:42:20.176] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 21:58:40.080] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 21:59:31.396] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 21:59:50.268] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 22:42:54.785] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 22:43:04.924] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 22:43:49.482] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 22:43:55.690] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-24 22:44:10.112] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
