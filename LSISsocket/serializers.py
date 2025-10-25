@@ -266,7 +266,6 @@ class ControlHistorySerializer(serializers.ModelSerializer):
 class ControlVariableSerializer(serializers.ModelSerializer):
     group = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), required=False, allow_null=True, help_text='속한 ControlGroup ID(선택). 예: 3', style={'example': 3})
     name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID. 예: 12', style={'example': 12})
-    applied_logic = serializers.PrimaryKeyRelatedField(queryset=CoreControlLogic.objects.all(), help_text='적용할 ControlLogic ID. 예: 2', style={'example': 2})
     attributes = serializers.ListField(
         child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
         allow_empty=True,
@@ -279,7 +278,7 @@ class ControlVariableSerializer(serializers.ModelSerializer):
     class Meta:
         model = ControlVariable
         fields = [
-            'id', 'group', 'name', 'data_type', 'applied_logic', 'args', 'attributes'
+            'id', 'group', 'name', 'data_type', 'args', 'attributes'
         ]
 
 class ControlGroupSerializer(serializers.ModelSerializer):
@@ -331,7 +330,7 @@ class CalcVariableSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalcVariable
         fields = [
-            'id', 'group', 'name', 'data_type', 'use_method', 'args', 'attributes'
+            'id', 'group', 'name', 'data_type', 'args', 'attributes'
         ]
 
 class CalcGroupSerializer(serializers.ModelSerializer):
@@ -345,7 +344,7 @@ class CalcGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalcGroup
         fields = [
-            'id', 'name', 'description', 'size_byte', 'calc_variables_in_group'
+            'id', 'name', 'description', 'calc_variables_in_group'
         ]
 
     def create(self, validated_data):
@@ -359,7 +358,6 @@ class CalcGroupSerializer(serializers.ModelSerializer):
         calc_variables_data = validated_data.pop('calc_variables_in_group', None)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
-        instance.size_byte = validated_data.get('size_byte', instance.size_byte)
         instance.save()
         if calc_variables_data is not None:
             instance.calc_variables_in_group.all().delete()

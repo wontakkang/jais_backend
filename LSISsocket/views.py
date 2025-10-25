@@ -298,9 +298,9 @@ class ControlVariableViewSet(BaseViewSet):
     """ControlVariable 모델의 CRUD API
     - agriseed.models.ControlVariable과 agriseed.serializers.ControlVariableSerializer 사용
     """
-    queryset = ControlVariable.objects.select_related('group', 'applied_logic', 'name').all()
+    queryset = ControlVariable.objects.select_related('group', 'name').all()
     serializer_class = ControlVariableSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['group__id', 'name__id', 'applied_logic__id']
+    filterset_fields = ['group__id', 'name__id']
     search_fields = []
     ordering_fields = ['id']

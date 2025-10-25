@@ -140,7 +140,6 @@ class CalcGroup(models.Model):
     """
     name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
-    size_byte = models.PositiveIntegerField()
 
     class Meta:
         ordering = ['id']
@@ -152,12 +151,6 @@ class CalcVariable(models.Model):
     group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_calc_variables_in_group') # related_name 변경
     name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_calc_variable') # related_name 변경
     data_type = models.CharField(max_length=20, blank=True)
-    use_method = models.CharField(
-        max_length=40,
-        null=True,
-        blank=True,
-        choices=[(method, method) for method in calculation_methods] # control_methods 제거
-    )
     args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
 
