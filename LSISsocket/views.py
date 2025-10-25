@@ -280,10 +280,25 @@ class CalcVariableViewSet(viewsets.ModelViewSet):
     ordering_fields = ['id']
 
 class CalcGroupViewSet(viewsets.ModelViewSet):
-    queryset = CalcGroup.objects.all()
+    queryset = CalcGroup.objects.prefetch_related('agriseed_calc_variables_in_group__name').all()
     serializer_class = CalcGroupSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['id', 'name']
+    filterset_fields = ['id']
+    ordering_fields = ['id']
+
+# New viewsets for AlartGroup / AlartVariable (mirror CalcGroup patterns)
+class AlartVariableViewSet(viewsets.ModelViewSet):
+    queryset = AlartVariable.objects.select_related('group', 'name').all()
+    serializer_class = AlartVariableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['group__id']
+    ordering_fields = ['id']
+
+class AlartGroupViewSet(viewsets.ModelViewSet):
+    queryset = AlartGroup.objects.prefetch_related('agriseed_alart_variables_in_group__name').all()
+    serializer_class = AlartGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['id']
     ordering_fields = ['id']
 
 class ControlGroupViewSet(viewsets.ModelViewSet):

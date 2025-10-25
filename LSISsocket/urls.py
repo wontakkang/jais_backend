@@ -19,6 +19,8 @@ router.register(r'calc-variables', CalcVariableViewSet)
 router.register(r'calc-groups', CalcGroupViewSet)
 router.register(r'control-groups', ControlGroupViewSet)
 router.register(r'control-variables', ControlVariableViewSet)
+router.register(r'alart-variables', AlartVariableViewSet)
+router.register(r'alart-groups', AlartGroupViewSet)
 
 urlpatterns = [
     *router.urls,

@@ -113,7 +113,6 @@ class ControlGroup(models.Model):
     """
     name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
-    size_byte = models.PositiveIntegerField(null=True, blank=True, help_text="그룹 크기 (바이트 단위)")
 
     class Meta:
         ordering = ['id']
@@ -151,11 +150,33 @@ class CalcVariable(models.Model):
     group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_calc_variables_in_group') # related_name 변경
     name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_calc_variable') # related_name 변경
     data_type = models.CharField(max_length=20, blank=True)
-    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+    args = models.JSONField(default=list, null=True, blank=True, help_text="연산 변수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, null=True, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
 
     def __str__(self):
         return f"{self.name}"
+
+
+class AlartGroup(models.Model):
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return f"AlartGroup ({self.name})"
+
+class AlartVariable(models.Model):
+    group = models.ForeignKey(AlartGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_alart_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_alart_variable')
+    data_type = models.CharField(max_length=20, blank=True)
+    threshold = models.JSONField(default=dict, blank=True, help_text='알림 기준값/설정 (예: {"min":0, "max":100})')
+    args = models.JSONField(default=list, null=True, blank=True, help_text="알림 변수 인자값을 순서대로 저장 (리스트)")
+    attributes = models.JSONField(default=list, null=True, blank=True, help_text="변수 속성 리스트")
+
+    def __str__(self):
+        return f"AlartVar:{self.name} (group={self.group.name if self.group else 'None'})"
 
 
 class ControlValue(models.Model):

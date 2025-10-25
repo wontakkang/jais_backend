@@ -2,6 +2,9 @@ from rest_framework import serializers
 from .models import *
 # 코어 모델 참조 (MemoryGroup/Variable/DataName/ProjectVersion/Device)
 from corecode.models import DataName as CoreDataName, Device as CoreDevice, Adapter as CoreAdapter, ControlLogic as CoreControlLogic
+from corecode.serializers import DataNameSerializer
+from django.db import transaction
+from rest_framework.exceptions import ValidationError
 
 class SocketClientStatusSerializer(serializers.ModelSerializer):
     config = serializers.PrimaryKeyRelatedField(queryset=SocketClientConfig.objects.all())
@@ -264,8 +267,9 @@ class ControlHistorySerializer(serializers.ModelSerializer):
         exclude = ('is_deleted',)
         
 class ControlVariableSerializer(serializers.ModelSerializer):
-    group = serializers.PrimaryKeyRelatedField(queryset=ControlGroup.objects.all(), required=False, allow_null=True, help_text='속한 ControlGroup ID(선택). 예: 3', style={'example': 3})
-    name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID. 예: 12', style={'example': 12})
+    # Expose nested DataName details for read, accept PK for write via name_id
+    name = DataNameSerializer(read_only=True)
+    name_id = serializers.PrimaryKeyRelatedField(source='name', queryset=CoreDataName.objects.all(), write_only=True, required=True, help_text='연결된 DataName ID. 예: 12', style={'example': 12})
     attributes = serializers.ListField(
         child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
         allow_empty=True,
@@ -278,47 +282,112 @@ class ControlVariableSerializer(serializers.ModelSerializer):
     class Meta:
         model = ControlVariable
         fields = [
-            'id', 'group', 'name', 'data_type', 'args', 'attributes'
+            'id', 'group', 'name', 'name_id', 'data_type', 'args', 'attributes'
         ]
 
+    def to_internal_value(self, data):
+        # Allow clients to send 'name' as either nested object or id; normalize to name_id
+        if isinstance(data, dict) and 'name' in data and isinstance(data.get('name'), dict) and 'id' in data.get('name'):
+            data = dict(data)
+            data['name_id'] = data['name']['id']
+        return super().to_internal_value(data)
+
 class ControlGroupSerializer(serializers.ModelSerializer):
-    control_variables_in_group = ControlVariableSerializer(
+    # expose nested variables under 'variables' and map to model related_name
+    variables = ControlVariableSerializer(
         many=True,
         read_only=False,
         required=False,
-        help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)',
-        source='agriseed_control_variables_in_group'
+        source='agriseed_control_variables_in_group',
+        help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)'
     )
     
     class Meta:
         model = ControlGroup
-        # 'group_id' is not a model field — remove it from serializer fields
         fields = [
-            'id', 'name', 'description', 'control_variables_in_group'
+            'id', 'name', 'description', 'variables'
         ]
 
     def create(self, validated_data):
-        control_variables_data = validated_data.pop('agriseed_control_variables_in_group', [])
-        group = ControlGroup.objects.create(**validated_data)
-        for var_data in control_variables_data:
-            ControlVariable.objects.create(group=group, **var_data)
-        return group
-    
-    def update(self, instance, validated_data):
-        control_variables_data = validated_data.pop('agriseed_control_variables_in_group', None)
-        instance.name = validated_data.get('name', instance.name)
-        instance.description = validated_data.get('description', instance.description)
-        # removed unsupported 'group_id' handling
-        instance.save()
-        if control_variables_data is not None:
-            instance.agriseed_control_variables_in_group.all().delete()
+        # Accept nested variables under several keys for backward compatibility
+        control_variables_data = []
+        for key in ('variables', 'control_variables_in_group', 'agriseed_control_variables_in_group'):
+            if key in validated_data:
+                control_variables_data = validated_data.pop(key)
+                break
+
+        allowed = {f.name for f in ControlGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
+        create_kwargs = {k: v for k, v in validated_data.items() if k in allowed}
+
+        # Transaction + validation: ensure all referenced DataName exist before creating objects
+        with transaction.atomic():
+            # validate names
             for var_data in control_variables_data:
-                ControlVariable.objects.create(group=instance, **var_data)
+                name_val = var_data.get('name') or var_data.get('name_id')
+                if name_val is None:
+                    raise ValidationError({'variables': '각 variable은 name 또는 name_id를 포함해야 합니다.'})
+                try:
+                    if not isinstance(name_val, CoreDataName):
+                        CoreDataName.objects.get(pk=name_val)
+                except CoreDataName.DoesNotExist:
+                    raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
+
+            group = ControlGroup.objects.create(**create_kwargs)
+            for var_data in control_variables_data:
+                name_val = var_data.get('name') or var_data.get('name_id')
+                name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                ControlVariable.objects.create(
+                    group=group,
+                    name=name_obj,
+                    data_type=var_data.get('data_type', ''),
+                    args=var_data.get('args', []),
+                    attributes=var_data.get('attributes', []),
+                )
+        return group
+
+    def update(self, instance, validated_data):
+        control_variables_data = None
+        for key in ('variables', 'control_variables_in_group', 'agriseed_control_variables_in_group'):
+            if key in validated_data:
+                control_variables_data = validated_data.pop(key)
+                break
+        # Update only concrete model fields
+        allowed = {f.name for f in ControlGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
+        for attr, val in list(validated_data.items()):
+            if attr in allowed:
+                setattr(instance, attr, val)
+        instance.save()
+
+        if control_variables_data is not None:
+            with transaction.atomic():
+                # validate all names first
+                for var_data in control_variables_data:
+                    name_val = var_data.get('name') or var_data.get('name_id')
+                    if name_val is None:
+                        raise ValidationError({'variables': '각 variable은 name 또는 name_id를 포함해야 합니다.'})
+                    try:
+                        if not isinstance(name_val, CoreDataName):
+                            CoreDataName.objects.get(pk=name_val)
+                    except CoreDataName.DoesNotExist:
+                        raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
+
+                instance.agriseed_control_variables_in_group.all().delete()
+                for var_data in control_variables_data:
+                    name_val = var_data.get('name') or var_data.get('name_id')
+                    name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                    ControlVariable.objects.create(
+                        group=instance,
+                        name=name_obj,
+                        data_type=var_data.get('data_type', ''),
+                        args=var_data.get('args', []),
+                        attributes=var_data.get('attributes', []),
+                    )
         return instance
 
 class CalcVariableSerializer(serializers.ModelSerializer):
-    group = serializers.PrimaryKeyRelatedField(queryset=CalcGroup.objects.all(), required=False, allow_null=True, help_text='소속 CalcGroup ID(선택). 예: 4', style={'example': 4})
-    name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID. 예: 8', style={'example': 8})
+    # Expose nested DataName details for read, accept PK for write via name_id
+    name = DataNameSerializer(read_only=True)
+    name_id = serializers.PrimaryKeyRelatedField(source='name', queryset=CoreDataName.objects.all(), write_only=True, required=True, help_text='연결된 DataName ID. 예: 8', style={'example': 8})
     attributes = serializers.ListField(
         child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
         allow_empty=True,
@@ -330,41 +399,209 @@ class CalcVariableSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalcVariable
         fields = [
-            'id', 'group', 'name', 'data_type', 'args', 'attributes'
+            'id', 'group', 'name', 'name_id', 'data_type', 'args', 'attributes'
         ]
 
+    def to_internal_value(self, data):
+        # Allow clients to send 'name' as either nested object or id; normalize to name_id
+        if isinstance(data, dict) and 'name' in data and isinstance(data.get('name'), dict) and 'id' in data.get('name'):
+            data = dict(data)
+            data['name_id'] = data['name']['id']
+        return super().to_internal_value(data)
+
 class CalcGroupSerializer(serializers.ModelSerializer):
-    # corecode.CalcGroup의 related_name은 calc_variables_in_group
-    calc_variables_in_group = CalcVariableSerializer(
+    # expose nested variables under 'variables' and map to model related_name
+    variables = CalcVariableSerializer(
         many=True,
         read_only=False,
-        required=False
+        required=False,
+        source='agriseed_calc_variables_in_group'
     )
 
     class Meta:
         model = CalcGroup
         fields = [
-            'id', 'name', 'description', 'calc_variables_in_group'
+            'id', 'name', 'description', 'variables'
         ]
 
     def create(self, validated_data):
-        calc_variables_data = validated_data.pop('calc_variables_in_group', [])
-        group = CalcGroup.objects.create(**validated_data)
-        for var_data in calc_variables_data:
-            CalcVariable.objects.create(group=group, **var_data)
+        # Accept nested variables under several possible keys for backward compatibility
+        calc_variables_data = []
+        for key in ('variables', 'calc_variables_in_group', 'lsissocket_calc_variables_in_group', 'agriseed_calc_variables_in_group'):
+            if key in validated_data:
+                calc_variables_data = validated_data.pop(key)
+                break
+        # Only keep concrete model fields when creating model to avoid unexpected kwargs
+        allowed = {f.name for f in CalcGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
+        create_kwargs = {k: v for k, v in validated_data.items() if k in allowed}
+
+        with transaction.atomic():
+            # validate referenced DataName ids
+            for var_data in calc_variables_data:
+                name_val = var_data.get('name') or var_data.get('name_id')
+                if name_val is None:
+                    raise ValidationError({'variables': '각 variable은 name 또는 name_id를 포함해야 합니다.'})
+                try:
+                    if not isinstance(name_val, CoreDataName):
+                        CoreDataName.objects.get(pk=name_val)
+                except CoreDataName.DoesNotExist:
+                    raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
+
+            group = CalcGroup.objects.create(**create_kwargs)
+            for var_data in calc_variables_data:
+                name_val = var_data.get('name') or var_data.get('name_id')
+                name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                CalcVariable.objects.create(
+                    group=group,
+                    name=name_obj,
+                    data_type=var_data.get('data_type', ''),
+                    args=var_data.get('args', []),
+                    attributes=var_data.get('attributes', []),
+                )
         return group
     
     def update(self, instance, validated_data):
-        calc_variables_data = validated_data.pop('calc_variables_in_group', None)
-        instance.name = validated_data.get('name', instance.name)
-        instance.description = validated_data.get('description', instance.description)
+        calc_variables_data = None
+        for key in ('variables', 'calc_variables_in_group', 'lsissocket_calc_variables_in_group', 'agriseed_calc_variables_in_group'):
+            if key in validated_data:
+                calc_variables_data = validated_data.pop(key)
+                break
+        # Update only concrete model fields
+        allowed = {f.name for f in CalcGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
+        for attr, val in list(validated_data.items()):
+            if attr in allowed:
+                setattr(instance, attr, val)
         instance.save()
         if calc_variables_data is not None:
-            instance.calc_variables_in_group.all().delete()
-            for var_data in calc_variables_data:
-                CalcVariable.objects.create(group=instance, **var_data)
+            with transaction.atomic():
+                for var_data in calc_variables_data:
+                    name_val = var_data.get('name') or var_data.get('name_id')
+                    if name_val is None:
+                        raise ValidationError({'variables': '각 variable은 name 또는 name_id를 포함해야 합니다.'})
+                    try:
+                        if not isinstance(name_val, CoreDataName):
+                            CoreDataName.objects.get(pk=name_val)
+                    except CoreDataName.DoesNotExist:
+                        raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
+
+                instance.agriseed_calc_variables_in_group.all().delete()
+                for var_data in calc_variables_data:
+                    name_val = var_data.get('name') or var_data.get('name_id')
+                    name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                    CalcVariable.objects.create(
+                        group=instance,
+                        name=name_obj,
+                        data_type=var_data.get('data_type', ''),
+                        args=var_data.get('args', []),
+                        attributes=var_data.get('attributes', []),
+                    )
         return instance
 
+class AlartVariableSerializer(serializers.ModelSerializer):
+    name = DataNameSerializer(read_only=True)
+    name_id = serializers.PrimaryKeyRelatedField(source='name', queryset=CoreDataName.objects.all(), write_only=True, required=True, help_text='연결된 DataName ID. 예: 20', style={'example': 20})
+    threshold = serializers.JSONField(required=False, help_text='알림 기준값/설정(예: {"min":0,"max":100})')
+    attributes = serializers.ListField(
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
+        allow_empty=True,
+        required=False,
+        default=list,
+        help_text='변수 속성 목록(예: ["감시"])'
+    )
+
+    class Meta:
+        model = AlartVariable
+        fields = ['id', 'group', 'name', 'name_id', 'data_type', 'threshold', 'args', 'attributes']
+
+    def to_internal_value(self, data):
+        if isinstance(data, dict) and 'name' in data and isinstance(data.get('name'), dict) and 'id' in data.get('name'):
+            data = dict(data)
+            data['name_id'] = data['name']['id']
+        return super().to_internal_value(data)
+
+
+class AlartGroupSerializer(serializers.ModelSerializer):
+    variables = AlartVariableSerializer(
+        many=True,
+        read_only=False,
+        required=False,
+        source='agriseed_alart_variables_in_group'
+    )
+
+    class Meta:
+        model = AlartGroup
+        fields = ['id', 'name', 'description', 'variables']
+
+    def create(self, validated_data):
+        variables_data = []
+        for key in ('variables', 'alart_variables_in_group', 'agriseed_alart_variables_in_group'):
+            if key in validated_data:
+                variables_data = validated_data.pop(key)
+                break
+        allowed = {f.name for f in AlartGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
+        create_kwargs = {k: v for k, v in validated_data.items() if k in allowed}
+
+        with transaction.atomic():
+            for var_data in variables_data:
+                name_val = var_data.get('name') or var_data.get('name_id')
+                if name_val is None:
+                    raise ValidationError({'variables': '각 variable은 name 또는 name_id를 포함해야 합니다.'})
+                try:
+                    if not isinstance(name_val, CoreDataName):
+                        CoreDataName.objects.get(pk=name_val)
+                except CoreDataName.DoesNotExist:
+                    raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
+
+            group = AlartGroup.objects.create(**create_kwargs)
+            for var_data in variables_data:
+                name_val = var_data.get('name') or var_data.get('name_id')
+                name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                AlartVariable.objects.create(
+                    group=group,
+                    name=name_obj,
+                    data_type=var_data.get('data_type', ''),
+                    threshold=var_data.get('threshold', {}),
+                    args=var_data.get('args', []),
+                    attributes=var_data.get('attributes', []),
+                )
+        return group
+
+    def update(self, instance, validated_data):
+        variables_data = None
+        for key in ('variables', 'alart_variables_in_group', 'agriseed_alart_variables_in_group'):
+            if key in validated_data:
+                variables_data = validated_data.pop(key)
+                break
+        allowed = {f.name for f in AlartGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
+        for attr, val in list(validated_data.items()):
+            if attr in allowed:
+                setattr(instance, attr, val)
+        instance.save()
+        if variables_data is not None:
+            with transaction.atomic():
+                for var_data in variables_data:
+                    name_val = var_data.get('name') or var_data.get('name_id')
+                    if name_val is None:
+                        raise ValidationError({'variables': '각 variable은 name 또는 name_id를 포함해야 합니다.'})
+                    try:
+                        if not isinstance(name_val, CoreDataName):
+                            CoreDataName.objects.get(pk=name_val)
+                    except CoreDataName.DoesNotExist:
+                        raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
+
+                instance.agriseed_alart_variables_in_group.all().delete()
+                for var_data in variables_data:
+                    name_val = var_data.get('name') or var_data.get('name_id')
+                    name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                    AlartVariable.objects.create(
+                        group=instance,
+                        name=name_obj,
+                        data_type=var_data.get('data_type', ''),
+                        threshold=var_data.get('threshold', {}),
+                        args=var_data.get('args', []),
+                        attributes=var_data.get('attributes', []),
+                    )
+        return instance
 
 class ControlValueSerializer(serializers.ModelSerializer):
     control_user = serializers.StringRelatedField(read_only=True)
