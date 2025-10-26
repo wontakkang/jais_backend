@@ -165,13 +165,14 @@ class VariableSerializer(serializers.ModelSerializer):
 
         try:
             if obj.offset is not None:
-                offset_val = int(str(obj.offset).split('.')[0]) * multiplier
-                offset_val += int(str(obj.offset).split('.')[1])
+                if '.' not in obj.offset:
+                    obj.offset = f"{obj.offset}.0"
+                offset_val = int(obj.offset.split('.')[0]) * multiplier
+                offset_val += int(obj.offset.split('.')[1])
             else:
                 offset_val = 0.0
         except Exception:
             offset_val = 0.0
-
         # 그룹 기준 주소 사용이면 그룹의 start_address를 더해서 실제 주소 계산
         base = 0.0
         try:
