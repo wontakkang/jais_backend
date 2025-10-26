@@ -122,10 +122,10 @@ class ControlGroup(models.Model):
 
 
 class ControlVariable(models.Model):
-    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_control_variables_in_group')
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_control_variable')
+    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_control_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_as_control_variable')
     data_type = models.CharField(max_length=20, blank=True)
-    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='agriseed_applications')
+    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='lsissocket_applications')
     args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
 
@@ -133,28 +133,6 @@ class ControlVariable(models.Model):
         return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
 
 
-class CalcGroup(models.Model):
-    """
-    계산 그룹 모델 (프로젝트 버전 의존성 제거됨)
-    """
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
-
-    class Meta:
-        ordering = ['id']
-
-    def __str__(self):
-        return f"CalcGroup ({self.name})"
-
-class CalcVariable(models.Model):
-    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_calc_variables_in_group') # related_name 변경
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_calc_variable') # related_name 변경
-    data_type = models.CharField(max_length=20, blank=True)
-    args = models.JSONField(default=list, null=True, blank=True, help_text="연산 변수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, null=True, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        return f"{self.name}"
 
 
 class AlartGroup(models.Model):
@@ -168,8 +146,8 @@ class AlartGroup(models.Model):
         return f"AlartGroup ({self.name})"
 
 class AlartVariable(models.Model):
-    group = models.ForeignKey(AlartGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='agriseed_alart_variables_in_group')
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='agriseed_as_alart_variable')
+    group = models.ForeignKey(AlartGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_alart_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_as_alart_variable')
     data_type = models.CharField(max_length=20, blank=True)
     threshold = models.JSONField(default=dict, blank=True, help_text='알림 기준값/설정 (예: {"min":0, "max":100})')
     args = models.JSONField(default=list, null=True, blank=True, help_text="알림 변수 인자값을 순서대로 저장 (리스트)")
@@ -180,7 +158,7 @@ class AlartVariable(models.Model):
 
 
 class ControlValue(models.Model):
-    control_user = models.ForeignKey('corecode.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='agriseed_control_values', verbose_name="제어 사용자")
+    control_user = models.ForeignKey('corecode.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='lsissocket_control_values', verbose_name="제어 사용자")
     status = models.CharField(max_length=30, verbose_name="명령상태")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
@@ -348,6 +326,28 @@ class Variable(models.Model):
         return f"{self.name} ({self.device}{self.address})"
 
 
+class CalcGroup(models.Model):
+    """
+    계산 그룹 모델 (프로젝트 버전 의존성 제거됨)
+    """
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return f"CalcGroup ({self.name})"
+
+class CalcVariable(models.Model):
+    group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_calc_variables_in_group') # related_name 변경
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_as_calc_variable') # related_name 변경
+    data_type = models.CharField(max_length=20, blank=True)
+    args = models.JSONField(default=list, null=True, blank=True, help_text="연산 변수 인자값을 순서대로 저장 (리스트)")
+    result = models.ForeignKey(Variable, null=True, blank=True, on_delete=models.CASCADE, related_name='lsissocket_as_calc_result') # related_name 수정 (유효한 식별자)
+    def __str__(self):
+        return f"{self.name}"
+    
 class SocketClientConfig(models.Model):
     name = models.CharField(max_length=100, unique=True)
     host = models.CharField(max_length=100, help_text="클라이언트 IP", null=True, blank=True)

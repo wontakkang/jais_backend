@@ -280,7 +280,7 @@ class CalcVariableViewSet(viewsets.ModelViewSet):
     ordering_fields = ['id']
 
 class CalcGroupViewSet(viewsets.ModelViewSet):
-    queryset = CalcGroup.objects.prefetch_related('agriseed_calc_variables_in_group__name').all()
+    queryset = CalcGroup.objects.prefetch_related('lsissocket_calc_variables_in_group__name').all()
     serializer_class = CalcGroupSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['id']
@@ -295,7 +295,7 @@ class AlartVariableViewSet(viewsets.ModelViewSet):
     ordering_fields = ['id']
 
 class AlartGroupViewSet(viewsets.ModelViewSet):
-    queryset = AlartGroup.objects.prefetch_related('agriseed_alart_variables_in_group__name').all()
+    queryset = AlartGroup.objects.prefetch_related('lsissocket_alart_variables_in_group__name').all()
     serializer_class = AlartGroupSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['id']

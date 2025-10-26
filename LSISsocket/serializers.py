@@ -299,7 +299,7 @@ class ControlGroupSerializer(serializers.ModelSerializer):
         many=True,
         read_only=False,
         required=False,
-        source='agriseed_control_variables_in_group',
+        source='lsissocket_control_variables_in_group',
         help_text='그룹에 포함된 ControlVariable의 중첩 리스트 (선택)'
     )
     
@@ -312,7 +312,7 @@ class ControlGroupSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Accept nested variables under several keys for backward compatibility
         control_variables_data = []
-        for key in ('variables', 'control_variables_in_group', 'agriseed_control_variables_in_group'):
+        for key in ('variables', 'control_variables_in_group', 'lsissocket_control_variables_in_group'):
             if key in validated_data:
                 control_variables_data = validated_data.pop(key)
                 break
@@ -348,7 +348,7 @@ class ControlGroupSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         control_variables_data = None
-        for key in ('variables', 'control_variables_in_group', 'agriseed_control_variables_in_group'):
+        for key in ('variables', 'control_variables_in_group', 'lsissocket_control_variables_in_group'):
             if key in validated_data:
                 control_variables_data = validated_data.pop(key)
                 break
@@ -372,7 +372,7 @@ class ControlGroupSerializer(serializers.ModelSerializer):
                     except CoreDataName.DoesNotExist:
                         raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
 
-                instance.agriseed_control_variables_in_group.all().delete()
+                instance.lsissocket_control_variables_in_group.all().delete()
                 for var_data in control_variables_data:
                     name_val = var_data.get('name') or var_data.get('name_id')
                     name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
@@ -389,18 +389,14 @@ class CalcVariableSerializer(serializers.ModelSerializer):
     # Expose nested DataName details for read, accept PK for write via name_id
     name = DataNameSerializer(read_only=True)
     name_id = serializers.PrimaryKeyRelatedField(source='name', queryset=CoreDataName.objects.all(), write_only=True, required=True, help_text='연결된 DataName ID. 예: 8', style={'example': 8})
-    attributes = serializers.ListField(
-        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
-        allow_empty=True,
-        required=False,
-        default=list,
-        help_text='변수 속성 목록(선택). 예: ["감시"]',
-        style={'example': ['감시']}
-    )
+    
+    # result: 연산 결과값은 이제 Variable FK (Variable id 또는 null 허용)
+    result = serializers.PrimaryKeyRelatedField(queryset=Variable.objects.all(), required=False, allow_null=True, help_text='연산 결과 Variable ID (예: 422)')
     class Meta:
         model = CalcVariable
         fields = [
-            'id', 'group', 'name', 'name_id', 'data_type', 'args', 'attributes'
+            'id', 'group', 'name', 'name_id', 'data_type', 'args'
+            , 'result'
         ]
 
     def to_internal_value(self, data):
@@ -416,7 +412,7 @@ class CalcGroupSerializer(serializers.ModelSerializer):
         many=True,
         read_only=False,
         required=False,
-        source='agriseed_calc_variables_in_group'
+        source='lsissocket_calc_variables_in_group'
     )
 
     class Meta:
@@ -428,7 +424,7 @@ class CalcGroupSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Accept nested variables under several possible keys for backward compatibility
         calc_variables_data = []
-        for key in ('variables', 'calc_variables_in_group', 'lsissocket_calc_variables_in_group', 'agriseed_calc_variables_in_group'):
+        for key in ('variables', 'calc_variables_in_group', 'lsissocket_calc_variables_in_group'):
             if key in validated_data:
                 calc_variables_data = validated_data.pop(key)
                 break
@@ -452,18 +448,40 @@ class CalcGroupSerializer(serializers.ModelSerializer):
             for var_data in calc_variables_data:
                 name_val = var_data.get('name') or var_data.get('name_id')
                 name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                # Resolve result to Variable instance if provided (allow id or nested dict)
+                res = var_data.get('result')
+                result_obj = None
+                # Accept Variable instance, dict with id, numeric id (int/str) or None
+                if res is None or res == []:
+                    result_obj = None
+                elif isinstance(res, Variable):
+                    result_obj = res
+                elif isinstance(res, dict):
+                    res_id = res.get('id') or res.get('pk')
+                    try:
+                        result_obj = Variable.objects.filter(pk=res_id).first()
+                    except Exception:
+                        result_obj = None
+                else:
+                    # res may be an int or numeric string
+                    try:
+                        res_id = int(res)
+                        result_obj = Variable.objects.filter(pk=res_id).first()
+                    except Exception:
+                        result_obj = None
+
                 CalcVariable.objects.create(
                     group=group,
                     name=name_obj,
                     data_type=var_data.get('data_type', ''),
                     args=var_data.get('args', []),
-                    attributes=var_data.get('attributes', []),
+                    result=result_obj,
                 )
         return group
     
     def update(self, instance, validated_data):
         calc_variables_data = None
-        for key in ('variables', 'calc_variables_in_group', 'lsissocket_calc_variables_in_group', 'agriseed_calc_variables_in_group'):
+        for key in ('variables', 'calc_variables_in_group', 'lsissocket_calc_variables_in_group'):
             if key in validated_data:
                 calc_variables_data = validated_data.pop(key)
                 break
@@ -485,16 +503,36 @@ class CalcGroupSerializer(serializers.ModelSerializer):
                     except CoreDataName.DoesNotExist:
                         raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
 
-                instance.agriseed_calc_variables_in_group.all().delete()
+                instance.lsissocket_calc_variables_in_group.all().delete()
                 for var_data in calc_variables_data:
                     name_val = var_data.get('name') or var_data.get('name_id')
                     name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                    # Resolve result id/nested to Variable instance
+                    res = var_data.get('result')
+                    result_obj = None
+                    if res is None or res == []:
+                        result_obj = None
+                    elif isinstance(res, Variable):
+                        result_obj = res
+                    elif isinstance(res, dict):
+                        res_id = res.get('id') or res.get('pk')
+                        try:
+                            result_obj = Variable.objects.filter(pk=res_id).first()
+                        except Exception:
+                            result_obj = None
+                    else:
+                        try:
+                            res_id = int(res)
+                            result_obj = Variable.objects.filter(pk=res_id).first()
+                        except Exception:
+                            result_obj = None
+
                     CalcVariable.objects.create(
                         group=instance,
                         name=name_obj,
                         data_type=var_data.get('data_type', ''),
                         args=var_data.get('args', []),
-                        attributes=var_data.get('attributes', []),
+                        result=result_obj,
                     )
         return instance
 
@@ -526,7 +564,7 @@ class AlartGroupSerializer(serializers.ModelSerializer):
         many=True,
         read_only=False,
         required=False,
-        source='agriseed_alart_variables_in_group'
+        source='lsissocket_alart_variables_in_group'
     )
 
     class Meta:
@@ -535,7 +573,7 @@ class AlartGroupSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         variables_data = []
-        for key in ('variables', 'alart_variables_in_group', 'agriseed_alart_variables_in_group'):
+        for key in ('variables', 'alart_variables_in_group', 'lsissocket_alart_variables_in_group'):
             if key in validated_data:
                 variables_data = validated_data.pop(key)
                 break
@@ -569,7 +607,7 @@ class AlartGroupSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         variables_data = None
-        for key in ('variables', 'alart_variables_in_group', 'agriseed_alart_variables_in_group'):
+        for key in ('variables', 'alart_variables_in_group', 'lsissocket_alart_variables_in_group'):
             if key in validated_data:
                 variables_data = validated_data.pop(key)
                 break
@@ -590,7 +628,7 @@ class AlartGroupSerializer(serializers.ModelSerializer):
                     except CoreDataName.DoesNotExist:
                         raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
 
-                instance.agriseed_alart_variables_in_group.all().delete()
+                instance.lsissocket_alart_variables_in_group.all().delete()
                 for var_data in variables_data:
                     name_val = var_data.get('name') or var_data.get('name_id')
                     name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
