@@ -21420,3 +21420,6 @@ utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Fa
 [2025-10-27 14:46:38.674] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-27 14:46:40.534] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-27 14:46:45.977] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:26:01.076] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:26:03.946] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:26:06.519] [INFO] try to connect LSIS client => 192.168.0.198:2004
