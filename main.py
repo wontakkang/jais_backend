@@ -164,17 +164,6 @@ async def lifespan(app: FastAPI):
                     executor='default',
                     args=(client,),
                 )
-                scheduler.add_job(
-                    reids_to_memory_mapping,
-                    list(client.cron.keys())[0],
-                    **list(client.cron.values())[0],
-                    replace_existing=True,
-                    max_instances=1,
-                    misfire_grace_time=15,
-                    coalesce=False,
-                    executor='default',
-                    args=(client,),
-                )
             except Exception:
                 logger.exception(f'클라이언트 작업 등록 실패: {getattr(client, "id", None)}')
             # 이벤트 루프를 블로킹하지 않도록 소량 대기

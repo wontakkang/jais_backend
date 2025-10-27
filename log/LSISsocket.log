@@ -21011,3 +21011,412 @@ utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Fa
 [2025-10-26 23:23:53.595] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-26 23:24:40.473] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-26 23:31:57.333] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:32:12.205] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:36:08.562] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:36:14.026] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 08:36:46.729] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:36:48.741] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:36:54.230] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 08:36:54.257] [DEBUG] Attribute save failed for var 420: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.257] [DEBUG] Attribute save failed for var 421: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.257] [DEBUG] Attribute save failed for var 422: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.259] [DEBUG] Attribute save failed for var 423: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.259] [DEBUG] Attribute save failed for var 424: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.259] [DEBUG] Attribute save failed for var 425: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.259] [DEBUG] Attribute save failed for var 432: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.259] [DEBUG] Attribute save failed for var 433: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.259] [DEBUG] Attribute save failed for var 434: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.259] [DEBUG] Attribute save failed for var 429: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.260] [DEBUG] Attribute save failed for var 430: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:54.260] [DEBUG] Attribute save failed for var 431: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.215] [DEBUG] Attribute save failed for var 420: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 421: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 422: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 423: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 424: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 425: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 432: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 433: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 434: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 429: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.216] [DEBUG] Attribute save failed for var 430: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:36:59.218] [DEBUG] Attribute save failed for var 431: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.215] [DEBUG] Attribute save failed for var 420: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.215] [DEBUG] Attribute save failed for var 421: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.215] [DEBUG] Attribute save failed for var 422: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.215] [DEBUG] Attribute save failed for var 423: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.215] [DEBUG] Attribute save failed for var 424: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.215] [DEBUG] Attribute save failed for var 425: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.215] [DEBUG] Attribute save failed for var 432: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.216] [DEBUG] Attribute save failed for var 433: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.216] [DEBUG] Attribute save failed for var 434: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.216] [DEBUG] Attribute save failed for var 429: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.216] [DEBUG] Attribute save failed for var 430: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:04.216] [DEBUG] Attribute save failed for var 431: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 420: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 421: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 422: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 423: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 424: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 425: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 432: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 433: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 434: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 429: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.216] [DEBUG] Attribute save failed for var 430: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:09.217] [DEBUG] Attribute save failed for var 431: cannot access local variable 'attr_str' where it is not associated with a value
+[2025-10-27 08:37:20.346] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:37:22.136] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:37:24.025] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:37:27.502] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:37:32.968] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 08:37:58.803] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:38:00.656] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:40:06.745] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:40:14.263] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:40:19.720] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 08:40:48.353] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:40:50.271] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:41:00.091] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:41:05.555] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 08:41:37.026] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:41:37.998] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:41:41.117] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:41:49.938] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 08:41:55.427] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:45:17.452] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:45:19.310] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:45:29.038] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:45:29.266] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:45:31.704] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:45:31.904] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:45:37.175] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:45:40.997] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:45:42.974] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:45:48.434] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:47:43.979] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:47:45.942] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:47:51.412] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:48:13.999] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:48:15.799] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:48:21.249] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:48:50.866] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:48:52.813] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:48:53.043] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:48:58.281] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:53:45.395] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:53:46.276] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:53:51.865] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:54:07.478] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:54:09.188] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:54:14.626] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:54:23.120] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:54:24.892] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:54:30.333] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 09:55:43.761] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:55:45.602] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 09:55:51.114] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 11:29:33.284] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 11:29:34.352] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 11:29:35.420] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 11:29:40.937] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 11:40:28.645] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 11:40:30.483] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 11:40:35.957] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:01:47.548] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:01:49.422] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:01:54.878] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:01:54.910] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:01:59.897] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:04.889] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:09.901] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:14.893] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:19.894] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:24.889] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:29.895] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:34.893] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:39.891] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:44.890] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:49.898] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:54.886] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:02:59.894] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:04.884] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:09.893] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:14.884] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:19.891] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:24.895] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:29.898] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:34.901] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:39.888] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:44.897] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:49.898] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:54.888] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:03:59.884] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:04.899] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:09.890] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:14.925] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:19.891] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:24.892] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:29.889] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:34.884] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:39.885] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:44.884] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:49.899] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:54.889] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:04:59.884] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:04.896] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:09.893] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:14.902] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:19.893] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:24.893] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:29.889] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:34.886] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:39.895] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:44.886] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:49.895] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:54.886] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:05:59.888] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:04.897] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:09.891] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:14.892] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:19.884] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:24.894] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:29.892] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:34.901] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:39.889] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:44.892] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:49.901] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:54.890] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:06:59.890] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:04.892] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:09.887] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:14.893] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:19.897] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:24.893] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:29.902] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:34.894] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:39.884] [ERROR] Error fetching memory-groups serializer data: 'RedisManager' object has no attribute 'hge'
+[2025-10-27 12:07:43.286] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:07:45.218] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:07:50.679] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:08:20.262] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:08:21.937] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:08:27.100] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:08:29.185] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:08:34.647] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:08:45.597] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:08:51.079] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:09:48.800] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:09:50.705] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:09:56.174] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:12:15.332] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:12:17.123] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:12:35.584] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:12:36.669] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:12:37.206] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:12:42.668] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:12:42.701] [ERROR] Error fetching memory-groups serializer data: 'int' object has no attribute 'get'
+[2025-10-27 12:12:47.673] [ERROR] Error fetching memory-groups serializer data: 'int' object has no attribute 'get'
+[2025-10-27 12:12:52.673] [ERROR] Error fetching memory-groups serializer data: 'int' object has no attribute 'get'
+[2025-10-27 12:12:57.678] [ERROR] Error fetching memory-groups serializer data: 'int' object has no attribute 'get'
+[2025-10-27 12:13:02.670] [ERROR] Error fetching memory-groups serializer data: 'int' object has no attribute 'get'
+[2025-10-27 12:13:07.673] [ERROR] Error fetching memory-groups serializer data: 'int' object has no attribute 'get'
+[2025-10-27 12:13:09.633] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:13:11.564] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:13:17.052] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:14:10.312] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:14:12.007] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:14:17.466] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:18:23.585] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:18:27.378] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:18:32.835] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:19:45.522] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:19:47.404] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:19:52.848] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:20:34.797] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:20:36.672] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:20:42.132] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:20:52.334] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:20:54.105] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:20:59.551] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:21:20.350] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:21:22.144] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:21:27.594] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:21:37.249] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:21:39.199] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:21:44.643] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:22:06.846] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:22:08.620] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:22:14.080] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:22:26.297] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:22:28.152] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:22:30.225] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:22:32.224] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:22:37.668] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:24:19.141] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:24:21.133] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:24:26.580] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:24:54.156] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:24:59.587] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:25:09.524] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:11.260] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:16.703] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:25:28.150] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:30.137] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:32.350] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:33.694] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:34.229] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:39.068] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:40.886] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:25:46.335] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:26:53.007] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:26:54.873] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:27:00.338] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:27:00.355] [ERROR] Error fetching memory-groups serializer data: 'dict' object has no attribute '__dict__'
+[2025-10-27 12:27:05.344] [ERROR] Error fetching memory-groups serializer data: 'dict' object has no attribute '__dict__'
+[2025-10-27 12:27:06.992] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:27:08.978] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:27:14.422] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:27:46.381] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:27:48.238] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:27:53.699] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:28:06.283] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:28:08.020] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:28:13.492] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:29:26.709] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:29:28.680] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:29:34.128] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:29:34.146] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:29:39.147] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:29:44.142] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:29:46.909] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:29:48.704] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:29:54.146] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:29:54.177] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:29:59.164] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:04.155] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:09.156] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:14.149] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:19.157] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:24.162] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:29.162] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:34.163] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:39.158] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:44.154] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:49.157] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:54.159] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:30:59.162] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:31:04.152] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:31:09.162] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:31:14.166] [ERROR] Error fetching memory-groups serializer data: 'NoneType' object is not callable
+[2025-10-27 12:31:15.732] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:31:17.595] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:31:23.061] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:32:32.953] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:32:34.138] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:32:34.786] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:32:40.225] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:33:58.451] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:34:00.435] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:34:00.758] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:34:05.941] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:34:05.957] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:34:10.957] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:34:15.949] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:34:20.951] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:34:25.957] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:34:27.139] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:34:29.369] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:34:34.850] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:34:34.881] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:34:51.646] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:34:57.106] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:34:57.122] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:02.109] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:07.103] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:12.108] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:17.109] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:22.106] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:27.105] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:32.112] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:37.104] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:42.110] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:47.107] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:52.114] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:35:57.109] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:36:00.128] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:36:02.071] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:36:07.528] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:36:07.544] [ERROR] Error fetching memory-groups serializer data: RedisManager.bulk_update() got an unexpected keyword argument '1:483'
+[2025-10-27 12:36:13.449] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:36:15.241] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:36:20.687] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:39:01.649] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:39:03.648] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:39:09.418] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:39:11.315] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:39:16.759] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:48:07.096] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:48:09.052] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:48:14.514] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:49:23.646] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:49:25.808] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:49:31.287] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:49:34.100] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:49:36.167] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:49:41.607] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:49:50.438] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:49:52.272] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:49:55.341] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:49:57.328] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:50:02.779] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 12:52:01.186] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:52:02.125] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:52:02.975] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 12:52:08.430] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 13:16:43.485] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:16:45.431] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:16:59.709] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:17:02.494] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:17:07.212] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:18:30.950] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:18:58.550] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:19:13.639] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:21:33.462] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:23:27.963] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:23:29.568] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:28:49.574] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:29:18.198] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:19.551] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:26.679] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:27.682] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:28.627] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:30.306] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:32.636] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:34.088] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:37.101] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:42.610] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 13:31:49.977] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:51.788] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:31:57.220] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 13:33:12.230] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:33:14.181] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:33:19.628] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 13:47:01.659] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:47:03.534] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:47:08.990] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 13:48:21.959] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:48:24.236] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:48:29.717] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 13:48:41.585] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:50:09.061] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:50:53.618] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:50:56.143] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:50:57.690] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:51:01.057] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:51:06.180] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:51:08.165] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 13:51:13.703] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 14:46:38.674] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 14:46:40.534] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 14:46:45.977] [INFO] try to connect LSIS client => 192.168.0.198:2004

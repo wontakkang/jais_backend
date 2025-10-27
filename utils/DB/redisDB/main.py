@@ -1,10 +1,16 @@
-
 from datetime import datetime, timedelta
 import numpy as np
 import pandas as pd
 import redis, json, time
 from tzlocal import get_localzone  # 시스템 로컬 타임존 자동 감지
 import json
+# aioredis 호환 임포트 (없으면 redis.asyncio 사용)
+try:
+    import aioredis  # type: ignore
+    from aioredis import RedisError as RedisError  # type: ignore
+except Exception:  # pragma: no cover
+    from redis import asyncio as aioredis  # type: ignore
+    from redis.exceptions import RedisError  # type: ignore
 # 시스템의 로컬 타임존 가져오기
 local_tz = get_localzone()
 
@@ -92,6 +98,22 @@ class RedisManager:
     def get_all_keys(self):
         """모든 키 목록 조회"""
         return self.client.keys('*')
+
+    def mget(self, keys, as_dict=True):
+        """여러 키를 한 번에 조회(MGET)하여 JSON 디코딩해 반환
+        :param keys: 조회할 키 리스트 또는 단일 키
+        :param as_dict: True면 {key: value} dict, False면 값 리스트 반환
+        """
+        if isinstance(keys, (str, bytes)):
+            keys = [keys]
+        values = self.client.mget(keys)
+        decoded = []
+        for v in values:
+            try:
+                decoded.append(json.loads(v) if v else None)
+            except Exception:
+                decoded.append(v)
+        return {k: v for k, v in zip(keys, decoded)} if as_dict else decoded
 
     # ------------------------------
     # 📌 Bulk 데이터 처리 (bulk_create, bulk_update)
@@ -855,6 +877,24 @@ class AsyncRedisManager:
             await self.connect()
         return await self.client.keys('*')
 
+    async def mget(self, keys, as_dict=True):
+        """여러 키를 한 번에 조회(MGET)하여 JSON 디코딩해 반환 (비동기)
+        :param keys: 조회할 키 리스트 또는 단일 키
+        :param as_dict: True면 {key: value} dict, False면 값 리스트 반환
+        """
+        if self.client is None:
+            await self.connect()
+        if isinstance(keys, (str, bytes)):
+            keys = [keys]
+        values = await self.client.mget(keys)
+        decoded = []
+        for v in values:
+            try:
+                decoded.append(json.loads(v) if v else None)
+            except Exception:
+                decoded.append(v)
+        return {k: v for k, v in zip(keys, decoded)} if as_dict else decoded
+
     # ------------------------------
     # 📌 Bulk 데이터 처리 (비동기)
     # ------------------------------
@@ -1002,7 +1042,7 @@ class AsyncRedisManager:
             updated_value = json.dumps(updated_value)
             await self.client.set(key, updated_value, ex=expire)
 
-        except aioredis.RedisError as e:
+        except RedisError as e:
             return {"error": f"Redis error: {str(e)}"}
         
     # ------------------------------
@@ -1096,7 +1136,7 @@ class AsyncRedisManager:
             else:
                 return data
 
-        except aioredis.RedisError as e:
+        except RedisError as e:
             return {"error": f"Redis error: {str(e)}"}
         
     async def get_labels_callback(self, result, keys):
@@ -1135,7 +1175,7 @@ class AsyncRedisManager:
 
             return result, labels_dict  # 라벨 정보 포함하여 반환
 
-        except aioredis.RedisError as e:
+        except RedisError as e:
             return result
 
     async def timeseries_exists(self, key):
@@ -1177,7 +1217,7 @@ class AsyncRedisManager:
             else:
                 return result
 
-        except aioredis.RedisError as e:
+        except RedisError as e:
             return {"error": f"Redis error: {str(e)}"}
 
     async def get_pattern_latest_timeseries(self, key_pattern, callback=None):
@@ -1226,7 +1266,7 @@ class AsyncRedisManager:
             else:
                 return data
 
-        except aioredis.RedisError as e:
+        except RedisError as e:
             return {"error": f"Redis error: {str(e)}"}
 
     async def delete_timeseries(self, key):
@@ -1238,7 +1278,7 @@ class AsyncRedisManager:
         """
         try:
             return await self.client.delete(key)
-        except aioredis.RedisError as e:
+        except RedisError as e:
             return {"error": f"Redis error: {str(e)}"}
 
 
@@ -1282,7 +1322,7 @@ class AsyncRedisManager:
 
             return result_keys
 
-        except aioredis.RedisError as e:
+        except RedisError as e:
             return {"error": f"Redis error: {str(e)}"}
 
     async def query_by_label(self, label_filter):

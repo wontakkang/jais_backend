@@ -121,19 +121,6 @@ class ControlGroup(models.Model):
         return f"ControlGroup ({self.name})"
 
 
-class ControlVariable(models.Model):
-    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_control_variables_in_group')
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_as_control_variable')
-    data_type = models.CharField(max_length=20, blank=True)
-    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='lsissocket_applications')
-    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
-
-    def __str__(self):
-        return f"{self.name.name if self.name else 'Unnamed'} using {self.applied_logic.name if self.applied_logic else 'N/A'}"
-
-
-
 
 class AlartGroup(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
@@ -144,17 +131,6 @@ class AlartGroup(models.Model):
 
     def __str__(self):
         return f"AlartGroup ({self.name})"
-
-class AlartVariable(models.Model):
-    group = models.ForeignKey(AlartGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_alart_variables_in_group')
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_as_alart_variable')
-    data_type = models.CharField(max_length=20, blank=True)
-    threshold = models.JSONField(default=dict, blank=True, help_text='알림 기준값/설정 (예: {"min":0, "max":100})')
-    args = models.JSONField(default=list, null=True, blank=True, help_text="알림 변수 인자값을 순서대로 저장 (리스트)")
-    attributes = models.JSONField(default=list, null=True, blank=True, help_text="변수 속성 리스트")
-
-    def __str__(self):
-        return f"AlartVar:{self.name} (group={self.group.name if self.group else 'None'})"
 
 
 class ControlValue(models.Model):
@@ -338,6 +314,27 @@ class CalcGroup(models.Model):
 
     def __str__(self):
         return f"CalcGroup ({self.name})"
+
+class ControlVariable(models.Model):
+    group = models.ForeignKey(ControlGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_control_variables_in_group')
+    applied_logic = models.ForeignKey('corecode.ControlLogic', on_delete=models.CASCADE, related_name='lsissocket_applications')
+    data_type = models.CharField(max_length=20, blank=True)
+    args = models.JSONField(default=list, blank=True, help_text="함수 인자값을 순서대로 저장 (리스트)")
+    result = models.ForeignKey(Variable, null=True, blank=True, on_delete=models.CASCADE, related_name='lsissocket_as_control_result') # related_name 수정 (유효한 식별자)
+
+    def __str__(self):
+        return f" using {self.applied_logic.name if self.applied_logic else 'N/A'}"
+
+
+class AlartVariable(models.Model):
+    group = models.ForeignKey(AlartGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_alart_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_as_alart_variable')
+    data_type = models.CharField(max_length=20, blank=True)
+    args = models.JSONField(default=list, null=True, blank=True, help_text="알림 변수 인자값을 순서대로 저장 (리스트)")
+    result = models.ForeignKey(Variable, null=True, blank=True, on_delete=models.CASCADE, related_name='lsissocket_as_alart_result')  # 충돌 방지를 위해 고유 related_name으로 변경
+
+    def __str__(self):
+        return f"AlartVar:{self.name} (group={self.group.name if self.group else 'None'})"
 
 class CalcVariable(models.Model):
     group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_calc_variables_in_group') # related_name 변경

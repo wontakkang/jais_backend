@@ -36,13 +36,19 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
 
     def get_control_groups_detail(self, obj):
         try:
-            return ControlGroupSerializer(obj.control_groups.all(), many=True).data
+            qs = obj.control_groups.all()
+            if not qs.exists():
+                qs = ControlGroup.objects.all()
+            return ControlGroupSerializer(qs, many=True).data
         except Exception:
             return []
 
     def get_calc_groups_detail(self, obj):
         try:
-            return CalcGroupSerializer(obj.calc_groups.all(), many=True).data
+            qs = obj.calc_groups.all()
+            if not qs.exists():
+                qs = CalcGroup.objects.all()
+            return CalcGroupSerializer(qs, many=True).data
         except Exception:
             return []
 
@@ -112,6 +118,20 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
             pass
 
         return instance
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        try:
+            if not instance.calc_groups.exists():
+                data['calc_groups'] = list(CalcGroup.objects.values_list('id', flat=True))
+        except Exception:
+            pass
+        try:
+            if not instance.control_groups.exists():
+                data['control_groups'] = list(ControlGroup.objects.values_list('id', flat=True))
+        except Exception:
+            pass
+        return data
     
         
 class SocketClientLogSerializer(serializers.ModelSerializer):
@@ -183,6 +203,8 @@ class VariableSerializer(serializers.ModelSerializer):
 
         physical_addr = float(obj.address or 0) + base
         addr_int = int(physical_addr * multiplier) + offset_val
+        if unit_key != 'bit':
+            addr_int = int(addr_int)
         return f"%{obj.device}{unit_symbol}{addr_int}"
 
 class MemoryGroupSerializer(serializers.ModelSerializer):
@@ -268,29 +290,27 @@ class ControlHistorySerializer(serializers.ModelSerializer):
         exclude = ('is_deleted',)
         
 class ControlVariableSerializer(serializers.ModelSerializer):
-    # Expose nested DataName details for read, accept PK for write via name_id
-    name = DataNameSerializer(read_only=True)
-    name_id = serializers.PrimaryKeyRelatedField(source='name', queryset=CoreDataName.objects.all(), write_only=True, required=True, help_text='연결된 DataName ID. 예: 12', style={'example': 12})
-    attributes = serializers.ListField(
-        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
-        allow_empty=True,
-        required=False,
-        default=list,
-        help_text='변수 속성 목록(예: ["감시","기록"])',
-        style={'example': ['감시', '기록']}
-    )
+    # ControlVariable은 name을 가지지 않음. 제어 로직과 결과 변수만 가짐.
+    applied_logic = serializers.PrimaryKeyRelatedField(queryset=CoreControlLogic.objects.all(), required=True, help_text='연결된 ControlLogic ID')
+    # 읽기 편의를 위한 로직 이름 노출(선택)
+    applied_logic_name = serializers.CharField(source='applied_logic.name', read_only=True)
+    result = serializers.PrimaryKeyRelatedField(queryset=Variable.objects.all(), required=False, allow_null=True, help_text='제어 결과가 기록될 Variable ID')
 
     class Meta:
         model = ControlVariable
         fields = [
-            'id', 'group', 'name', 'name_id', 'data_type', 'args', 'attributes'
+            'id', 'group', 'applied_logic', 'applied_logic_name', 'data_type', 'args', 'result'
         ]
 
     def to_internal_value(self, data):
-        # Allow clients to send 'name' as either nested object or id; normalize to name_id
-        if isinstance(data, dict) and 'name' in data and isinstance(data.get('name'), dict) and 'id' in data.get('name'):
+        # applied_logic가 중첩 객체 {id:...} 형태로 들어오는 경우 허용
+        if isinstance(data, dict) and 'applied_logic' in data and isinstance(data.get('applied_logic'), dict) and 'id' in data.get('applied_logic'):
             data = dict(data)
-            data['name_id'] = data['name']['id']
+            data['applied_logic'] = data['applied_logic']['id']
+        # result도 중첩 객체 {id:...} 허용
+        if isinstance(data, dict) and 'result' in data and isinstance(data.get('result'), dict) and 'id' in data.get('result'):
+            data = dict(data)
+            data['result'] = data['result']['id']
         return super().to_internal_value(data)
 
 class ControlGroupSerializer(serializers.ModelSerializer):
@@ -320,29 +340,46 @@ class ControlGroupSerializer(serializers.ModelSerializer):
         allowed = {f.name for f in ControlGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
         create_kwargs = {k: v for k, v in validated_data.items() if k in allowed}
 
-        # Transaction + validation: ensure all referenced DataName exist before creating objects
         with transaction.atomic():
-            # validate names
+            # applied_logic 존재 검증
             for var_data in control_variables_data:
-                name_val = var_data.get('name') or var_data.get('name_id')
-                if name_val is None:
-                    raise ValidationError({'variables': '각 variable은 name 또는 name_id를 포함해야 합니다.'})
+                logic_val = var_data.get('applied_logic')
+                if logic_val is None:
+                    raise ValidationError({'variables': '각 variable은 applied_logic을 포함해야 합니다.'})
                 try:
-                    if not isinstance(name_val, CoreDataName):
-                        CoreDataName.objects.get(pk=name_val)
-                except CoreDataName.DoesNotExist:
-                    raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
+                    if not isinstance(logic_val, CoreControlLogic):
+                        CoreControlLogic.objects.get(pk=logic_val)
+                except CoreControlLogic.DoesNotExist:
+                    raise ValidationError({'variables': f'ControlLogic id={logic_val}을(를) 찾을 수 없습니다.'})
 
             group = ControlGroup.objects.create(**create_kwargs)
             for var_data in control_variables_data:
-                name_val = var_data.get('name') or var_data.get('name_id')
-                name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                logic_val = var_data.get('applied_logic')
+                logic_obj = CoreControlLogic.objects.get(pk=logic_val) if not isinstance(logic_val, CoreControlLogic) else logic_val
+
+                # result를 Variable instance로 해석
+                res = var_data.get('result')
+                result_obj = None
+                if res is None or res == []:
+                    result_obj = None
+                elif isinstance(res, Variable):
+                    result_obj = res
+                elif isinstance(res, dict):
+                    res_id = res.get('id') or res.get('pk')
+                    result_obj = Variable.objects.filter(pk=res_id).first()
+                else:
+                    try:
+                        res_id = int(res)
+                        result_obj = Variable.objects.filter(pk=res_id).first()
+                    except Exception:
+                        result_obj = None
+
                 ControlVariable.objects.create(
                     group=group,
-                    name=name_obj,
+                    applied_logic=logic_obj,
                     data_type=var_data.get('data_type', ''),
                     args=var_data.get('args', []),
-                    attributes=var_data.get('attributes', []),
+                    result=result_obj,
                 )
         return group
 
@@ -361,27 +398,45 @@ class ControlGroupSerializer(serializers.ModelSerializer):
 
         if control_variables_data is not None:
             with transaction.atomic():
-                # validate all names first
+                # applied_logic 존재 검증
                 for var_data in control_variables_data:
-                    name_val = var_data.get('name') or var_data.get('name_id')
-                    if name_val is None:
-                        raise ValidationError({'variables': '각 variable은 name 또는 name_id를 포함해야 합니다.'})
+                    logic_val = var_data.get('applied_logic')
+                    if logic_val is None:
+                        raise ValidationError({'variables': '각 variable은 applied_logic을 포함해야 합니다.'})
                     try:
-                        if not isinstance(name_val, CoreDataName):
-                            CoreDataName.objects.get(pk=name_val)
-                    except CoreDataName.DoesNotExist:
-                        raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
+                        if not isinstance(logic_val, CoreControlLogic):
+                            CoreControlLogic.objects.get(pk=logic_val)
+                    except CoreControlLogic.DoesNotExist:
+                        raise ValidationError({'variables': f'ControlLogic id={logic_val}을(를) 찾을 수 없습니다.'})
 
                 instance.lsissocket_control_variables_in_group.all().delete()
                 for var_data in control_variables_data:
-                    name_val = var_data.get('name') or var_data.get('name_id')
-                    name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
+                    logic_val = var_data.get('applied_logic')
+                    logic_obj = CoreControlLogic.objects.get(pk=logic_val) if not isinstance(logic_val, CoreControlLogic) else logic_val
+
+                    # result를 Variable instance로 해석
+                    res = var_data.get('result')
+                    result_obj = None
+                    if res is None or res == []:
+                        result_obj = None
+                    elif isinstance(res, Variable):
+                        result_obj = res
+                    elif isinstance(res, dict):
+                        res_id = res.get('id') or res.get('pk')
+                        result_obj = Variable.objects.filter(pk=res_id).first()
+                    else:
+                        try:
+                            res_id = int(res)
+                            result_obj = Variable.objects.filter(pk=res_id).first()
+                        except Exception:
+                            result_obj = None
+
                     ControlVariable.objects.create(
                         group=instance,
-                        name=name_obj,
+                        applied_logic=logic_obj,
                         data_type=var_data.get('data_type', ''),
                         args=var_data.get('args', []),
-                        attributes=var_data.get('attributes', []),
+                        result=result_obj,
                     )
         return instance
 
@@ -395,8 +450,7 @@ class CalcVariableSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalcVariable
         fields = [
-            'id', 'group', 'name', 'name_id', 'data_type', 'args'
-            , 'result'
+            'id', 'group', 'name', 'name_id', 'data_type', 'args', 'result'
         ]
 
     def to_internal_value(self, data):
@@ -537,20 +591,18 @@ class CalcGroupSerializer(serializers.ModelSerializer):
         return instance
 
 class AlartVariableSerializer(serializers.ModelSerializer):
+    
+    # Expose nested DataName details for read, accept PK for write via name_id
     name = DataNameSerializer(read_only=True)
-    name_id = serializers.PrimaryKeyRelatedField(source='name', queryset=CoreDataName.objects.all(), write_only=True, required=True, help_text='연결된 DataName ID. 예: 20', style={'example': 20})
-    threshold = serializers.JSONField(required=False, help_text='알림 기준값/설정(예: {"min":0,"max":100})')
-    attributes = serializers.ListField(
-        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
-        allow_empty=True,
-        required=False,
-        default=list,
-        help_text='변수 속성 목록(예: ["감시"])'
-    )
-
+    name_id = serializers.PrimaryKeyRelatedField(source='name', queryset=CoreDataName.objects.all(), write_only=True, required=True, help_text='연결된 DataName ID. 예: 8', style={'example': 8})
+    
+    # result: 연산 결과값은 이제 Variable FK (Variable id 또는 null 허용)
+    result = serializers.PrimaryKeyRelatedField(queryset=Variable.objects.all(), required=False, allow_null=True, help_text='연산 결과 Variable ID (예: 422)')
     class Meta:
         model = AlartVariable
-        fields = ['id', 'group', 'name', 'name_id', 'data_type', 'threshold', 'args', 'attributes']
+        fields = [
+            'id', 'group', 'name', 'name_id', 'data_type', 'args', 'result'
+        ]
 
     def to_internal_value(self, data):
         if isinstance(data, dict) and 'name' in data and isinstance(data.get('name'), dict) and 'id' in data.get('name'):

@@ -14,7 +14,8 @@ def dew_point(temp_c: float, rh_percent: float) -> float:
     b = 243.12
     gamma = (a * temp_c) / (b + temp_c) + math.log(rh_percent / 100.0)
     td = (b * gamma) / (a - gamma)
-    return td
+    _value= float("{:.1f}".format(round(td, 1)))
+    return _value
 
 def condensation_risk(surface_temp_c: float, air_temp_c: float, rh_percent: float) -> dict:
     """
