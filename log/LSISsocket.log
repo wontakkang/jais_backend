@@ -21423,3 +21423,98 @@ utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Fa
 [2025-10-27 17:26:01.076] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-27 17:26:03.946] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-27 17:26:06.519] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:36:27.054] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:36:32.503] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:41:08.191] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:41:09.763] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:41:15.203] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:41:17.720] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:17.720] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:17.720] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:41:22.684] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:22.684] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:22.684] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:41:27.711] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:27.711] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:27.712] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:41:32.746] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:32.746] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:32.746] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:41:37.749] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:37.749] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:37.749] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:41:42.752] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:42.752] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:42.752] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:41:47.771] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:47.771] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:47.771] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:41:52.732] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:52.732] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:52.732] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:41:57.741] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:41:57.741] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:41:57.741] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:02.720] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:02.720] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:02.720] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:07.723] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:07.724] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:07.724] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:12.693] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:12.693] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:12.693] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:17.705] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:17.705] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:17.705] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:22.723] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:22.723] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:22.723] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:27.719] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:27.719] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:27.719] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:32.704] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:32.704] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:32.704] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:37.737] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:37.737] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:37.737] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:41.750] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:42:42.708] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:42.708] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:42.710] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:43.741] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:42:49.290] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:42:51.903] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:51.903] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:51.903] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:42:56.896] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:42:56.896] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:42:56.896] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:43:01.900] [DEBUG] Attribute save failed for var 25: '1:515'
+[2025-10-27 17:43:01.900] [DEBUG] Attribute save failed for var 27: '1:527'
+[2025-10-27 17:43:01.900] [DEBUG] Attribute save failed for var 28: '1:523'
+[2025-10-27 17:43:13.100] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:43:15.570] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:43:22.103] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:43:32.620] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:43:37.262] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:43:39.233] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:43:44.666] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:43:54.572] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:43:56.352] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:44:01.820] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:45:10.064] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:45:11.829] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:45:17.303] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:46:47.738] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:46:49.607] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:46:55.079] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:47:11.862] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:47:13.881] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:47:15.505] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:47:15.579] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:47:20.972] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-27 17:47:31.714] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:47:34.423] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 17:47:40.977] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1

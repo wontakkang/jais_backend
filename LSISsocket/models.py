@@ -298,6 +298,7 @@ class Variable(models.Model):
     scale = models.FloatField(default=1)
     offset = models.CharField(default='0', max_length=20, help_text="오프셋 값 (정수 또는 소수점 형태의 문자열)")
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+    remark = models.TextField(null=True, blank=True, help_text='비고')
     def __str__(self):
         return f"{self.name} ({self.device}{self.address})"
 

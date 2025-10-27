@@ -163,6 +163,7 @@ class VariableSerializer(serializers.ModelSerializer):
         default=list,
         help_text='변수 속성 목록(선택). 예: ["감시"]'
     )
+    remark = serializers.CharField(required=False, allow_null=True, allow_blank=True, help_text='비고')
     # 모델과 동일한 타입으로 정정
     device = serializers.CharField(max_length=2, help_text='장치 종류 코드(예: D/M/R)')
     address = serializers.FloatField(help_text='장치 내 주소(숫자). 예: 100')
@@ -170,7 +171,7 @@ class VariableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Variable
         fields = [
-            'id', 'group', 'name', 'device', 'address', 'use_group_base_address', 'data_type', 'unit', 'scale', 'offset', 'device_address', 'attributes'
+            'id', 'group', 'name', 'device', 'address', 'use_group_base_address', 'data_type', 'unit', 'scale', 'offset', 'device_address', 'attributes', 'remark'
         ]
         
     def get_device_address(self, obj):
@@ -253,6 +254,7 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
                     scale=var_data.get('scale', 1),
                     offset=var_data.get('offset', '0'),
                     attributes=var_data.get('attributes', []),
+                    remark=var_data.get('remark')
                 )
             return group
 
@@ -279,6 +281,7 @@ class MemoryGroupSerializer(serializers.ModelSerializer):
                     scale=var_data.get('scale', 1),
                     offset=var_data.get('offset', '0'),
                     attributes=var_data.get('attributes', []),
+                    remark=var_data.get('remark')
                 )
         return instance
 
