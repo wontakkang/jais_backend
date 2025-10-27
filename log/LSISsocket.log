@@ -21518,3 +21518,106 @@ utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Fa
 [2025-10-27 17:47:31.714] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-27 17:47:34.423] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-27 17:47:40.977] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 18:57:26.962] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:40:26.874] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:40:51.965] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:41:10.515] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:43:54.812] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:43:58.278] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:44:05.632] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:44:12.314] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:48:46.982] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:48:50.607] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:49:24.050] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:49:31.726] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:49:34.579] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:49:36.335] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:49:39.079] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:49:40.336] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:49:41.617] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:49:54.690] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:50:34.553] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:50:52.139] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:57:02.586] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 19:57:08.168] [INFO] try to connect LSIS client => 192.168.0.198:2004
+2025-10-27 19:57:13,173 ERROR logger	[logger.py :error]:118 Connection to 192.168.0.198:2004 failed: timed out
+[2025-10-27 19:57:13.199] [ERROR] LSISsocket.service : 응답없음 발생 : cannot access local variable 'partial_response' where it is not associated with a value
+[2025-10-27 19:57:13.215] [ERROR] 🚨 [ERROR] tcp_client_to_redis()에서 예외 발생 🚨
+📌 파일: C:\project\jais\jais_backend\jais_backend\utils\logger.py, 라인: 90
+📍 오류 메시지: LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+Traceback (most recent call last):
+  File "C:\project\jais\jais_backend\jais_backend\utils\protocol\LSIS\client\tcp.py", line 83, in connect
+    self.socket = socket.create_connection(
+                  ~~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.params.host, self.params.port),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        timeout=self.params.timeout,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        source_address=self.params.source_address,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "C:\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\project\jais\jais_backend\jais_backend\utils\logger.py", line 90, in wrapper
+    return func(*args, **kwargs)
+  File "C:\project\jais\jais_backend\jais_backend\LSISsocket\service.py", line 46, in tcp_client_to_redis
+    is_connected = connect_sock.connect(retry_forever=False)
+  File "C:\project\jais\jais_backend\jais_backend\utils\protocol\LSIS\client\tcp.py", line 100, in connect
+    raise ConnectionException(
+        f"Failed to connect to {self.params.host}:{self.params.port}"
+    )
+utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-10-27 20:04:25.570] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:07:21.281] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:08:56.145] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:09:44.367] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:10:45.945] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:12:13.948] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:13:21.414] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:14:01.242] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:15:06.551] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:15:47.884] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:17:17.179] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:17:33.927] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:18:05.585] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:18:13.368] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:18:35.889] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:18:52.009] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:22:40.941] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:22:45.180] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:25:07.711] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:28:56.803] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:37:35.735] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:38:29.133] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:38:45.006] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:38:56.118] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:38:57.670] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:38:58.957] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:39:01.588] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:42:10.784] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:45:24.601] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 20:47:22.606] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:39:49.826] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:39:53.341] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:39:54.621] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:40:56.472] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:41:24.154] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:41:25.548] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:41:34.017] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:41:45.282] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:45:21.110] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:45:27.511] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:50:40.088] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:50:43.488] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:59:06.710] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 21:59:09.886] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-27 22:31:17.218] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1

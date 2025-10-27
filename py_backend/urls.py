@@ -31,6 +31,7 @@ urlpatterns += [
     path('corecode/', include('corecode.urls')),
     path('LSISsocket/', include('LSISsocket.urls')),
     path('MCUnode/', include('MCUnode.urls')),
+    path('data_entry/', include('data_entry.urls')),
 ]
 
 urlpatterns += [

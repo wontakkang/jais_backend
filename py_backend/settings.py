@@ -67,6 +67,7 @@ INSTALLED_APPS += [
     'LSISsocket.apps.LSISsocketConfig',
     'corecode.apps.CorecodeConfig',
     'MCUnode.apps.McunodeConfig',
+    'data_entry.apps.DataEntryConfig',
 ]
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'agriseed.exceptions.custom_exception_handler',
@@ -75,6 +76,8 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',  # enable session login

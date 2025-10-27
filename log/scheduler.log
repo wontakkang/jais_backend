@@ -10653,3 +10653,146 @@
   File "D:\project\projects\jais\py_backend\main.py", line 95, in _graceful_shutdown
     stack = ''.join(traceback.format_stack(frame_obj))
 
+[2025-10-27 19:57:03.150] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-27 19:57:03.280] [INFO] 스케줄러 시작됨.
+[2025-10-27 19:57:13.233] [ERROR] JOB JOB ERROR LSISsocket.service.tcp_client_to_redis (elapsed: 5.065s): LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+Traceback (most recent call last):
+  File "C:\project\jais\jais_backend\jais_backend\utils\protocol\LSIS\client\tcp.py", line 83, in connect
+    self.socket = socket.create_connection(
+                  ~~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.params.host, self.params.port),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        timeout=self.params.timeout,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        source_address=self.params.source_address,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "C:\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+TimeoutError: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\project\jais\jais_backend\jais_backend\utils\logger.py", line 216, in wrapper
+    return func(*args, **kwargs)
+  File "C:\project\jais\jais_backend\jais_backend\utils\logger.py", line 90, in wrapper
+    return func(*args, **kwargs)
+  File "C:\project\jais\jais_backend\jais_backend\LSISsocket\service.py", line 46, in tcp_client_to_redis
+    is_connected = connect_sock.connect(retry_forever=False)
+  File "C:\project\jais\jais_backend\jais_backend\utils\protocol\LSIS\client\tcp.py", line 100, in connect
+    raise ConnectionException(
+        f"Failed to connect to {self.params.host}:{self.params.port}"
+    )
+utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Failed to connect to 192.168.0.198:2004
+[2025-10-27 19:57:13.235] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 5.067s)
+[2025-10-27 19:57:15.070] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-27 19:57:15.071] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-27 19:57:15.072] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-27 19:57:15.073] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-27 19:57:17.074] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-27 19:57:17.089] [WARNING] 스레드 id: 19948
+  File "C:\Python313\Lib\threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+  File "C:\Python313\Lib\threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python313\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-27 19:57:17.089] [WARNING] 스레드 id: 23272
+  File "C:\Python313\Lib\threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+  File "C:\Python313\Lib\threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python313\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-27 19:57:17.180] [WARNING] 스레드 id: 3928
+  File "<string>", line 1, in <module>
+    from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=1312, pipe_handle=544)
+  File "C:\Python313\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python313\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python313\Lib\multiprocessing\process.py", line 313, in _bootstrap
+    self.run()
+  File "C:\Python313\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\project\jais\jais_backend\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "C:\project\jais\jais_backend\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+  File "C:\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python313\Lib\asyncio\base_events.py", line 706, in run_until_complete
+    self.run_forever()
+  File "C:\Python313\Lib\asyncio\base_events.py", line 677, in run_forever
+    self._run_once()
+  File "C:\Python313\Lib\asyncio\base_events.py", line 1996, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python313\Lib\selectors.py", line 314, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python313\Lib\selectors.py", line 305, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "C:\project\jais\jais_backend\jais_backend\main.py", line 95, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-27 20:18:36.400] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-27 20:18:36.533] [INFO] 스케줄러 시작됨.
+[2025-10-27 20:18:39.777] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-27 20:18:39.777] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-27 20:18:39.778] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-27 20:18:39.779] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-27 20:18:41.780] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-27 20:18:41.784] [WARNING] 스레드 id: 10780
+  File "C:\Python313\Lib\threading.py", line 1012, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+  File "C:\Python313\Lib\threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python313\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-27 20:18:41.792] [WARNING] 스레드 id: 21008
+  File "<string>", line 1, in <module>
+    from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=23312, pipe_handle=556)
+  File "C:\Python313\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python313\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python313\Lib\multiprocessing\process.py", line 313, in _bootstrap
+    self.run()
+  File "C:\Python313\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\project\jais\jais_backend\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "C:\project\jais\jais_backend\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+  File "C:\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python313\Lib\asyncio\base_events.py", line 706, in run_until_complete
+    self.run_forever()
+  File "C:\Python313\Lib\asyncio\base_events.py", line 677, in run_forever
+    self._run_once()
+  File "C:\Python313\Lib\asyncio\base_events.py", line 1996, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python313\Lib\selectors.py", line 314, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python313\Lib\selectors.py", line 305, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "C:\project\jais\jais_backend\jais_backend\main.py", line 95, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
