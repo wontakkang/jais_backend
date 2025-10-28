@@ -211,12 +211,13 @@ JSON_API_FORMAT_FIELD_NAMES = 'camelize'
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'Asia/Seoul'
+# 환경 변수 TIME_ZONE을 우선 사용, 없으면 기본 Asia/Seoul
+TIME_ZONE = os.environ.get('TIME_ZONE', 'Asia/Seoul')
 
 USE_I18N = True
 
-USE_TZ = True
-
+# 로컬 시간으로 통일 (DB 저장 포함): naive local datetime 사용
+USE_TZ = False
 
 # Static and Media files settings
 STATIC_URL = '/static/'

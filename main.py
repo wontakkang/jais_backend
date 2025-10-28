@@ -7,6 +7,7 @@ import faulthandler
 import traceback
 import logging
 
+from data_entry.service import aggregate_2min_to_10min, aggregate_to_1hour, redis_to_db, aggregate_to_daily
 from utils.protocol.LSIS.client.tcp import LSIS_TcpClient
 from utils.ws_log import static_file_app, websocket_app
 # .env 파일에서 환경 변수 로드
@@ -168,9 +169,54 @@ async def lifespan(app: FastAPI):
                 logger.exception(f'클라이언트 작업 등록 실패: {getattr(client, "id", None)}')
             # 이벤트 루프를 블로킹하지 않도록 소량 대기
             await asyncio.sleep(0.111)
+
+        # 전역 집계 작업은 한 번만 등록 (클라이언트 루프 밖)
+        scheduler.add_job(
+            redis_to_db,
+            'cron',
+            minute='*/2',
+            replace_existing=True,
+            max_instances=1,
+            misfire_grace_time=15,
+            coalesce=False,
+            executor='default',
+            args=(2,),
+        )
+        scheduler.add_job(
+            aggregate_2min_to_10min,
+            'cron',
+            minute='*/10',
+            second=5, # 10분 단위 집계 작업이 DB 적재 작업과 겹치지 않도록 5초 지연
+            replace_existing=True,
+            max_instances=1,
+            misfire_grace_time=30,
+            coalesce=False,
+            executor='default',
+        )
+        scheduler.add_job(
+            aggregate_to_1hour,
+            'cron',
+            minute=0,  # 매 정시
+            second=10, # 10분 단위 집계 작업이 DB 적재 작업과 겹치지 않도록 10초 지연
+            replace_existing=True,
+            max_instances=1,
+            misfire_grace_time=60,
+            coalesce=False,
+            executor='default',
+        )
+        scheduler.add_job(
+            aggregate_to_daily,
+            'cron',
+            hour=0,
+            minute=5,  # 자정+5분에 실행 (이전 집계 완료 여유)
+            replace_existing=True,
+            max_instances=1,
+            misfire_grace_time=300,
+            coalesce=False,
+            executor='default',
+        )
         # AsyncIOScheduler.start()는 동기 메서드(코루틴이 아님)이므로 await하지 않고 호출
         scheduler.start()
-        print("스케줄러 시작됨.")
         logger.info("스케줄러 시작됨.")
         yield
     finally:

@@ -5,3 +5,814 @@
 [2025-10-27 21:59:06.716] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
 [2025-10-27 21:59:09.890] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
 [2025-10-27 22:31:17.224] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 08:30:47.949] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 08:31:21.780] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 08:35:10.492] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 08:35:16.905] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 08:35:22.711] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 10:15:13.960] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 12:48:36.968] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 12:48:51.690] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 12:50:06.200] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 12:58:28.271] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:00:05.964] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:00:13.134] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:00:14.727] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:03:12.005] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:03:27.024] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:34:44.779] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:38:28.937] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:39:38.830] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:40:44.462] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:42:59.909] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:43:27.309] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:43:46.377] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:43:47.601] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:44:50.289] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:45:16.289] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:47:41.933] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:47:45.467] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:47:50.311] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:49:03.315] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:49:11.400] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:50:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 13:50:00.005] [INFO] redis_to_db start: at=2025-10-28T04:50:00.005396+00:00, bucket_ts=2025-10-28T04:50:00+00:00, resolution=2m
+[2025-10-28 13:50:00.367] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T04:50:00+00:00
+[2025-10-28 13:50:00.367] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 13:52:00.000] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 13:52:00.001] [INFO] redis_to_db start: at=2025-10-28T04:52:00.001744+00:00, bucket_ts=2025-10-28T04:52:00+00:00, resolution=2m
+[2025-10-28 13:52:00.360] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T04:52:00+00:00
+[2025-10-28 13:52:00.360] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.359s)
+[2025-10-28 13:53:19.702] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:53:21.333] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:53:24.792] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:53:25.845] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:53:26.383] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:54:00.006] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 13:54:00.006] [INFO] redis_to_db start: at=2025-10-28T13:54:00.006687+09:00, bucket_ts=2025-10-28T13:54:00+09:00, resolution=2m
+[2025-10-28 13:54:00.358] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T13:54:00+09:00
+[2025-10-28 13:54:00.358] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.351s)
+[2025-10-28 13:56:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 13:56:00.008] [INFO] redis_to_db start: at=2025-10-28T13:56:00.008536+09:00, bucket_ts=2025-10-28T13:56:00+09:00, resolution=2m
+[2025-10-28 13:56:00.360] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T13:56:00+09:00
+[2025-10-28 13:56:00.360] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.352s)
+[2025-10-28 13:57:28.694] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:57:30.470] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 13:58:00.021] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 13:58:00.021] [INFO] redis_to_db start: at=2025-10-28T13:58:00.021842+09:00, bucket_ts=2025-10-28T13:58:00+09:00, resolution=2m
+[2025-10-28 13:58:00.389] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T13:58:00+09:00
+[2025-10-28 13:58:00.389] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.368s)
+[2025-10-28 14:00:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:00:00.004] [INFO] redis_to_db start: at=2025-10-28T14:00:00.004085+09:00, bucket_ts=2025-10-28T14:00:00+09:00, resolution=2m
+[2025-10-28 14:00:00.367] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:00:00+09:00
+[2025-10-28 14:00:00.367] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.364s)
+[2025-10-28 14:01:29.906] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:01:31.731] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:01:48.810] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:01:49.859] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:01:50.686] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:02:00.007] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:02:00.007] [INFO] redis_to_db start: at=2025-10-28T14:02:00.007705+09:00, bucket_ts=2025-10-28T14:02:00+09:00, resolution=2m
+[2025-10-28 14:02:00.397] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:02:00+09:00
+[2025-10-28 14:02:00.397] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.390s)
+[2025-10-28 14:02:27.198] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:02:37.861] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:02:38.148] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:04:00.014] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:04:00.014] [INFO] redis_to_db start: at=2025-10-28T14:04:00.014899+09:00, bucket_ts=2025-10-28T14:04:00+09:00, resolution=2m
+[2025-10-28 14:04:00.360] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:04:00+09:00
+[2025-10-28 14:04:00.360] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.346s)
+[2025-10-28 14:04:37.244] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:04:38.945] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:08:47.245] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:09:56.704] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:11:02.748] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:11:02.794] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:11:08.011] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:12:00.013] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:12:00.013] [INFO] redis_to_db start: at=2025-10-28T14:12:00.013896+09:00, bucket_ts=2025-10-28T14:12:00+09:00, resolution=2m
+[2025-10-28 14:12:00.400] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:12:00+09:00
+[2025-10-28 14:12:00.400] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.387s)
+[2025-10-28 14:12:09.357] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:13:50.254] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 14:14:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:14:00.004] [INFO] redis_to_db start: at=2025-10-28T14:14:00.004834+09:00, bucket_ts=2025-10-28T14:14:00+09:00, resolution=2m
+[2025-10-28 14:14:00.364] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:14:00+09:00
+[2025-10-28 14:14:00.364] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.359s)
+[2025-10-28 14:16:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:16:00.011] [INFO] redis_to_db start: at=2025-10-28T14:16:00.011429+09:00, bucket_ts=2025-10-28T14:16:00+09:00, resolution=2m
+[2025-10-28 14:16:00.366] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:16:00+09:00
+[2025-10-28 14:16:00.366] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.355s)
+[2025-10-28 14:18:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:18:00.012] [INFO] redis_to_db start: at=2025-10-28T14:18:00.012928+09:00, bucket_ts=2025-10-28T14:18:00+09:00, resolution=2m
+[2025-10-28 14:18:00.373] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:18:00+09:00
+[2025-10-28 14:18:00.373] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.360s)
+[2025-10-28 14:20:00.017] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 14:20:00.017] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:20:00.017] [INFO] aggregate_2min_to_10min start: at=2025-10-28T14:20:00.017107+09:00, bucket_start=2025-10-28T14:20:00+09:00~2025-10-28T14:30:00+09:00
+[2025-10-28 14:20:00.017] [INFO] redis_to_db start: at=2025-10-28T14:20:00.017107+09:00, bucket_ts=2025-10-28T14:20:00+09:00, resolution=2m
+[2025-10-28 14:20:00.018] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T14:20:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 14:20:00.018] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.001s)
+[2025-10-28 14:20:00.381] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:20:00+09:00
+[2025-10-28 14:20:00.381] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.365s)
+[2025-10-28 14:22:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:22:00.008] [INFO] redis_to_db start: at=2025-10-28T14:22:00.008121+09:00, bucket_ts=2025-10-28T14:22:00+09:00, resolution=2m
+[2025-10-28 14:22:00.407] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:22:00+09:00
+[2025-10-28 14:22:00.407] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.400s)
+[2025-10-28 14:24:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:24:00.012] [INFO] redis_to_db start: at=2025-10-28T14:24:00.012162+09:00, bucket_ts=2025-10-28T14:24:00+09:00, resolution=2m
+[2025-10-28 14:24:00.362] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:24:00+09:00
+[2025-10-28 14:24:00.362] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.350s)
+[2025-10-28 14:26:00.016] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:26:00.016] [INFO] redis_to_db start: at=2025-10-28T14:26:00.016278+09:00, bucket_ts=2025-10-28T14:26:00+09:00, resolution=2m
+[2025-10-28 14:26:00.362] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:26:00+09:00
+[2025-10-28 14:26:00.363] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.348s)
+[2025-10-28 14:28:00.006] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:28:00.006] [INFO] redis_to_db start: at=2025-10-28T14:28:00.006910+09:00, bucket_ts=2025-10-28T14:28:00+09:00, resolution=2m
+[2025-10-28 14:28:00.360] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:28:00+09:00
+[2025-10-28 14:28:00.360] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.354s)
+[2025-10-28 14:30:00.011] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 14:30:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:30:00.011] [INFO] aggregate_2min_to_10min start: at=2025-10-28T14:30:00.011148+09:00, bucket_start=2025-10-28T14:30:00+09:00~2025-10-28T14:40:00+09:00
+[2025-10-28 14:30:00.011] [INFO] redis_to_db start: at=2025-10-28T14:30:00.011148+09:00, bucket_ts=2025-10-28T14:30:00+09:00, resolution=2m
+[2025-10-28 14:30:00.011] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T14:30:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 14:30:00.011] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.000s)
+[2025-10-28 14:30:00.365] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:30:00+09:00
+[2025-10-28 14:30:00.365] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.354s)
+[2025-10-28 14:32:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:32:00.001] [INFO] redis_to_db start: at=2025-10-28T14:32:00.001549+09:00, bucket_ts=2025-10-28T14:32:00+09:00, resolution=2m
+[2025-10-28 14:32:00.363] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:32:00+09:00
+[2025-10-28 14:32:00.363] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 14:34:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:34:00.006] [INFO] redis_to_db start: at=2025-10-28T14:34:00.006066+09:00, bucket_ts=2025-10-28T14:34:00+09:00, resolution=2m
+[2025-10-28 14:34:00.366] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:34:00+09:00
+[2025-10-28 14:34:00.366] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.361s)
+[2025-10-28 14:36:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:36:00.010] [INFO] redis_to_db start: at=2025-10-28T14:36:00.010032+09:00, bucket_ts=2025-10-28T14:36:00+09:00, resolution=2m
+[2025-10-28 14:36:00.393] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:36:00+09:00
+[2025-10-28 14:36:00.393] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.384s)
+[2025-10-28 14:38:00.013] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:38:00.013] [INFO] redis_to_db start: at=2025-10-28T14:38:00.013736+09:00, bucket_ts=2025-10-28T14:38:00+09:00, resolution=2m
+[2025-10-28 14:38:00.362] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:38:00+09:00
+[2025-10-28 14:38:00.362] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.349s)
+[2025-10-28 14:40:00.004] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 14:40:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:40:00.004] [INFO] aggregate_2min_to_10min start: at=2025-10-28T14:40:00.004650+09:00, bucket_start=2025-10-28T14:40:00+09:00~2025-10-28T14:50:00+09:00
+[2025-10-28 14:40:00.004] [INFO] redis_to_db start: at=2025-10-28T14:40:00.004650+09:00, bucket_ts=2025-10-28T14:40:00+09:00, resolution=2m
+[2025-10-28 14:40:00.005] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T14:40:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 14:40:00.005] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.001s)
+[2025-10-28 14:40:00.351] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:40:00+09:00
+[2025-10-28 14:40:00.351] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.347s)
+[2025-10-28 14:42:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:42:00.008] [INFO] redis_to_db start: at=2025-10-28T14:42:00.008548+09:00, bucket_ts=2025-10-28T14:42:00+09:00, resolution=2m
+[2025-10-28 14:42:00.363] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:42:00+09:00
+[2025-10-28 14:42:00.363] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.355s)
+[2025-10-28 14:44:00.013] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:44:00.013] [INFO] redis_to_db start: at=2025-10-28T14:44:00.013215+09:00, bucket_ts=2025-10-28T14:44:00+09:00, resolution=2m
+[2025-10-28 14:44:00.385] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:44:00+09:00
+[2025-10-28 14:44:00.385] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.372s)
+[2025-10-28 14:46:00.003] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:46:00.004] [INFO] redis_to_db start: at=2025-10-28T14:46:00.004174+09:00, bucket_ts=2025-10-28T14:46:00+09:00, resolution=2m
+[2025-10-28 14:46:00.357] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:46:00+09:00
+[2025-10-28 14:46:00.357] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.354s)
+[2025-10-28 14:48:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:48:00.005] [INFO] redis_to_db start: at=2025-10-28T14:48:00.005232+09:00, bucket_ts=2025-10-28T14:48:00+09:00, resolution=2m
+[2025-10-28 14:48:00.354] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:48:00+09:00
+[2025-10-28 14:48:00.354] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.349s)
+[2025-10-28 14:50:00.011] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 14:50:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:50:00.011] [INFO] aggregate_2min_to_10min start: at=2025-10-28T14:50:00.011675+09:00, bucket_start=2025-10-28T14:50:00+09:00~2025-10-28T15:00:00+09:00
+[2025-10-28 14:50:00.011] [INFO] redis_to_db start: at=2025-10-28T14:50:00.011675+09:00, bucket_ts=2025-10-28T14:50:00+09:00, resolution=2m
+[2025-10-28 14:50:00.012] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T14:50:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 14:50:00.012] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.001s)
+[2025-10-28 14:50:00.368] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:50:00+09:00
+[2025-10-28 14:50:00.369] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.357s)
+[2025-10-28 14:52:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:52:00.002] [INFO] redis_to_db start: at=2025-10-28T14:52:00.002471+09:00, bucket_ts=2025-10-28T14:52:00+09:00, resolution=2m
+[2025-10-28 14:52:00.349] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:52:00+09:00
+[2025-10-28 14:52:00.349] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.347s)
+[2025-10-28 14:54:00.006] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:54:00.006] [INFO] redis_to_db start: at=2025-10-28T14:54:00.006687+09:00, bucket_ts=2025-10-28T14:54:00+09:00, resolution=2m
+[2025-10-28 14:54:00.369] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:54:00+09:00
+[2025-10-28 14:54:00.369] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.363s)
+[2025-10-28 14:56:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:56:00.010] [INFO] redis_to_db start: at=2025-10-28T14:56:00.010449+09:00, bucket_ts=2025-10-28T14:56:00+09:00, resolution=2m
+[2025-10-28 14:56:00.357] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:56:00+09:00
+[2025-10-28 14:56:00.357] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.347s)
+[2025-10-28 14:58:00.014] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 14:58:00.015] [INFO] redis_to_db start: at=2025-10-28T14:58:00.015301+09:00, bucket_ts=2025-10-28T14:58:00+09:00, resolution=2m
+[2025-10-28 14:58:00.366] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T14:58:00+09:00
+[2025-10-28 14:58:00.366] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.351s)
+[2025-10-28 15:00:00.005] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 15:00:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:00:00.005] [INFO] aggregate_2min_to_10min start: at=2025-10-28T15:00:00.005338+09:00, bucket_start=2025-10-28T15:00:00+09:00~2025-10-28T15:10:00+09:00
+[2025-10-28 15:00:00.005] [INFO] redis_to_db start: at=2025-10-28T15:00:00.005338+09:00, bucket_ts=2025-10-28T15:00:00+09:00, resolution=2m
+[2025-10-28 15:00:00.006] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T15:00:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 15:00:00.006] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.001s)
+[2025-10-28 15:00:00.354] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:00:00+09:00
+[2025-10-28 15:00:00.354] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.349s)
+[2025-10-28 15:02:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:02:00.011] [INFO] redis_to_db start: at=2025-10-28T15:02:00.011349+09:00, bucket_ts=2025-10-28T15:02:00+09:00, resolution=2m
+[2025-10-28 15:02:00.369] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:02:00+09:00
+[2025-10-28 15:02:00.369] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.358s)
+[2025-10-28 15:04:00.000] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:04:00.000] [INFO] redis_to_db start: at=2025-10-28T15:04:00.000237+09:00, bucket_ts=2025-10-28T15:04:00+09:00, resolution=2m
+[2025-10-28 15:04:00.375] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:04:00+09:00
+[2025-10-28 15:04:00.375] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.375s)
+[2025-10-28 15:06:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:06:00.004] [INFO] redis_to_db start: at=2025-10-28T15:06:00.004327+09:00, bucket_ts=2025-10-28T15:06:00+09:00, resolution=2m
+[2025-10-28 15:06:00.366] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:06:00+09:00
+[2025-10-28 15:06:00.366] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 15:08:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:08:00.008] [INFO] redis_to_db start: at=2025-10-28T15:08:00.008117+09:00, bucket_ts=2025-10-28T15:08:00+09:00, resolution=2m
+[2025-10-28 15:08:00.369] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:08:00+09:00
+[2025-10-28 15:08:00.369] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.361s)
+[2025-10-28 15:10:00.012] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 15:10:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:10:00.012] [INFO] aggregate_2min_to_10min start: at=2025-10-28T15:10:00.012885+09:00, bucket_start=2025-10-28T15:10:00+09:00~2025-10-28T15:20:00+09:00
+[2025-10-28 15:10:00.012] [INFO] redis_to_db start: at=2025-10-28T15:10:00.012885+09:00, bucket_ts=2025-10-28T15:10:00+09:00, resolution=2m
+[2025-10-28 15:10:00.014] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T15:10:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 15:10:00.014] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.001s)
+[2025-10-28 15:10:00.376] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:10:00+09:00
+[2025-10-28 15:10:00.376] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.364s)
+[2025-10-28 15:12:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:12:00.011] [INFO] redis_to_db start: at=2025-10-28T15:12:00.011819+09:00, bucket_ts=2025-10-28T15:12:00+09:00, resolution=2m
+[2025-10-28 15:12:00.429] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:12:00+09:00
+[2025-10-28 15:12:00.429] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.418s)
+[2025-10-28 15:13:39.427] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:13:40.613] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:14:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:14:00.005] [INFO] redis_to_db start: at=2025-10-28T15:14:00.005742+09:00, bucket_ts=2025-10-28T15:14:00+09:00, resolution=2m
+[2025-10-28 15:14:00.368] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:14:00+09:00
+[2025-10-28 15:14:00.368] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 15:15:35.303] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:16:00.014] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:16:00.015] [INFO] redis_to_db start: at=2025-10-28T15:16:00.015380+09:00, bucket_ts=2025-10-28T15:16:00+09:00, resolution=2m
+[2025-10-28 15:16:00.362] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:16:00+09:00
+[2025-10-28 15:16:00.362] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.347s)
+[2025-10-28 15:17:18.323] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:17:19.835] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:18:00.006] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:18:00.006] [INFO] redis_to_db start: at=2025-10-28T15:18:00.006014+09:00, bucket_ts=2025-10-28T15:18:00+09:00, resolution=2m
+[2025-10-28 15:18:00.361] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:18:00+09:00
+[2025-10-28 15:18:00.361] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.355s)
+[2025-10-28 15:20:00.010] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 15:20:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:20:00.011] [INFO] aggregate_2min_to_10min start: at=2025-10-28T15:20:00.010145+09:00, bucket_start=2025-10-28T15:20:00+09:00~2025-10-28T15:30:00+09:00
+[2025-10-28 15:20:00.011] [INFO] redis_to_db start: at=2025-10-28T15:20:00.011184+09:00, bucket_ts=2025-10-28T15:20:00+09:00, resolution=2m
+[2025-10-28 15:20:00.012] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T15:20:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 15:20:00.012] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.002s)
+[2025-10-28 15:20:00.381] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:20:00+09:00
+[2025-10-28 15:20:00.381] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.371s)
+[2025-10-28 15:22:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:22:00.011] [INFO] redis_to_db start: at=2025-10-28T15:22:00.011915+09:00, bucket_ts=2025-10-28T15:22:00+09:00, resolution=2m
+[2025-10-28 15:22:00.396] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:22:00+09:00
+[2025-10-28 15:22:00.396] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.385s)
+[2025-10-28 15:24:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:24:00.002] [INFO] redis_to_db start: at=2025-10-28T15:24:00.002571+09:00, bucket_ts=2025-10-28T15:24:00+09:00, resolution=2m
+[2025-10-28 15:24:00.387] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:24:00+09:00
+[2025-10-28 15:24:00.387] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.385s)
+[2025-10-28 15:26:00.021] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:26:00.021] [INFO] redis_to_db start: at=2025-10-28T15:26:00.021215+09:00, bucket_ts=2025-10-28T15:26:00+09:00, resolution=2m
+[2025-10-28 15:26:00.383] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:26:00+09:00
+[2025-10-28 15:26:00.383] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 15:28:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:28:00.002] [INFO] redis_to_db start: at=2025-10-28T15:28:00.002473+09:00, bucket_ts=2025-10-28T15:28:00+09:00, resolution=2m
+[2025-10-28 15:28:00.372] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:28:00+09:00
+[2025-10-28 15:28:00.372] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.370s)
+[2025-10-28 15:30:00.024] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 15:30:00.024] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:30:00.024] [INFO] aggregate_2min_to_10min start: at=2025-10-28T15:30:00.024224+09:00, bucket_start=2025-10-28T15:30:00+09:00~2025-10-28T15:40:00+09:00
+[2025-10-28 15:30:00.025] [INFO] redis_to_db start: at=2025-10-28T15:30:00.025275+09:00, bucket_ts=2025-10-28T15:30:00+09:00, resolution=2m
+[2025-10-28 15:30:00.026] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T15:30:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 15:30:00.026] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.002s)
+[2025-10-28 15:30:00.387] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:30:00+09:00
+[2025-10-28 15:30:00.387] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 15:32:00.006] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:32:00.006] [INFO] redis_to_db start: at=2025-10-28T15:32:00.006685+09:00, bucket_ts=2025-10-28T15:32:00+09:00, resolution=2m
+[2025-10-28 15:32:00.378] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:32:00+09:00
+[2025-10-28 15:32:00.379] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.373s)
+[2025-10-28 15:34:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:34:00.002] [INFO] redis_to_db start: at=2025-10-28T15:34:00.002138+09:00, bucket_ts=2025-10-28T15:34:00+09:00, resolution=2m
+[2025-10-28 15:34:00.433] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:34:00+09:00
+[2025-10-28 15:34:00.434] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.433s)
+[2025-10-28 15:36:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:36:00.011] [INFO] redis_to_db start: at=2025-10-28T15:36:00.011680+09:00, bucket_ts=2025-10-28T15:36:00+09:00, resolution=2m
+[2025-10-28 15:36:00.364] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:36:00+09:00
+[2025-10-28 15:36:00.364] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.353s)
+[2025-10-28 15:37:06.966] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:37:08.787] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:38:00.023] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:38:00.023] [INFO] redis_to_db start: at=2025-10-28T15:38:00.023306+09:00, bucket_ts=2025-10-28T15:38:00+09:00, resolution=2m
+[2025-10-28 15:38:00.387] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:38:00+09:00
+[2025-10-28 15:38:00.388] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.365s)
+[2025-10-28 15:40:00.005] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 15:40:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:40:00.005] [INFO] aggregate_2min_to_10min start: at=2025-10-28T15:40:00.005189+09:00, bucket_start=2025-10-28T15:40:00+09:00~2025-10-28T15:50:00+09:00
+[2025-10-28 15:40:00.006] [INFO] redis_to_db start: at=2025-10-28T15:40:00.006294+09:00, bucket_ts=2025-10-28T15:40:00+09:00, resolution=2m
+[2025-10-28 15:40:00.006] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T15:40:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 15:40:00.006] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.001s)
+[2025-10-28 15:40:00.367] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:40:00+09:00
+[2025-10-28 15:40:00.367] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.361s)
+[2025-10-28 15:42:00.013] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:42:00.013] [INFO] redis_to_db start: at=2025-10-28T15:42:00.013402+09:00, bucket_ts=2025-10-28T15:42:00+09:00, resolution=2m
+[2025-10-28 15:42:00.380] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:42:00+09:00
+[2025-10-28 15:42:00.380] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.367s)
+[2025-10-28 15:44:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:44:00.001] [INFO] redis_to_db start: at=2025-10-28T15:44:00.001391+09:00, bucket_ts=2025-10-28T15:44:00+09:00, resolution=2m
+[2025-10-28 15:44:00.390] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:44:00+09:00
+[2025-10-28 15:44:00.390] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.389s)
+[2025-10-28 15:46:00.022] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:46:00.022] [INFO] redis_to_db start: at=2025-10-28T15:46:00.022584+09:00, bucket_ts=2025-10-28T15:46:00+09:00, resolution=2m
+[2025-10-28 15:46:00.373] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:46:00+09:00
+[2025-10-28 15:46:00.373] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.351s)
+[2025-10-28 15:48:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:48:00.002] [INFO] redis_to_db start: at=2025-10-28T15:48:00.002992+09:00, bucket_ts=2025-10-28T15:48:00+09:00, resolution=2m
+[2025-10-28 15:48:00.370] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:48:00+09:00
+[2025-10-28 15:48:00.370] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.368s)
+[2025-10-28 15:50:00.004] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 15:50:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:50:00.004] [INFO] aggregate_2min_to_10min start: at=2025-10-28T15:50:00.004873+09:00, bucket_start=2025-10-28T15:50:00+09:00~2025-10-28T16:00:00+09:00
+[2025-10-28 15:50:00.004] [INFO] redis_to_db start: at=2025-10-28T15:50:00.004873+09:00, bucket_ts=2025-10-28T15:50:00+09:00, resolution=2m
+[2025-10-28 15:50:00.006] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T15:50:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 15:50:00.007] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.002s)
+[2025-10-28 15:50:00.370] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:50:00+09:00
+[2025-10-28 15:50:00.370] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.366s)
+[2025-10-28 15:51:56.806] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:51:58.348] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:52:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:52:00.004] [INFO] redis_to_db start: at=2025-10-28T15:52:00.004770+09:00, bucket_ts=2025-10-28T15:52:00+09:00, resolution=2m
+[2025-10-28 15:52:00.359] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:52:00+09:00
+[2025-10-28 15:52:00.359] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.355s)
+[2025-10-28 15:52:06.953] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:52:08.703] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:52:17.357] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:52:18.338] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:52:19.025] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:54:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:54:00.002] [INFO] redis_to_db start: at=2025-10-28T15:54:00.001312+09:00, bucket_ts=2025-10-28T15:54:00+09:00, resolution=2m
+[2025-10-28 15:54:00.364] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:54:00+09:00
+[2025-10-28 15:54:00.364] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.364s)
+[2025-10-28 15:56:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:56:00.012] [INFO] redis_to_db start: at=2025-10-28T15:56:00.012877+09:00, bucket_ts=2025-10-28T15:56:00+09:00, resolution=2m
+[2025-10-28 15:56:00.372] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:56:00+09:00
+[2025-10-28 15:56:00.372] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.360s)
+[2025-10-28 15:58:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 15:58:00.004] [INFO] redis_to_db start: at=2025-10-28T15:58:00.004007+09:00, bucket_ts=2025-10-28T15:58:00+09:00, resolution=2m
+[2025-10-28 15:58:00.353] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T15:58:00+09:00
+[2025-10-28 15:58:00.353] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.349s)
+[2025-10-28 15:58:31.420] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:58:32.979] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:58:42.344] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 15:58:46.394] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:00:00.014] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:00:00.014] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 16:00:00.014] [INFO] START data_entry.service.aggregate_to_1hour
+[2025-10-28 16:00:00.014] [INFO] redis_to_db start: at=2025-10-28T16:00:00.014046+09:00, bucket_ts=2025-10-28T16:00:00+09:00, resolution=2m
+[2025-10-28 16:00:00.014] [INFO] aggregate_2min_to_10min start: at=2025-10-28T16:00:00.014046+09:00, bucket_start=2025-10-28T16:00:00+09:00~2025-10-28T16:10:00+09:00
+[2025-10-28 16:00:00.014] [INFO] aggregate_to_1hour start: at=2025-10-28T16:00:00.014046+09:00, bucket_start=2025-10-28T16:00:00+09:00~2025-10-28T17:00:00+09:00
+[2025-10-28 16:00:00.016] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T16:00:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 16:00:00.016] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.003s)
+[2025-10-28 16:00:00.016] [INFO] aggregate_to_1hour completed: bucket_start=2025-10-28T16:00:00+09:00, created=0, updated=0, ten_sources=0, two_sources=0
+[2025-10-28 16:00:00.016] [INFO] END   data_entry.service.aggregate_to_1hour (elapsed: 0.003s)
+[2025-10-28 16:00:00.376] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:00:00+09:00
+[2025-10-28 16:00:00.376] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 16:01:06.845] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:01:08.398] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:02:00.013] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:02:00.013] [INFO] redis_to_db start: at=2025-10-28T16:02:00.013327+09:00, bucket_ts=2025-10-28T16:02:00+09:00, resolution=2m
+[2025-10-28 16:02:00.400] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:02:00+09:00
+[2025-10-28 16:02:00.400] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.387s)
+[2025-10-28 16:04:00.015] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:04:00.016] [INFO] redis_to_db start: at=2025-10-28T16:04:00.016567+09:00, bucket_ts=2025-10-28T16:04:00+09:00, resolution=2m
+[2025-10-28 16:04:00.408] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:04:00+09:00
+[2025-10-28 16:04:00.408] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.392s)
+[2025-10-28 16:06:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:06:00.002] [INFO] redis_to_db start: at=2025-10-28T16:06:00.002641+09:00, bucket_ts=2025-10-28T16:06:00+09:00, resolution=2m
+[2025-10-28 16:06:00.422] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:06:00+09:00
+[2025-10-28 16:06:00.423] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.421s)
+[2025-10-28 16:06:38.822] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:06:40.080] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:07:14.728] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:07:16.348] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:07:18.668] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:07:19.678] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:07:21.534] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:08:00.009] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:08:00.010] [INFO] redis_to_db start: at=2025-10-28T16:08:00.010926+09:00, bucket_ts=2025-10-28T16:08:00+09:00, resolution=2m
+[2025-10-28 16:08:00.372] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:08:00+09:00
+[2025-10-28 16:08:00.372] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.361s)
+[2025-10-28 16:10:00.014] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 16:10:00.014] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:10:00.014] [INFO] aggregate_2min_to_10min start: at=2025-10-28T16:10:00.014303+09:00, bucket_start=2025-10-28T16:10:00+09:00~2025-10-28T16:20:00+09:00
+[2025-10-28 16:10:00.014] [INFO] redis_to_db start: at=2025-10-28T16:10:00.014303+09:00, bucket_ts=2025-10-28T16:10:00+09:00, resolution=2m
+[2025-10-28 16:10:00.014] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T16:10:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 16:10:00.014] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.000s)
+[2025-10-28 16:10:00.370] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:10:00+09:00
+[2025-10-28 16:10:00.370] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.356s)
+[2025-10-28 16:11:54.789] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:11:56.341] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:12:00.196] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:12:01.785] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:12:17.024] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:12:18.584] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:14:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:14:00.012] [INFO] redis_to_db start: local_bucket=2025-10-28T16:14:00+09:00, db_bucket=2025-10-29T01:14:00+09:00, resolution=2m
+[2025-10-28 16:14:00.392] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:14:00+09:00
+[2025-10-28 16:14:00.392] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.380s)
+[2025-10-28 16:14:16.849] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:14:18.633] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:14:19.191] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:16:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:16:00.011] [INFO] redis_to_db start: local_bucket=2025-10-28T16:16:00+09:00, db_bucket=2025-10-29T01:16:00+09:00, resolution=2m
+[2025-10-28 16:16:00.367] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:16:00+09:00
+[2025-10-28 16:16:00.367] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.356s)
+[2025-10-28 16:18:00.017] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:18:00.017] [INFO] redis_to_db start: local_bucket=2025-10-28T16:18:00+09:00, db_bucket=2025-10-29T01:18:00+09:00, resolution=2m
+[2025-10-28 16:18:00.368] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:18:00+09:00
+[2025-10-28 16:18:00.368] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.351s)
+[2025-10-28 16:20:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:20:00.012] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 16:20:00.012] [INFO] redis_to_db start: local_bucket=2025-10-28T16:20:00+09:00, db_bucket=2025-10-29T01:20:00+09:00, resolution=2m
+[2025-10-28 16:20:00.012] [INFO] aggregate_2min_to_10min start: local=2025-10-28T16:20:00+09:00~2025-10-28T16:30:00+09:00, db=2025-10-29T01:20:00+09:00~2025-10-29T01:30:00+09:00
+[2025-10-28 16:20:00.017] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T01:20:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 16:20:00.017] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.004s)
+[2025-10-28 16:20:00.396] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:20:00+09:00
+[2025-10-28 16:20:00.396] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.384s)
+[2025-10-28 16:22:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:22:00.001] [INFO] redis_to_db start: local_bucket=2025-10-28T16:22:00+09:00, db_bucket=2025-10-29T01:22:00+09:00, resolution=2m
+[2025-10-28 16:22:00.366] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:22:00+09:00
+[2025-10-28 16:22:00.366] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.365s)
+[2025-10-28 16:24:00.013] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:24:00.013] [INFO] redis_to_db start: local_bucket=2025-10-28T16:24:00+09:00, db_bucket=2025-10-29T01:24:00+09:00, resolution=2m
+[2025-10-28 16:24:00.369] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:24:00+09:00
+[2025-10-28 16:24:00.369] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.356s)
+[2025-10-28 16:26:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:26:00.011] [INFO] redis_to_db start: local_bucket=2025-10-28T16:26:00+09:00, db_bucket=2025-10-29T01:26:00+09:00, resolution=2m
+[2025-10-28 16:26:00.372] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:26:00+09:00
+[2025-10-28 16:26:00.373] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 16:28:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:28:00.002] [INFO] redis_to_db start: local_bucket=2025-10-28T16:28:00+09:00, db_bucket=2025-10-29T01:28:00+09:00, resolution=2m
+[2025-10-28 16:28:00.464] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:28:00+09:00
+[2025-10-28 16:28:00.464] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.461s)
+[2025-10-28 16:30:00.015] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:30:00.015] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 16:30:00.015] [INFO] redis_to_db start: local_bucket=2025-10-28T16:30:00+09:00, db_bucket=2025-10-29T01:30:00+09:00, resolution=2m
+[2025-10-28 16:30:00.016] [INFO] aggregate_2min_to_10min start: local=2025-10-28T16:30:00+09:00~2025-10-28T16:40:00+09:00, db=2025-10-29T01:30:00+09:00~2025-10-29T01:40:00+09:00
+[2025-10-28 16:30:00.016] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T01:30:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 16:30:00.017] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.002s)
+[2025-10-28 16:30:00.407] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:30:00+09:00
+[2025-10-28 16:30:00.408] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.393s)
+[2025-10-28 16:32:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:32:00.003] [INFO] redis_to_db start: local_bucket=2025-10-28T16:32:00+09:00, db_bucket=2025-10-29T01:32:00+09:00, resolution=2m
+[2025-10-28 16:32:00.396] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:32:00+09:00
+[2025-10-28 16:32:00.396] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.394s)
+[2025-10-28 16:34:00.006] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:34:00.006] [INFO] redis_to_db start: local_bucket=2025-10-28T16:34:00+09:00, db_bucket=2025-10-29T01:34:00+09:00, resolution=2m
+[2025-10-28 16:34:00.366] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:34:00+09:00
+[2025-10-28 16:34:00.366] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.359s)
+[2025-10-28 16:36:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:36:00.008] [INFO] redis_to_db start: local_bucket=2025-10-28T16:36:00+09:00, db_bucket=2025-10-29T01:36:00+09:00, resolution=2m
+[2025-10-28 16:36:00.359] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:36:00+09:00
+[2025-10-28 16:36:00.360] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.352s)
+[2025-10-28 16:38:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:38:00.005] [INFO] redis_to_db start: local_bucket=2025-10-28T16:38:00+09:00, db_bucket=2025-10-29T01:38:00+09:00, resolution=2m
+[2025-10-28 16:38:00.365] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:38:00+09:00
+[2025-10-28 16:38:00.365] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.360s)
+[2025-10-28 16:40:00.023] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:40:00.023] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 16:40:00.023] [INFO] redis_to_db start: local_bucket=2025-10-28T16:40:00+09:00, db_bucket=2025-10-29T01:40:00+09:00, resolution=2m
+[2025-10-28 16:40:00.023] [INFO] aggregate_2min_to_10min start: local=2025-10-28T16:40:00+09:00~2025-10-28T16:50:00+09:00, db=2025-10-29T01:40:00+09:00~2025-10-29T01:50:00+09:00
+[2025-10-28 16:40:00.024] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T01:40:00+09:00, created=0, updated=0, sources=0
+[2025-10-28 16:40:00.024] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.001s)
+[2025-10-28 16:40:00.384] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:40:00+09:00
+[2025-10-28 16:40:00.386] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.363s)
+[2025-10-28 16:42:00.000] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:42:00.000] [INFO] redis_to_db start: local_bucket=2025-10-28T16:42:00+09:00, db_bucket=2025-10-29T01:42:00+09:00, resolution=2m
+[2025-10-28 16:42:00.362] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:42:00+09:00
+[2025-10-28 16:42:00.364] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.364s)
+[2025-10-28 16:44:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:44:00.008] [INFO] redis_to_db start: local_bucket=2025-10-28T16:44:00+09:00, db_bucket=2025-10-29T01:44:00+09:00, resolution=2m
+[2025-10-28 16:44:00.356] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:44:00+09:00
+[2025-10-28 16:44:00.356] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.348s)
+[2025-10-28 16:46:00.003] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:46:00.003] [INFO] redis_to_db start: local_bucket=2025-10-28T16:46:00+09:00, db_bucket=2025-10-29T01:46:00+09:00, resolution=2m
+[2025-10-28 16:46:00.379] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:46:00+09:00
+[2025-10-28 16:46:00.379] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.376s)
+[2025-10-28 16:46:32.555] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:46:33.992] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:46:39.044] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:46:40.654] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:48:00.021] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:48:00.021] [INFO] redis_to_db start: local_bucket=2025-10-28T16:48:00, db_bucket=2025-10-29T01:48:00, resolution=2m
+[2025-10-28 16:48:00.400] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:48:00
+[2025-10-28 16:48:00.400] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.379s)
+[2025-10-28 16:50:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:50:00.008] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 16:50:00.008] [INFO] redis_to_db start: local_bucket=2025-10-28T16:50:00, db_bucket=2025-10-29T01:50:00, resolution=2m
+[2025-10-28 16:50:00.008] [INFO] aggregate_2min_to_10min start: local=2025-10-28T16:50:00~2025-10-28T17:00:00, db=2025-10-29T01:50:00~2025-10-29T02:00:00
+[2025-10-28 16:50:00.013] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T01:50:00, created=0, updated=0, sources=0
+[2025-10-28 16:50:00.013] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.005s)
+[2025-10-28 16:50:00.441] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T01:50:00
+[2025-10-28 16:50:00.441] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.432s)
+[2025-10-28 16:50:39.775] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:50:40.804] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:50:41.004] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:50:46.698] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:50:48.091] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:52:00.000] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:52:00.001] [INFO] redis_to_db start: at=2025-10-28T16:52:00.000478, bucket_ts=2025-10-28T16:52:00, resolution=2m
+[2025-10-28 16:52:00.396] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:52:00
+[2025-10-28 16:52:00.396] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.396s)
+[2025-10-28 16:54:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:54:00.001] [INFO] redis_to_db start: at=2025-10-28T16:54:00.001866, bucket_ts=2025-10-28T16:54:00, resolution=2m
+[2025-10-28 16:54:00.397] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:54:00
+[2025-10-28 16:54:00.397] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.396s)
+[2025-10-28 16:56:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:56:00.001] [INFO] redis_to_db start: at=2025-10-28T16:56:00.001196, bucket_ts=2025-10-28T16:56:00, resolution=2m
+[2025-10-28 16:56:00.382] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:56:00
+[2025-10-28 16:56:00.382] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.381s)
+[2025-10-28 16:58:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 16:58:00.012] [INFO] redis_to_db start: at=2025-10-28T16:58:00.012481, bucket_ts=2025-10-28T16:58:00, resolution=2m
+[2025-10-28 16:58:00.376] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T16:58:00
+[2025-10-28 16:58:00.376] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.364s)
+[2025-10-28 16:59:29.615] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 16:59:31.155] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:00:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:00:00.012] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 17:00:00.012] [INFO] START data_entry.service.aggregate_to_1hour
+[2025-10-28 17:00:00.013] [INFO] redis_to_db start: at=2025-10-28T17:00:00.013900, bucket_ts=2025-10-28T17:00:00, resolution=2m
+[2025-10-28 17:00:00.017] [INFO] aggregate_2min_to_10min completed: bucket_start=2025-10-28T17:00:00, created=0, updated=0, sources=0
+[2025-10-28 17:00:00.017] [INFO] aggregate_to_1hour completed: bucket_start=2025-10-28T17:00:00, created=0, updated=0, ten_sources=0, two_sources=0
+[2025-10-28 17:00:00.017] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.004s)
+[2025-10-28 17:00:00.017] [INFO] END   data_entry.service.aggregate_to_1hour (elapsed: 0.004s)
+[2025-10-28 17:00:00.572] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T17:00:00
+[2025-10-28 17:00:00.572] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.558s)
+[2025-10-28 17:02:00.019] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:02:00.019] [INFO] redis_to_db start: at=2025-10-28T17:02:00.019843, bucket_ts=2025-10-28T17:02:00, resolution=2m
+[2025-10-28 17:02:00.379] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, bucket_ts=2025-10-28T17:02:00
+[2025-10-28 17:02:00.379] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.359s)
+[2025-10-28 17:03:41.232] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:03:42.792] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:03:54.047] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:03:54.983] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:03:55.791] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:04:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:04:00.011] [INFO] redis_to_db start: local_bucket=2025-10-28T17:04:00, db_bucket=2025-10-29T02:04:00, resolution=2m
+[2025-10-28 17:04:00.367] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:04:00
+[2025-10-28 17:04:00.367] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.356s)
+[2025-10-28 17:06:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:06:00.001] [INFO] redis_to_db start: local_bucket=2025-10-28T17:06:00, db_bucket=2025-10-29T02:06:00, resolution=2m
+[2025-10-28 17:06:00.364] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:06:00
+[2025-10-28 17:06:00.364] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 17:08:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:08:00.012] [INFO] redis_to_db start: local_bucket=2025-10-28T17:08:00, db_bucket=2025-10-29T02:08:00, resolution=2m
+[2025-10-28 17:08:00.386] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:08:00
+[2025-10-28 17:08:00.386] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.374s)
+[2025-10-28 17:10:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:10:00.002] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 17:10:00.002] [INFO] redis_to_db start: local_bucket=2025-10-28T17:10:00, db_bucket=2025-10-29T02:10:00, resolution=2m
+[2025-10-28 17:10:00.003] [INFO] aggregate_2min_to_10min start: local=2025-10-28T17:10:00~2025-10-28T17:20:00, db=2025-10-29T02:10:00~2025-10-29T02:20:00
+[2025-10-28 17:10:00.005] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T02:10:00, created=0, updated=0, sources=0
+[2025-10-28 17:10:00.005] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.002s)
+[2025-10-28 17:10:00.353] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:10:00
+[2025-10-28 17:10:00.353] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.351s)
+[2025-10-28 17:12:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:12:00.001] [INFO] redis_to_db start: local_bucket=2025-10-28T17:12:00, db_bucket=2025-10-29T02:12:00, resolution=2m
+[2025-10-28 17:12:00.356] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:12:00
+[2025-10-28 17:12:00.356] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.355s)
+[2025-10-28 17:12:06.968] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:12:08.386] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:14:00.011] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:14:00.011] [INFO] redis_to_db start: local_bucket=2025-10-28T17:14:00, db_bucket=2025-10-29T02:14:00, resolution=2m
+[2025-10-28 17:14:00.391] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:14:00
+[2025-10-28 17:14:00.391] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.380s)
+[2025-10-28 17:15:56.892] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:15:58.636] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:16:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:16:00.011] [INFO] redis_to_db start: local_bucket=2025-10-28T17:16:00, db_bucket=2025-10-29T02:16:00, resolution=2m
+[2025-10-28 17:16:00.379] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:16:00
+[2025-10-28 17:16:00.379] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.368s)
+[2025-10-28 17:18:00.007] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:18:00.007] [INFO] redis_to_db start: local_bucket=2025-10-28T17:18:00, db_bucket=2025-10-29T02:18:00, resolution=2m
+[2025-10-28 17:18:00.376] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:18:00
+[2025-10-28 17:18:00.376] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.369s)
+[2025-10-28 17:20:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:20:00.010] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 17:20:00.010] [INFO] redis_to_db start: local_bucket=2025-10-28T17:20:00, db_bucket=2025-10-29T02:20:00, resolution=2m
+[2025-10-28 17:20:00.010] [INFO] aggregate_2min_to_10min start: local=2025-10-28T17:20:00~2025-10-28T17:30:00, db=2025-10-29T02:20:00~2025-10-29T02:30:00
+[2025-10-28 17:20:00.014] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T02:20:00, created=0, updated=0, sources=0
+[2025-10-28 17:20:00.014] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.004s)
+[2025-10-28 17:20:00.363] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:20:00
+[2025-10-28 17:20:00.363] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.353s)
+[2025-10-28 17:22:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:22:00.002] [INFO] redis_to_db start: local_bucket=2025-10-28T17:22:00, db_bucket=2025-10-29T02:22:00, resolution=2m
+[2025-10-28 17:22:00.362] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:22:00
+[2025-10-28 17:22:00.362] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.361s)
+[2025-10-28 17:24:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:24:00.004] [INFO] redis_to_db start: local_bucket=2025-10-28T17:24:00, db_bucket=2025-10-29T02:24:00, resolution=2m
+[2025-10-28 17:24:00.354] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:24:00
+[2025-10-28 17:24:00.354] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.350s)
+[2025-10-28 17:26:00.022] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:26:00.022] [INFO] redis_to_db start: local_bucket=2025-10-28T17:26:00, db_bucket=2025-10-29T02:26:00, resolution=2m
+[2025-10-28 17:26:00.375] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:26:00
+[2025-10-28 17:26:00.376] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.354s)
+[2025-10-28 17:28:00.015] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:28:00.015] [INFO] redis_to_db start: local_bucket=2025-10-28T17:28:00, db_bucket=2025-10-29T02:28:00, resolution=2m
+[2025-10-28 17:28:00.362] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:28:00
+[2025-10-28 17:28:00.362] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.347s)
+[2025-10-28 17:30:00.001] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:30:00.001] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 17:30:00.001] [INFO] redis_to_db start: local_bucket=2025-10-28T17:30:00, db_bucket=2025-10-29T02:30:00, resolution=2m
+[2025-10-28 17:30:00.001] [INFO] aggregate_2min_to_10min start: local=2025-10-28T17:30:00~2025-10-28T17:40:00, db=2025-10-29T02:30:00~2025-10-29T02:40:00
+[2025-10-28 17:30:00.002] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T02:30:00, created=0, updated=0, sources=0
+[2025-10-28 17:30:00.003] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.002s)
+[2025-10-28 17:30:00.353] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:30:00
+[2025-10-28 17:30:00.353] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.352s)
+[2025-10-28 17:30:54.930] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:30:56.459] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:32:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:32:00.005] [INFO] redis_to_db start: local_bucket=2025-10-28T17:32:00, db_bucket=2025-10-29T02:32:00, resolution=2m
+[2025-10-28 17:32:00.369] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:32:00
+[2025-10-28 17:32:00.369] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.364s)
+[2025-10-28 17:34:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:34:00.004] [INFO] redis_to_db start: local_bucket=2025-10-28T17:34:00, db_bucket=2025-10-29T02:34:00, resolution=2m
+[2025-10-28 17:34:00.342] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:34:00
+[2025-10-28 17:34:00.342] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.338s)
+[2025-10-28 17:36:00.007] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:36:00.007] [INFO] redis_to_db start: local_bucket=2025-10-28T17:36:00, db_bucket=2025-10-29T02:36:00, resolution=2m
+[2025-10-28 17:36:00.356] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:36:00
+[2025-10-28 17:36:00.356] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.349s)
+[2025-10-28 17:38:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:38:00.012] [INFO] redis_to_db start: local_bucket=2025-10-28T17:38:00, db_bucket=2025-10-29T02:38:00, resolution=2m
+[2025-10-28 17:38:00.399] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:38:00
+[2025-10-28 17:38:00.399] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.387s)
+[2025-10-28 17:40:00.020] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 17:40:00.020] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:40:00.020] [INFO] aggregate_2min_to_10min start: local=2025-10-28T17:40:00~2025-10-28T17:50:00, db=2025-10-29T02:40:00~2025-10-29T02:50:00
+[2025-10-28 17:40:00.020] [INFO] redis_to_db start: local_bucket=2025-10-28T17:40:00, db_bucket=2025-10-29T02:40:00, resolution=2m
+[2025-10-28 17:40:00.020] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T02:40:00, created=0, updated=0, sources=0
+[2025-10-28 17:40:00.022] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.002s)
+[2025-10-28 17:40:00.372] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:40:00
+[2025-10-28 17:40:00.372] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.352s)
+[2025-10-28 17:42:00.000] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:42:00.000] [INFO] redis_to_db start: local_bucket=2025-10-28T17:42:00, db_bucket=2025-10-29T02:42:00, resolution=2m
+[2025-10-28 17:42:00.339] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:42:00
+[2025-10-28 17:42:00.339] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.339s)
+[2025-10-28 17:44:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:44:00.002] [INFO] redis_to_db start: local_bucket=2025-10-28T17:44:00, db_bucket=2025-10-29T02:44:00, resolution=2m
+[2025-10-28 17:44:00.349] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:44:00
+[2025-10-28 17:44:00.349] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.347s)
+[2025-10-28 17:46:00.014] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:46:00.014] [INFO] redis_to_db start: local_bucket=2025-10-28T17:46:00, db_bucket=2025-10-29T02:46:00, resolution=2m
+[2025-10-28 17:46:00.376] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:46:00
+[2025-10-28 17:46:00.376] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.362s)
+[2025-10-28 17:48:00.003] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:48:00.003] [INFO] redis_to_db start: local_bucket=2025-10-28T17:48:00, db_bucket=2025-10-29T02:48:00, resolution=2m
+[2025-10-28 17:48:00.359] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:48:00
+[2025-10-28 17:48:00.359] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.356s)
+[2025-10-28 17:50:00.009] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 17:50:00.009] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:50:00.009] [INFO] aggregate_2min_to_10min start: local=2025-10-28T17:50:00~2025-10-28T18:00:00, db=2025-10-29T02:50:00~2025-10-29T03:00:00
+[2025-10-28 17:50:00.009] [INFO] redis_to_db start: local_bucket=2025-10-28T17:50:00, db_bucket=2025-10-29T02:50:00, resolution=2m
+[2025-10-28 17:50:00.011] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-29T02:50:00, created=0, updated=0, sources=0
+[2025-10-28 17:50:00.011] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.002s)
+[2025-10-28 17:50:00.379] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:50:00
+[2025-10-28 17:50:00.379] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.370s)
+[2025-10-28 17:52:00.013] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:52:00.013] [INFO] redis_to_db start: local_bucket=2025-10-28T17:52:00, db_bucket=2025-10-29T02:52:00, resolution=2m
+[2025-10-28 17:52:00.377] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:52:00
+[2025-10-28 17:52:00.377] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.364s)
+[2025-10-28 17:54:00.009] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:54:00.009] [INFO] redis_to_db start: local_bucket=2025-10-28T17:54:00, db_bucket=2025-10-29T02:54:00, resolution=2m
+[2025-10-28 17:54:00.388] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:54:00
+[2025-10-28 17:54:00.388] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.379s)
+[2025-10-28 17:55:25.098] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:55:26.708] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:56:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:56:00.010] [INFO] redis_to_db start: local_bucket=2025-10-28T17:56:00, db_bucket=2025-10-29T02:56:00, resolution=2m
+[2025-10-28 17:56:00.457] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:56:00
+[2025-10-28 17:56:00.457] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.447s)
+[2025-10-28 17:58:00.017] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 17:58:00.017] [INFO] redis_to_db start: local_bucket=2025-10-28T17:58:00, db_bucket=2025-10-29T02:58:00, resolution=2m
+[2025-10-28 17:58:00.359] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-29T02:58:00
+[2025-10-28 17:58:00.359] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.343s)
+[2025-10-28 17:58:02.902] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:58:04.463] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 17:59:55.549] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:00:00.010] [INFO] START data_entry.service.aggregate_to_1hour
+[2025-10-28 18:00:00.010] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 18:00:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:00:00.010] [INFO] aggregate_to_1hour start: local=2025-10-28T18:00:00~2025-10-28T19:00:00, db=2025-10-28T18:00:00~2025-10-28T19:00:00
+[2025-10-28 18:00:00.010] [INFO] aggregate_2min_to_10min start: local=2025-10-28T18:00:00~2025-10-28T18:10:00, db=2025-10-28T18:00:00~2025-10-28T18:10:00
+[2025-10-28 18:00:00.010] [INFO] redis_to_db start: local_bucket=2025-10-28T18:00:00, db_bucket=2025-10-28T18:00:00, resolution=2m
+[2025-10-28 18:00:00.016] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-28T18:00:00, created=0, updated=0, sources=0
+[2025-10-28 18:00:00.016] [INFO] aggregate_to_1hour completed: db_bucket_start=2025-10-28T18:00:00, created=0, updated=0, ten_sources=0, two_sources=0
+[2025-10-28 18:00:00.016] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.005s)
+[2025-10-28 18:00:00.016] [INFO] END   data_entry.service.aggregate_to_1hour (elapsed: 0.005s)
+[2025-10-28 18:00:00.379] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:00:00
+[2025-10-28 18:00:00.379] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.369s)
+[2025-10-28 18:00:57.560] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:00:59.222] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:01:02.802] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:01:04.592] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:01:17.765] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:01:19.118] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:02:00.006] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:02:00.007] [INFO] redis_to_db start: local_bucket=2025-10-28T18:02:00, db_bucket=2025-10-28T18:02:00, resolution=2m
+[2025-10-28 18:02:00.399] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:02:00
+[2025-10-28 18:02:00.399] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.392s)
+[2025-10-28 18:02:50.771] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:04:00.007] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:04:00.007] [INFO] redis_to_db start: local_bucket=2025-10-28T18:04:00, db_bucket=2025-10-28T18:04:00, resolution=2m
+[2025-10-28 18:04:00.384] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:04:00
+[2025-10-28 18:04:00.384] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.377s)
+[2025-10-28 18:06:00.016] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:06:00.016] [INFO] redis_to_db start: local_bucket=2025-10-28T18:06:00, db_bucket=2025-10-28T18:06:00, resolution=2m
+[2025-10-28 18:06:00.384] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:06:00
+[2025-10-28 18:06:00.384] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.369s)
+[2025-10-28 18:08:00.009] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:08:00.010] [INFO] redis_to_db start: local_bucket=2025-10-28T18:08:00, db_bucket=2025-10-28T18:08:00, resolution=2m
+[2025-10-28 18:08:00.366] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:08:00
+[2025-10-28 18:08:00.366] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.356s)
+[2025-10-28 18:10:00.013] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:10:00.013] [INFO] redis_to_db start: local_bucket=2025-10-28T18:10:00, db_bucket=2025-10-28T18:10:00, resolution=2m
+[2025-10-28 18:10:00.385] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:10:00
+[2025-10-28 18:10:00.385] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.372s)
+[2025-10-28 18:10:05.008] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 18:10:05.008] [INFO] aggregate_2min_to_10min start: local=2025-10-28T18:10:00~2025-10-28T18:20:00, db=2025-10-28T18:10:00~2025-10-28T18:20:00
+[2025-10-28 18:10:05.640] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-28T18:10:00, created=50, updated=0, sources=50
+[2025-10-28 18:10:05.640] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.632s)
+[2025-10-28 18:12:00.009] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:12:00.009] [INFO] redis_to_db start: local_bucket=2025-10-28T18:12:00, db_bucket=2025-10-28T18:12:00, resolution=2m
+[2025-10-28 18:12:00.379] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:12:00
+[2025-10-28 18:12:00.379] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.370s)
+[2025-10-28 18:13:42.460] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:13:44.023] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:14:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:14:00.010] [INFO] redis_to_db start: local_bucket=2025-10-28T18:14:00, db_bucket=2025-10-28T18:14:00, resolution=2m
+[2025-10-28 18:14:00.348] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:14:00
+[2025-10-28 18:14:00.348] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.338s)
+[2025-10-28 18:16:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:16:00.008] [INFO] redis_to_db start: local_bucket=2025-10-28T18:16:00, db_bucket=2025-10-28T18:16:00, resolution=2m
+[2025-10-28 18:16:00.365] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:16:00
+[2025-10-28 18:16:00.365] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.357s)
+[2025-10-28 18:18:00.009] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:18:00.009] [INFO] redis_to_db start: local_bucket=2025-10-28T18:18:00, db_bucket=2025-10-28T18:18:00, resolution=2m
+[2025-10-28 18:18:00.380] [INFO] redis_to_db completed: buckets=50, created=50, updated=0, db_bucket=2025-10-28T18:18:00
+[2025-10-28 18:18:00.380] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.371s)
+[2025-10-28 18:20:00.004] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:20:00.004] [INFO] redis_to_db start: local_bucket=2025-10-28T18:20:00, db_bucket=2025-10-28T18:20:00, resolution=2m
+[2025-10-28 18:20:00.544] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:20:00
+[2025-10-28 18:20:00.544] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.539s)
+[2025-10-28 18:20:05.012] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 18:20:05.012] [INFO] aggregate_2min_to_10min start: local=2025-10-28T18:20:00~2025-10-28T18:30:00, db=2025-10-28T18:20:00~2025-10-28T18:30:00
+[2025-10-28 18:20:05.518] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-28T18:20:00, created=74, updated=0, sources=74
+[2025-10-28 18:20:05.518] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.505s)
+[2025-10-28 18:22:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:22:00.002] [INFO] redis_to_db start: local_bucket=2025-10-28T18:22:00, db_bucket=2025-10-28T18:22:00, resolution=2m
+[2025-10-28 18:22:00.549] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:22:00
+[2025-10-28 18:22:00.549] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.548s)
+[2025-10-28 18:24:00.005] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:24:00.005] [INFO] redis_to_db start: local_bucket=2025-10-28T18:24:00, db_bucket=2025-10-28T18:24:00, resolution=2m
+[2025-10-28 18:24:00.604] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:24:00
+[2025-10-28 18:24:00.606] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.600s)
+[2025-10-28 18:24:48.506] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:24:49.986] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:26:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:26:00.002] [INFO] redis_to_db start: local_bucket=2025-10-28T18:26:00, db_bucket=2025-10-28T18:26:00, resolution=2m
+[2025-10-28 18:26:00.588] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:26:00
+[2025-10-28 18:26:00.588] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.587s)
+[2025-10-28 18:26:03.316] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:26:04.930] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:28:00.012] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:28:00.012] [INFO] redis_to_db start: local_bucket=2025-10-28T18:28:00, db_bucket=2025-10-28T18:28:00, resolution=2m
+[2025-10-28 18:28:00.602] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:28:00
+[2025-10-28 18:28:00.602] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.589s)
+[2025-10-28 18:29:58.728] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:30:00.230] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:30:05.005] [INFO] START data_entry.service.aggregate_2min_to_10min
+[2025-10-28 18:30:05.005] [INFO] aggregate_2min_to_10min start: local=2025-10-28T18:30:00~2025-10-28T18:40:00, db=2025-10-28T18:30:00~2025-10-28T18:40:00
+[2025-10-28 18:30:05.009] [INFO] aggregate_2min_to_10min completed: db_bucket_start=2025-10-28T18:30:00, created=0, updated=0, sources=0
+[2025-10-28 18:30:05.009] [INFO] END   data_entry.service.aggregate_2min_to_10min (elapsed: 0.004s)
+[2025-10-28 18:32:00.010] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:32:00.010] [INFO] redis_to_db start: local_bucket=2025-10-28T18:32:00, db_bucket=2025-10-28T18:32:00, resolution=2m
+[2025-10-28 18:32:00.557] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:32:00
+[2025-10-28 18:32:00.557] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.547s)
+[2025-10-28 18:33:14.368] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:33:15.982] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:33:19.997] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:33:21.583] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:33:21.709] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 0
+[2025-10-28 18:34:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:34:00.002] [INFO] redis_to_db start: local_bucket=2025-10-28T18:34:00, db_bucket=2025-10-28T18:34:00, resolution=2m
+[2025-10-28 18:34:00.524] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:34:00
+[2025-10-28 18:34:00.524] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.522s)
+[2025-10-28 18:36:00.002] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:36:00.002] [INFO] redis_to_db start: local_bucket=2025-10-28T18:36:00, db_bucket=2025-10-28T18:36:00, resolution=2m
+[2025-10-28 18:36:00.517] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:36:00
+[2025-10-28 18:36:00.517] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.516s)
+[2025-10-28 18:38:00.008] [INFO] START data_entry.service.redis_to_db
+[2025-10-28 18:38:00.008] [INFO] redis_to_db start: local_bucket=2025-10-28T18:38:00, db_bucket=2025-10-28T18:38:00, resolution=2m
+[2025-10-28 18:38:00.530] [INFO] redis_to_db completed: buckets=74, created=74, updated=0, db_bucket=2025-10-28T18:38:00
+[2025-10-28 18:38:00.530] [INFO] END   data_entry.service.redis_to_db (elapsed: 0.522s)

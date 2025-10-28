@@ -21621,3 +21621,243 @@ utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Fa
 [2025-10-27 21:59:06.710] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-27 21:59:09.886] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-27 22:31:17.218] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 08:30:47.949] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 08:31:21.777] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 08:35:10.488] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 08:35:16.902] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 08:35:22.708] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 10:15:13.956] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 12:48:36.964] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 12:48:51.686] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 12:50:06.200] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 12:58:28.268] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:00:05.964] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:00:13.134] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:00:14.727] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:03:12.000] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:03:27.024] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:34:44.775] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:38:28.934] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:39:38.827] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:40:44.458] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:42:59.906] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:43:27.305] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:43:46.373] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:43:47.597] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:44:50.289] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:45:16.281] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:47:41.930] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:47:45.464] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:47:50.307] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:49:03.312] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:49:11.683] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:49:17.137] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 13:53:19.697] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:53:21.646] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:53:24.792] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:53:25.843] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:53:26.785] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:53:32.301] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 13:57:28.694] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:57:30.773] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 13:57:36.220] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 14:01:29.896] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:01:32.091] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:01:37.587] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 14:01:48.807] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:01:49.856] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:01:51.035] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:01:56.566] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 14:02:27.194] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:02:38.148] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:02:38.208] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:02:43.726] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 14:04:37.242] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:04:39.252] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:04:44.761] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 14:08:47.237] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:09:56.689] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:11:02.790] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:11:03.048] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:11:08.007] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:11:08.490] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 14:12:09.354] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 14:13:50.254] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:13:39.423] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:13:40.613] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:15:35.592] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:15:41.049] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 15:17:18.323] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:17:20.202] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:17:25.695] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 15:37:06.964] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:37:09.091] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:37:14.596] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 15:51:56.806] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:51:58.647] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:52:04.109] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 15:52:06.949] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:52:09.023] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:52:14.467] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 15:52:17.357] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:52:18.322] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:52:19.319] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:52:24.760] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 15:58:31.417] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:58:33.253] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:58:42.344] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:58:46.687] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 15:58:52.134] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:01:06.841] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:01:08.688] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:01:14.136] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:06:38.815] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:06:40.488] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:06:46.101] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:07:14.728] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:07:16.682] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:07:18.661] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:07:19.678] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:07:21.868] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:07:27.398] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:11:54.789] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:11:56.705] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:12:00.196] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:12:02.115] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:12:07.583] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:12:17.019] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:12:18.886] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:12:24.340] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:14:16.845] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:14:18.979] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:14:19.187] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:14:24.484] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:46:32.554] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:46:34.285] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:46:39.042] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:46:40.968] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:46:46.437] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:50:39.771] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:50:41.001] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:50:41.151] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:50:46.695] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:50:48.455] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:50:53.957] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 16:59:29.612] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:59:31.445] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 16:59:36.900] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 17:03:41.222] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:03:43.083] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:03:48.538] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 17:03:54.044] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:03:54.980] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:03:56.091] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:04:01.662] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 17:12:06.957] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:12:08.676] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:12:14.117] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 17:15:56.889] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:15:58.971] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:16:04.487] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 17:30:54.927] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:30:56.744] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:31:02.215] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 17:55:25.098] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:55:27.019] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:55:32.468] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 17:58:02.902] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:58:04.782] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 17:58:10.222] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 17:59:55.851] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:00:01.329] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:00:57.557] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:00:59.532] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:01:02.800] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:01:04.910] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:01:10.371] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:01:17.762] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:01:19.401] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:01:24.840] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:02:51.100] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:03:21.638] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:03:51.636] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:04:21.640] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:04:51.640] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:05:21.635] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:05:51.638] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:06:21.638] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:06:51.636] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:07:21.638] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:07:51.641] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:08:21.656] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:08:51.643] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:09:21.644] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:09:51.646] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:10:21.655] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:10:51.643] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:11:21.634] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:11:51.640] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:12:21.657] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:12:51.639] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:13:21.649] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:13:42.458] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:13:44.298] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:14:14.758] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:14:44.753] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:15:14.751] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:15:44.751] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:16:14.750] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:16:44.752] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:17:14.743] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:17:44.753] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:18:14.751] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:18:44.748] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:19:14.750] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:19:44.753] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:20:14.753] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:20:44.753] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:21:14.740] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:21:44.742] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:22:14.748] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:22:44.750] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:23:14.756] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:23:44.749] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:24:14.743] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:24:44.754] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:24:48.506] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:24:50.376] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:25:20.861] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:25:50.850] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:26:03.309] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:26:05.264] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:26:35.768] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:27:05.766] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:27:35.780] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:28:05.774] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:28:35.773] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:29:05.775] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:29:35.767] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:29:58.728] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:30:00.670] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:30:31.248] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:31:01.245] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:31:31.247] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:32:01.256] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:32:31.236] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:33:01.241] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:33:14.368] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:33:16.297] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:33:19.997] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:33:21.581] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:33:22.002] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:33:52.435] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:34:22.443] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:34:52.442] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:35:22.433] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:35:52.438] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:36:22.443] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:36:52.441] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:37:22.434] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:37:52.442] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:38:22.433] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:38:52.437] [WARNING] partial_response has no attribute values or it is None; skipping this chunk

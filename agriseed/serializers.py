@@ -6,6 +6,7 @@ from corecode.models import Device as CoreDevice, Adapter as CoreAdapter
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from LSISsocket.models import MemoryGroup as LSISMemoryGroup
+from django.conf import settings
 User = get_user_model()
 
 # generate_serial_prefix_for_deviceinstance는 agriseed.models에 구현되어 있으므로 재사용합니다.
@@ -726,8 +727,8 @@ class CalendarEventSerializer(serializers.ModelSerializer):
     zoneId = serializers.PrimaryKeyRelatedField(source='zone', queryset=Zone.objects.all(), allow_null=True, required=False, help_text='구역 ID (Zone primary key). 예: 5')
     title = serializers.CharField(required=True, help_text='이벤트 제목. 예: "수확 준비"', style={'example': '수확 준비'})
     description = serializers.CharField(required=False, allow_blank=True, default='', help_text='상세 설명. 예: "수확 관련 미팅 및 준비사항"', style={'example': '수확 관련 미팅 및 준비사항'})
-    start = serializers.DateTimeField(required=True, help_text='시작 시간 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-11T10:00:00+09:00', style={'example': timezone.localtime(timezone.now()).isoformat()})
-    end = serializers.DateTimeField(required=True, help_text='종료 시간 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-11T12:00:00+09:00', style={'example': timezone.localtime(timezone.now()).isoformat()})
+    start = serializers.DateTimeField(required=True, help_text=f'시작 시간 (ISO 8601, {settings.TIME_ZONE}). 예: {timezone.now().isoformat()}', style={'example': timezone.now().isoformat()})
+    end = serializers.DateTimeField(required=True, help_text=f'종료 시간 (ISO 8601, {settings.TIME_ZONE}). 예: {timezone.now().isoformat()}', style={'example': timezone.now().isoformat()})
     allDay = serializers.BooleanField(source='all_day', required=False, default=False, help_text='종일 여부 (True/False). 예: False', style={'example': False})
     recurrence = serializers.JSONField(allow_null=True, required=False, default=None, help_text='반복 규칙(JSON, 선택).', style={'type':'object'})
     reminders = serializers.JSONField(allow_null=True, required=False, default=None, help_text='알림 설정(JSON 배열, 선택).', style={'type':'array','itemType':'object'})
@@ -773,6 +774,26 @@ class CalendarEventSerializer(serializers.ModelSerializer):
             instance.attendees.set(attendees)
         return instance
 
+    def get_elapsedDays(self, obj):
+        if not getattr(obj, 'sowing_date', None):
+            return None
+        now = timezone.now().date()
+        sd = obj.sowing_date if isinstance(obj.sowing_date, type(now)) else obj.sowing_date
+        try:
+            return (now - sd).days
+        except Exception:
+            return None
+
+    def get_remainingDays(self, obj):
+        if not getattr(obj, 'expected_harvest_date', None):
+            return None
+        now = timezone.now().date()
+        ed = obj.expected_harvest_date if isinstance(obj.expected_harvest_date, type(now)) else obj.expected_harvest_date
+        try:
+            return (ed - now).days
+        except Exception:
+            return None
+
 class TodoItemSerializer(serializers.ModelSerializer):
     facilityId = serializers.PrimaryKeyRelatedField(
         source='facility', queryset=Facility.objects.all(), allow_null=True, required=False,
@@ -806,8 +827,8 @@ class TodoItemSerializer(serializers.ModelSerializer):
     )
     dueDate = serializers.DateTimeField(
         source='due_date', allow_null=True, required=False,
-        help_text='마감일 (ISO 8601, Asia/Seoul +09:00). 예: 2025-09-15T18:00:00+09:00',
-        style={'example': '2025-09-15T18:00:00+09:00', 'type': 'string', 'format': 'date-time'}
+        help_text=f'마감일 (ISO 8601, {settings.TIME_ZONE}). 예: {timezone.now().isoformat()}',
+        style={'example': timezone.now().isoformat(), 'type': 'string', 'format': 'date-time'}
     )
     completed = serializers.BooleanField(
         default=False,
@@ -1006,7 +1027,7 @@ class RecipeByZoneSerializer(serializers.ModelSerializer):
     def get_elapsedDays(self, obj):
         if not getattr(obj, 'sowing_date', None):
             return None
-        now = timezone.localtime(timezone.now()).date()
+        now = timezone.now().date()
         sd = obj.sowing_date if isinstance(obj.sowing_date, type(now)) else obj.sowing_date
         try:
             return (now - sd).days
@@ -1016,7 +1037,7 @@ class RecipeByZoneSerializer(serializers.ModelSerializer):
     def get_remainingDays(self, obj):
         if not getattr(obj, 'expected_harvest_date', None):
             return None
-        now = timezone.localtime(timezone.now()).date()
+        now = timezone.now().date()
         ed = obj.expected_harvest_date if isinstance(obj.expected_harvest_date, type(now)) else obj.expected_harvest_date
         try:
             return (ed - now).days
