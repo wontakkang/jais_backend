@@ -3,7 +3,7 @@ from rest_framework import viewsets, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters.rest_framework import DjangoFilterBackend  # type: ignore
 from agriseed.views import BaseViewSet
 from utils.protocol.LSIS.client.tcp import LSIS_TcpClient
 from .models import *
@@ -319,3 +319,11 @@ class ControlVariableViewSet(BaseViewSet):
     filterset_fields = ['group__id', 'applied_logic__id', 'result__id']
     search_fields = []
     ordering_fields = ['id']
+
+class SetupGroupViewSet(viewsets.ModelViewSet):
+    queryset = SetupGroup.objects.all()
+    serializer_class = SetupGroupSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_fields = ['write_mode', 'is_active', 'name']
+    search_fields = ['name', 'description']
+    ordering_fields = ['id', 'interval_seconds', 'start_at', 'end_at', 'name']

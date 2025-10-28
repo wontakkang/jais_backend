@@ -21,6 +21,8 @@ router.register(r'control-groups', ControlGroupViewSet)
 router.register(r'control-variables', ControlVariableViewSet)
 router.register(r'alart-variables', AlartVariableViewSet)
 router.register(r'alart-groups', AlartGroupViewSet)
+# New: setup groups only (variables selection moved into group M2M)
+router.register(r'setup-groups', SetupGroupViewSet)
 
 urlpatterns = [
     *router.urls,

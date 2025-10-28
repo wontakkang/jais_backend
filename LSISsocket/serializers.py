@@ -157,7 +157,7 @@ class VariableSerializer(serializers.ModelSerializer):
     group = serializers.PrimaryKeyRelatedField(queryset=MemoryGroup.objects.all(), required=False, allow_null=True, help_text='소속 MemoryGroup ID(선택)')
     name = serializers.PrimaryKeyRelatedField(queryset=CoreDataName.objects.all(), help_text='연결된 DataName ID')
     attributes = serializers.ListField(
-        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산']),
+        child=serializers.ChoiceField(choices=['감시','제어','기록','경보', '연산', '설정']),
         allow_empty=True,
         required=False,
         default=list,
@@ -707,3 +707,23 @@ class ControlValueHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ControlValueHistory
         fields = '__all__'
+
+class SetupGroupSerializer(serializers.ModelSerializer):
+    # 선택: 변수 PK 목록으로 쓰기/수정, 상세는 읽기용 별도 필드 제공
+    variables = serializers.PrimaryKeyRelatedField(many=True, queryset=Variable.objects.all(), required=False, allow_empty=True)
+    variables_detail = VariableSerializer(source='variables', many=True, read_only=True)
+
+    class Meta:
+        model = SetupGroup
+        exclude = ('is_deleted',)
+
+    def validate(self, attrs):
+        mode = attrs.get('write_mode', getattr(self.instance, 'write_mode', None))
+        interval = attrs.get('interval_seconds', getattr(self.instance, 'interval_seconds', None))
+        if mode == 'periodic' and not (attrs.get('cron') or interval):
+            raise ValidationError({'interval_seconds': 'periodic 모드에서는 interval_seconds 또는 cron 설정이 필요합니다.'})
+        return attrs
+
+# 제거: SetupVariableSerializer (SetupGroup에서 Variable을 직접 선택)
+# class SetupVariableSerializer(serializers.ModelSerializer):
+#     ...removed...

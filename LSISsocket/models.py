@@ -351,3 +351,47 @@ class SocketClientCommand(models.Model):
 
     def __str__(self):
         return f"{self.config.name} - {self.command} - {self.control_time}"
+
+# 설정값 쓰기 모드 선택지
+WRITE_MODE_CHOICES = (
+    ('periodic', '주기적 쓰기'),
+    ('one_time', '1회만 쓰기'),
+    ('on_change', '값변경시 쓰기'),
+)
+
+
+class SetupGroup(models.Model):
+    """설정값 쓰기 그룹 모델
+    - 여러 Variable을 선택하여 주기/조건 기반으로 값을 쓰기 위한 그룹
+    """
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True, null=True)
+
+    # 그룹 기본 동작 설정
+    write_mode = models.CharField(max_length=20, choices=WRITE_MODE_CHOICES, default='periodic', help_text='그룹 차원의 기본 쓰기 모드')
+    interval_seconds = models.PositiveIntegerField(blank=True, null=True, help_text='주기적 쓰기 시 주기(초). cron이 있으면 무시될 수 있음')
+    cron = models.JSONField(blank=True, null=True, help_text='선택: 주기 설정을 위한 cron 표현(JSON)')
+    start_at = models.DateTimeField(blank=True, null=True, help_text='쓰기를 시작할 시각(옵션)')
+    end_at = models.DateTimeField(blank=True, null=True, help_text='쓰기를 종료할 시각(옵션)')
+
+    # 대상 변수들
+    variables = models.ManyToManyField('LSISsocket.Variable', blank=True, related_name='lsissocket_setup_groups', help_text='설정 쓰기 대상 변수 목록')
+
+    is_active = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False, help_text='소프트 삭제 여부')
+
+    objects = ActiveManager()
+
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return f"SetupGroup({self.name})"
+
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save()
+
+    def restore(self):
+        self.is_deleted = False
+        self.save()
