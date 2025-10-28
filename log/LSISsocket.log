@@ -21861,3 +21861,269 @@ utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Fa
 [2025-10-28 18:37:52.442] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
 [2025-10-28 18:38:22.433] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
 [2025-10-28 18:38:52.437] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:39:22.450] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:39:52.440] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:40:22.437] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:40:52.443] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:41:22.441] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:41:52.438] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:42:22.436] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:42:52.434] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:43:22.444] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:43:27.332] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:43:29.052] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:43:57.062] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:43:59.042] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:44:29.595] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:44:59.589] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:45:28.946] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:45:29.597] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:45:36.482] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:45:37.687] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:45:41.596] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:45:43.727] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:45:50.216] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:46:12.072] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:46:42.084] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:47:12.077] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:47:42.084] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:48:12.080] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:48:27.044] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:48:29.016] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 18:48:59.479] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 18:49:29.477] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:49:59.480] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:50:29.479] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:50:59.480] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:51:29.489] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:51:59.475] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:52:29.480] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:52:59.487] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:53:29.470] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:53:59.476] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:54:29.479] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:54:59.481] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:55:29.474] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:55:59.469] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:56:29.467] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:56:59.469] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:57:29.469] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:57:59.479] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:58:29.479] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:58:59.484] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:59:29.471] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 18:59:59.469] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:00:18.982] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 19:00:20.881] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 19:00:51.407] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 19:01:21.387] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:01:51.409] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:02:21.393] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:02:51.396] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:03:21.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:03:51.386] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:04:21.406] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:04:51.399] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:05:21.392] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:05:51.389] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:06:21.397] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:06:51.389] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:07:21.387] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:07:51.389] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:08:21.395] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:08:51.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:09:21.393] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:09:51.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:10:21.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:10:51.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:11:21.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:11:51.397] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:12:21.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:12:51.392] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:13:21.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:13:51.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:14:21.396] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:14:51.391] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:15:21.387] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:15:51.400] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:16:21.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:16:51.395] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:17:21.387] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:17:51.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:18:21.386] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:18:51.391] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:19:21.386] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:19:51.393] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:20:21.393] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:20:51.393] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:21:21.392] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:21:51.389] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:22:21.394] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:22:51.400] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:23:21.404] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:23:51.399] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:24:21.391] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:24:51.392] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:25:21.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:25:51.392] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:26:21.396] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:26:51.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:27:21.388] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:27:51.393] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:28:21.404] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:28:51.385] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:29:21.408] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:29:51.385] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:30:21.413] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:30:51.388] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:31:21.391] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:31:51.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:32:21.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:32:51.398] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:33:21.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:33:51.389] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:34:21.387] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:34:51.399] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:35:21.390] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:35:51.392] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:36:21.405] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:36:51.395] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:37:21.391] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:37:51.399] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:38:21.391] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:38:51.391] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:39:21.399] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:39:51.412] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:40:21.386] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:40:51.400] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:41:21.409] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:41:51.400] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:42:21.400] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:42:39.800] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 19:42:41.636] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 19:43:12.096] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 19:43:42.095] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:44:12.104] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:44:42.113] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:45:12.099] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:45:42.099] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:46:12.092] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:46:42.096] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:47:12.095] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:47:42.093] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:48:12.110] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:48:42.107] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:49:12.104] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:49:42.114] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:50:12.104] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:50:42.104] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:51:12.114] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:51:42.096] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:52:12.104] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:52:42.107] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:53:12.105] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:53:42.116] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:54:12.095] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:54:42.107] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:55:12.102] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:55:42.111] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:56:12.097] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:56:42.102] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:57:12.104] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:57:42.094] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:58:12.099] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:58:42.105] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:59:12.108] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 19:59:42.101] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:00:12.097] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:00:42.104] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:01:12.112] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:01:42.093] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:02:12.099] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:02:42.092] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:03:12.107] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:03:42.098] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:04:12.103] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:04:42.117] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:05:12.092] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:05:42.106] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:06:12.106] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:06:42.112] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:07:12.098] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:07:42.106] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:08:12.096] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:08:42.107] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:09:12.102] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:09:42.099] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:10:12.102] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:10:42.092] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:11:12.093] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:11:42.112] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:12:12.098] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:12:42.093] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:13:12.103] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:13:42.102] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:14:12.111] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:14:42.097] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:15:12.109] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:15:42.100] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:16:12.098] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:16:42.101] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:17:12.106] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:17:42.092] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:18:12.094] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:18:42.092] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:19:12.093] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:19:42.101] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:20:12.104] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:20:42.108] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:21:12.109] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:21:42.105] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:22:12.107] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:22:42.092] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:23:12.102] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:23:42.101] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:24:12.097] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:24:42.100] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:25:12.100] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:25:13.476] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 20:25:15.267] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 20:25:45.789] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 20:26:15.776] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:26:45.802] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:27:15.784] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:27:45.780] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:28:15.776] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:28:45.801] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:29:15.783] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:29:45.780] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:30:15.789] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:30:45.776] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:31:15.778] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:31:45.776] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:32:15.778] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:32:45.784] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:33:15.785] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:33:45.778] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:34:15.782] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:34:45.789] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:35:15.789] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:35:45.778] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:36:15.778] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:36:45.788] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:37:15.777] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:37:45.787] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:38:15.779] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:38:45.781] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:39:15.782] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:39:45.780] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:40:15.788] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:40:45.783] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:41:15.779] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:41:45.790] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-28 20:41:56.741] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 20:41:58.529] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 20:42:29.083] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-28 20:42:51.983] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 20:42:53.218] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-28 20:42:53.864] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1

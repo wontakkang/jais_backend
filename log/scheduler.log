@@ -16908,3 +16908,825 @@ NameError: name 'aggregate_to_1hour' is not defined
 [2025-10-28 18:37:54.938] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.497s)
 [2025-10-28 18:38:24.893] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.460s)
 [2025-10-28 18:38:54.973] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.536s)
+[2025-10-28 18:39:25.001] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.551s)
+[2025-10-28 18:39:54.991] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.550s)
+[2025-10-28 18:40:24.949] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.512s)
+[2025-10-28 18:40:55.004] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.561s)
+[2025-10-28 18:41:24.964] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.524s)
+[2025-10-28 18:41:55.040] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.602s)
+[2025-10-28 18:42:25.035] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.597s)
+[2025-10-28 18:42:55.001] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.567s)
+[2025-10-28 18:43:25.032] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.587s)
+[2025-10-28 18:43:26.086] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 18:43:26.086] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 18:43:26.086] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 18:43:26.086] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 18:43:28.088] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 18:43:28.088] [WARNING] 스레드 id: 36348
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 18:43:28.088] [WARNING] 스레드 id: 14788
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 18:43:28.088] [WARNING] 스레드 id: 38324
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 18:43:29.522] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 18:43:29.647] [INFO] 스케줄러 시작됨.
+[2025-10-28 18:43:55.974] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 18:43:55.974] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 18:43:55.974] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 18:43:55.974] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 18:43:57.975] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 18:43:57.976] [WARNING] 스레드 id: 28052
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 18:43:57.978] [WARNING] 스레드 id: 30092
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 18:43:59.583] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 18:43:59.701] [INFO] 스케줄러 시작됨.
+[2025-10-28 18:44:32.178] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.583s)
+[2025-10-28 18:45:02.325] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.736s)
+[2025-10-28 18:45:32.196] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.599s)
+[2025-10-28 18:45:34.786] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 18:45:34.786] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 18:45:34.786] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 18:45:34.786] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 18:45:36.788] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 18:45:36.788] [WARNING] 스레드 id: 33052
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 18:45:36.788] [WARNING] 스레드 id: 38100
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 18:45:36.788] [WARNING] 스레드 id: 21116
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 18:45:38.188] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 18:45:38.321] [INFO] 스케줄러 시작됨.
+[2025-10-28 18:45:38.601] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 18:45:38.601] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 18:45:38.601] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 18:45:38.601] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 18:45:40.603] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 18:45:40.604] [WARNING] 스레드 id: 21440
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 18:45:40.605] [WARNING] 스레드 id: 32312
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 18:45:42.063] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 18:45:42.189] [INFO] 스케줄러 시작됨.
+[2025-10-28 18:46:14.680] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.608s)
+[2025-10-28 18:46:44.891] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.807s)
+[2025-10-28 18:47:14.749] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.672s)
+[2025-10-28 18:47:44.799] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.715s)
+[2025-10-28 18:48:14.647] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.567s)
+[2025-10-28 18:48:26.145] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 18:48:26.145] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 18:48:26.145] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 18:48:26.145] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 18:48:28.146] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 18:48:28.146] [WARNING] 스레드 id: 37672
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 18:48:28.146] [WARNING] 스레드 id: 38520
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 18:48:28.146] [WARNING] 스레드 id: 30352
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 18:48:29.459] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 18:48:29.581] [INFO] 스케줄러 시작됨.
+[2025-10-28 18:49:02.153] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.674s)
+[2025-10-28 18:49:32.171] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.695s)
+[2025-10-28 18:50:02.033] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.553s)
+[2025-10-28 18:50:31.994] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.515s)
+[2025-10-28 18:51:02.005] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.525s)
+[2025-10-28 18:51:32.055] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.566s)
+[2025-10-28 18:52:02.009] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.535s)
+[2025-10-28 18:52:31.992] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.512s)
+[2025-10-28 18:53:02.047] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.560s)
+[2025-10-28 18:53:32.090] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.620s)
+[2025-10-28 18:54:02.028] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.552s)
+[2025-10-28 18:54:31.979] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.500s)
+[2025-10-28 18:55:01.992] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.511s)
+[2025-10-28 18:55:32.008] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.534s)
+[2025-10-28 18:56:02.043] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.574s)
+[2025-10-28 18:56:32.156] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.689s)
+[2025-10-28 18:57:02.167] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.699s)
+[2025-10-28 18:57:32.011] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.542s)
+[2025-10-28 18:58:02.143] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.663s)
+[2025-10-28 18:58:32.159] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.680s)
+[2025-10-28 18:59:02.065] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.582s)
+[2025-10-28 18:59:32.192] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.721s)
+[2025-10-28 19:00:02.040] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.570s)
+[2025-10-28 19:00:17.954] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 19:00:17.954] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 19:00:17.954] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 19:00:17.954] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 19:00:19.955] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 19:00:19.955] [WARNING] 스레드 id: 16956
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 19:00:19.955] [WARNING] 스레드 id: 36508
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 19:00:19.955] [WARNING] 스레드 id: 24900
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 19:00:19.969] [WARNING] 스레드 id: 38248
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 19:00:21.377] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 19:00:21.510] [INFO] 스케줄러 시작됨.
+[2025-10-28 19:00:53.975] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.568s)
+[2025-10-28 19:01:23.941] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.554s)
+[2025-10-28 19:01:54.042] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.633s)
+[2025-10-28 19:02:23.969] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.576s)
+[2025-10-28 19:02:53.974] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.578s)
+[2025-10-28 19:03:24.107] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.709s)
+[2025-10-28 19:03:53.966] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.580s)
+[2025-10-28 19:04:24.134] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.728s)
+[2025-10-28 19:04:54.057] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.658s)
+[2025-10-28 19:05:23.969] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.578s)
+[2025-10-28 19:05:54.059] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.670s)
+[2025-10-28 19:06:23.970] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.572s)
+[2025-10-28 19:06:53.966] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.577s)
+[2025-10-28 19:07:23.931] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.545s)
+[2025-10-28 19:07:53.920] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.531s)
+[2025-10-28 19:08:23.913] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.518s)
+[2025-10-28 19:08:53.904] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.514s)
+[2025-10-28 19:09:23.901] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.508s)
+[2025-10-28 19:09:53.937] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.547s)
+[2025-10-28 19:10:23.955] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.557s)
+[2025-10-28 19:10:53.888] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.490s)
+[2025-10-28 19:11:23.970] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.572s)
+[2025-10-28 19:11:53.896] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.499s)
+[2025-10-28 19:12:23.947] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.549s)
+[2025-10-28 19:12:53.936] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.544s)
+[2025-10-28 19:13:23.963] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.565s)
+[2025-10-28 19:13:53.962] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.571s)
+[2025-10-28 19:14:23.882] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.486s)
+[2025-10-28 19:14:53.935] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.544s)
+[2025-10-28 19:15:23.885] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.498s)
+[2025-10-28 19:15:53.925] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.525s)
+[2025-10-28 19:16:23.951] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.562s)
+[2025-10-28 19:16:53.912] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.516s)
+[2025-10-28 19:17:23.871] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.484s)
+[2025-10-28 19:17:53.884] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.494s)
+[2025-10-28 19:18:23.871] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.485s)
+[2025-10-28 19:18:53.880] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.489s)
+[2025-10-28 19:19:23.911] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.525s)
+[2025-10-28 19:19:53.903] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.510s)
+[2025-10-28 19:20:23.947] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.554s)
+[2025-10-28 19:20:53.930] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.536s)
+[2025-10-28 19:21:24.024] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.632s)
+[2025-10-28 19:21:53.995] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.606s)
+[2025-10-28 19:22:23.998] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.604s)
+[2025-10-28 19:22:53.941] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.540s)
+[2025-10-28 19:23:23.934] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.530s)
+[2025-10-28 19:23:53.885] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.485s)
+[2025-10-28 19:24:23.901] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.510s)
+[2025-10-28 19:24:53.905] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.513s)
+[2025-10-28 19:25:23.913] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.524s)
+[2025-10-28 19:25:53.879] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.487s)
+[2025-10-28 19:26:23.890] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.494s)
+[2025-10-28 19:26:53.855] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.457s)
+[2025-10-28 19:27:23.925] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.538s)
+[2025-10-28 19:27:53.947] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.553s)
+[2025-10-28 19:28:23.934] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.530s)
+[2025-10-28 19:28:53.916] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.530s)
+[2025-10-28 19:29:23.900] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.492s)
+[2025-10-28 19:29:53.854] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.469s)
+[2025-10-28 19:30:23.862] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.450s)
+[2025-10-28 19:30:53.877] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.489s)
+[2025-10-28 19:31:23.884] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.493s)
+[2025-10-28 19:31:53.870] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.480s)
+[2025-10-28 19:32:23.890] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.492s)
+[2025-10-28 19:32:54.088] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.689s)
+[2025-10-28 19:33:23.965] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.574s)
+[2025-10-28 19:33:53.902] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.513s)
+[2025-10-28 19:34:23.894] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.507s)
+[2025-10-28 19:34:53.933] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.534s)
+[2025-10-28 19:35:23.912] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.522s)
+[2025-10-28 19:35:54.035] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.643s)
+[2025-10-28 19:36:23.938] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.534s)
+[2025-10-28 19:36:53.884] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.489s)
+[2025-10-28 19:37:23.906] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.515s)
+[2025-10-28 19:37:53.980] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.581s)
+[2025-10-28 19:38:23.881] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.490s)
+[2025-10-28 19:38:53.989] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.597s)
+[2025-10-28 19:39:23.888] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.489s)
+[2025-10-28 19:39:53.867] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.455s)
+[2025-10-28 19:40:23.871] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.485s)
+[2025-10-28 19:40:54.054] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.654s)
+[2025-10-28 19:41:24.084] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.674s)
+[2025-10-28 19:41:53.921] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.521s)
+[2025-10-28 19:42:23.998] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.598s)
+[2025-10-28 19:42:38.685] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 19:42:38.685] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 19:42:38.686] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 19:42:38.686] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 19:42:40.686] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 19:42:40.687] [WARNING] 스레드 id: 12128
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 19:42:40.687] [WARNING] 스레드 id: 38876
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 19:42:40.690] [WARNING] 스레드 id: 5876
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 19:42:42.085] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 19:42:42.208] [INFO] 스케줄러 시작됨.
+[2025-10-28 19:43:14.662] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.566s)
+[2025-10-28 19:43:44.788] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.693s)
+[2025-10-28 19:44:14.768] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.665s)
+[2025-10-28 19:44:44.719] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.605s)
+[2025-10-28 19:45:14.576] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.477s)
+[2025-10-28 19:45:44.639] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.540s)
+[2025-10-28 19:46:14.632] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.540s)
+[2025-10-28 19:46:44.610] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.514s)
+[2025-10-28 19:47:14.747] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.652s)
+[2025-10-28 19:47:44.611] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.518s)
+[2025-10-28 19:48:14.682] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.572s)
+[2025-10-28 19:48:44.625] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.518s)
+[2025-10-28 19:49:14.523] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.420s)
+[2025-10-28 19:49:44.649] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.535s)
+[2025-10-28 19:50:14.597] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.493s)
+[2025-10-28 19:50:44.617] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.513s)
+[2025-10-28 19:51:14.589] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.475s)
+[2025-10-28 19:51:44.587] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.491s)
+[2025-10-28 19:52:14.587] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.483s)
+[2025-10-28 19:52:44.595] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.487s)
+[2025-10-28 19:53:14.576] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.472s)
+[2025-10-28 19:53:44.603] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.487s)
+[2025-10-28 19:54:14.561] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.466s)
+[2025-10-28 19:54:44.614] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.507s)
+[2025-10-28 19:55:14.624] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.521s)
+[2025-10-28 19:55:44.734] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.624s)
+[2025-10-28 19:56:14.601] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.505s)
+[2025-10-28 19:56:44.595] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.493s)
+[2025-10-28 19:57:14.614] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.510s)
+[2025-10-28 19:57:44.596] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.502s)
+[2025-10-28 19:58:14.616] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.517s)
+[2025-10-28 19:58:44.617] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.512s)
+[2025-10-28 19:59:14.630] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.522s)
+[2025-10-28 19:59:44.663] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.562s)
+[2025-10-28 20:00:14.568] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.471s)
+[2025-10-28 20:00:44.655] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.551s)
+[2025-10-28 20:01:14.632] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.519s)
+[2025-10-28 20:01:44.580] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.487s)
+[2025-10-28 20:02:14.611] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.512s)
+[2025-10-28 20:02:44.599] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.507s)
+[2025-10-28 20:03:14.589] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.482s)
+[2025-10-28 20:03:44.558] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.460s)
+[2025-10-28 20:04:14.610] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.507s)
+[2025-10-28 20:04:44.572] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.455s)
+[2025-10-28 20:05:14.590] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.498s)
+[2025-10-28 20:05:44.623] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.517s)
+[2025-10-28 20:06:14.601] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.495s)
+[2025-10-28 20:06:44.595] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.483s)
+[2025-10-28 20:07:14.563] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.466s)
+[2025-10-28 20:07:44.620] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.514s)
+[2025-10-28 20:08:14.613] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.517s)
+[2025-10-28 20:08:44.640] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.533s)
+[2025-10-28 20:09:14.597] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.495s)
+[2025-10-28 20:09:44.620] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.521s)
+[2025-10-28 20:10:14.663] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.560s)
+[2025-10-28 20:10:44.560] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.469s)
+[2025-10-28 20:11:14.636] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.543s)
+[2025-10-28 20:11:44.813] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.701s)
+[2025-10-28 20:12:14.698] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.600s)
+[2025-10-28 20:12:44.719] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.626s)
+[2025-10-28 20:13:14.670] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.567s)
+[2025-10-28 20:13:44.779] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.677s)
+[2025-10-28 20:14:14.777] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.666s)
+[2025-10-28 20:14:44.703] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.606s)
+[2025-10-28 20:15:14.707] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.598s)
+[2025-10-28 20:15:44.652] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.550s)
+[2025-10-28 20:16:14.737] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.639s)
+[2025-10-28 20:16:44.635] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.534s)
+[2025-10-28 20:17:14.741] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.635s)
+[2025-10-28 20:17:44.612] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.520s)
+[2025-10-28 20:18:14.653] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.559s)
+[2025-10-28 20:18:44.593] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.502s)
+[2025-10-28 20:19:14.695] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.603s)
+[2025-10-28 20:19:44.653] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.552s)
+[2025-10-28 20:20:14.608] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.504s)
+[2025-10-28 20:20:44.602] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.494s)
+[2025-10-28 20:21:14.567] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.457s)
+[2025-10-28 20:21:44.596] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.491s)
+[2025-10-28 20:22:14.650] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.543s)
+[2025-10-28 20:22:44.554] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.462s)
+[2025-10-28 20:23:14.613] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.511s)
+[2025-10-28 20:23:44.623] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.522s)
+[2025-10-28 20:24:14.631] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.534s)
+[2025-10-28 20:24:44.602] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.501s)
+[2025-10-28 20:25:12.317] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 20:25:12.317] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 20:25:12.317] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 20:25:12.317] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 20:25:14.318] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 20:25:14.319] [WARNING] 스레드 id: 27176
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 93, in _worker
+    work_item.run()
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\apscheduler\executors\base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 216, in wrapper
+    return func(*args, **kwargs)
+  File "D:\project\projects\jais\py_backend\utils\logger.py", line 90, in wrapper
+    return func(*args, **kwargs)
+  File "D:\project\projects\jais\py_backend\LSISsocket\service.py", line 101, in tcp_client_to_redis
+    time.sleep(0.025)
+
+[2025-10-28 20:25:14.320] [WARNING] 스레드 id: 38780
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 20:25:14.321] [WARNING] 스레드 id: 39692
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 20:25:15.770] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 20:25:15.903] [INFO] 스케줄러 시작됨.
+[2025-10-28 20:25:48.281] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.492s)
+[2025-10-28 20:26:18.298] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.522s)
+[2025-10-28 20:26:48.285] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.484s)
+[2025-10-28 20:27:18.282] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.498s)
+[2025-10-28 20:27:48.270] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.490s)
+[2025-10-28 20:28:18.281] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.505s)
+[2025-10-28 20:28:48.285] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.484s)
+[2025-10-28 20:29:18.323] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.541s)
+[2025-10-28 20:29:48.279] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.498s)
+[2025-10-28 20:30:18.266] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.477s)
+[2025-10-28 20:30:48.240] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.465s)
+[2025-10-28 20:31:18.304] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.526s)
+[2025-10-28 20:31:48.319] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.543s)
+[2025-10-28 20:32:18.254] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.476s)
+[2025-10-28 20:32:48.277] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.493s)
+[2025-10-28 20:33:18.355] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.570s)
+[2025-10-28 20:33:48.270] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.491s)
+[2025-10-28 20:34:18.395] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.613s)
+[2025-10-28 20:34:48.326] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.536s)
+[2025-10-28 20:35:18.350] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.561s)
+[2025-10-28 20:35:48.292] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.514s)
+[2025-10-28 20:36:18.470] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.692s)
+[2025-10-28 20:36:48.417] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.629s)
+[2025-10-28 20:37:18.348] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.571s)
+[2025-10-28 20:37:48.311] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.524s)
+[2025-10-28 20:38:18.293] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.514s)
+[2025-10-28 20:38:48.521] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.740s)
+[2025-10-28 20:39:18.270] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.489s)
+[2025-10-28 20:39:48.297] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.516s)
+[2025-10-28 20:40:18.272] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.484s)
+[2025-10-28 20:40:48.390] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.607s)
+[2025-10-28 20:41:18.232] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.453s)
+[2025-10-28 20:41:48.248] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.458s)
+[2025-10-28 20:41:55.640] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 20:41:55.640] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 20:41:55.640] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 20:41:55.640] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 20:41:57.641] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 20:41:57.642] [WARNING] 스레드 id: 1272
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 20:41:57.642] [WARNING] 스레드 id: 38248
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 20:41:57.644] [WARNING] 스레드 id: 35332
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 20:41:59.065] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 20:41:59.196] [INFO] 스케줄러 시작됨.
+[2025-10-28 20:42:31.619] [WARNING] JOB JOB END   LSISsocket.service.tcp_client_to_redis (elapsed: 2.536s)
+[2025-10-28 20:42:50.938] [INFO] 시그널 수신됨 (2), 안전한 종료 수행 중
+[2025-10-28 20:42:50.938] [INFO] 시그널 핸들러: 워커 스레드에게 알리기 위해 STOP_EVENT 설정됨
+[2025-10-28 20:42:50.938] [INFO] 시그널 핸들러: APScheduler 종료 중 (wait=True)
+[2025-10-28 20:42:50.938] [INFO] 시그널 핸들러: APScheduler 종료 요청됨 (wait=True)
+[2025-10-28 20:42:52.939] [WARNING] 시그널 핸들러: 진단을 위해 스레드 스택 덤프 중 (있는 경우)
+[2025-10-28 20:42:52.939] [WARNING] 스레드 id: 39024
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 20:42:52.940] [WARNING] 스레드 id: 19100
+  File "C:\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Python\Python312\Lib\concurrent\futures\thread.py", line 90, in _worker
+    work_item = work_queue.get(block=True)
+
+[2025-10-28 20:42:52.941] [WARNING] 스레드 id: 36464
+  File "<string>", line 1, in <module>
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "C:\Python\Python312\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "D:\project\projects\jais\pyvenv\Lib\site-packages\uvicorn\server.py", line 66, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+  File "C:\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 673, in run_until_complete
+    self.run_forever()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 640, in run_forever
+    self._run_once()
+  File "C:\Python\Python312\Lib\asyncio\base_events.py", line 1954, in _run_once
+    event_list = self._selector.select(timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+  File "D:\project\projects\jais\py_backend\main.py", line 96, in _graceful_shutdown
+    stack = ''.join(traceback.format_stack(frame_obj))
+
+[2025-10-28 20:42:54.315] [INFO] FastAPI 수명주기 및 스케줄러 시작
+[2025-10-28 20:42:54.442] [INFO] 스케줄러 시작됨.
