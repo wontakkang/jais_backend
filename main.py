@@ -22,7 +22,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Django 설정 초기화
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "py_backend.settings")
 django.setup()
-from LSISsocket.models import SocketClientConfig, SocketClientLog
+from LSISsocket.models import SetupGroup, SocketClientConfig, SocketClientLog
 from py_backend.settings import TIME_ZONE
 import time
 from fastapi import FastAPI
@@ -33,7 +33,7 @@ from apscheduler.schedulers.base import SchedulerNotRunningError
 from utils import setup_logger, log_exceptions
 from utils.logger import log_job_runtime
 from pathlib import Path
-from LSISsocket.service import tcp_client_to_redis, reids_to_memory_mapping
+from LSISsocket.service import setup_variables_to_redis, tcp_client_to_redis, reids_to_memory_mapping
 from contextlib import asynccontextmanager
 from zoneinfo import ZoneInfo
 from asgiref.sync import sync_to_async
@@ -146,6 +146,7 @@ async def lifespan(app: FastAPI):
         scheduler.add_executor(ProcessPoolExecutor(max_workers=os.cpu_count()), "processpool")
 
         clients = await sync_to_async(list)(SocketClientConfig.objects.filter(is_used=True).all())
+        setup_groups = await sync_to_async(list)(SetupGroup.objects.filter(is_active=True).all())
         for client in clients:
             try:
                 # AsyncIOScheduler의 add_job은 이벤트 루프에서 안전하게 호출 가능하므로 직접 호출
@@ -167,6 +168,30 @@ async def lifespan(app: FastAPI):
                 )
             except Exception:
                 logger.exception(f'클라이언트 작업 등록 실패: {getattr(client, "id", None)}')
+            # 이벤트 루프를 블로킹하지 않도록 소량 대기
+            await asyncio.sleep(0.111)
+            
+        for group in setup_groups:
+            try:
+                # AsyncIOScheduler의 add_job은 이벤트 루프에서 안전하게 호출 가능하므로 직접 호출
+                # tcp_client_servive에 잡 런타임 로깅 데코레이터를 적용하여 START/END/ERROR 로그를 남김
+                try:
+                    wrapped_job = log_job_runtime(logger, level=logging.WARNING, msg_prefix='JOB')(setup_variables_to_redis)
+                except Exception:
+                    wrapped_job = setup_variables_to_redis
+                scheduler.add_job(
+                    wrapped_job,
+                    list(group.cron.keys())[0],
+                    **list(group.cron.values())[0],
+                    replace_existing=True,
+                    max_instances=1,
+                    misfire_grace_time=15,
+                    coalesce=False,
+                    executor='default',
+                    args=(group,),
+                )
+            except Exception:
+                logger.exception(f'설정 그룹 작업 등록 실패: {getattr(group, "id", None)}')
             # 이벤트 루프를 블로킹하지 않도록 소량 대기
             await asyncio.sleep(0.111)
 

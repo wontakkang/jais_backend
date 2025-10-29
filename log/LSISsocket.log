@@ -22148,3 +22148,645 @@ utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Fa
 [2025-10-28 23:51:07.806] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-28 23:51:54.222] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
 [2025-10-28 23:54:45.496] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 08:28:04.120] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:22:42.269] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:24:02.179] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:24:06.878] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:24:36.771] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:24:59.894] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:25:43.813] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:25:49.942] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:25:55.042] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:25:57.592] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:26:05.180] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:26:06.114] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:26:08.968] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 13:55:13.580] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:01:22.281] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:03:38.698] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:09:04.321] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:12:24.100] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:12:34.426] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:12:35.358] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:19:31.299] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:19:53.330] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:20:01.863] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:24:54.961] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:26:15.171] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:31:21.096] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:31:41.363] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:34:04.548] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:35:39.492] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:35:51.608] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:35:55.758] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:35:56.667] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:36:43.568] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:37:31.740] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:38:08.683] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:38:41.652] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:40:19.904] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:41:14.806] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:42:10.337] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:43:24.430] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:44:24.177] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:46:36.179] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:47:15.265] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:48:00.469] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:49:09.489] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:49:42.311] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:50:37.444] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 14:56:48.470] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:01:55.227] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:02:33.469] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:03:31.525] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:05:18.574] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:05:51.916] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:26:57.644] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:27:15.230] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:27:17.484] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:27:23.996] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 15:59:47.362] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:02:08.395] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:03:40.106] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:04:11.137] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:04:32.019] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:05:16.169] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:05:17.057] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:05:32.531] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:05:44.502] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:06:09.418] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:11:03.062] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:17:48.506] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:19:59.613] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:42:29.395] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:43:11.536] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:43:19.307] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:43:27.407] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:43:29.955] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:45:55.907] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:46:05.345] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:46:12.789] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:46:39.488] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:46:53.458] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:46:53.644] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:47:23.935] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 16:47:53.917] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:48:23.926] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:48:53.929] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:49:23.927] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:49:53.928] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:50:23.923] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:50:53.929] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:51:23.918] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:51:53.930] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:52:23.921] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:52:53.918] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:53:23.924] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:53:53.927] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:54:23.928] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:54:53.918] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:55:23.928] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:55:53.930] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:56:23.928] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:56:53.930] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:57:16.834] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:57:18.797] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:57:49.257] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 16:58:19.249] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 16:58:43.908] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:58:45.722] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 16:59:16.166] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 16:59:46.174] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:00:16.178] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:00:46.174] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:01:16.165] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:01:46.168] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:02:16.164] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:02:46.161] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:03:16.164] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:03:46.168] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:04:16.179] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:04:46.172] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:05:16.170] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:05:46.169] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:06:16.175] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:06:46.174] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:07:16.169] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:07:46.160] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:08:16.163] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:08:46.174] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:09:16.167] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:09:46.167] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:10:16.167] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:10:46.170] [WARNING] partial_response has no attribute values or it is None; skipping this chunk
+[2025-10-29 17:10:48.240] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:10:50.066] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:11:20.501] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 17:11:50.518] [WARNING] partial_response({'address': '0', 'count': 50000, 'func_name': 'continuous_read_bytes', 'id': 0, 'memory': '%MB'} at offset 0, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:12:20.524] [WARNING] partial_response({'address': '0', 'count': 50000, 'func_name': 'continuous_read_bytes', 'id': 0, 'memory': '%MB'} at offset 0, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:12:37.301] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:12:39.338] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:13:09.782] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 17:13:39.792] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:13:55.469] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:13:57.354] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:14:27.801] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 17:14:57.810] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:15:27.816] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:15:57.817] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:16:27.807] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:16:57.817] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:17:27.811] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:17:57.814] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:18:27.821] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:18:57.821] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:19:27.816] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:19:57.808] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:20:27.812] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:20:57.803] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:21:27.807] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:21:57.807] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:22:27.820] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:22:57.806] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:23:27.811] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:23:57.814] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:24:27.803] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:24:57.806] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:25:27.823] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:25:57.811] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:26:27.802] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:26:57.805] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:27:27.809] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:27:57.806] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:28:27.804] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:28:57.814] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:29:09.315] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:29:11.221] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:29:41.741] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 17:30:11.742] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:30:18.341] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:30:20.241] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:30:50.683] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 17:31:20.686] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:31:50.691] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:32:04.868] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:32:09.349] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:32:10.218] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:32:14.677] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:32:39.794] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 17:33:09.792] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:33:39.800] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:34:09.788] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:34:39.783] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:35:09.789] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:35:39.786] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:36:09.797] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:36:39.796] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:37:09.781] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:37:39.784] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:38:09.791] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:38:39.793] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:39:09.803] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:39:39.787] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:40:09.787] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:40:39.782] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:41:09.784] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:41:39.794] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:41:53.424] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:41:55.365] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:42:25.819] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 17:42:55.809] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:43:25.805] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:43:55.799] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:44:25.813] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:44:55.819] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:45:25.805] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:45:55.805] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:46:25.807] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:46:55.807] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:46:57.382] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:46:59.267] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 17:47:29.737] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 17:47:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:48:29.724] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:48:59.720] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:49:29.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:49:59.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:50:29.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:50:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:51:29.737] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:51:59.722] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:52:29.722] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:52:59.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:53:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:53:59.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:54:29.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:54:59.739] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:55:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:55:59.730] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:56:29.736] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:56:59.727] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:57:29.730] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:57:59.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:58:29.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:58:59.739] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:59:29.721] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 17:59:59.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:00:29.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:00:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:01:29.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:01:59.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:02:29.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:02:59.739] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:03:29.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:03:59.737] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:04:29.742] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:04:59.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:05:29.739] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:05:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:06:29.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:06:59.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:07:29.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:07:59.741] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:08:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:08:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:09:29.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:09:59.737] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:10:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:10:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:11:29.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:11:59.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:12:29.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:12:59.743] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:13:29.740] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:13:59.724] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:14:29.738] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:14:59.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:15:29.738] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:15:59.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:16:29.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:16:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:17:29.740] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:17:59.725] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:18:29.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:18:59.737] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:19:29.724] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:19:59.725] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:20:29.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:20:59.741] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:21:29.722] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:21:59.725] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:22:29.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:22:59.736] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:23:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:23:59.727] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:24:29.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:24:59.736] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:25:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:25:59.727] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:26:29.720] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:26:59.736] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:27:29.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:27:59.736] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:28:29.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:28:59.742] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:29:29.720] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:29:59.725] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:30:29.720] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:30:59.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:31:29.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:31:59.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:32:29.736] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:32:59.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:33:29.739] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:33:59.722] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:34:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:34:59.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:35:29.737] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:35:59.723] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:36:29.741] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:36:59.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:37:29.730] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:37:59.738] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:38:29.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:38:59.722] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:39:29.730] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:39:59.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:40:29.721] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:40:59.725] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:41:29.723] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:41:59.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:42:29.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:42:59.730] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:43:29.739] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:43:59.727] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:44:29.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:44:59.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:45:29.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:45:59.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:46:29.740] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:46:59.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:47:29.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:47:59.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:48:29.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:48:59.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:49:29.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:49:59.730] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:50:29.720] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:50:59.741] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:51:29.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:51:59.738] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:52:29.723] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:52:59.721] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:53:29.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:53:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:54:29.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:54:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:55:29.722] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:55:59.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:56:29.741] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:56:59.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:57:29.721] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:57:59.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:58:29.734] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:58:59.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:59:29.723] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 18:59:59.725] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:00:29.725] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:00:59.725] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:01:29.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:01:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:02:29.729] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:02:59.737] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:03:29.724] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:03:59.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:04:29.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:04:59.738] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:05:29.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:05:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:06:29.727] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:06:59.721] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:07:29.727] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:07:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:08:29.741] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:08:59.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:09:29.743] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:09:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:10:29.740] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:10:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:11:29.737] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:11:59.722] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:12:29.730] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:12:59.739] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:13:29.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:13:59.739] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:14:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:14:59.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:15:29.735] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:15:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:16:29.727] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:16:59.740] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:17:29.732] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:17:59.737] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:18:29.726] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:18:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:19:29.740] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:19:59.728] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:20:29.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:20:59.733] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:21:29.741] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:21:59.731] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:22:29.742] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:22:44.149] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:22:45.993] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:23:16.429] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 19:23:46.426] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:24:16.433] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:24:46.437] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:25:16.433] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:25:46.436] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:26:16.426] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:26:46.423] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:27:16.431] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:27:46.443] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:27:47.763] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:27:49.517] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:28:19.983] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 19:28:49.983] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:29:19.988] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:29:49.984] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:30:19.984] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:30:49.987] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:31:19.989] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:31:49.981] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:32:19.978] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:32:49.976] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:33:19.981] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:33:49.987] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:34:19.981] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:34:30.576] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:34:32.473] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:35:02.916] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 19:35:32.928] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:36:02.917] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:36:32.917] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:37:02.915] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:37:32.928] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:38:02.922] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:38:32.928] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:39:02.919] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:39:32.922] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:40:02.918] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:40:32.926] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:41:02.922] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:41:32.927] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:42:02.916] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:42:32.924] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:42:40.740] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:42:42.590] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:43:13.090] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 19:43:43.078] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:44:13.088] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:44:18.824] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:44:20.765] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:44:51.206] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 19:45:21.221] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:45:51.219] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:46:21.223] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:46:51.217] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:47:21.213] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:47:51.221] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:48:21.212] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:48:51.216] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:49:21.223] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:49:51.214] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:50:21.217] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:50:51.219] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:51:21.218] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:51:51.212] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:52:21.220] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:52:51.215] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:53:21.219] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:53:51.212] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:54:21.219] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:54:51.224] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:54:56.385] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:54:58.166] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:54:58.744] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:54:59.899] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 19:55:30.347] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 19:56:00.342] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:56:30.339] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:57:00.339] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:57:30.351] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:58:00.344] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:58:30.345] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:59:00.342] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 19:59:30.338] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:00:00.349] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:00:30.345] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:01:00.338] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:01:30.346] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:02:00.349] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:02:30.351] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:03:00.345] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:03:30.340] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:04:00.346] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:04:30.351] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:05:00.346] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:05:30.350] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:06:00.348] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:06:30.340] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:07:00.350] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:07:30.349] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:08:00.339] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:08:30.346] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:09:00.346] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:09:30.348] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:10:00.344] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:10:30.342] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:11:00.345] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:11:30.352] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:12:00.345] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:12:30.344] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:13:00.350] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:13:30.348] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:14:00.350] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:14:30.345] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:14:57.694] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:14:58.979] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:14:59.345] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:01.349] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:01.352] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:22.898] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:22.921] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:23.878] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:23.889] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:32.086] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:32.443] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:38.687] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:38.746] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:45.905] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:45.977] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:48.254] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:15:48.292] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:16:01.575] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:16:06.132] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:16:06.915] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:16:13.004] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:16:36.598] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 20:17:06.580] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:17:36.583] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:18:06.595] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:18:36.582] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:19:06.578] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:19:36.593] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:20:06.586] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:20:30.716] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:20:32.901] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:21:03.459] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 20:21:33.464] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:22:03.452] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:22:33.475] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:23:03.457] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:23:33.464] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:24:03.473] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:24:33.458] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:25:03.458] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:25:33.461] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:26:03.465] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:26:10.596] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:26:12.419] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 20:26:42.881] [INFO] try to connect LSIS client => 192.168.0.198:2004
+[2025-10-29 20:27:12.864] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:27:42.862] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:28:12.866] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:28:42.872] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:29:12.879] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:29:42.873] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:30:12.870] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:30:42.879] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:31:12.867] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:31:42.869] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:32:12.866] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:32:42.868] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:33:12.869] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:33:42.880] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:34:12.865] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:34:42.874] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:35:12.872] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:35:42.878] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:36:12.861] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:36:42.868] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:37:12.881] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:37:42.869] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:38:12.874] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:38:42.877] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:39:12.866] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:39:42.867] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:40:12.872] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:40:42.873] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:41:12.879] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:41:42.870] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:42:12.873] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:42:42.870] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:43:12.869] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:43:42.883] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:44:12.862] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:44:42.872] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:45:12.869] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:45:42.879] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:46:12.866] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:46:42.867] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:47:12.861] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:47:42.873] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:48:12.874] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:48:42.876] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:49:12.865] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:49:42.864] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:50:12.873] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:50:42.878] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:51:12.863] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:51:42.861] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:52:12.874] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:52:42.879] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:53:12.864] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:53:42.871] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:54:12.871] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:54:42.874] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:55:12.869] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:55:42.879] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:56:12.861] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:56:42.875] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:57:12.859] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:57:42.861] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:58:12.874] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:58:42.862] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:59:12.860] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 20:59:42.861] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 21:00:12.882] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 21:00:42.862] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 21:01:12.867] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 21:01:42.870] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 21:02:12.868] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 21:02:42.877] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 

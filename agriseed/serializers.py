@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from LSISsocket.models import MemoryGroup as LSISMemoryGroup
 from django.conf import settings
+from django.db import transaction
 User = get_user_model()
 
 # generate_serial_prefix_for_deviceinstance는 agriseed.models에 구현되어 있으므로 재사용합니다.
@@ -107,9 +108,13 @@ class ZoneSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data, **kwargs):
-        # allow passing updated_by via serializer.save(updated_by=...)
+        # accept facility and updated_by via serializer.save(facility=..., updated_by=...)
+        facility = kwargs.pop('facility', None)
         updated_by = kwargs.pop('updated_by', None)
-        # fallback to request.user if available
+        # if facility passed via kwargs, inject into validated_data so Zone.objects.create gets it
+        if facility is not None:
+            validated_data['facility'] = facility
+        # fallback to request.user if updated_by not provided
         if not updated_by:
             req = self.context.get('request') if hasattr(self, 'context') else None
             if req and getattr(req, 'user', None) and req.user.is_authenticated:
@@ -124,7 +129,12 @@ class ZoneSerializer(serializers.ModelSerializer):
         return zone
 
     def update(self, instance, validated_data, **kwargs):
+        # accept updated_by and optionally facility via save kwargs
         updated_by = kwargs.pop('updated_by', None)
+        facility = kwargs.pop('facility', None)
+        # disallow changing facility of existing zone via update to avoid ownership issues
+        if facility is not None and getattr(instance, 'facility', None) != facility:
+            raise serializers.ValidationError('Cannot change facility of existing Zone')
         if not updated_by:
             req = self.context.get('request') if hasattr(self, 'context') else None
             if req and getattr(req, 'user', None) and req.user.is_authenticated:
@@ -159,7 +169,8 @@ class FacilitySerializer(serializers.ModelSerializer):
     module = serializers.PrimaryKeyRelatedField(many=True, queryset=Module.objects.all(), required=False)
     # nested control_settings는 선택 입력으로
     control_settings = ControlSettingsSerializer(many=True, required=False)
-    zones = ZoneSerializer(many=True, read_only=True)
+    # zones를 쓰기 가능하도록 변경
+    zones = ZoneSerializer(many=True, required=False)
     calendar_schedules = CalendarScheduleSerializer(many=True, read_only=True)
     class Meta:
         model = Facility
@@ -169,26 +180,88 @@ class FacilitySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         control_settings_data = validated_data.pop('control_settings', [])
         modules = validated_data.pop('module', [])
-        facility = Facility.objects.create(**validated_data)
-        if modules:
-            facility.module.set(modules)
-        for cs_data in control_settings_data:
-            ControlSettings.objects.create(facility=facility, **cs_data)
+        zones_data = validated_data.pop('zones', [])
+        # determine request user for updated_by fallback
+        req = self.context.get('request') if hasattr(self, 'context') else None
+        user = None
+        if req and getattr(req, 'user', None) and req.user.is_authenticated:
+            user = req.user
+
+        with transaction.atomic():
+            facility = Facility.objects.create(**validated_data)
+            if modules:
+                facility.module.set(modules)
+            for cs_data in control_settings_data:
+                ControlSettings.objects.create(facility=facility, **cs_data)
+            # zones 생성
+            for z in zones_data:
+                # create via ZoneSerializer to leverage validation and updated_by handling
+                zs = ZoneSerializer(data=z, context=self.context)
+                zs.is_valid(raise_exception=True)
+                # pass facility instance and updated_by
+                save_kwargs = {'facility': facility}
+                if user:
+                    save_kwargs['updated_by'] = user
+                zs.save(**save_kwargs)
         return facility
 
     def update(self, instance, validated_data):
         control_settings_data = validated_data.pop('control_settings', [])
         modules = validated_data.pop('module', None)
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-        if modules is not None:
-            instance.module.set(modules)
-        # 기존 ControlSettings 삭제 및 재생성 (간단 구현)
-        if control_settings_data is not None:
-            instance.control_settings.all().delete()
-            for cs_data in control_settings_data:
-                ControlSettings.objects.create(facility=instance, **cs_data)
+        zones_data = validated_data.pop('zones', None)
+        deleted_zone_ids = validated_data.pop('deleted_zone_ids', None)
+
+        # determine request user for updated_by fallback
+        req = self.context.get('request') if hasattr(self, 'context') else None
+        user = None
+        if req and getattr(req, 'user', None) and req.user.is_authenticated:
+            user = req.user
+
+        with transaction.atomic():
+            # update simple fields
+            for attr, value in validated_data.items():
+                setattr(instance, attr, value)
+            instance.save()
+
+            if modules is not None:
+                instance.module.set(modules)
+
+            # 기존 ControlSettings 삭제 및 재생성 (간단 구현)
+            if control_settings_data is not None:
+                instance.control_settings.all().delete()
+                for cs_data in control_settings_data:
+                    ControlSettings.objects.create(facility=instance, **cs_data)
+
+            # zones 처리: create / update
+            if zones_data is not None:
+                for zdata in zones_data:
+                    zid = zdata.get('id') or zdata.get('pk')
+                    if zid:
+                        # update existing zone if it belongs to this facility
+                        try:
+                            zone_obj = Zone.objects.get(pk=zid, facility=instance)
+                        except Zone.DoesNotExist:
+                            # ignore or raise; choose to raise to signal invalid id
+                            raise serializers.ValidationError({'zones': f'Zone id {zid} not found for this facility'})
+                        zs = ZoneSerializer(zone_obj, data=zdata, context=self.context, partial=True)
+                        zs.is_valid(raise_exception=True)
+                        save_kwargs = {}
+                        if user:
+                            save_kwargs['updated_by'] = user
+                        zs.save(**save_kwargs)
+                    else:
+                        # create new zone and attach to this facility
+                        zs = ZoneSerializer(data=zdata, context=self.context)
+                        zs.is_valid(raise_exception=True)
+                        save_kwargs = {'facility': instance}
+                        if user:
+                            save_kwargs['updated_by'] = user
+                        zs.save(**save_kwargs)
+
+            # 삭제 요청 처리
+            if deleted_zone_ids:
+                Zone.objects.filter(id__in=deleted_zone_ids, facility=instance).delete()
+
         return instance
 
 class VarietyImageSerializer(serializers.ModelSerializer):

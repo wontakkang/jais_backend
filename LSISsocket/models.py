@@ -36,34 +36,46 @@ class AlartGroup(models.Model):
 
 class ControlValue(models.Model):
     control_user = models.ForeignKey('corecode.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='lsissocket_control_values', verbose_name="제어 사용자")
-    status = models.CharField(max_length=30, verbose_name="명령상태")
+    variable = models.ForeignKey('LSISsocket.Variable', on_delete=models.SET_NULL, null=True, blank=True, related_name='control_values', verbose_name="제어 변수")
+    config = models.ForeignKey('LSISsocket.SocketClientConfig', on_delete=models.SET_NULL, null=True, blank=True, related_name='control_values', verbose_name="타겟 클라이언트")
+    data_type = models.CharField(max_length=10, verbose_name="데이터타입")
+    value = models.JSONField(verbose_name="명령값")
+    status = models.CharField(max_length=10, verbose_name="명령상태")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
-    command_name = models.CharField(max_length=100, verbose_name="명령이름")
-    target = models.CharField(max_length=100, verbose_name="타겟")
-    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
-    value = models.JSONField(verbose_name="명령값")
     control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
-    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
-    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
 
     def __str__(self):
-        return f"{self.command_name}({self.target}) by {self.control_user}" if self.control_user else f"{self.command_name}({self.target})"
+        return f"{self.variable}({self.config}) by {self.control_user}" if self.control_user else f"{self.variable}({self.config})"
+
+    def save(self, *args, **kwargs):
+        is_update = self.pk is not None
+        if is_update:
+            old = type(self).objects.get(pk=self.pk)
+            if old.updated_at != self.updated_at:
+                ControlValueHistory.objects.create(
+                    control_value=self,
+                    status=self.status,
+                    variable=self.variable,
+                    config=self.config,
+                    data_type=self.data_type,
+                    value=self.value,
+                    control_at=self.control_at,
+                )
+        super().save(*args, **kwargs)
 
 class ControlValueHistory(models.Model):
     control_value = models.ForeignKey(ControlValue, on_delete=models.CASCADE, null=True, blank=True, related_name='histories', verbose_name="제어값")
-    status = models.CharField(max_length=30, verbose_name="명령상태")
-    command_name = models.CharField(max_length=100, verbose_name="명령이름")
-    target = models.CharField(max_length=100, verbose_name="타겟")
-    data_type = models.CharField(max_length=30, verbose_name="데이터타입")
+    variable = models.ForeignKey('LSISsocket.Variable', on_delete=models.SET_NULL, null=True, blank=True, related_name='control_value_histories', verbose_name="제어 변수")
+    config = models.ForeignKey('LSISsocket.SocketClientConfig', on_delete=models.SET_NULL, null=True, blank=True, related_name='control_value_histories', verbose_name="타겟 클라이언트")
+    data_type = models.CharField(max_length=10, verbose_name="데이터타입")
     value = models.JSONField(verbose_name="명령값")
+    status = models.CharField(max_length=10, verbose_name="명령상태")
     control_at = models.DateTimeField(null=True, blank=True, verbose_name="제어 일시")
-    env_data = models.JSONField(null=True, blank=True, verbose_name="제어환경데이터")
-    response = models.JSONField(null=True, blank=True, verbose_name="명령 Response")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일시")
 
     def __str__(self):
-        return f"{self.command_name}({self.target}) - {self.status}"
+        return f"{self.variable}({self.config}) - {self.status}"
 
 class MemoryGroup(models.Model):
     """
@@ -352,13 +364,6 @@ class SocketClientCommand(models.Model):
     def __str__(self):
         return f"{self.config.name} - {self.command} - {self.control_time}"
 
-# 설정값 쓰기 모드 선택지
-WRITE_MODE_CHOICES = (
-    ('periodic', '주기적 쓰기'),
-    ('one_time', '1회만 쓰기'),
-    ('on_change', '값변경시 쓰기'),
-)
-
 
 class SetupGroup(models.Model):
     """설정값 쓰기 그룹 모델
@@ -367,9 +372,7 @@ class SetupGroup(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, null=True)
 
-    # 그룹 기본 동작 설정
-    write_mode = models.CharField(max_length=20, choices=WRITE_MODE_CHOICES, default='periodic', help_text='그룹 차원의 기본 쓰기 모드')
-    interval_seconds = models.PositiveIntegerField(blank=True, null=True, help_text='주기적 쓰기 시 주기(초). cron이 있으면 무시될 수 있음')
+    # 그룹 기본 동작 설정 (write_mode, interval_seconds 제거)
     cron = models.JSONField(blank=True, null=True, help_text='선택: 주기 설정을 위한 cron 표현(JSON)')
     start_at = models.DateTimeField(blank=True, null=True, help_text='쓰기를 시작할 시각(옵션)')
     end_at = models.DateTimeField(blank=True, null=True, help_text='쓰기를 종료할 시각(옵션)')

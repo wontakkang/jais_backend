@@ -23,7 +23,7 @@ sudo systemctl restart gunicorn
 
 # 5. nginx 설정 적용 (필요시)
 sudo cp /home/sysnet/projects/deployment/nginx.conf /etc/nginx/sites-available/default
-sudo systemctl restart nginx
+sudo systemctl restart nginx gunicorn
 
 # 6. 서비스 상태 확인
 sudo systemctl status gunicorn

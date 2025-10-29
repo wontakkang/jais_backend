@@ -717,11 +717,8 @@ class SetupGroupSerializer(serializers.ModelSerializer):
         model = SetupGroup
         exclude = ('is_deleted',)
 
+    # write_mode, interval_seconds 제거에 따라 별도 검증 로직 제거
     def validate(self, attrs):
-        mode = attrs.get('write_mode', getattr(self.instance, 'write_mode', None))
-        interval = attrs.get('interval_seconds', getattr(self.instance, 'interval_seconds', None))
-        if mode == 'periodic' and not (attrs.get('cron') or interval):
-            raise ValidationError({'interval_seconds': 'periodic 모드에서는 interval_seconds 또는 cron 설정이 필요합니다.'})
         return attrs
 
 # 제거: SetupVariableSerializer (SetupGroup에서 Variable을 직접 선택)

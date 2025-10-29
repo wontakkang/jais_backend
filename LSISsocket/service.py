@@ -79,12 +79,12 @@ def tcp_client_to_redis(client):
                             except Exception as e:
                                 had_error = True
                                 error_msg = str(e)
-                                logger.exception(f'Error reading block {block} at offset {addr}, count {current_count}')
+                                logger.exception(f'Error reading block {args} at offset {addr}, count {current_count}')
                                 break
                             try:
                                 vals = getattr(partial_response, 'values', None)
                                 if (vals is None):
-                                    logger.warning('partial_response has no attribute values or it is None; skipping this chunk')
+                                    logger.warning(f'partial_response({args} at offset, count {current_count}) has no attribute values or it is None; skipping this chunk ')
                                 else:
                                     if (not isinstance(vals, (list, tuple))):
                                         try:
@@ -173,6 +173,7 @@ def tcp_client_to_redis(client):
             status_instance.save()
 
 
+@log_exceptions(logger)
 def reids_to_memory_mapping(client):
     # /LSISsocket/client-configs/id=client_id로 직렬화기의 값을 가져오기
     try:
@@ -222,3 +223,15 @@ def reids_to_memory_mapping(client):
     except Exception as err:
         logger.error(f'Error fetching memory-groups serializer data: {err}')
         configs = []
+    
+    
+@log_exceptions(logger)
+def setup_variables_to_redis(group=None):
+    memory_bulk_data = {}
+    setup_varialbes = group.get('variables', [])
+    for id in setup_varialbes:
+        try:
+            key = f"{group.id}:{id}"
+            memory_bulk_data[key] = None
+        except Exception as _e:
+            logger.debug(f'Attribute save failed for var {id}: {_e}')

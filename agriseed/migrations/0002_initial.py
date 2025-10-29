@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='controlsettings',
             name='facility',
-            field=models.ForeignKey(blank=True, default='0', help_text='소속된 시설', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='control_settings', to='agriseed.facility'),
+            field=models.ForeignKey(blank=True, help_text='소속된 시설', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='control_settings', to='agriseed.facility'),
         ),
         migrations.AddField(
             model_name='recipeitemvalue',

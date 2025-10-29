@@ -33,7 +33,7 @@ class Facility(models.Model):
             old = Facility.objects.get(pk=self.pk)
             old_zone_count = old.zone_count
         super().save(*args, **kwargs)
-        # Zone 자동 동기화
+        # Zone 자동 동기화 (기존 동작 유지)
         if is_new:
             for i in range(1, self.zone_count + 1):
                 Zone.objects.create(facility=self, name=f"구역 {i}")
@@ -48,6 +48,21 @@ class Facility(models.Model):
                 # Zone 삭제 (마지막부터)
                 for z in zones[diff:]:
                     z.delete()
+
+        # 변경 후: zones의 합계로 facility.area를 맞추고, zone_count를 실제 zone 개수로 동기화
+        try:
+            qs = self.zones.all()
+            total_area = sum([getattr(z, 'area', 0) or 0 for z in qs])
+            actual_count = qs.count()
+            # DB 레벨로 직접 업데이트하여 save() 재호출로 인한 무한루프 방지
+            if self.area != total_area or self.zone_count != actual_count:
+                Facility.objects.filter(pk=self.pk).update(area=total_area, zone_count=actual_count)
+                # 인스턴스 필드도 갱신
+                self.area = total_area
+                self.zone_count = actual_count
+        except Exception:
+            # 안전하게 무시
+            pass
 
 
     def __str__(self):

@@ -324,6 +324,6 @@ class SetupGroupViewSet(viewsets.ModelViewSet):
     queryset = SetupGroup.objects.all()
     serializer_class = SetupGroupSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    filterset_fields = ['write_mode', 'is_active', 'name']
+    filterset_fields = ['is_active', 'name']
     search_fields = ['name', 'description']
-    ordering_fields = ['id', 'interval_seconds', 'start_at', 'end_at', 'name']
+    ordering_fields = ['id', 'start_at', 'end_at', 'name']

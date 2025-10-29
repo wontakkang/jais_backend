@@ -171,6 +171,23 @@ except Exception as e:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+# 선택적 타겟 DB 설정: TARGET_DB_* 환경변수를 사용하여 마이그레이션 대상(MySQL 등)을 추가 별칭으로 구성
+# 예) TARGET_DB_ENGINE=django.db.backends.mysql, TARGET_DB_NAME=..., TARGET_DB_USER=..., TARGET_DB_PASSWORD=..., TARGET_DB_HOST=..., TARGET_DB_PORT=3306
+if os.getenv('TARGET_DB_ENGINE'):
+    DATABASES['target'] = {
+        'ENGINE': os.getenv('TARGET_DB_ENGINE', 'django.db.backends.mysql'),
+        'NAME': os.getenv('TARGET_DB_NAME'),
+        'USER': os.getenv('TARGET_DB_USER'),
+        'PASSWORD': os.getenv('TARGET_DB_PASSWORD'),
+        'HOST': os.getenv('TARGET_DB_HOST', '127.0.0.1'),
+        'PORT': os.getenv('TARGET_DB_PORT', '3306'),
+        # mysqlclient 사용 시 아래 OPTIONS 조정 가능
+        # 'OPTIONS': {
+        #     'charset': 'utf8mb4',
+        # }
+    }
+
 # Use default Django user model (auth.User). Previously set to 'corecode.User' which is not used in this project.
 AUTH_USER_MODEL = 'auth.User'
 
