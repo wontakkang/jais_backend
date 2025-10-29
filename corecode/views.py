@@ -24,6 +24,16 @@ from utils.custom_permission import LocalhostBypassPermission
 from django.contrib.auth import get_user_model
 logger = logging.getLogger('corecode')
 
+# 추가된 import 및 페이징 클래스
+import inspect
+from rest_framework.pagination import PageNumberPagination
+from utils.calculation import all_dict as calculation_all_dict
+from utils.control import all_dict as control_all_dict
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 20
+    page_size_query_param = 'page_size'
+    max_page_size = 200
 
 # 모듈 레벨: 로그 디렉터리 통일
 LOG_DIR = os.path.join(os.getcwd(), 'log')
@@ -216,6 +226,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['manufacturer', 'user_manuals']
     ordering_fields = ['id', 'name', 'created_at']
+    pagination_class = StandardResultsSetPagination
 
 class DeviceCompanyViewSet(viewsets.ModelViewSet):
     queryset = DeviceCompany.objects.all()
@@ -223,6 +234,7 @@ class DeviceCompanyViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['name']
     ordering_fields = ['id', 'name']
+    pagination_class = StandardResultsSetPagination
 
 class UserManualViewSet(viewsets.ModelViewSet):
     queryset = UserManual.objects.all()
@@ -230,10 +242,12 @@ class UserManualViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['title']
     ordering_fields = ['id', 'title', 'uploaded_at']
+    pagination_class = StandardResultsSetPagination
 
 class DataNameViewSet(viewsets.ModelViewSet):
     queryset = DataName.objects.all()
     serializer_class = DataNameSerializer
+    pagination_class = StandardResultsSetPagination
 
     def get_view_name(self):
         return "Data Name List"
@@ -242,7 +256,12 @@ class DataNameViewSet(viewsets.ModelViewSet):
         return "DataName CRUD API"
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        # Use DRF's filtering and pagination pipeline
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -253,12 +272,20 @@ class DataNameViewSet(viewsets.ModelViewSet):
         data = {str(obj['id']): obj for obj in serializer.data}
         return Response(data)
 
+    @action(detail=False, methods=['get'])
+    def methods(self, request):
+        """Return available calculation/control methods and brief docs for frontend editor."""
+        calc = {k: (inspect.getdoc(f) or '') for k, f in calculation_all_dict.items()}
+        ctrl = {k: (inspect.getdoc(f) or '') for k, f in control_all_dict.items()}
+        return Response({'calculation': calc, 'control': ctrl})
+
 class ControlLogicViewSet(viewsets.ModelViewSet):
     queryset = ControlLogic.objects.all()
     serializer_class = ControlLogicSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['use_method'] # 모델 필드에 맞게 구성
     ordering_fields = ['id']
+    pagination_class = StandardResultsSetPagination
 
     @action(detail=False, methods=['get'])
     def dict(self, request):
@@ -274,6 +301,12 @@ class ControlLogicViewSet(viewsets.ModelViewSet):
         result = {str(item['id']): item for item in data}
         return Response(result)
 
+    @action(detail=False, methods=['get'])
+    def methods(self, request):
+        """Return control methods and docs for frontend."""
+        ctrl = {k: (inspect.getdoc(f) or '') for k, f in control_all_dict.items()}
+        return Response({'control': ctrl})
+
 
 class AdapterViewSet(viewsets.ModelViewSet):
     queryset = Adapter.objects.all()
@@ -282,8 +315,15 @@ class AdapterViewSet(viewsets.ModelViewSet):
     filterset_fields = ['protocol', 'is_deleted']
     ordering_fields = ['id', 'name', 'updated_at']
     search_fields = ['name', 'description']
+    pagination_class = StandardResultsSetPagination
     
-    
+    # allow soft-deleted listing via query param
+    def get_queryset(self):
+        qs = super().get_queryset()
+        include_deleted = self.request.query_params.get('include_deleted')
+        if include_deleted in ('1', 'true', 'True'):
+            return Adapter.all_objects.all()
+        return qs
 
 # Add UI view for DE-MCU log
 def logging_view(request):
@@ -426,7 +466,7 @@ class LoggerTailView(APIView):
         files = glob.glob(LOG_GLOB)
         if not files:
             return None
-        files.sort(key=lambda p: os.path.getmtime(p), reverse=True)
+        files.sort(key=lambda p: os.getmtime(p), reverse=True)
         return files[0]
 
     def tail_lines(self, filepath, n=200):

@@ -22790,3 +22790,13 @@ utils.protocol.LSIS.exceptions.ConnectionException: LSIS_ Error: [Connection] Fa
 [2025-10-29 21:01:42.870] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
 [2025-10-29 21:02:12.868] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
 [2025-10-29 21:02:42.877] [WARNING] partial_response(['%MB0', 700] at offset, count 700) has no attribute values or it is None; skipping this chunk 
+[2025-10-29 21:38:48.312] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 21:38:55.007] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 22:00:36.116] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 22:02:09.848] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 22:02:15.312] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 22:02:57.324] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 22:08:25.989] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 22:08:42.273] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 22:08:43.640] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
+[2025-10-29 22:17:55.779] [INFO] Redis 연결 성공: 127.0.0.1:6379, DB: 1
