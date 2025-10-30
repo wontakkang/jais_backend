@@ -90,6 +90,8 @@ class StyleMetadata(SimpleMetadata):
 # Default pagination and filtering/search/ordering
 class DefaultPagination(PageNumberPagination):
     page_size = 20
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 class BaseViewSet(viewsets.ModelViewSet):
     pagination_class = DefaultPagination
@@ -215,12 +217,12 @@ class FacilityHistoryViewSet(viewsets.ModelViewSet):
     serializer_class = FacilityHistorySerializer
 
 # CropViewSet: 작물(Crop) 모델의 CRUD API를 제공합니다.
-class CropViewSet(viewsets.ModelViewSet):
+class CropViewSet(BaseViewSet):
     queryset = Crop.objects.all()
     serializer_class = CropSerializer
 
 # VarietyViewSet: 품종(Variety) 모델의 CRUD API를 제공합니다.
-class VarietyViewSet(viewsets.ModelViewSet):
+class VarietyViewSet(BaseViewSet):
     queryset = Variety.objects.all()
     serializer_class = VarietySerializer
 

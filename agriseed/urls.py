@@ -3,7 +3,6 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 router = DefaultRouter()
-router.register(r'devices', DeviceViewSet)
 router.register(r'activities', ActivityViewSet)
 router.register(r'control-roles', ControlRoleViewSet)
 router.register(r'issues', IssueViewSet)
@@ -58,13 +57,3 @@ urlpatterns = [
     # 측정값 평가용 단일 엔드포인트
     path('evaluate-measurement/', EvaluateMeasurementView.as_view(), name='evaluate-measurement'),
 ]
-
-# Expose corecode URLs under /agriseed/core/ to reuse core endpoints when corecode app is present.
-try:
-    # include already imported at top
-    urlpatterns += [
-        path('core/', include('corecode.urls')),
-    ]
-except Exception:
-    # corecode may not be installed/available in some environments (tests/tools) — ignore silently
-    pass
