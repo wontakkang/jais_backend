@@ -242,9 +242,11 @@ class RecipeProfileViewSet(BaseViewSet):
     queryset = RecipeProfile.objects.filter(is_deleted=False).select_related('variety', 'created_by', 'updated_by')\
         .prefetch_related('comments__replies', 'performances', 'ratings', 'steps__item_values')
     serializer_class = RecipeProfileSerializer
-    filterset_fields = ['variety__id', 'recipe_name', 'is_active', 'is_deleted']
+    # Avoid using DjangoFilterBackend here due to django_filters Meta.fields validation error for certain environments
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['variety__id', 'name', 'is_active', 'is_deleted']
     ordering_fields = ['order', 'id']
-    search_fields = ['recipe_name', 'description']
+    search_fields = ['name', 'description']
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, updated_by=self.request.user)
@@ -795,7 +797,7 @@ class RecipeByZoneViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_fields = ['facility', 'zone', 'crop', 'variety', 'recipe_profile', 'enabled', 'completed']
     ordering_fields = ['id', 'sowing_date', 'expected_harvest_date']
-    search_fields = ['facility__name', 'zone__name', 'crop__name', 'variety__name', 'recipe_profile__recipe_name']
+    search_fields = ['facility__name', 'zone__name', 'crop__name', 'variety__name', 'recipe_profile__name']
 
     def get_queryset(self):
         # Prefetch heavy relations for serialization: recipe_profile -> steps -> item_values -> control_item

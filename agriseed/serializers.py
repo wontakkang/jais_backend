@@ -394,7 +394,7 @@ class RecipeProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeProfile
         fields = [
-            'id', 'variety', 'recipe_name', 'description', 'duration_days',
+            'id', 'variety', 'name', 'description', 'duration_days',
             'order', 'is_active', 'createdAt', 'updatedAt',
             'createdBy', 'updatedBy', 'steps', 'comments', 'performances',
             'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate', 'bookmark'
@@ -599,72 +599,6 @@ class RecipeCommentSerializer(serializers.ModelSerializer):
     def get_replies(self, obj):
         qs = obj.replies.all()
         return RecipeCommentSerializer(qs, many=True).data
-
-class RecipeProfileSerializer(serializers.ModelSerializer):
-    createdAt = serializers.DateTimeField(source='created_at', read_only=True, help_text='생성 시각 (읽기전용)')
-    updatedAt = serializers.DateTimeField(source='updated_at', read_only=True, help_text='수정 시각 (읽기전용)')
-    steps = RecipeStepSerializer(many=True, required=False)
-    comments = RecipeCommentSerializer(many=True, read_only=True)
-    performances = RecipePerformanceSerializer(many=True, read_only=True)
-    ratings = RecipeRatingSerializer(many=True, read_only=True)
-    average_rating = serializers.FloatField(read_only=True)
-    rating_count = serializers.IntegerField(read_only=True)
-    average_yield = serializers.FloatField(read_only=True)
-    success_rate = serializers.FloatField(read_only=True)
-    createdBy = serializers.SlugRelatedField(source='created_by', slug_field='username', read_only=True, help_text='작성자 username (읽기전용)')
-    updatedBy = serializers.SlugRelatedField(source='updated_by', slug_field='username', read_only=True, help_text='최종 수정자 username (읽기전용)')
-    class Meta:
-        model = RecipeProfile
-        fields = [
-            'id', 'variety', 'recipe_name', 'description', 'duration_days',
-            'order', 'is_active', 'createdAt', 'updatedAt',
-            'createdBy', 'updatedBy', 'steps', 'comments', 'performances',
-            'ratings', 'average_rating', 'rating_count', 'average_yield', 'success_rate', 'bookmark'
-        ]
-        read_only_fields = ['createdAt', 'updatedAt', 'createdBy', 'updatedBy']
-
-    def create(self, validated_data):
-        steps_data = validated_data.pop('steps', [])
-        # created_by/updated_by fallback from context request if not provided
-        req = self.context.get('request') if hasattr(self, 'context') else None
-        user = None
-        if req and getattr(req, 'user', None) and req.user.is_authenticated:
-            user = req.user
-        # create profile with creator if available
-        if user:
-            profile = RecipeProfile.objects.create(created_by=user, updated_by=user, **validated_data)
-        else:
-            profile = RecipeProfile.objects.create(**validated_data)
-        for step_data in steps_data:
-            item_values_data = step_data.pop('item_values', [])
-            step = RecipeStep.objects.create(recipe_profile=profile, **step_data)
-            for iv in item_values_data:
-                RecipeItemValue.objects.create(recipe=step, **iv)
-        return profile
-
-    def update(self, instance, validated_data):
-        steps_data = validated_data.pop('steps', None)
-        req = self.context.get('request') if hasattr(self, 'context') else None
-        user = None
-        if req and getattr(req, 'user', None) and req.user.is_authenticated:
-            user = req.user
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        if user:
-            try:
-                instance.updated_by = user
-            except Exception:
-                pass
-        instance.save()
-        if steps_data is not None:
-            # 간단히 전체 재배치
-            instance.steps.all().delete()
-            for step_data in steps_data:
-                item_values_data = step_data.pop('item_values', [])
-                step = RecipeStep.objects.create(recipe_profile=instance, **step_data)
-                for iv in item_values_data:
-                    RecipeItemValue.objects.create(recipe=step, **iv)
-        return instance
 
 # Tree 및 Tree_tags 직렬화기 추가
 class TreeTagsSerializer(serializers.ModelSerializer):
@@ -1030,14 +964,14 @@ class RecipeByZoneSerializer(serializers.ModelSerializer):
             return getattr(step, '__cumulative_days', None)
 
     class _RecipeProfileNestedSerializer(serializers.ModelSerializer):
-        # expose recipe_name as recipeName (camelCase) for API consumers
-        recipeName = serializers.CharField(source='recipe_name', read_only=True)
+        # expose name as recipeName (camelCase) for API consumers
+        name = serializers.CharField(source='name', read_only=True)
         steps = serializers.SerializerMethodField(read_only=True)
 
         class Meta:
             model = RecipeProfile
-            # use recipeName instead of recipe_name
-            fields = ['recipeName', 'duration_days', 'steps']
+            # use name instead of name
+            fields = ['name', 'duration_days', 'steps']
             read_only_fields = fields
 
         def get_steps(self, profile):
@@ -1095,7 +1029,7 @@ class RecipeByZoneSerializer(serializers.ModelSerializer):
         return obj.variety.name if getattr(obj, 'variety', None) else None
 
     def get_recipeProfileName(self, obj):
-        return obj.recipe_profile.recipe_name if getattr(obj, 'recipe_profile', None) else None
+        return obj.recipe_profile.name if getattr(obj, 'recipe_profile', None) else None
 
     def get_elapsedDays(self, obj):
         if not getattr(obj, 'sowing_date', None):

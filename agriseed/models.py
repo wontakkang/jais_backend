@@ -248,7 +248,7 @@ class RecipeProfile(models.Model):
         related_name='recipe_profiles',
         help_text="레시피 대상 품종"
     )
-    recipe_name = models.CharField(max_length=200, help_text="레시피 이름")
+    name = models.CharField(max_length=200, help_text="레시피 이름")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     created_by = models.ForeignKey(
@@ -272,7 +272,7 @@ class RecipeProfile(models.Model):
 
     def __str__(self):
         creator = self.created_by.username if self.created_by else "Unknown Creator"
-        return f"{creator} - {self.variety} - {self.recipe_name}"
+        return f"{creator} - {self.variety} - {self.name}"
 
     @property
     def average_rating(self):
