@@ -151,7 +151,7 @@ class Migration(migrations.Migration):
             name='RecipeProfile',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('recipe_name', models.CharField(help_text='레시피 이름 (예: 초기 생장기, 생식기 등)', max_length=200)),
+                ('name', models.CharField(help_text='레시피 이름 (예: 초기 생장기, 생식기 등)', max_length=200)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True, null=True)),
                 ('is_active', models.BooleanField(blank=True, default=True, help_text='레시피 활성화 여부', null=True)),

@@ -10,6 +10,7 @@ from . import logger, redis_instance
 import re
 import json
 import os
+from LSISsocket import redis_instance as LSIS_socket_redis_instance
 try:
     from zoneinfo import ZoneInfo
 except Exception:
@@ -226,6 +227,7 @@ def redis_to_db(resolution_minutes: int = 2, at=None):
     - 정수 1, 10, -5는 integer로 분류되고 값은 float로 저장됩니다.
     - 실수 1.5, -3.14는 float로 분류됩니다.
     - 사용예시: redis_to_db(resolution_minutes=2, at='2025-10-28T12:34:00Z')
+    - LSIS_socket_redis_instance에 key가 감시, 기록만 처리합니다.
     """
     from . import models
 
@@ -252,6 +254,34 @@ def redis_to_db(resolution_minutes: int = 2, at=None):
     pattern = '*:*'
     try:
         keys = redis_instance.query_scan(pattern)
+        # If LSIS socket Redis has aggregated lists under keys '감시' or '기록', use them
+        try:
+            log_keys = []
+            if LSIS_socket_redis_instance.exists('감시') or LSIS_socket_redis_instance.exists('기록'):
+                if LSIS_socket_redis_instance.exists('감시'):
+                    v = LSIS_socket_redis_instance.get_value('감시') or []
+                    if isinstance(v, (list, tuple)):
+                        log_keys.extend([k for k in v if isinstance(k, str)])
+                if LSIS_socket_redis_instance.exists('기록'):
+                    v = LSIS_socket_redis_instance.get_value('기록') or []
+                    if isinstance(v, (list, tuple)):
+                        log_keys.extend([k for k in v if isinstance(k, str)])
+                # dedupe while preserving order
+                seen = set()
+                deduped = []
+                for k in log_keys:
+                    if k not in seen:
+                        seen.add(k)
+                        deduped.append(k)
+                log_keys = deduped
+            else:
+                log_keys = LSIS_socket_redis_instance.query_scan(pattern)
+        except Exception:
+            # fallback to scanning if any error
+            try:
+                log_keys = LSIS_socket_redis_instance.query_scan(pattern)
+            except Exception:
+                log_keys = []
     except Exception:
         try:
             keys = redis_instance.client.keys(pattern) if hasattr(redis_instance, 'client') and redis_instance.client else []
@@ -261,7 +291,34 @@ def redis_to_db(resolution_minutes: int = 2, at=None):
     # aggregate per var_id (TwoMinuteData.unique_together = (timestamp, var_id))
     aggregates = {}
 
-    for key in keys:
+    # Determine which var_ids are present in log_keys and fetch their Variable.attributes in batch
+    var_ids_in_keys = set()
+    for key in log_keys:
+        if not isinstance(key, str) or ':' not in key:
+            continue
+        parts = key.split(':')
+        if len(parts) != 2:
+            continue
+        try:
+            var_ids_in_keys.add(int(parts[1]))
+        except Exception:
+            continue
+
+    # Batch load Variable attributes to decide which keys to process
+    from LSISsocket.models import Variable
+    var_attrs = {}
+    if var_ids_in_keys:
+        qs = Variable.objects.filter(pk__in=var_ids_in_keys).values_list('id', 'attributes')
+        for vid, attrs in qs:
+            # normalize to list of strings
+            try:
+                attrs_list = list(attrs or [])
+            except Exception:
+                attrs_list = []
+            var_attrs[int(vid)] = attrs_list
+
+    # iterate only over log_keys (LSIS socket entries) and process only variables with '감시' or '기록'
+    for key in log_keys:
         # parse only keys that look like 'int:int'
         if not isinstance(key, str) or ':' not in key:
             continue
@@ -272,6 +329,11 @@ def redis_to_db(resolution_minutes: int = 2, at=None):
             client_id = int(parts[0])
             var_id = int(parts[1])
         except Exception:
+            continue
+
+        # Only process if variable has '감시' or '기록' attribute
+        attrs = var_attrs.get(var_id, [])
+        if not any(a in ('감시', '기록') for a in attrs):
             continue
 
         # read value (try JSON-decoded get_value first)
@@ -286,7 +348,7 @@ def redis_to_db(resolution_minutes: int = 2, at=None):
         # classify and coerce to numeric if applicable
         vtype, vnum = _classify_value(value)
 
-        # maintain aggregates per (var_id) as uniqueness defined by timestamp+var_id
+        # (var_id)별로 집계 유지 — 고유성은 timestamp+var_id로 정의됩니다
         agg_key = (var_id,)
         if agg_key not in aggregates:
             aggregates[agg_key] = {
@@ -317,43 +379,53 @@ def redis_to_db(resolution_minutes: int = 2, at=None):
     # upsert aggregated rows into TwoMinuteData
     created = 0
     updated = 0
-    for (var_id,), agg in aggregates.items():
-        # prepare fields
-        count = agg['count']
-        sum_value = agg['sum'] if count > 0 else None
-        min_value = agg['min']
-        max_value = agg['max']
-        avg_value = (sum_value / count) if count > 0 else None
+    # Batch upsert: select existing rows for this timestamp, then bulk_create / bulk_update
+    try:
+        two_objs_to_create = []
+        two_objs_to_update = []
+        var_ids = [var_id for (var_id,), _ in aggregates.items()]
+        if var_ids:
+            existing_qs = list(models.TwoMinuteData.objects.filter(timestamp=db_timestamp, var_id__in=var_ids))
+            existing_map = {r.var_id: r for r in existing_qs}
+        else:
+            existing_map = {}
 
-        value_field = agg['last_numeric'] if agg['last_numeric'] is not None else None
-        value_type_field = agg['last_label']
-
-        # group_id is unknown in Redis key; set to 0 by default
-        defaults = {
-            'client_id': next(iter(agg['client_ids'])) if agg['client_ids'] else 0,
-            'group_id': 0,
-            'value': value_field,
-            'value_type': value_type_field,
-            'min_value': min_value,
-            'max_value': max_value,
-            'avg_value': avg_value,
-            'sum_value': sum_value,
-            'count': count if count > 0 else None,
-        }
-
-        # use update_or_create based on unique keys timestamp + var_id
-        try:
-            obj, created_flag = models.TwoMinuteData.objects.update_or_create(
-                timestamp=db_timestamp,
-                var_id=var_id,
-                defaults=defaults
-            )
-            if created_flag:
-                created += 1
+        for (var_id,), agg in aggregates.items():
+            count = agg['count']
+            sum_value = agg['sum'] if count > 0 else None
+            min_value = agg['min']
+            max_value = agg['max']
+            avg_value = (sum_value / count) if count > 0 else None
+            value_field = agg['last_numeric'] if agg['last_numeric'] is not None else None
+            value_type_field = agg['last_label']
+            client_id = next(iter(agg['client_ids'])) if agg['client_ids'] else 0
+            defaults = {
+                'client_id': client_id,
+                'group_id': 0,
+                'value': value_field,
+                'value_type': value_type_field,
+                'min_value': min_value,
+                'max_value': max_value,
+                'avg_value': avg_value,
+                'sum_value': sum_value,
+                'count': count if count > 0 else None,
+            }
+            ex = existing_map.get(var_id)
+            if ex:
+                for k, v in defaults.items():
+                    setattr(ex, k, v)
+                two_objs_to_update.append(ex)
             else:
-                updated += 1
-        except Exception as e:
-            logger.error(f'Failed to upsert TwoMinuteData for var_id={var_id}: {e}')
+                two_objs_to_create.append(models.TwoMinuteData(timestamp=db_timestamp, var_id=var_id, **defaults))
+
+        if two_objs_to_create:
+            models.TwoMinuteData.objects.bulk_create(two_objs_to_create, batch_size=1000)
+            created = len(two_objs_to_create)
+        if two_objs_to_update:
+            models.TwoMinuteData.objects.bulk_update(two_objs_to_update, ['client_id','group_id','value','value_type','min_value','max_value','avg_value','sum_value','count'], batch_size=1000)
+            updated = len(two_objs_to_update)
+    except Exception as e:
+        logger.error(f'Failed batch upsert TwoMinuteData: {e}')
 
     logger.info(f'redis_to_db completed: buckets={len(aggregates)}, created={created}, updated={updated}, db_bucket={db_timestamp.isoformat()}')
 
@@ -368,6 +440,7 @@ def aggregate_2min_to_10min(at=None):
     - 집계 구간: [버킷 시작, 버킷 시작 + 10분)
     - 각 var_id별로 약 5개의 2분 데이터에서 min/max/avg/sum/count를 산출
     - TenMinuteData.value에는 avg를 저장, value_type은 'float' (집계 불가 시 'null')
+    - LSIS_socket_redis_instance에 key가 기록만 처리합니다.
 
     매개변수:
     - at: 예약 실행 시각(문자열 ISO 또는 datetime). 없으면 현재 로컬 시간 기준.
@@ -398,7 +471,25 @@ def aggregate_2min_to_10min(at=None):
         pass
 
     # 집계 대상 로우 로드 (DB에는 오프셋 적용된 시간으로 저장됨)
-    rows = models.TwoMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end)
+    # For 10-minute aggregation onwards, only include variables with attribute '기록'
+    from LSISsocket.models import Variable
+    # 'contains' lookup on JSONField may not be supported on this DB backend (e.g. SQLite).
+    try:
+        record_var_ids = []
+        qs = Variable.objects.values_list('id', 'attributes')
+        for vid, attrs in qs:
+            try:
+                attrs_list = list(attrs or [])
+            except Exception:
+                attrs_list = []
+            if '기록' in attrs_list:
+                try:
+                    record_var_ids.append(int(vid))
+                except Exception:
+                    pass
+    except Exception:
+        record_var_ids = []
+    rows = models.TwoMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end, var_id__in=record_var_ids)
 
     # var_id별 집계
     agg = {}
@@ -474,18 +565,36 @@ def aggregate_2min_to_10min(at=None):
             'sum_value': sum_value,
             'count': count,
         }
-        try:
-            obj, created_flag = models.TenMinuteData.objects.update_or_create(
-                timestamp=db_start,
-                var_id=vid,
-                defaults=defaults,
-            )
-            if created_flag:
-                created += 1
+        # we'll handle TenMinuteData upserts in batch after the loop
+        agg[vid]['_ten_defaults'] = defaults
+
+    # Batch upsert TenMinuteData
+    try:
+        ten_to_create = []
+        ten_to_update = []
+        ten_var_ids = list(agg.keys())
+        existing_ten = list(models.TenMinuteData.objects.filter(timestamp=db_start, var_id__in=ten_var_ids)) if ten_var_ids else []
+        existing_map_ten = {r.var_id: r for r in existing_ten}
+        for vid, g in agg.items():
+            if g['count'] <= 0:
+                continue
+            defaults = g.pop('_ten_defaults', None) or {}
+            ex = existing_map_ten.get(vid)
+            if ex:
+                for k, v in defaults.items():
+                    setattr(ex, k, v)
+                ten_to_update.append(ex)
             else:
-                updated += 1
-        except Exception as e:
-            logger.error(f"TenMinuteData upsert 실패: var_id={vid}, err={e}")
+                ten_to_create.append(models.TenMinuteData(timestamp=db_start, var_id=vid, **defaults))
+
+        if ten_to_create:
+            models.TenMinuteData.objects.bulk_create(ten_to_create, batch_size=1000)
+            created += len(ten_to_create)
+        if ten_to_update:
+            models.TenMinuteData.objects.bulk_update(ten_to_update, ['client_id','group_id','value','value_type','min_value','max_value','avg_value','sum_value','count'], batch_size=1000)
+            updated += len(ten_to_update)
+    except Exception as e:
+        logger.error(f"Failed batch upsert TenMinuteData: {e}")
 
     logger.info(f"aggregate_2min_to_10min completed: db_bucket_start={db_start.isoformat()}, created={created}, updated={updated}, sources={len(rows)}")
     return {
@@ -506,6 +615,7 @@ def aggregate_to_1hour(at=None):
     - 규칙: var_id별로 10분데이터가 3개 이상이면 TenMinuteData로 집계,
             3개 미만이면 TwoMinuteData로 집계
     - 산출: min, max, avg, sum, count 계산 후 HourlyData에 업서트
+    - LSIS_socket_redis_instance에 key가 기록만 처리합니다.
 
     사용 예시:
     - aggregate_to_1hour()
@@ -534,8 +644,26 @@ def aggregate_to_1hour(at=None):
         pass
 
     # 데이터 조회 (DB 상의 오프로 저장된 타임스탬프 기준)
-    ten_rows = models.TenMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end)
-    two_rows = models.TwoMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end)
+    # For hourly aggregation, only include variables with attribute '기록'
+    from LSISsocket.models import Variable
+    # 'contains' lookup on JSONField may not be supported on this DB backend (e.g. SQLite).
+    try:
+        record_var_ids = []
+        qs = Variable.objects.values_list('id', 'attributes')
+        for vid, attrs in qs:
+            try:
+                attrs_list = list(attrs or [])
+            except Exception:
+                attrs_list = []
+            if '기록' in attrs_list:
+                try:
+                    record_var_ids.append(int(vid))
+                except Exception:
+                    pass
+    except Exception:
+        record_var_ids = []
+    ten_rows = models.TenMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end, var_id__in=record_var_ids)
+    two_rows = models.TwoMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end, var_id__in=record_var_ids)
 
     # 10분 집계 사전
     ten_agg = {}
@@ -666,18 +794,39 @@ def aggregate_to_1hour(at=None):
             'sum_value': sum_value,
             'count': count,
         }
-        try:
-            obj, created_flag = models.HourlyData.objects.update_or_create(
-                timestamp=db_start,
-                var_id=vid,
-                defaults=defaults,
-            )
-            if created_flag:
-                created += 1
+        # collect defaults for batch upsert
+        all_vid_defaults = globals().get('_hourly_defaults_map', {})
+        if '_hourly_defaults_map' not in globals():
+            globals()['_hourly_defaults_map'] = {}
+            all_vid_defaults = globals()['_hourly_defaults_map']
+        all_vid_defaults[vid] = defaults
+
+    # Batch upsert HourlyData
+    try:
+        hourly_to_create = []
+        hourly_to_update = []
+        hourly_var_ids = list(globals().get('_hourly_defaults_map', {}).keys())
+        existing_hourly = list(models.HourlyData.objects.filter(timestamp=db_start, var_id__in=hourly_var_ids)) if hourly_var_ids else []
+        existing_map_hourly = {r.var_id: r for r in existing_hourly}
+        for vid, defaults in globals().get('_hourly_defaults_map', {}).items():
+            ex = existing_map_hourly.get(vid)
+            if ex:
+                for k, v in defaults.items():
+                    setattr(ex, k, v)
+                hourly_to_update.append(ex)
             else:
-                updated += 1
-        except Exception as e:
-            logger.error(f"HourlyData upsert 실패: var_id={vid}, err={e}")
+                hourly_to_create.append(models.HourlyData(timestamp=db_start, var_id=vid, **defaults))
+
+        if hourly_to_create:
+            models.HourlyData.objects.bulk_create(hourly_to_create, batch_size=1000)
+            created += len(hourly_to_create)
+        if hourly_to_update:
+            models.HourlyData.objects.bulk_update(hourly_to_update, ['client_id','group_id','value','value_type','min_value','max_value','avg_value','sum_value','count'], batch_size=1000)
+            updated += len(hourly_to_update)
+        # clean up temporary map
+        globals().pop('_hourly_defaults_map', None)
+    except Exception as e:
+        logger.error(f"Failed batch upsert HourlyData: {e}")
 
     logger.info(
         f"aggregate_to_1hour completed: db_bucket_start={db_start.isoformat()}, created={created}, updated={updated}, ten_sources={len(ten_rows)}, two_sources={len(two_rows)}"
@@ -702,6 +851,7 @@ def aggregate_to_daily(at=None):
     - 규칙: var_id별로 10분데이터가 3개 이상이면 TenMinuteData로 집계,
             3개 미만이면 TwoMinuteData로 집계
     - 산출: min, max, avg, sum, count 계산 후 DailyData에 업서트
+    - LSIS_socket_redis_instance에 key가 기록만 처리합니다.
 
     사용 예시:
     - aggregate_to_daily()
@@ -729,8 +879,26 @@ def aggregate_to_daily(at=None):
         pass
 
     # 데이터 조회 (DB 상의 오프로 저장된 타임스탬프 기준)
-    ten_rows = models.TenMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end)
-    two_rows = models.TwoMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end)
+    # For daily aggregation, only include variables with attribute '기록'
+    from LSISsocket.models import Variable
+    # 'contains' lookup on JSONField may not be supported on this DB backend (e.g. SQLite).
+    try:
+        record_var_ids = []
+        qs = Variable.objects.values_list('id', 'attributes')
+        for vid, attrs in qs:
+            try:
+                attrs_list = list(attrs or [])
+            except Exception:
+                attrs_list = []
+            if '기록' in attrs_list:
+                try:
+                    record_var_ids.append(int(vid))
+                except Exception:
+                    pass
+    except Exception:
+        record_var_ids = []
+    ten_rows = models.TenMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end, var_id__in=record_var_ids)
+    two_rows = models.TwoMinuteData.objects.filter(timestamp__gte=db_start, timestamp__lt=db_end, var_id__in=record_var_ids)
 
     # 10분 집계 사전
     ten_agg = {}
@@ -859,18 +1027,38 @@ def aggregate_to_daily(at=None):
             'sum_value': sum_value,
             'count': count,
         }
-        try:
-            obj, created_flag = models.DailyData.objects.update_or_create(
-                timestamp=db_start,
-                var_id=vid,
-                defaults=defaults,
-            )
-            if created_flag:
-                created += 1
+        # collect defaults for batch upsert daily
+        all_vid_defaults = globals().get('_daily_defaults_map', {})
+        if '_daily_defaults_map' not in globals():
+            globals()['_daily_defaults_map'] = {}
+            all_vid_defaults = globals()['_daily_defaults_map']
+        all_vid_defaults[vid] = defaults
+
+    # Batch upsert DailyData
+    try:
+        daily_to_create = []
+        daily_to_update = []
+        daily_var_ids = list(globals().get('_daily_defaults_map', {}).keys())
+        existing_daily = list(models.DailyData.objects.filter(timestamp=db_start, var_id__in=daily_var_ids)) if daily_var_ids else []
+        existing_map_daily = {r.var_id: r for r in existing_daily}
+        for vid, defaults in globals().get('_daily_defaults_map', {}).items():
+            ex = existing_map_daily.get(vid)
+            if ex:
+                for k, v in defaults.items():
+                    setattr(ex, k, v)
+                daily_to_update.append(ex)
             else:
-                updated += 1
-        except Exception as e:
-            logger.error(f"DailyData upsert 실패: var_id={vid}, err={e}")
+                daily_to_create.append(models.DailyData(timestamp=db_start, var_id=vid, **defaults))
+
+        if daily_to_create:
+            models.DailyData.objects.bulk_create(daily_to_create, batch_size=1000)
+            created += len(daily_to_create)
+        if daily_to_update:
+            models.DailyData.objects.bulk_update(daily_to_update, ['client_id','group_id','value','value_type','min_value','max_value','avg_value','sum_value','count'], batch_size=1000)
+            updated += len(daily_to_update)
+        globals().pop('_daily_defaults_map', None)
+    except Exception as e:
+        logger.error(f"Failed batch upsert DailyData: {e}")
 
     logger.info(
         f"aggregate_to_daily completed: db_bucket_start={db_start.isoformat()}, created={created}, updated={updated}, ten_sources={len(ten_rows)}, two_sources={len(two_rows)}"

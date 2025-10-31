@@ -304,14 +304,13 @@ class ControlItemSimpleSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 class RecipeItemValueSerializer(serializers.ModelSerializer):
-    control_item = serializers.PrimaryKeyRelatedField(queryset=ControlItem.objects.all(), help_text='ControlItem ID. 예: 2', style={})
     set_value = serializers.FloatField(help_text='설정 값 (실수). 예: 23.5', style={'example': 23.5})
     min_value = serializers.FloatField(required=False, allow_null=True, help_text='허용 최소값 (선택). 예: 10.0', style={'example': 10.0})
     max_value = serializers.FloatField(required=False, allow_null=True, help_text='허용 최대값 (선택). 예: 40.0', style={'example': 40.0})
 
     class Meta:
         model = RecipeItemValue
-        fields = ['id', 'control_item', 'set_value', 'min_value', 'max_value', 'control_logic', 'priority']
+        fields = ['id', 'redis_key', 'set_value', 'min_value', 'max_value', 'control_logic', 'priority']
 
 class RecipeStepSerializer(serializers.ModelSerializer):
     item_values = RecipeItemValueSerializer(many=True, required=False, help_text='이 스텝에 포함된 항목값 목록 (선택)')
@@ -526,14 +525,13 @@ class ControlItemSimpleSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 class RecipeItemValueSerializer(serializers.ModelSerializer):
-    control_item = serializers.PrimaryKeyRelatedField(queryset=ControlItem.objects.all(), help_text='ControlItem ID. 예: 2', style={})
     set_value = serializers.FloatField(help_text='설정 값 (실수). 예: 23.5', style={'example': 23.5})
     min_value = serializers.FloatField(required=False, allow_null=True, help_text='허용 최소값 (선택). 예: 10.0', style={'example': 10.0})
     max_value = serializers.FloatField(required=False, allow_null=True, help_text='허용 최대값 (선택). 예: 40.0', style={'example': 40.0})
 
     class Meta:
         model = RecipeItemValue
-        fields = ['id', 'control_item', 'set_value', 'min_value', 'max_value', 'control_logic', 'priority']
+        fields = ['id', 'redis_key', 'set_value', 'min_value', 'max_value', 'control_logic', 'priority']
 
 class RecipeStepSerializer(serializers.ModelSerializer):
     item_values = RecipeItemValueSerializer(many=True, required=False, help_text='이 스텝에 포함된 항목값 목록 (선택)')

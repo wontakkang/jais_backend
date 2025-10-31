@@ -43,13 +43,14 @@ class DataName(models.Model):
     dtype = models.CharField(max_length=10, blank=True)
     unit = models.CharField(max_length=20, blank=True)
     DATA_TYPE_CHOICES = [
-        ('status', 'Status'),
-        ('upper', 'Upper'),
-        ('lower', 'Lower'),
-        ('reference', 'Reference'),
-        ('difference', 'Difference'),
-        ('calculation', 'Calculation'),
-        ('command', 'Command'),
+        ('status', '상태'),
+        ('upper', '상한'),
+        ('lower', '하한'),
+        ('reference', '제어'),
+        ('difference', '편차'),
+        ('calculation', '연산'),
+        ('command', '명령'),
+        ('info', '정보'),
     ]
     attributes = models.CharField(max_length=20, choices=DATA_TYPE_CHOICES, null=True, blank=True)
     use_method = models.CharField(

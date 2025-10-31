@@ -590,8 +590,7 @@ class QualityEvent(models.Model):
 
 class RecipeItemValue(models.Model):
     recipe = models.ForeignKey(RecipeStep, null=True, blank=True, on_delete=models.CASCADE, related_name='item_values')
-    # reference local ControlItem in agriseed app; corecode does not provide ControlItem
-    control_item = models.ForeignKey('ControlItem', on_delete=models.CASCADE, null=True, blank=True, related_name='agriseed_recipe_values')
+    redis_key = models.CharField(null=True, blank=True, max_length=200, help_text="레디스 키 (선택)")
     set_value = models.FloatField(help_text="설정값 (목표값 등)")
     min_value = models.FloatField(null=True, blank=True, help_text="최소 허용값 (선택)")
     max_value = models.FloatField(null=True, blank=True, help_text="최대 허용값 (선택)")
@@ -600,9 +599,9 @@ class RecipeItemValue(models.Model):
 
     def __str__(self):
         # recipe is now a RecipeStep, include profile name and step
-        profile_name = self.recipe.recipe_profile.recipe_name
+        profile_name = self.recipe.recipe_profile.name
         step_name = self.recipe.name
-        return f"{profile_name} - {step_name}: {self.control_item.item_name}"
+        return f"{profile_name} - {step_name}: {self.redis_key}"
 
 class CalendarSchedule(models.Model):
     facility = models.ForeignKey('Facility', on_delete=models.CASCADE, null=True, blank=True, related_name='calendar_schedules', help_text="소속 시설")

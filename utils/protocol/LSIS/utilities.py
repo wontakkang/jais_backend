@@ -140,6 +140,7 @@ class LSIS_MappingTool:
         'uint32': 'I',
         'int32': 'i',
         'float': 'f',
+        'udint32': 'I',
         'float32': 'f',
     }
     ADDRESS_FORMAT = {
@@ -156,6 +157,7 @@ class LSIS_MappingTool:
         'uint16': 'H',
         'int16': 'H',
         'uint32': 'I',
+        'udint32': 'I',
         'int32': 'I',
         'float': 'I',
         'float32': 'I',
@@ -173,6 +175,8 @@ class LSIS_MappingTool:
         self.address_size = self.ADDRESS_FORMAT.get(kwargs['device_address'][:3], 1)
         self.type = kwargs.get('data_type')
         self.unit = kwargs.get('unit')
+        self.max = kwargs.get('max')
+        self.min = kwargs.get('min')
         self.size = self.UNIT_SIZE[self.unit]
         self.format = self.DATA_FORMAT[f'{self.type}{self.size}']
         if kwargs.get('data_type') == 'bool' or kwargs.get('data_type') == 'bit':
@@ -183,17 +187,25 @@ class LSIS_MappingTool:
         self.scale = kwargs.get('scale', 1)
         
         if self.type == "float":
-            self.min = kwargs.get('min', sys.float_info.min)
-            self.max = kwargs.get('max', sys.float_info.max)
+            try:
+                self.min = float(kwargs.get('min', -sys.float_info.max))
+                self.max = float(kwargs.get('max', sys.float_info.max))
+            except Exception:
+                self.min = sys.float_info.min
+                self.max = sys.float_info.max
         if self.type == "int":
-            self.min = kwargs.get('min', -sys.maxsize - 1)
-            self.max = kwargs.get('max', sys.maxsize)
+            try:
+                self.min = int(kwargs.get('min', -sys.maxsize - 1))
+                self.max = int(kwargs.get('max', sys.maxsize))
+            except Exception:
+                self.min = -sys.maxsize - 1
+                self.max = sys.maxsize
         if self.type == "bool":
-            self.min = kwargs.get('min', 0)
-            self.max = kwargs.get('max', 1)
+            self.min = 0
+            self.max = 1
         if self.type == "bit":
-            self.min = kwargs.get('min', 0)
-            self.max = kwargs.get('max', 1)
+            self.min = 0
+            self.max = 1
             
             
 
@@ -211,37 +223,47 @@ class LSIS_MappingTool:
             return value/float(self.scale)
 
     def minmax(self, value):
-        if type(value).__name__ == 'int' or type(value).__name__ == 'float':
-            if self.max == self.min == 0:
-                return value
-            elif self.max < self.min:
-                return value
-            elif value > self.max:
-                if 'int' in self.type:
-                    return self.max
-                elif 'float' in self.type:
-                    return float(self.max)
-            elif value < self.min:
-                if 'int' in self.type:
-                    return self.min
-                elif 'float' in self.type:
-                    return float(self.min)
-            else:
-                return value
+        try:
+            if type(value).__name__ == 'int' or type(value).__name__ == 'float':
+                if self.max == self.min == 0:
+                    return value
+                elif self.max < self.min:
+                    return value
+                elif value > self.max:
+                    if 'int' in self.type:
+                        return self.max
+                    elif 'float' in self.type:
+                        return float(self.max)
+                elif value < self.min:
+                    if 'int' in self.type:
+                        return self.min
+                    elif 'float' in self.type:
+                        return float(self.min)
+                else:
+                    return value
+        except Exception:
+            return value
 
     {"address": "%MB80000", "count": 1, "format": "B", "values": 1}
     def repack_write(self, value):
+
+        if self.type == 'bool' or self.type == 'bit':
+            value = int(value)
+        elif self.type == 'float':
+            value = float(value)
+        elif self.type == 'int':
+            value = int(value)
         if len(self.position) > 1:
             writeFormat = {
                 "address" : f"{self.address[:-1]}X{self.position[0]*8+self.position[1]}",
                 "count" : 1,
                 "format" : self.WRITE_SIZE[self.type],
-                "values" : int(value),
+                "values" : value,
             }
             return writeFormat
         elif len(self.position) == 1:
             writeFormat = {
-                "address": self.args[1],
+                "address": self.kwargs.get('device_address', None),
                 "count": 1,
                 "format": self.WRITE_SIZE[self.type],
                 "values": self.write_scale(value),
@@ -260,13 +282,13 @@ class LSIS_MappingTool:
             #byte 이상 사이즈 변환
             repack_data = data[self.position[0]: self.position[0] + self.address_size]
             if len(repack_data) == 0:
-                return f"유효한 주소가 아닙니다."
+                return f"유효한 주소가 아닙니다. len(repack_data) == 0 ({len(self.position)})"
             result = self.repack_byte(format=self.format, data=repack_data)
             result = self.read_scale(result)
             result = self.minmax(result)
             return result
         else:
-            return f"유효한 주소가 아닙니다."
+            return f"유효한 주소가 아닙니다.({len(self.position)})"
 
     def unpack_bitslist(self, data=list):
         """Create bit array out of a string.

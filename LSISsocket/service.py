@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import time
-from LSISsocket.serializers import MemoryGroupSerializer, SocketClientConfigSerializer
+from LSISsocket.serializers import CalcGroupSerializer, MemoryGroupSerializer, SetupGroupSerializer, SocketClientConfigSerializer
 from main import django
 from utils.calculation import all_dict as calculation_methods
 from utils.logger import log_exceptions, log_execution_time
@@ -9,19 +9,53 @@ import logging
 from utils.protocol.LSIS.client.tcp import LSIS_TcpClient
 from utils.protocol.LSIS.utilities import LSIS_MappingTool
 
-from LSISsocket.models import MemoryGroup, SocketClientConfig, SocketClientStatus
+from LSISsocket.models import AlertGroup, CalcGroup, ControlGroup, MemoryGroup, SetupGroup, SocketClientConfig, SocketClientStatus, Variable
 from django.utils import timezone
 from pathlib import Path
 from . import logger, redis_instance
 from corecode import redis_instance as corecode_redis_instance
-import re
-import json
 
 sockets = []
+memory_group_cache = {}
+calc_group_cache = {}
+alert_group_cache = {}
+control_group_cache = {}
+setup_group_cache = {}
+client_cache = {}
+
+def initialize_global_caches():
+    global memory_group_cache, calc_group_cache, alert_group_cache, control_group_cache, setup_group_cache, client_cache
+    """동기 함수: 전역 캐시를 초기화합니다."""
+    client_cache = SocketClientConfig.objects.filter(is_used=True).all()
+    memory_group_cache = MemoryGroup.objects.all()
+    calc_group_cache = CalcGroup.objects.all()
+    alert_group_cache = AlertGroup.objects.all()
+    control_group_cache = ControlGroup.objects.all()
+    setup_group_cache = SetupGroup.objects.filter(is_active=True).all()
+
+    memory_bulk_attr = {}
+    for client in client_cache:
+        memory_groups = SocketClientConfigSerializer(client).data.get('memory_groups', [])
+        # memory_group_cache는 리스트이므로 list comprehension으로 필터
+        matched = [g for g in memory_group_cache if getattr(g, 'id', None) in memory_groups]
+        memory_group_cacheed = MemoryGroupSerializer(matched, many=True).data
+        for g in memory_group_cacheed:
+            for mem in g.get('variables', []):
+                key = f"{client.id}:{mem.get('id', None)}"
+                for attr in mem.get('attributes', []):
+                    memory_bulk_attr.setdefault(attr, []).append(key)
+
+    try:
+        redis_instance.bulk_update(memory_bulk_attr)
+        logger.info('Loaded caches')
+    except Exception:
+        logger.exception('캐시를 Redis로 로드하는 동안 실패')
+
+    return client_cache, memory_group_cache, calc_group_cache, alert_group_cache, control_group_cache, setup_group_cache
 
 @log_exceptions(logger)
 def tcp_client_to_redis(client):
-    global sockets
+    global sockets, memory_group_cache, calc_group_cache, alert_group_cache, control_group_cache, setup_group_cache
     connect_sock = None
     try:
         try:
@@ -46,9 +80,8 @@ def tcp_client_to_redis(client):
             is_connected = connect_sock.connect(retry_forever=False)
             if is_connected:
                 sockets.append(connect_sock)
-                created_here = True
                 if (not redis_instance.exists(f'{client.host}:{client.port}')):
-                    redis_instance.hmset(f'{client.host}:{client.port}', mapping={'host': client.host, 'port': client.port, 'created_at': datetime.now().isoformat(), 'updated_at': datetime.now().isoformat(), '%MB': ([0] * 20000), '%RW': ([0] * 20000), '%WW': ([0] * 20000)})
+                    redis_instance.hmset(f'{client.host}:{client.port}', mapping={'host': client.host, 'port': client.port, 'created_at': datetime.now().isoformat(), 'updated_at': datetime.now().isoformat(), '%MB': ([0] * 20000), '%RW': ([0] * 1000), '%WW': ([0] * 1000)})
         from types import SimpleNamespace
         for sock in sockets:
             if ((sock.params.host == client.host) and (sock.params.port == client.port)):
@@ -131,7 +164,7 @@ def tcp_client_to_redis(client):
             status_instance.message = detailed_status.get("message", "")
             status_instance.updated_at = timezone.now()
             status_instance.save()
-            reids_to_memory_mapping(client)
+            reids_to_memory_mapping(client, connect_sock)
         except SocketClientStatus.DoesNotExist:
             logger.error(f'{__name__} : config_id {client.id}를 가진 SocketClientStatus가 존재하지 않습니다')
             detailed_status = {
@@ -174,64 +207,81 @@ def tcp_client_to_redis(client):
 
 
 @log_exceptions(logger)
-def reids_to_memory_mapping(client):
+def reids_to_memory_mapping(client, connect_sock):
+    global sockets, memory_group_cache, calc_group_cache, alert_group_cache, control_group_cache, setup_group_cache
+    
     # /LSISsocket/client-configs/id=client_id로 직렬화기의 값을 가져오기
     try:
         bulk_data = {}
-        configs = []
         MB = redis_instance.hget(name=f'{client.host}:{client.port}', key='%MB')
         # client가 단일 모델 인스턴스인 경우
         if isinstance(client, SocketClientConfig):
             serializer = SocketClientConfigSerializer(client)
             configs = serializer.data
-        memory_groups = configs.get('memory_groups_detail', [])
-        memory_bulk_data = {}
-        for group in memory_groups:
-            for key in group:
-                if key == 'variables':
-                    for mem in group.get('variables'):
-                        try:
-                            LMT = LSIS_MappingTool(**mem)
-                            _value = LMT.repack(MB)
-                            if type(_value).__name__ == 'float':
-                                _value= float("{:.3f}".format(round(_value, 3)))
-                            # Redis에 변수별 속성(JSON 배열) 저장
-                            try:
-                                key = f"{configs.get('id', None)}:{mem.get('id', None)}"
-                                memory_bulk_data[key] = _value
-                            except Exception as _e:
-                                logger.debug(f'Attribute save failed for var {mem.get("id")}: {_e}')
-                        except Exception as e:
-                            logger.error(f'Error creating LSIS_MappingTool for memory variable {mem}: {e}')
-        calc_groups = configs.get('calc_groups_detail', [])
-        calc_bulk_data = {}
-        for group in calc_groups:
-            for key in group:
-                if key == 'variables':
-                    for mem in group.get('variables'):
-                        args_values = []
-                        try:
-                            for arg in mem.get('args', []):
-                                args_values.append(memory_bulk_data[f"{configs.get('id', None)}:{arg}"])
-                            key = f"{configs.get('id', None)}:{mem.get('id', None)}"
-                            calc_bulk_data[key] = calculation_methods.get(mem.get('name').get('use_method'))(*args_values)
-                        except Exception as _e:
-                            logger.debug(f'Attribute save failed for var {mem.get("id")}: {_e}')
-        bulk_data.update(memory_bulk_data)
-        bulk_data.update(calc_bulk_data)
-        corecode_redis_instance.bulk_update(bulk_data)
+        memory_groups = configs.get('memory_groups', [])
+        read_memory_bulk_data = {}
+        write_memory_bulk_data = {}
+        memory_group_cacheed = MemoryGroupSerializer(memory_group_cache.filter(id__in=memory_groups), many=True).data
+        for g in memory_group_cacheed:
+            for mem in g.get('variables', []):
+                try:
+                    LMT = LSIS_MappingTool(**mem)
+                    _value = LMT.repack(MB)
+                    if type(_value).__name__ == 'float':
+                        _value= float("{:.3f}".format(round(_value, 3)))
+                    # Redis에 변수별 속성(JSON 배열) 저장
+                    try:
+                        key = f"{configs.get('id', None)}:{mem.get('id', None)}"
+                        read_memory_bulk_data[key] = _value
+                    except Exception as _e:
+                        logger.debug(f'Attribute save failed for var {mem.get("id")}: {_e}')
+                except Exception as e:
+                    logger.error(f'Error creating LSIS_MappingTool for memory variable {mem}: {e}')
+                        
     except Exception as err:
         logger.error(f'Error fetching memory-groups serializer data: {err}')
         configs = []
-    
-    
-@log_exceptions(logger)
-def setup_variables_to_redis(group=None):
-    memory_bulk_data = {}
-    setup_varialbes = group.get('variables', [])
-    for id in setup_varialbes:
-        try:
-            key = f"{group.id}:{id}"
-            memory_bulk_data[key] = None
-        except Exception as _e:
-            logger.debug(f'Attribute save failed for var {id}: {_e}')
+        
+    try:
+        calc_groups = configs.get('calc_groups', [])
+        calc_bulk_data = {}
+        calc_group_cacheed = CalcGroupSerializer(calc_group_cache.filter(id__in=calc_groups), many=True).data
+        for g in calc_group_cacheed:
+            for mem in g.get('variables'):
+                args_values = []
+                try:
+                    for arg in mem.get('args', []):
+                        args_values.append(read_memory_bulk_data[f"{configs.get('id', None)}:{arg}"])
+                    key = f"{configs.get('id', None)}:{mem.get('id', None)}"
+                    calc_bulk_data[key] = calculation_methods.get(mem.get('name').get('use_method'))(*args_values)
+                except Exception as _e:
+                    logger.debug(f'Attribute save failed for var {mem.get("id")}: {_e}')
+        bulk_data.update(read_memory_bulk_data)
+        bulk_data.update(calc_bulk_data)
+        corecode_redis_instance.bulk_update(bulk_data)
+
+    except Exception as err:
+        logger.error(f'Error fetching calc-groups serializer data: {err}')
+        
+    try:
+        setup_groups = configs.get('setup_groups', [])
+        setup_group_cacheed = SetupGroupSerializer(setup_group_cache.filter(id__in=setup_groups), many=True).data
+        for g in setup_group_cacheed:
+            for mem in g.get('variables_detail', []):
+                try:
+                    key = f"{configs.get('id', None)}:{mem.get('id', None)}"
+                    if read_memory_bulk_data[key] != mem.get('value'):
+                        if mem.get('value') is not None:
+                            LMT = LSIS_MappingTool(**mem)
+                            print('Before Repack Write:', mem.get('value'))
+                            print('After Repack Write:', LMT.__dict__)
+                            
+                            print(LMT.repack_write(mem.get('value')))
+                            write_memory_bulk_data[mem.get('device_address')] = mem.get('value')
+                except Exception as _e:
+                    logger.debug(f'Error fetching setup-groups Attribute save failed for var {mem.get("id")}: {_e}')
+        
+        if len(write_memory_bulk_data) > 0:
+            print(write_memory_bulk_data)
+    except Exception as err:
+        logger.error(f'Error fetching setup-groups serializer data: {err}')

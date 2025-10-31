@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='recipeprofile',
-            name='recipe_name',
+            name='name',
             field=models.CharField(help_text='레시피 이름', max_length=200),
         ),
     ]

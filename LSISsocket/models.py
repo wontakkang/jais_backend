@@ -23,7 +23,7 @@ class ControlGroup(models.Model):
         return f"ControlGroup ({self.name})"
 
 
-class AlartGroup(models.Model):
+class AlertGroup(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
@@ -31,7 +31,7 @@ class AlartGroup(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return f"AlartGroup ({self.name})"
+        return f"AlertGroup ({self.name})"
 
 
 class ControlValue(models.Model):
@@ -191,6 +191,7 @@ class Variable(models.Model):
     scale = models.FloatField(default=1)
     offset = models.CharField(default='0', max_length=20, help_text="오프셋 값 (정수 또는 소수점 형태의 문자열)")
     attributes = models.JSONField(default=list, blank=True, help_text="['감시','제어','기록','경보'] 중 복수 선택")
+    value = models.CharField(max_length=100, null=True, blank=True, help_text='최종 값 (문자열 형태)')
     remark = models.TextField(null=True, blank=True, help_text='비고')
     def __str__(self):
         return f"{self.name} ({self.device}{self.address})"
@@ -217,15 +218,15 @@ class ControlVariable(models.Model):
         return f" using {self.applied_logic.name if self.applied_logic else 'N/A'}"
 
 
-class AlartVariable(models.Model):
-    group = models.ForeignKey(AlartGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_alart_variables_in_group')
-    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_as_alart_variable')
+class AlertVariable(models.Model):
+    group = models.ForeignKey(AlertGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_alert_variables_in_group')
+    name = models.ForeignKey('corecode.DataName', on_delete=models.CASCADE, related_name='lsissocket_as_alert_variable')
     data_type = models.CharField(max_length=20, blank=True)
     args = models.JSONField(default=list, null=True, blank=True, help_text="알림 변수 인자값을 순서대로 저장 (리스트)")
-    result = models.ForeignKey(Variable, null=True, blank=True, on_delete=models.CASCADE, related_name='lsissocket_as_alart_result')
+    result = models.ForeignKey(Variable, null=True, blank=True, on_delete=models.CASCADE, related_name='lsissocket_as_alert_result')
 
     def __str__(self):
-        return f"AlartVar:{self.name} (group={self.group.name if self.group else 'None'})"
+        return f"AlertVar:{self.name} (group={self.group.name if self.group else 'None'})"
 
 class CalcVariable(models.Model):
     group = models.ForeignKey(CalcGroup, on_delete=models.CASCADE, blank=True, null=True, related_name='lsissocket_calc_variables_in_group')
@@ -250,6 +251,9 @@ class SocketClientConfig(models.Model):
     control_groups = models.ManyToManyField(ControlGroup, blank=True, related_name='lsissocket_control_groups', help_text='연결된 제어 그룹')
     calc_groups = models.ManyToManyField(CalcGroup, blank=True, related_name='lsissocket_calc_groups', help_text='연결된 계산 그룹')
     memory_groups = models.ManyToManyField(MemoryGroup, blank=True, related_name='lsissocket_memory_groups', help_text='연결된 메모리 그룹')
+    # alert(Alert) 그룹 및 setup 그룹 추가
+    alert_groups = models.ManyToManyField('LSISsocket.AlertGroup', blank=True, related_name='lsissocket_alert_groups', help_text='연결된 AlertGroup(경보) 목록')
+    setup_groups = models.ManyToManyField('LSISsocket.SetupGroup', blank=True, related_name='lsissocket_setup_groups', help_text='연결된 SetupGroup(설정) 목록')
     objects = ActiveManager()  # 기본 매니저: 삭제되지 않은 것만
 
     def __str__(self):

@@ -352,7 +352,7 @@ class RecipeItemValueViewSet(viewsets.ModelViewSet):
     queryset = RecipeItemValue.objects.all()
     serializer_class = RecipeItemValueSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['recipe__id', 'control_item__id']
+    filterset_fields = ['recipe__id', 'redis_key', 'control_logic__id']
     ordering_fields = ['id']
 
 class RecipeStepViewSet(viewsets.ModelViewSet):

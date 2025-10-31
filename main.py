@@ -7,7 +7,6 @@ import faulthandler
 import traceback
 import logging
 
-from data_entry.service import aggregate_2min_to_10min, aggregate_to_1hour, redis_to_db, aggregate_to_daily
 from utils.protocol.LSIS.client.tcp import LSIS_TcpClient
 from utils.ws_log import static_file_app, websocket_app
 # .env 파일에서 환경 변수 로드
@@ -22,7 +21,10 @@ from fastapi.middleware.cors import CORSMiddleware
 # Django 설정 초기화
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "py_backend.settings")
 django.setup()
-from LSISsocket.models import SetupGroup, SocketClientConfig, SocketClientLog
+from LSISsocket.models import AlertGroup, CalcGroup, ControlGroup, MemoryGroup, SetupGroup, SocketClientConfig, SocketClientLog
+from LSISsocket.serializers import MemoryGroupSerializer, SocketClientConfigSerializer
+from LSISsocket import service as LSIS_service
+from data_entry.service import aggregate_2min_to_10min, aggregate_to_1hour, redis_to_db, aggregate_to_daily
 from py_backend.settings import TIME_ZONE
 import time
 from fastapi import FastAPI
@@ -33,11 +35,9 @@ from apscheduler.schedulers.base import SchedulerNotRunningError
 from utils import setup_logger, log_exceptions
 from utils.logger import log_job_runtime
 from pathlib import Path
-from LSISsocket.service import setup_variables_to_redis, tcp_client_to_redis, reids_to_memory_mapping
+from LSISsocket.service import tcp_client_to_redis, reids_to_memory_mapping
 from contextlib import asynccontextmanager
 from zoneinfo import ZoneInfo
-from asgiref.sync import sync_to_async
-
 
 logger = setup_logger(
     name="py_backend.scheduler",
@@ -48,6 +48,7 @@ logger = setup_logger(
 
 # 전역 스케줄러 레퍼런스 (없을 수 있으므로 미리 None으로 초기화)
 scheduler = None
+from LSISsocket import service as LSIS_service
 
 # 전역 이벤트: 스레드/작업에게 종료 신호를 보냄
 STOP_EVENT = threading.Event()
@@ -144,10 +145,8 @@ async def lifespan(app: FastAPI):
         # 동일한 executors를 등록 (IO 바운드 작업은 쓰레드풀, 필요시 프로세스풀 사용)
         scheduler.add_executor(ThreadPoolExecutor(max_workers=os.cpu_count()), "default")
         scheduler.add_executor(ProcessPoolExecutor(max_workers=os.cpu_count()), "processpool")
-
-        clients = await sync_to_async(list)(SocketClientConfig.objects.filter(is_used=True).all())
-        setup_groups = await sync_to_async(list)(SetupGroup.objects.filter(is_active=True).all())
-        for client in clients:
+        client_cache, memory_group_cache, calc_group_cache, alert_group_cache, control_group_cache, setup_group_cache = await asyncio.to_thread(LSIS_service.initialize_global_caches)
+        for client in client_cache:
             try:
                 # AsyncIOScheduler의 add_job은 이벤트 루프에서 안전하게 호출 가능하므로 직접 호출
                 # tcp_client_servive에 잡 런타임 로깅 데코레이터를 적용하여 START/END/ERROR 로그를 남김
@@ -171,29 +170,6 @@ async def lifespan(app: FastAPI):
             # 이벤트 루프를 블로킹하지 않도록 소량 대기
             await asyncio.sleep(0.111)
             
-        for group in setup_groups:
-            try:
-                # AsyncIOScheduler의 add_job은 이벤트 루프에서 안전하게 호출 가능하므로 직접 호출
-                # tcp_client_servive에 잡 런타임 로깅 데코레이터를 적용하여 START/END/ERROR 로그를 남김
-                try:
-                    wrapped_job = log_job_runtime(logger, level=logging.WARNING, msg_prefix='JOB')(setup_variables_to_redis)
-                except Exception:
-                    wrapped_job = setup_variables_to_redis
-                scheduler.add_job(
-                    wrapped_job,
-                    list(group.cron.keys())[0],
-                    **list(group.cron.values())[0],
-                    replace_existing=True,
-                    max_instances=1,
-                    misfire_grace_time=15,
-                    coalesce=False,
-                    executor='default',
-                    args=(group,),
-                )
-            except Exception:
-                logger.exception(f'설정 그룹 작업 등록 실패: {getattr(group, "id", None)}')
-            # 이벤트 루프를 블로킹하지 않도록 소량 대기
-            await asyncio.sleep(0.111)
 
         # 전역 집계 작업은 한 번만 등록 (클라이언트 루프 밖)
         scheduler.add_job(
@@ -243,7 +219,10 @@ async def lifespan(app: FastAPI):
         # AsyncIOScheduler.start()는 동기 메서드(코루틴이 아님)이므로 await하지 않고 호출
         scheduler.start()
         logger.info("스케줄러 시작됨.")
-        yield
+        try:
+            yield
+        finally:
+            pass
     finally:
         # 종료 시점: scheduler가 존재하면 한 번만 완전 종료 시도
         try:
@@ -252,17 +231,28 @@ async def lifespan(app: FastAPI):
                     logger.info('APScheduler 종료 중 (작업 완료 대기)')
                     # shutdown 호출 시 스케줄러가 실행중이지 않으면 SchedulerNotRunningError가 발생할 수 있으므로 처리
                     try:
-                        scheduler.shutdown(wait=True)
-                    except SchedulerNotRunningError:
-                        logger.warning('APScheduler가 실행중이 아님 (shutdown 스킵)')
+                        try:
+                            scheduler.shutdown(wait=True)
+                        except AttributeError:
+                            logger.warning('APScheduler._eventloop 없음 — shutdown 호출 스킵')
+                        except SchedulerNotRunningError:
+                            logger.warning('APScheduler가 실행중이 아님 (shutdown 스킵)')
+                    except Exception:
+                        # 이미 실패한 경우 다음 단계에서 강제 종료 시도
+                        raise
                     logger.info('APScheduler 완전 종료됨 (wait=True)')
                 except Exception:
                     logger.exception('wait=True로 APScheduler 종료 실패, 강제 종료 시도')
                     try:
                         try:
-                            scheduler.shutdown(wait=False)
-                        except SchedulerNotRunningError:
-                            logger.warning('APScheduler가 실행중이 아님 (강제 shutdown 스킵)')
+                            try:
+                                scheduler.shutdown(wait=False)
+                            except AttributeError:
+                                logger.warning('APScheduler._eventloop 없음 — 강제 shutdown 스킵')
+                            except SchedulerNotRunningError:
+                                logger.warning('APScheduler가 실행중이 아님 (강제 shutdown 스킵)')
+                        except Exception:
+                            logger.exception('강제 shutdown 시도 중 예외')
                         logger.info('wait=False로 APScheduler 종료 시도됨')
                     except Exception:
                         logger.exception('APScheduler 강제 종료 실패')

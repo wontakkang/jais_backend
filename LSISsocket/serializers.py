@@ -23,6 +23,11 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
     calc_groups_detail = serializers.SerializerMethodField()
     memory_groups = serializers.PrimaryKeyRelatedField(many=True, queryset=MemoryGroup.objects.all(), required=False, allow_empty=True, help_text='연결된 MemoryGroup IDs')
     memory_groups_detail = serializers.SerializerMethodField()
+    # alert groups 및 setup groups 추가
+    alert_groups = serializers.PrimaryKeyRelatedField(many=True, queryset=AlertGroup.objects.all(), required=False, allow_empty=True, help_text='연결된 AlertGroup IDs')
+    alert_groups_detail = serializers.SerializerMethodField()
+    setup_groups = serializers.PrimaryKeyRelatedField(many=True, queryset=SetupGroup.objects.all(), required=False, allow_empty=True, help_text='연결된 SetupGroup IDs')
+    setup_groups_detail = serializers.SerializerMethodField()
     class Meta:
         model = SocketClientConfig
         exclude = ('is_deleted',)
@@ -39,7 +44,7 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
             qs = obj.control_groups.all()
             if not qs.exists():
                 qs = ControlGroup.objects.all()
-            return ControlGroupSerializer(qs, many=True).data
+            return list(qs.values('id', 'name', 'description'))
         except Exception:
             return []
 
@@ -48,13 +53,34 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
             qs = obj.calc_groups.all()
             if not qs.exists():
                 qs = CalcGroup.objects.all()
-            return CalcGroupSerializer(qs, many=True).data
+            return list(qs.values('id', 'name', 'description'))
         except Exception:
             return []
 
     def get_memory_groups_detail(self, obj):
         try:
-            return MemoryGroupSerializer(obj.memory_groups.all(), many=True).data
+            qs = obj.memory_groups.all()
+            if not qs.exists():
+                qs = MemoryGroup.objects.all()
+            return list(qs.values('id', 'name', 'description'))
+        except Exception:
+            return []
+
+    def get_alert_groups_detail(self, obj):
+        try:
+            qs = obj.alert_groups.all()
+            if not qs.exists():
+                qs = AlertGroup.objects.all()
+            return list(qs.values('id', 'name', 'description'))
+        except Exception:
+            return []
+
+    def get_setup_groups_detail(self, obj):
+        try:
+            qs = obj.setup_groups.all()
+            if not qs.exists():
+                qs = SetupGroup.objects.all()
+            return list(qs.values('id', 'name', 'description'))
         except Exception:
             return []
 
@@ -63,6 +89,8 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
         control_groups = validated_data.pop('control_groups', [])
         calc_groups = validated_data.pop('calc_groups', [])
         memory_groups = validated_data.pop('memory_groups', [])
+        alert_groups = validated_data.pop('alert_groups', [])
+        setup_groups = validated_data.pop('setup_groups', [])
 
         # ✅ force_insert 방지 → 명시적 save()
         instance = SocketClientConfig(**validated_data)
@@ -84,6 +112,16 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
                 instance.memory_groups.set(memory_groups)
         except Exception:
             pass
+        try:
+            if alert_groups:
+                instance.alert_groups.set(alert_groups)
+        except Exception:
+            pass
+        try:
+            if setup_groups:
+                instance.setup_groups.set(setup_groups)
+        except Exception:
+            pass
 
         # SocketClientStatus 생성
         SocketClientStatus.objects.create(config=instance)
@@ -95,6 +133,8 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
         control_groups = validated_data.pop('control_groups', None)
         calc_groups = validated_data.pop('calc_groups', None)
         memory_groups = validated_data.pop('memory_groups', None)
+        alert_groups = validated_data.pop('alert_groups', None)
+        setup_groups = validated_data.pop('setup_groups', None)
 
         # update scalar fields
         for attr, val in validated_data.items():
@@ -116,6 +156,16 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
                 instance.memory_groups.set(memory_groups)
         except Exception:
             pass
+        try:
+            if alert_groups is not None:
+                instance.alert_groups.set(alert_groups)
+        except Exception:
+            pass
+        try:
+            if setup_groups is not None:
+                instance.setup_groups.set(setup_groups)
+        except Exception:
+            pass
 
         return instance
 
@@ -129,6 +179,16 @@ class SocketClientConfigSerializer(serializers.ModelSerializer):
         try:
             if not instance.control_groups.exists():
                 data['control_groups'] = list(ControlGroup.objects.values_list('id', flat=True))
+        except Exception:
+            pass
+        try:
+            if not instance.alert_groups.exists():
+                data['alert_groups'] = list(AlertGroup.objects.values_list('id', flat=True))
+        except Exception:
+            pass
+        try:
+            if not instance.setup_groups.exists():
+                data['setup_groups'] = list(SetupGroup.objects.values_list('id', flat=True))
         except Exception:
             pass
         return data
@@ -167,11 +227,12 @@ class VariableSerializer(serializers.ModelSerializer):
     # 모델과 동일한 타입으로 정정
     device = serializers.CharField(max_length=2, help_text='장치 종류 코드(예: D/M/R)')
     address = serializers.FloatField(help_text='장치 내 주소(숫자). 예: 100')
+    value = serializers.CharField(required=False, allow_null=True, allow_blank=True, help_text='최종 값 (문자열 형태)')
 
     class Meta:
         model = Variable
         fields = [
-            'id', 'group', 'name', 'device', 'address', 'use_group_base_address', 'data_type', 'unit', 'scale', 'offset', 'device_address', 'attributes', 'remark'
+            'id', 'group', 'name', 'device', 'address', 'use_group_base_address', 'data_type', 'unit', 'scale', 'offset', 'device_address', 'attributes', 'remark', 'value'
         ]
         
     def get_device_address(self, obj):
@@ -593,7 +654,7 @@ class CalcGroupSerializer(serializers.ModelSerializer):
                     )
         return instance
 
-class AlartVariableSerializer(serializers.ModelSerializer):
+class AlertVariableSerializer(serializers.ModelSerializer):
     
     # Expose nested DataName details for read, accept PK for write via name_id
     name = DataNameSerializer(read_only=True)
@@ -602,7 +663,7 @@ class AlartVariableSerializer(serializers.ModelSerializer):
     # result: 연산 결과값은 이제 Variable FK (Variable id 또는 null 허용)
     result = serializers.PrimaryKeyRelatedField(queryset=Variable.objects.all(), required=False, allow_null=True, help_text='연산 결과 Variable ID (예: 422)')
     class Meta:
-        model = AlartVariable
+        model = AlertVariable
         fields = [
             'id', 'group', 'name', 'name_id', 'data_type', 'args', 'result'
         ]
@@ -614,16 +675,16 @@ class AlartVariableSerializer(serializers.ModelSerializer):
         return super().to_internal_value(data)
 
 
-class AlartGroupSerializer(serializers.ModelSerializer):
-    variables = AlartVariableSerializer(
+class AlertGroupSerializer(serializers.ModelSerializer):
+    variables = AlertVariableSerializer(
         many=True,
         read_only=False,
         required=False,
-        source='lsissocket_alart_variables_in_group'
+        source='lsissocket_alert_variables_in_group'
     )
 
     class Meta:
-        model = AlartGroup
+        model = AlertGroup
         fields = ['id', 'name', 'description', 'variables']
 
     def create(self, validated_data):
@@ -632,7 +693,7 @@ class AlartGroupSerializer(serializers.ModelSerializer):
             if key in validated_data:
                 variables_data = validated_data.pop(key)
                 break
-        allowed = {f.name for f in AlartGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
+        allowed = {f.name for f in AlertGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
         create_kwargs = {k: v for k, v in validated_data.items() if k in allowed}
 
         with transaction.atomic():
@@ -646,11 +707,11 @@ class AlartGroupSerializer(serializers.ModelSerializer):
                 except CoreDataName.DoesNotExist:
                     raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
 
-            group = AlartGroup.objects.create(**create_kwargs)
+            group = AlertGroup.objects.create(**create_kwargs)
             for var_data in variables_data:
                 name_val = var_data.get('name') or var_data.get('name_id')
                 name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
-                AlartVariable.objects.create(
+                AlertVariable.objects.create(
                     group=group,
                     name=name_obj,
                     data_type=var_data.get('data_type', ''),
@@ -666,7 +727,7 @@ class AlartGroupSerializer(serializers.ModelSerializer):
             if key in validated_data:
                 variables_data = validated_data.pop(key)
                 break
-        allowed = {f.name for f in AlartGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
+        allowed = {f.name for f in AlertGroup._meta.get_fields() if getattr(f, 'concrete', True) and not getattr(f, 'auto_created', False)}
         for attr, val in list(validated_data.items()):
             if attr in allowed:
                 setattr(instance, attr, val)
@@ -683,11 +744,11 @@ class AlartGroupSerializer(serializers.ModelSerializer):
                     except CoreDataName.DoesNotExist:
                         raise ValidationError({'variables': f'DataName id={name_val}을(를) 찾을 수 없습니다.'})
 
-                instance.lsissocket_alart_variables_in_group.all().delete()
+                instance.lsissocket_alert_variables_in_group.all().delete()
                 for var_data in variables_data:
                     name_val = var_data.get('name') or var_data.get('name_id')
                     name_obj = CoreDataName.objects.get(pk=name_val) if not isinstance(name_val, CoreDataName) else name_val
-                    AlartVariable.objects.create(
+                    AlertVariable.objects.create(
                         group=instance,
                         name=name_obj,
                         data_type=var_data.get('data_type', ''),

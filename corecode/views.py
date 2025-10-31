@@ -31,9 +31,9 @@ from utils.calculation import all_dict as calculation_all_dict
 from utils.control import all_dict as control_all_dict
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 20
+    page_size = 1000
     page_size_query_param = 'page_size'
-    max_page_size = 200
+    max_page_size = 9999
 
 # 모듈 레벨: 로그 디렉터리 통일
 LOG_DIR = os.path.join(os.getcwd(), 'log')

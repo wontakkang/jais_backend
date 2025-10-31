@@ -13,6 +13,13 @@ logger = logging.getLogger(__name__)
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from rest_framework.pagination import PageNumberPagination
+
+# Standard pagination applied to viewsets
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 1000
+    page_size_query_param = 'page_size'
+    max_page_size = 9999
 
 # -------------------
 # 이 ViewSet들은 소켓 클라이언트, 센서/제어 노드 등 설비 통신 및 상태 관리의 CRUD API를 제공합니다.
@@ -43,6 +50,7 @@ class VariableViewSet(viewsets.ModelViewSet):
     # 그룹의 start_address 기준 사용 여부 및 그룹 시작 주소로 필터 가능
     filterset_fields = ['group__id', 'group__start_address', 'use_group_base_address', 'device', 'name']
     ordering_fields = ['id']
+    pagination_class = StandardResultsSetPagination
     
 class MemoryGroupViewSet(viewsets.ModelViewSet):
     """
@@ -56,22 +64,26 @@ class MemoryGroupViewSet(viewsets.ModelViewSet):
     filterset_fields = ['id', 'name', 'Device', 'Device__name', 'start_address']
     search_fields = ['name']
     ordering_fields = ['id', 'name']
+    pagination_class = StandardResultsSetPagination
     
     
 # SocketClientConfigViewSet: 소켓 클라이언트 설정 모델의 CRUD API를 제공합니다.
 class SocketClientConfigViewSet(viewsets.ModelViewSet):
     queryset = SocketClientConfig.objects.all()
     serializer_class = SocketClientConfigSerializer
+    pagination_class = StandardResultsSetPagination
 
 # SocketClientLogViewSet: 소켓 클라이언트 로그 모델의 CRUD API를 제공합니다.
 class SocketClientLogViewSet(viewsets.ModelViewSet):
     queryset = SocketClientLog.objects.all()
     serializer_class = SocketClientLogSerializer
+    pagination_class = StandardResultsSetPagination
 
 # SocketClientCommandViewSet: 소켓 클라이언트 명령 모델의 CRUD API를 제공합니다.
 class SocketClientCommandViewSet(viewsets.ModelViewSet):
     queryset = SocketClientCommand.objects.all()
     serializer_class = SocketClientCommandSerializer
+    pagination_class = StandardResultsSetPagination
 
 # SocketClientStatusViewSet: 소켓 클라이언트 상태 모델의 CRUD API를 제공합니다.
 class SocketClientStatusViewSet(viewsets.ModelViewSet):
@@ -80,6 +92,7 @@ class SocketClientStatusViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['config__id']
     ordering_fields = ['id', 'updated_at']
+    pagination_class = StandardResultsSetPagination
 
 
 def lsis_init_and_reset(host, port, user=None):
@@ -256,6 +269,7 @@ class LSISRunView(APIView):
 class ControlHistoryViewSet(viewsets.ModelViewSet):
     queryset = ControlValueHistory.objects.all()
     serializer_class = ControlHistorySerializer
+    pagination_class = StandardResultsSetPagination
 
 
 class ControlValueViewSet(viewsets.ModelViewSet):
@@ -264,6 +278,7 @@ class ControlValueViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_user']
     ordering_fields = ['id', 'created_at', 'updated_at', 'control_at']
+    pagination_class = StandardResultsSetPagination
 
 class ControlValueHistoryViewSet(viewsets.ModelViewSet):
     queryset = ControlValueHistory.objects.all()
@@ -271,6 +286,7 @@ class ControlValueHistoryViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['status', 'command_name', 'target', 'data_type', 'control_value']
     ordering_fields = ['id', 'created_at', 'control_at']
+    pagination_class = StandardResultsSetPagination
 
 class CalcVariableViewSet(viewsets.ModelViewSet):
     queryset = CalcVariable.objects.all()
@@ -278,6 +294,7 @@ class CalcVariableViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['group__id']
     ordering_fields = ['id']
+    pagination_class = StandardResultsSetPagination
 
 class CalcGroupViewSet(viewsets.ModelViewSet):
     queryset = CalcGroup.objects.prefetch_related('lsissocket_calc_variables_in_group__name').all()
@@ -285,21 +302,24 @@ class CalcGroupViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['id']
     ordering_fields = ['id']
+    pagination_class = StandardResultsSetPagination
 
-# New viewsets for AlartGroup / AlartVariable (mirror CalcGroup patterns)
-class AlartVariableViewSet(viewsets.ModelViewSet):
-    queryset = AlartVariable.objects.select_related('group', 'name').all()
-    serializer_class = AlartVariableSerializer
+# New viewsets for AlertGroup / AlertVariable (mirror CalcGroup patterns)
+class AlertVariableViewSet(viewsets.ModelViewSet):
+    queryset = AlertVariable.objects.select_related('group', 'name').all()
+    serializer_class = AlertVariableSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['group__id']
     ordering_fields = ['id']
+    pagination_class = StandardResultsSetPagination
 
-class AlartGroupViewSet(viewsets.ModelViewSet):
-    queryset = AlartGroup.objects.prefetch_related('lsissocket_alart_variables_in_group__name').all()
-    serializer_class = AlartGroupSerializer
+class AlertGroupViewSet(viewsets.ModelViewSet):
+    queryset = AlertGroup.objects.prefetch_related('lsissocket_alert_variables_in_group__name').all()
+    serializer_class = AlertGroupSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['id']
     ordering_fields = ['id']
+    pagination_class = StandardResultsSetPagination
 
 class ControlGroupViewSet(viewsets.ModelViewSet):
     queryset = ControlGroup.objects.all()
@@ -307,6 +327,7 @@ class ControlGroupViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['id', 'name']
     ordering_fields = ['id']
+    pagination_class = StandardResultsSetPagination
 
 # ControlVariableViewSet: agriseed.models.ControlVariable을 위한 CRUD API
 class ControlVariableViewSet(BaseViewSet):
@@ -319,6 +340,7 @@ class ControlVariableViewSet(BaseViewSet):
     filterset_fields = ['group__id', 'applied_logic__id', 'result__id']
     search_fields = []
     ordering_fields = ['id']
+    pagination_class = StandardResultsSetPagination
 
 class SetupGroupViewSet(viewsets.ModelViewSet):
     queryset = SetupGroup.objects.all()
@@ -327,3 +349,4 @@ class SetupGroupViewSet(viewsets.ModelViewSet):
     filterset_fields = ['is_active', 'name']
     search_fields = ['name', 'description']
     ordering_fields = ['id', 'start_at', 'end_at', 'name']
+    pagination_class = StandardResultsSetPagination
